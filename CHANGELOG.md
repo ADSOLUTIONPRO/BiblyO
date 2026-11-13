@@ -1,22 +1,67 @@
 # Notes de version
 
-## 0.1.0
+## 1.0.0
 
-Première version publiée. Révisions du schéma : **0001 à 0012** (une installation neuve les applique toutes par
-`biblyo db upgrade`).
+**Première version stable de biblyO**, logiciel libre de gestion de bibliothèque auto-hébergé, en français, conçu pour
+les petites bibliothèques associatives et installable sur un NAS Synology sans ligne de commande.
 
-- **Catalogue** : œuvres, éditions, exemplaires ; séries, tomes et cotes ; recherche plein texte ; contrôle des
-  doublons ; couvertures téléversées ou trouvées (BnF, Open Library sur demande), avec provenance et droits.
-- **Rangement** : sites, salles, meubles et étagères, plan de salle, rangement par scan ou par lot ; un exemplaire n'est
-  « En place » qu'après un rangement vérifié.
-- **Lecteurs et prêts** : lecteurs, familles et structures, comptoir de prêt et de retour (par code-barres ou numéro
-  d'inventaire), renouvellements, rappels, règles par catégorie.
-- **Enrichissement** : BnF et Sudoc ; Open Library désactivée tant qu'une adresse de contact n'est pas renseignée.
-- **Import d'un catalogue Excel ou CSV** : dépôt, correspondance des colonnes, simulation intégrale sans écriture,
-  application en une transaction après sauvegarde vérifiée ; **désactivée par défaut** sur toute instance.
-- **Exports** : catalogue complet (xlsx, CSV) et classeur au format d'origine d'un import.
-- **Paramètres** : identité de la bibliothèque et logo, sauvegardes, droits par rôle, contrôle des réglages.
-- **Distribution** : image `linux/amd64` sur GitHub Container Registry, `compose.yaml` pour Synology Container Manager.
+Code d'origine : `main@e3419c9` du dépôt de développement (privé), publié ici comme instantané audité, avec un
+historique neuf. Révisions du schéma de la base : **0001 à 0012** ; une installation neuve les applique toutes par
+`biblyo db upgrade`.
 
-Points d'attention : la base se crée et se migre à la main ; la restauration se fait depuis le terminal du conteneur,
-suivie d'un redémarrage (voir `docs/SAUVEGARDE-RESTAURATION.md`).
+### Catalogue
+
+- Notices à trois niveaux : œuvre, édition, exemplaire ; séries et tomes (y compris les tomes atypiques, gardés tels
+  quels), cotes, collections, contributeurs et leurs rôles.
+- Recherche plein texte, filtres, recherches enregistrées, contrôle des doublons.
+- Couvertures téléversées, ou proposées par la BnF et Open Library, avec leur provenance, leurs conditions de
+  réutilisation et un historique réversible.
+
+### Rangement
+
+- Sites, salles, meubles et étagères, plan de salle, capacité des étagères.
+- Rangement à l'écran, par scan ou par lot, avec aperçu ; un exemplaire n'est « En place » (et prêtable) qu'après un
+  rangement vérifié ; liste « À ranger » avec recherche et sélection en lot.
+- Codes-barres attribués un par un ou en lot depuis la séquence, seulement où il en manque ; jamais réattribués.
+
+### Lecteurs et prêts
+
+- Lecteurs, familles et structures, responsables légaux des mineurs, cartes.
+- Comptoir de prêt et de retour, par code-barres ou numéro d'inventaire ; renouvellements, retards, rappels ; règles
+  par catégorie de lecteur.
+- Confidentialité : coordonnées visibles selon les droits, export des données d'un lecteur.
+
+### Enrichissement bibliographique
+
+- BnF et Sudoc, avec propositions à accepter ou rejeter champ par champ, et ISBN proposés jamais tenus pour sûrs.
+- Open Library désactivée tant qu'une adresse de contact n'est pas renseignée.
+
+### Import et export
+
+- Import d'un catalogue Excel (.xlsx) ou CSV : dépôt, correspondance des colonnes, **simulation intégrale sans
+  écriture**, puis application en une seule transaction, après une sauvegarde vérifiée, réconciliée ligne par ligne.
+  **Désactivée par défaut** sur toute instance.
+- Export complet du catalogue (xlsx, CSV) et classeur au format d'origine d'un import, aller-retour vérifié cellule par
+  cellule.
+
+### Administration
+
+- Paramètres : identité de la bibliothèque, logo, coordonnées, sauvegardes créées et vérifiées à l'écran, droits par
+  rôle, contrôle de chaque réglage.
+- Comptes et rôles (administration, bibliothécaire, bénévole, consultation), journal des opérations.
+- Interface accessible (contrôles automatiques axe), thème clair et sombre, utilisable au téléphone.
+
+### Installation et exploitation
+
+- Image `ghcr.io/adsolutionpro/biblyo:1.0.0` (`linux/amd64`), construite de façon reproductible, analysée et éprouvée
+  par une recette d'installation complète avant publication.
+- `compose.yaml` prêt pour Synology Container Manager ; guides d'installation, de mise à jour, de sauvegarde et de
+  restauration.
+- Aucune migration ni donnée au démarrage, aucun compte prédéfini, aucun secret ; conteneur sans privilège, en lecture
+  seule.
+
+### Points d'attention
+
+- La base se crée et se migre à la main (`biblyo db upgrade`), depuis le terminal du conteneur.
+- La restauration d'une sauvegarde se fait depuis ce terminal, suivie d'un redémarrage du conteneur.
+- Image publiée pour les processeurs x86-64 (Intel, AMD).

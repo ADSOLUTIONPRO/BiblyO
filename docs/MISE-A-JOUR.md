@@ -17,7 +17,7 @@ biblyO → **Paramètres** → **Créer une sauvegarde maintenant** (ou `biblyo 
 
 1. Container Manager → **Projet** → `biblyo` → **Action** → **Arrêter**.
 2. **Projet** → `biblyo` → onglet **YAML** (ou **Action** → **Modifier**) : remplacez seulement le numéro de version de
-   la ligne `image:`, par exemple `ghcr.io/adsolutionpro/biblyo:0.1.0` → `ghcr.io/adsolutionpro/biblyo:0.2.0`.
+   la ligne `image:`, par exemple `ghcr.io/adsolutionpro/biblyo:1.0.0` → `ghcr.io/adsolutionpro/biblyo:1.1.0`.
    Le `compose.yaml` publié avec la nouvelle version peut aussi être collé tel quel s'il change davantage : ses notes le
    disent. **Enregistrer**.
 3. **Action** → **Construire** : Container Manager télécharge la nouvelle image et recrée le conteneur, avec les mêmes

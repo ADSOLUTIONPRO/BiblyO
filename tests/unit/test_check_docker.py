@@ -180,7 +180,7 @@ def test_the_synology_compose_passes():
 @pytest.mark.parametrize(
     ("old", "new", "fragment"),
     [
-        ("biblyo:0.1.0", "biblyo:latest", "version fixe"),
+        ("biblyo:1.0.0", "biblyo:latest", "version fixe"),
         ("platform: linux/amd64", "platform: linux/arm64", "linux/amd64"),
         ("BIBLYO_ENV: production", "BIBLYO_ENV: development", "production"),
         ("read_only: true", "read_only: false", "lecture seule"),

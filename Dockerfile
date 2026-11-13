@@ -47,7 +47,7 @@ EXPOSE 8000
 # Commit exact dont l'image est construite : vérifié par scripts/docker_mise_a_jour.sh avant toute migration.
 ARG BIBLYO_COMMIT=inconnu
 LABEL org.opencontainers.image.revision=$BIBLYO_COMMIT
-LABEL org.opencontainers.image.source="https://github.com/ADSOLUTIONPRO/biblyo" \
+LABEL org.opencontainers.image.source="https://github.com/ADSOLUTIONPRO/BiblyO" \
       org.opencontainers.image.title="biblyO" \
       org.opencontainers.image.description="Gestion de bibliothèque auto-hébergée, en français" \
       org.opencontainers.image.licenses="EUPL-1.2"

@@ -1,6 +1,6 @@
 [project]
 name = "biblyo"
-version = "0.1.0"
+version = "1.0.0"
 description = "biblyO : gestion de bibliothèque auto-hébergée, en français"
 readme = "README.md"
 requires-python = ">=3.12,<3.13"

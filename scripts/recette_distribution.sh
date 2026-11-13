@@ -12,7 +12,7 @@
 # Ne supprime que ce qu'il a créé : le projet de recette, son dossier jetable et son volume d'essai.
 set -euo pipefail
 
-IMAGE="${1:?image attendue, par exemple ghcr.io/adsolutionpro/biblyo:0.1.0}"
+IMAGE="${1:?image attendue, par exemple ghcr.io/adsolutionpro/biblyo:1.0.0}"
 PORT="${2:-18080}"
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 WORK="$(mktemp -d "${RUNNER_TEMP:-${TMPDIR:-/tmp}}/biblyo-recette.XXXXXX")"

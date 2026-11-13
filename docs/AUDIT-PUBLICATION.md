@@ -1,8 +1,8 @@
-# Audit de publication de biblyO 0.1.0 : sécurité et provenance
+# Audit de publication de biblyO 1.0.0 : sécurité et provenance
 
 **Date** : 13 novembre 2026. **Objet** : vérifier, avant toute publication, que le dépôt de distribution ne contient que
-ce qui peut l'être. Le dépôt est un **instantané audité** de la version validée, avec un **historique neuf** : aucun
-historique de développement n'est publié.
+ce qui peut l'être. Le dépôt est un **instantané audité** de la version validée (`main@e3419c9` du dépôt de développement, privé),
+avec un **historique neuf** : aucun historique de développement n'est publié.
 
 ## 1. Ce qui a été examiné, ce qui a été écarté
 

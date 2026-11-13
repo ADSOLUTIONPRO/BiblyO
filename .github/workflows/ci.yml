@@ -27,7 +27,7 @@ jobs:
       - name: make check
         run: make check
       - name: Vulnérabilités connues des dépendances (pip-audit)
-        run: uv export --frozen --no-dev --no-hashes --no-emit-project > requirements.txt && uvx pip-audit -r requirements.txt --disable-pip
+        run: uv export --frozen --no-dev --no-emit-project > requirements.txt && uvx pip-audit -r requirements.txt --disable-pip
 
   navigateur:
     runs-on: ubuntu-24.04
