@@ -12,7 +12,7 @@ from fastapi import Request
 from fastapi.responses import HTMLResponse
 from jinja2 import ChoiceLoader, Environment, FileSystemLoader, StrictUndefined, select_autoescape
 
-from biblyo import __version__
+from biblyo import __copyright__, __version__
 from biblyo.core import i18n
 
 PACKAGE_DIR = Path(__file__).resolve().parent.parent
@@ -42,7 +42,7 @@ class Templates:
             datetime_short=i18n.datetime_short,
             number=i18n.number,
         )
-        self.env.globals.update(static_url=static_url, app_version=__version__)
+        self.env.globals.update(static_url=static_url, app_version=__version__, app_copyright=__copyright__)
         self.context_processors: list[ContextProcessor] = []
         self.response_hooks: list[ResponseHook] = []
 

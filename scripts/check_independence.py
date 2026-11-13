@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: EUPL-1.2
-"""Contrôle d'indépendance (règles R1 à R9 de docs/conception/10-PROVENANCE-LICENCES.md).
+"""Contrôle d'indépendance par identifiants (docs/PROVENANCE.md ; complété par scripts/check_provenance.py).
 
 Refuse dans `src/` et `tests/` les identifiants distinctifs d'un logiciel antérieur, le nom d'une
 maquette de travail remplacée, et tout fichier portant un nom historique.
@@ -83,7 +83,7 @@ def main() -> int:
     for problem in problems:
         print(problem)
     if problems:
-        print("Contrôle d'indépendance : refusé (docs/conception/10-PROVENANCE-LICENCES.md).")
+        print("Contrôle d'indépendance : refusé (docs/PROVENANCE.md).")
         return 1
     print("Contrôle d'indépendance : aucun identifiant ni fichier hérité.")
     return 0

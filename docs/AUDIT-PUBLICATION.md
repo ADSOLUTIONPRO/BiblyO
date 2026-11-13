@@ -35,7 +35,7 @@ avec un **historique neuf** : aucun historique de développement n'est publié.
 | 47 dépendances Python d'exécution | MIT, BSD, ISC, Apache-2.0, PSF, MIT-CMU ; MPL-2.0 pour `certifi` | Compatibles (MPL-2.0 au niveau du fichier, sans modification) |
 | htmx, Alpine.js | 0BSD, MIT | Compatibles |
 | Polices | SIL OFL 1.1 | Compatibles, licences jointes |
-| Icônes | Production du projet ; ressemblances avec Feather (MIT) et Lucide (ISC), licences jointes par précaution | Compatibles |
+| Icônes | Lucide 1.70.0 non modifiées (ISC ; MIT pour la part issue de Feather), sprite reconstruit et vérifié par `scripts/build_icons.py --check` | Compatibles |
 | Tailwind CSS (construction) | MIT | Compatible |
 
 Inventaire détaillé : `THIRD_PARTY_NOTICES.md`, `docs/PROVENANCE.md`.

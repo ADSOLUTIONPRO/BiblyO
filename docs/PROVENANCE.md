@@ -2,16 +2,23 @@
 
 ## Code de biblyO
 
-Écrit pour ce projet, sous **EUPL-1.2** (en-tête `SPDX-License-Identifier: EUPL-1.2` dans chaque fichier source,
-contrôlé par `scripts/check_spdx.py`). Développé avec une assistance par intelligence artificielle, relu, essayé et
-validé par le responsable du projet.
+| Qui | Rôle | Droits |
+|---|---|---|
+| Titulaire (mention de [`NOTICE`](../NOTICE)) | Conception, choix, arbitrages, relectures et validations de chaque lot | Titulaire des éléments originaux et protégeables de biblyO, qu'il met à disposition sous **EUPL-1.2** |
+| Claude Code (Anthropic) | Rédaction assistée du code, des tests et de la documentation, sur les instructions du titulaire | Développement assumé et documenté ; il n'est pas affirmé que chaque ligne produite ainsi fait l'objet d'un droit d'auteur exclusif |
+| Compte GitHub ADSOLUTIONPRO | Publication du dépôt et de l'image | Compte de distribution, pas titulaire des droits |
+| Auteurs des composants tiers | Voir ci-dessous et [`THIRD_PARTY_NOTICES.md`](../THIRD_PARTY_NOTICES.md) | Leurs propres licences ; ces composants n'appartiennent pas au titulaire de biblyO |
+
+En-tête `SPDX-License-Identifier: EUPL-1.2` dans chaque fichier source (`scripts/check_spdx.py`) ; mention de titulaire
+identique dans `NOTICE`, `README.md` et la page « À propos » (`scripts/check_titulaire.py`).
 
 ## Indépendance
 
 biblyO ne reprend **aucun code** d'un autre logiciel de gestion de bibliothèque. Une application antérieure, utilisée
 auparavant par la structure pour laquelle biblyO a été conçu, a seulement servi à recenser des besoins ; son code, ses
 gabarits, ses traductions et ses images ont été écartés. `scripts/check_independence.py` refuse tout identifiant ou
-fichier qui en viendrait, à chaque contrôle.
+fichier qui en viendrait, et `scripts/check_provenance.py` toute suite de code substantielle qui en viendrait, à
+chaque contrôle ([audit d'indépendance](rapports/AUDIT-INDEPENDANCE-BIBLYO-V1.md)).
 
 ## Éléments repris
 
@@ -21,7 +28,7 @@ fichier qui en viendrait, à chaque contrôle.
 | Alpine.js 3.17.5 (build CSP) | npm `@alpinejs/csp` | MIT | `src/biblyo/static/vendor/` |
 | Polices Bricolage Grotesque, Manrope, JetBrains Mono | npm `@fontsource-variable/*` | SIL OFL 1.1 | `src/biblyo/static/fonts/` |
 | Logo, jetons de couleur, styles | Maquette produite pour le projet | Projet | `src/biblyo/static/` |
-| Icônes (53 tracés) | Maquette produite pour le projet ; ressemblances avec Feather (MIT) et Lucide (ISC), licences jointes par précaution | Voir [`provenance/icones.md`](provenance/icones.md) | `src/biblyo/static/icons/` |
+| Icônes (53) | Lucide 1.70.0, npm `lucide-static`, tracés non modifiés | ISC, et MIT pour la part issue de Feather ; voir [`provenance/icones.md`](provenance/icones.md) | `src/biblyo/static/icons/` |
 | Dépendances Python | PyPI, verrouillées (`uv.lock`) | Permissives, et MPL-2.0 pour `certifi` | Image Docker |
 | Pillow et ses bibliothèques embarquées | PyPI `pillow` | MIT-CMU, voir [`provenance/pillow.md`](provenance/pillow.md) | Image Docker |
 | CLI Tailwind CSS v4.3.3 | Versions GitHub de Tailwind Labs, empreinte vérifiée | MIT | Construction seulement |

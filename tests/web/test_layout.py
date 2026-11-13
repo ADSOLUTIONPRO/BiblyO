@@ -172,7 +172,10 @@ def test_htmx_is_configured_without_eval(client_as):
 
 def test_only_local_scripts_and_styles(client_as):
     html = client_as("admin").get("/").text
-    for reference in re.findall(r'(?:src|href)="([^"]+)"', html):
+    # Seul lien externe admis : celui du code source (EUPL), un simple lien de navigation, jamais une ressource.
+    source = '<a href="https://github.com/ADSOLUTIONPRO/BiblyO">'
+    assert html.count(source) == 1
+    for reference in re.findall(r'(?:src|href)="([^"]+)"', html.replace(source, "")):
         assert not reference.startswith(("http:", "https:", "//")), reference
     assert "<style" not in html
     assert " style=" not in html
