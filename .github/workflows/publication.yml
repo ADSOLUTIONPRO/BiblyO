@@ -4,9 +4,12 @@
 # par son empreinte doit être celle qui a été éprouvée → version GitHub avec l'empreinte et les fichiers d'installation.
 name: Publication
 
+# Lancée à la main (workflow_dispatch), elle fait une RÉPÉTITION : construction, analyse et recette, sans aucun envoi
+# vers GHCR ni version GitHub.
 on:
   push:
     tags: ["v[0-9]+.[0-9]+.[0-9]+"]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -29,11 +32,17 @@ jobs:
       - name: Version de l'étiquette = version du code = version du compose
         id: version
         run: |
-          VERSION="${GITHUB_REF_NAME#v}"
+          if [ "$GITHUB_REF_TYPE" = "tag" ]; then
+            VERSION="${GITHUB_REF_NAME#v}"; PUBLIER=true
+          else
+            VERSION="$(sed -n 's/^version = "\(.*\)"$/\1/p' pyproject.toml)"; PUBLIER=false
+            echo "Répétition : version $VERSION, rien ne sera publié."
+          fi
           grep -q "^version = \"$VERSION\"" pyproject.toml || { echo "pyproject.toml n'est pas en $VERSION"; exit 1; }
           grep -q "__version__ = \"$VERSION\"" src/biblyo/__init__.py || { echo "__version__ n'est pas $VERSION"; exit 1; }
           grep -q "image: $IMAGE:$VERSION$" deploy/synology/compose.yaml || { echo "compose.yaml ne désigne pas $VERSION"; exit 1; }
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "publier=$PUBLIER" >> "$GITHUB_OUTPUT"
           echo "epoch=$(git log -1 --format=%ct)" >> "$GITHUB_OUTPUT"
 
       - name: Tailwind (binaire épinglé, empreinte vérifiée)
@@ -72,6 +81,7 @@ jobs:
         run: bash scripts/recette_distribution.sh "$IMAGE:${{ steps.version.outputs.version }}"
 
       - uses: docker/login-action@v3
+        if: steps.version.outputs.publier == 'true'
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -79,6 +89,7 @@ jobs:
 
       - name: Envoi vers GHCR, puis vérification par l'empreinte
         id: digest
+        if: steps.version.outputs.publier == 'true'
         run: |
           VERSION="${{ steps.version.outputs.version }}"
           SHORT="${GITHUB_SHA::12}"
@@ -95,6 +106,7 @@ jobs:
           echo "Image éprouvée et publiée : $IMAGE:$VERSION@$DIGEST"
 
       - name: Version GitHub
+        if: steps.version.outputs.publier == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
