@@ -42,11 +42,12 @@ BIBLYO_ENV=development BIBLYO_DATA_DIR=./data BIBLYO_BACKUP_DIR=./sauvegardes uv
 ## Licence et droits
 
 ```
-Copyright © 2026 [NOM CIVIL DU TITULAIRE]
+Copyright © 2026 Adrien Zerbib (AD SOLUTION PRO)
 Licensed under the EUPL-1.2
 ```
 
-- **Code original de biblyO** : propriété de son titulaire, nommé ci-dessus, et mis à disposition sous la licence
+- **Code original de biblyO** : Adrien Zerbib est titulaire, à titre personnel, des droits qu'il détient sur les
+  contributions originales et protégeables ; il les met à disposition sous la licence
   **EUPL-1.2** ([`LICENSE`](LICENSE), texte officiel ; la version française a la même valeur que les autres). La
   licence permet d'utiliser, de modifier, de redistribuer et de vendre biblyO, en laissant le code sous EUPL-1.2 ; elle
   ne transfère pas la propriété. Détail : [`NOTICE`](NOTICE).
@@ -56,4 +57,6 @@ Licensed under the EUPL-1.2
 - **Composants tiers** (bibliothèques, polices, icônes Lucide, dépendances Python, paquets de l'image Docker, données
   de test) : propriété de leurs auteurs, sous leurs propres licences, jointes ;
   [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) et [`docs/PROVENANCE.md`](docs/PROVENANCE.md).
-- **Distribution** : le compte GitHub ADSOLUTIONPRO publie le dépôt et l'image ; ce compte n'est pas le titulaire.
+- **Édition et distribution** : AD SOLUTION PRO est le nom commercial sous lequel Adrien Zerbib développe, édite et
+  distribue biblyO (pas une personne morale distincte, pas un second titulaire). Le compte GitHub ADSOLUTIONPRO publie
+  le dépôt et l'image ; ce compte n'est pas titulaire des droits.

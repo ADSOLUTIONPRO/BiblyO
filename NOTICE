@@ -1,13 +1,16 @@
 biblyO
-Copyright © 2026 [NOM CIVIL DU TITULAIRE]
+Copyright © 2026 Adrien Zerbib (AD SOLUTION PRO)
 Licensed under the EUPL-1.2
 
 Le code original de biblyO est mis à disposition sous la Licence publique de l'Union européenne, version 1.2
 (EUPL-1.2), dont le texte officiel figure dans le fichier LICENSE. La licence concède des droits d'utilisation, de
 modification et de redistribution ; elle ne transfère pas la propriété.
 
-Titulaire : la personne nommée ci-dessus, pour les éléments originaux et protégeables de biblyO qu'elle détient
-(conception, choix, arrangement, arbitrages et validations, et la part du code qui en procède).
+Titulaire : Adrien Zerbib, personnellement, pour les droits qu'il détient sur les contributions originales et
+protégeables de biblyO (conception, choix, arrangement, arbitrages et validations, et la part du code qui en procède).
+
+AD SOLUTION PRO : nom commercial et identité professionnelle d'Adrien Zerbib, sous lesquels biblyO est développé, édité
+et distribué. Ce n'est ni une personne morale distincte ni un second titulaire des droits.
 
 Développement assisté par IA : une grande partie du code, des tests et de la documentation a été rédigée avec Claude
 Code (Anthropic), sur les instructions du titulaire, qui a conçu, arbitré, relu et validé chaque étape. Il n'est pas
@@ -19,4 +22,5 @@ propriété de leurs auteurs et sont utilisés sous leurs propres licences, dont
 couverts par la mention ci-dessus. Voir THIRD_PARTY_NOTICES.md et docs/PROVENANCE.md.
 
 Distribution : le dépôt https://github.com/ADSOLUTIONPRO/BiblyO et l'image ghcr.io/adsolutionpro/biblyo sont publiés
-depuis le compte GitHub ADSOLUTIONPRO, compte de publication et de distribution, qui n'est pas le titulaire des droits.
+depuis le compte GitHub ADSOLUTIONPRO, compte de publication et de distribution d'AD SOLUTION PRO ; ce compte n'est pas
+titulaire des droits.

@@ -82,19 +82,32 @@ jobs:
         run: bash scripts/recette_distribution.sh "$IMAGE:${{ steps.version.outputs.version }}"
 
       # L'image redistribue des paquets Debian, dont certains sous GPL ou LGPL : la liste exacte de leurs paquets
-      # source et versions accompagne chaque version, avec l'adresse où ces sources restent disponibles.
+      # source et versions accompagne chaque version, et leurs sources sont publiées au même endroit que l'image.
       - name: Composants de l'image (paquets Debian et Python, avec leurs licences)
         run: |
           IMG="$IMAGE:${{ steps.version.outputs.version }}"
           {
             echo "# Paquets Debian de l'image $IMG (paquet source, version source, paquet binaire, version)"
-            echo "# Sources : https://snapshot.debian.org/ (par paquet source et version), et https://sources.debian.org/"
+            echo "# Sources correspondantes : image $IMAGE:${{ steps.version.outputs.version }}-sources (GHCR), et archive"
+            echo "# sources-debian-${{ steps.version.outputs.version }}.tar jointe à la version GitHub."
             echo "# Licences : /usr/share/doc/<paquet>/copyright dans l'image."
             docker run --rm --entrypoint dpkg-query "$IMG" -W -f '${source:Package} ${source:Version} ${Package} ${Version}\n'
           } > composants-image.txt
           docker run --rm --entrypoint /app/.venv/bin/python "$IMG" -c "import importlib.metadata as m; print('\n'.join(sorted(f'{d.metadata[\"Name\"]} {d.version} {d.metadata.get(\"License-Expression\") or d.metadata.get(\"License\") or \"(voir le paquet)\"}' for d in m.distributions())))" > composants-python.txt
           test -s composants-image.txt && test -s composants-python.txt
           wc -l composants-image.txt composants-python.txt
+
+      - name: Sources correspondantes des paquets Debian (GPL, LGPL), à la version exacte
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          bash scripts/sources_image.sh "$IMAGE:$VERSION" sources
+          sudo chown -R "$(id -u):$(id -g)" sources
+          tar -cf "sources-debian-$VERSION.tar" -C sources .
+          printf 'FROM scratch\nCOPY . /sources/\n' > sources/Dockerfile.sources
+          docker build -q -f sources/Dockerfile.sources -t "$IMAGE:$VERSION-sources" \
+            --label "org.opencontainers.image.description=Sources des paquets Debian de $IMAGE:$VERSION" \
+            --label "org.opencontainers.image.source=https://github.com/ADSOLUTIONPRO/BiblyO" sources
+          ls -l "sources-debian-$VERSION.tar"
 
       - uses: docker/login-action@v3
         if: steps.version.outputs.publier == 'true'
@@ -112,6 +125,7 @@ jobs:
           docker tag "$IMAGE:$VERSION" "$IMAGE:sha-$SHORT"
           docker push "$IMAGE:$VERSION"
           docker push "$IMAGE:sha-$SHORT"
+          docker push "$IMAGE:$VERSION-sources"
           REF="$(docker image inspect -f '{{index .RepoDigests 0}}' "$IMAGE:$VERSION")"
           DIGEST="${REF#*@}"
           TESTED="$(cat image-id.txt)"
@@ -141,8 +155,10 @@ jobs:
             echo "- Référence immuable : \`$IMAGE@$DIGEST\`"
             echo "- Plateforme : linux/amd64 ; commit : \`$GITHUB_SHA\`"
             echo "- Installation : INSTALLATION-SYNOLOGY.md ; fichiers joints : compose.yaml, .env.example"
+            echo "- Composants : composants-image.txt (paquets Debian), composants-python.txt ; sources correspondantes des"
+            echo "  paquets Debian : sources-debian-$VERSION.tar (ci-dessous) et \`$IMAGE:$VERSION-sources\`"
           } >> notes.md
           cp deploy/synology/compose.yaml compose.yaml
           cp .env.example env.example
           gh release create "$GITHUB_REF_NAME" --title "biblyO $VERSION" --notes-file notes.md \
-            compose.yaml "env.example#.env.example" trivy.txt composants-image.txt composants-python.txt
+            compose.yaml "env.example#.env.example" trivy.txt composants-image.txt composants-python.txt "sources-debian-$VERSION.tar"

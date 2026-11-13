@@ -70,8 +70,10 @@ L'image publiée part de `python:3.12-slim` (Debian 13), figée par son empreint
 l'interpréteur Python (licence PSF) et des paquets Debian sous leurs propres licences, dont certains sous GPL ou LGPL
 (par exemple `bash`, `coreutils`, la bibliothèque C). Ces composants sont redistribués **sans modification**. Chaque
 version publiée joint la liste exacte des paquets, avec leur paquet source et sa version (`composants-image.txt`), et
-celle des paquets Python avec leur licence (`composants-python.txt`). Les sources correspondantes des paquets Debian
-restent disponibles sur <https://snapshot.debian.org/> ; le texte de chaque licence est dans
+celle des paquets Python avec leur licence (`composants-python.txt`). **La source correspondante de chaque paquet
+Debian, à la version exacte installée, est publiée avec l'image** : image `ghcr.io/adsolutionpro/biblyo:<version>-sources`
+dans le même dépôt GHCR, et archive `sources-debian-<version>.tar` jointe à la version GitHub (réunies et vérifiées par
+`scripts/sources_image.sh`, conservées aussi longtemps que l'image est distribuée). Le texte de chaque licence est dans
 `/usr/share/doc/<paquet>/copyright` de l'image. Ces licences s'appliquent à ces composants, pas au code de biblyO.
 
 ## Données de test

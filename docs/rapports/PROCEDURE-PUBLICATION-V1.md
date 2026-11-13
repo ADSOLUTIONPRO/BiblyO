@@ -7,8 +7,8 @@ l'avance et ne doivent pas être devinées.
 
 ## 0. Préalables
 
-1. Nom civil du titulaire confirmé, inscrit à la place de `[NOM CIVIL DU TITULAIRE]` dans `NOTICE`, `README.md` et
-   `src/biblyo/__init__.py`, par un commit sur `main` (contrôlé par `scripts/check_titulaire.py --publication`).
+1. Mention du titulaire inscrite (`Copyright © 2026 Adrien Zerbib (AD SOLUTION PRO)`), contrôlée par
+   `scripts/check_titulaire.py --publication`. Décision prise sur le nom « biblyO » (rapport d'audit, section 10).
 2. Sur ce commit exact : `make check` réussi en local, puis CI « Contrôles » et répétition « Publication »
    (`gh workflow run publication.yml --ref main`) réussies sur GitHub.
 3. `git status` propre, `main` local identique à `origin/main` :
@@ -44,7 +44,8 @@ nommé → image `linux/amd64` reproductible → Trivy (critiques corrigeables b
 Synology (installation, migration, compte, prêt, sauvegarde, restauration, restauration isolée, redémarrage) → liste des
 composants de l'image → **seulement alors** envoi vers GHCR (`1.0.0` et `sha-<12 caractères>`) → l'image retéléchargée
 par son empreinte doit être celle qui a été éprouvée → version GitHub « biblyO 1.0.0 » avec les notes du `CHANGELOG`,
-l'empreinte, `compose.yaml`, `.env.example`, `trivy.txt`, `composants-image.txt`, `composants-python.txt`.
+l'empreinte, `compose.yaml`, `.env.example`, `trivy.txt`, `composants-image.txt`, `composants-python.txt`,
+`sources-debian-1.0.0.tar` ; l'image `1.0.0-sources` (sources des paquets Debian) part sur GHCR avec l'image.
 
 Relever dans le journal et sur la page de la version :
 
@@ -63,6 +64,10 @@ gh repo edit ADSOLUTIONPRO/BiblyO --visibility public --accept-visibility-change
 ```
 
 ## 9. Paquet GHCR en public
+
+Le paquet `biblyo` porte à la fois `1.0.0`, `sha-<12 caractères>` et `1.0.0-sources` : les sources deviennent
+publiques en même temps que l'image, comme les licences GPL le demandent. Ne jamais supprimer `1.0.0-sources`
+tant que `1.0.0` reste distribuée.
 
 Interface : profil ADSOLUTIONPRO → **Packages** → `biblyo` → **Package settings** → **Change visibility → Public**.
 Vérifier dans les mêmes réglages que le paquet est relié au dépôt `ADSOLUTIONPRO/BiblyO`.

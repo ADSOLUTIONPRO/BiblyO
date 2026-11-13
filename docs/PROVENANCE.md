@@ -4,9 +4,9 @@
 
 | Qui | Rôle | Droits |
 |---|---|---|
-| Titulaire (mention de [`NOTICE`](../NOTICE)) | Conception, choix, arbitrages, relectures et validations de chaque lot | Titulaire des éléments originaux et protégeables de biblyO, qu'il met à disposition sous **EUPL-1.2** |
+| Adrien Zerbib, sous son nom commercial AD SOLUTION PRO ([`NOTICE`](../NOTICE)) | Conception, choix, arbitrages, relectures et validations de chaque lot ; édition et distribution | Titulaire, à titre personnel, des droits qu'il détient sur les contributions originales et protégeables de biblyO, qu'il met à disposition sous **EUPL-1.2**. AD SOLUTION PRO n'est ni une personne morale distincte ni un second titulaire |
 | Claude Code (Anthropic) | Rédaction assistée du code, des tests et de la documentation, sur les instructions du titulaire | Développement assumé et documenté ; il n'est pas affirmé que chaque ligne produite ainsi fait l'objet d'un droit d'auteur exclusif |
-| Compte GitHub ADSOLUTIONPRO | Publication du dépôt et de l'image | Compte de distribution, pas titulaire des droits |
+| Compte GitHub ADSOLUTIONPRO | Publication du dépôt et de l'image | Compte de distribution d'AD SOLUTION PRO, pas titulaire des droits |
 | Auteurs des composants tiers | Voir ci-dessous et [`THIRD_PARTY_NOTICES.md`](../THIRD_PARTY_NOTICES.md) | Leurs propres licences ; ces composants n'appartiennent pas au titulaire de biblyO |
 
 En-tête `SPDX-License-Identifier: EUPL-1.2` dans chaque fichier source (`scripts/check_spdx.py`) ; mention de titulaire

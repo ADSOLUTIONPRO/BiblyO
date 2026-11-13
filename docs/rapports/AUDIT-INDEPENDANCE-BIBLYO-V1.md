@@ -231,7 +231,7 @@ zlib et autres sous licences permissives, `docs/provenance/pillow.md`), MIT-0 (c
 
 | Composant | Licence | Obligation |
 |---|---|---|
-| Base `python:3.12-slim` (Debian 13), figée par empreinte | Licence PSF pour Python ; paquets Debian sous leurs licences, dont GPL et LGPL (bash, coreutils, glibc…) | Redistribués sans modification : fournir l'accès aux sources correspondantes. **Corrigé** : chaque version joint la liste exacte des paquets source et versions, avec l'adresse des sources Debian (section 5) |
+| Base `python:3.12-slim` (Debian 13), figée par empreinte | Licence PSF pour Python ; paquets Debian sous leurs licences, dont GPL et LGPL (bash, coreutils, glibc…) | Redistribués sans modification : la source correspondante doit être fournie. Un lien général vers Debian ne suffit pas (GPL-2.0 art. 3 : source jointe ou offre écrite pour une distribution commerciale ; GPL-3.0 art. 6 : disponibilité garantie par le distributeur). **Corrigé** : `scripts/sources_image.sh` réunit la source de chaque paquet source à la version exacte installée (archive Debian, à défaut snapshot.debian.org, empreintes vérifiées) et la publication échoue s'il en manque une. Les sources sont publiées **au même endroit que l'image** (`ghcr.io/adsolutionpro/biblyo:1.0.0-sources`) et jointes à la version GitHub (`sources-debian-1.0.0.tar`), avec la liste des composants. Textes des licences : `/usr/share/doc/<paquet>/copyright` dans l'image |
 | `uv` 0.13.7 | MIT ou Apache-2.0 | Sert à la construction, retiré de l'image finale |
 
 ### Outils non livrés
@@ -282,14 +282,38 @@ Points d'attention, qui demandent une **validation juridique** :
 | Polices | **Connu** | OFL 1.1, fichiers officiels non modifiés |
 | Icônes | **Connu** | Lucide 1.70.0, ISC et MIT, non modifiées |
 | Données de test | **Connu** | Licence Ouverte, sources mentionnées |
-| **Titulaire des droits sur biblyO** | **Décidé (L1), nom à inscrire** | Décision du 13 novembre 2026 : le responsable du projet, à titre personnel, est titulaire des droits qu'il détient sur les éléments originaux et protégeables. ADSOLUTIONPRO est seulement le compte de publication. Mention `Copyright © 2026 [NOM CIVIL DU TITULAIRE]` puis `Licensed under the EUPL-1.2` dans `NOTICE`, `README.md` et la page « À propos » ; **le nom civil à afficher reste à confirmer** : `scripts/check_titulaire.py --publication` refuse toute publication tant qu'il n'est pas inscrit |
+| **Titulaire des droits sur biblyO** | **Décidé et inscrit (L1)** | Décisions des 13 novembre 2026, avec accord exprès d'afficher le nom civil : **Adrien Zerbib**, à titre personnel, titulaire des droits qu'il détient sur les contributions originales et protégeables ; **AD SOLUTION PRO**, son nom commercial et identité professionnelle (ni personne morale distincte, ni second titulaire) ; **ADSOLUTIONPRO**, compte GitHub de distribution. Mention `Copyright © 2026 Adrien Zerbib (AD SOLUTION PRO)` puis `Licensed under the EUPL-1.2` dans `NOTICE`, `README.md`, `src/biblyo/__init__.py` et la page « À propos », vérifiée par `scripts/check_titulaire.py` |
 | **Statut des productions de l'IA** | **Décidé (L2) : assumé et documenté** | Décision du 13 novembre 2026 : l'assistance de Claude Code est assumée ; les contributions humaines (conception, décisions, arbitrages, validations) sont conservées dans l'historique et les rapports ; il n'est pas affirmé que chaque ligne produite par l'IA fait l'objet d'un droit d'auteur exclusif (`NOTICE`, `README.md`). L'étendue exacte de la protection reste une question de droit, sans effet sur la diffusion sous EUPL-1.2 |
 | Contributeurs et cessions | **Connu à ce jour** | Aucun autre contributeur. Avant d'accepter une contribution externe : décider d'un accord de contribution (cession ou licence, ou certificat d'origine) |
 | Maquette, logo, jetons | **Incertain** | Productions d'un outil d'IA sur le compte du projet : même question que L2 |
-| Nom et logo « biblyO » comme marque | **Risque signalé** | Recherche sur le web du 13 novembre 2026 (non exhaustive, sans valeur de garantie) : aucune marque « Biblyo » enregistrée trouvée ; mais une application Android **« Biblyo »** (Blue Carpet Group B.V., Pays-Bas), liée à une bibliothèque, existe sur les magasins d'applications, et **« Biblys »**, logiciel libre français pour libraires, porte un nom proche. Les bases officielles (INPI, EUIPO/TMview, OMPI) n'ont pas été interrogées. Une licence libre ne protège pas un nom |
+| Nom et logo « biblyO » comme marque | **Conflit plausible, validation spécialisée recommandée** | Voir « Recherche d'antériorité du nom » ci-dessous |
 | Licence EUPL-1.2 | **Confirmée** | Décision du 13 novembre 2026 ; texte officiel intact dans `LICENSE` ; page « À propos » mise à jour |
 | L'EUPL-1.2 dans la liste des licences admises pour les administrations (article D. 323-2-1 du CRPA) | **À vérifier (L3)** | Utile pour une collectivité |
 | Installation antérieure de Shelf modifiée (hors biblyO) | **À traiter à part** | Ses modules locaux sont des modifications d'un logiciel AGPL-3.0 servi en réseau : tant qu'elle sert des utilisateurs, l'article 13 de l'AGPL demande de leur offrir le code source modifié. Sans effet sur biblyO, qui n'en reprend rien |
+
+### Recherche d'antériorité du nom « biblyO » (13 novembre 2026)
+
+**Méthode et limites.** Les bases officielles n'ont pas pu être interrogées directement : TMview (qui agrège l'INPI,
+l'EUIPO et les marques internationales désignant l'Union) refuse les requêtes automatisées, et l'accès aux interfaces
+de l'INPI, de l'EUIPO et de l'OMPI par l'outillage de l'audit a été refusé. La recherche a donc porté sur le web
+public. **Elle ne vaut ni recherche d'antériorité au sens du droit des marques, ni garantie de disponibilité.**
+
+| Signe trouvé | Titulaire, usage | Secteur, territoire | Statut de marque | Risque pour biblyO |
+|---|---|---|---|---|
+| **« Biblyo », « Biblyo Junior », « Biblyo 4 mois »** | Ville de Lyon : abonnement de la Bibliothèque municipale de Lyon (réseau BmL, 16 bibliothèques), vendu en ligne et sur place, présenté sur bm-lyon.fr, lyon.fr et les sites des mairies d'arrondissement | **Bibliothèques**, France | Inconnu (non trouvé sur le web ; base INPI non consultée) | **Élevé à moyen** : signe identique à l'oreille et presque à l'écrit, même public (bibliothèques et lecteurs), même pays. Même sans dépôt, l'usage par une collectivité territoriale peut fonder une action ; et l'article L. 711-3 du code de la propriété intellectuelle fait obstacle au dépôt d'une marque portant atteinte au nom ou à la renommée d'une collectivité territoriale |
+| « Biblyo » (application Android `com.blca.biblyo`) | Blue Carpet Group B.V. (Pays-Bas), application de bibliothèque annoncée pour Almere | Bibliothèques, Pays-Bas | Inconnu ; fiche ancienne, page d'origine non consultable (refus 403) | Moyen à faible : même secteur, ancienneté et activité actuelles non établies |
+| biblyo.nl | Blog néerlandais sur les services des bibliothèques, éditeur non identifié | Information, Pays-Bas | Aucun signe ™ ou ® | Faible |
+| « Biblys » | Logiciel libre français de librairie en ligne | Logiciel du livre, France | Non vérifié | Faible à moyen : nom proche, autre activité |
+| « Biblio », « Bibliocommons », « Biblio+ »… | Diverses marques de logiciels de bibliothèque, surtout aux États-Unis | Logiciel de bibliothèque | Enregistrées (registres américains) | Faible : signes différents, « biblio » est descriptif |
+
+Le logo (carré arrondi, barre, anneau) n'a pas pu faire l'objet d'une recherche par l'image.
+
+**Recommandation.** Avant la publication publique sous le nom biblyO :
+- faire vérifier par un conseil en propriété industrielle les bases de l'INPI, de l'EUIPO et de l'OMPI, en classes 9,
+  41 et 42 au moins ;
+- apprécier le risque lié à l'abonnement « Biblyo » de la Ville de Lyon.
+
+Si le risque est confirmé, changer de nom avant la publication est bien moins coûteux qu'après.
 
 ### Ce qu'implique l'EUPL-1.2
 
@@ -331,10 +355,10 @@ Les données réelles ne sont pas dans ce dépôt.
 |---|---|---|
 | Une reprise de Shelf non détectée par les mesures | Faible | Six mesures indépendantes, revue manuelle, historique complet vérifié ; contrôle permanent en CI |
 | Restitution par l'IA de code public autre que Shelf | Faible, non mesuré | Le code est très spécifique (français, règles métier propres) ; pas de mesure exhaustive possible. À surveiller si un tiers signale une ressemblance |
-| Nom civil du titulaire pas encore inscrit | **Bloquant pour la publication**, verrouillé | Remplacer `[NOM CIVIL DU TITULAIRE]` dans `NOTICE`, `README.md`, `src/biblyo/__init__.py` ; la publication d'une étiquette échoue sinon |
+| Mention du titulaire | Levé | Inscrite avec l'accord exprès du titulaire ; publication contrôlée par `check_titulaire.py --publication` |
 | Protection incertaine des productions de l'IA (L2) | Moyen, assumé | Documenté ; avis juridique recommandé avant une stratégie commerciale fondée sur l'exclusivité |
-| Conflit de nom avec « Biblyo » (application néerlandaise de bibliothèque) ou « Biblys » | Moyen, non mesuré | Recherche d'antériorité dans les bases officielles (INPI, EUIPO, OMPI), au mieux par un conseil en propriété industrielle, avant une diffusion large ou un dépôt de marque |
-| Obligations des paquets GPL de l'image | Faible | Liste et sources jointes à chaque version (corrigé) |
+| **Conflit de nom : « Biblyo » est le nom de l'abonnement de la Bibliothèque municipale de Lyon** | **Élevé à moyen, non levé** | Signe identique à l'oreille, même secteur (bibliothèques), en France, par une collectivité territoriale. Statut de dépôt inconnu (bases officielles non consultables par l'outillage de l'audit). Recherche dans data.inpi.fr, eSearch plus (EUIPO) et Global Brand Database (OMPI), et avis d'un conseil en propriété industrielle **avant la publication publique sous ce nom**, ou choix d'un autre nom |
+| Obligations des paquets GPL et LGPL de l'image | Faible | Sources exactes publiées avec l'image et jointes à la version (corrigé) ; à conserver aussi longtemps que l'image est distribuée (GPL-2.0 : au moins trois ans) : ne pas supprimer l'image `-sources` ni l'archive |
 | Installation antérieure de Shelf modifiée encore en service | Hors biblyO | Offrir les modules locaux à ses utilisateurs (AGPL, article 13) ou retirer l'instance |
 | Faux sentiment de sécurité d'un contrôle automatique | Faible | Le contrôle et ce rapport le disent : un score n'est pas une certification |
 
@@ -344,13 +368,16 @@ Les données réelles ne sont pas dans ce dépôt.
 inconnue, les icônes, sont remplacées par des icônes de licence connue. Polices, bibliothèques, dépendances et données
 de test sont identifiées, compatibles avec un usage commercial et avec l'EUPL-1.2, et leurs mentions sont présentes.
 
-**Décisions du 13 novembre 2026** : titulaire personnel (L1), EUPL-1.2 confirmée, assistance par IA assumée et
-documentée (L2). Mentions en place dans `NOTICE`, `README.md`, `docs/PROVENANCE.md` et la page « À propos ».
+**Décisions du 13 novembre 2026** : titulaire personnel Adrien Zerbib, sous son nom commercial AD SOLUTION PRO (L1),
+nom civil affiché avec son accord exprès ; EUPL-1.2 confirmée ; assistance par IA assumée et documentée (L2). Mentions
+en place et contrôlées dans `NOTICE`, `README.md`, `src/biblyo/__init__.py`, `docs/PROVENANCE.md` et la page « À propos ».
 
-**Dernier point bloquant : le nom civil du titulaire**, à confirmer puis inscrire à la place de
-`[NOM CIVIL DU TITULAIRE]` (trois fichiers). La publication d'une étiquette est refusée automatiquement d'ici là.
+**Obligations GPL et LGPL de l'image** : sources exactes réunies, vérifiées et publiées avec l'image (section 8).
 
-Recommandé sans être bloquant : recherche d'antériorité du nom « biblyO » dans les bases officielles (risque signalé
-section 10), et traitement de l'installation antérieure de Shelf modifiée.
+**Point qui demande une décision avant la publication publique : le nom « biblyO »**, identique à l'oreille à
+l'abonnement « Biblyo » de la Bibliothèque municipale de Lyon (section 10). Validation par un conseil en propriété
+industrielle recommandée ; ce n'est pas une question de code, et la décision revient au titulaire.
+
+Recommandé sans être bloquant : traitement de l'installation antérieure de Shelf modifiée.
 
 Rien n'a été publié : pas d'étiquette `v1.0.0`, pas d'image GHCR, dépôt toujours privé, historique publié inchangé.
