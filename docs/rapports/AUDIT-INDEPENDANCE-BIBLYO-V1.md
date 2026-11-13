@@ -345,6 +345,16 @@ couvertures, les prêts et le rangement.
 | Parcours navigateur (`make e2e`, Chromium, contrôles d'accessibilité axe compris) | 179 parcours réussis (6 min) |
 | Répétition du flux de publication sur GitHub (linux/amd64 natif : contrôles, navigateur, image reproductible, Trivy, recette complète du paquet Synology avec sauvegarde, restauration et restauration isolée, liste des composants de l'image), sans envoi ni version | Run 43481548875 sur `11285f8`, **réussi** : contrôles (3 044 tests, reprise 20 / 45 jetons, icônes identiques à Lucide, pip-audit sans vulnérabilité connue), 179 parcours navigateur, image `sha256:96bb5a6b…`, Trivy sans critique corrigeable (Debian 13.7), recette 33/33 puis 5/5 après redémarrage, sauvegarde, restauration en place et restauration isolée conformes, 122 Mio de mémoire ; 90 lignes de composants Debian et 47 paquets Python listés ; aucun envoi |
 
+**Incident sur `fa3e3a4`** : les parcours navigateur ont échoué une fois sur 179 dans chacune des deux exécutions
+(CI 43485149007 et répétition 43485148669), sur deux tests différents du comptoir (`test_circulation_ux.py`).
+Reproduit en local sous forte charge sur un troisième test du même fichier. Cause : avant toute recherche, le comptoir
+affiche déjà une liste par défaut ; les tests agissaient sur cette liste avant la réponse de leur recherche, différée de
+250 ms, qui remplaçait ensuite le résultat de l'action. Correction **dans les tests seulement** : chaque recherche attend
+que sa propre réponse soit en place (`_search`). Résultat : 5 passages sur 5 sous une charge de 46 à 231. Le code de
+l'application n'est pas modifié. Comportement résiduel de l'interface, sans effet sur les données (le serveur vérifie
+chaque action par identifiant) : un clic sur une liste encore périmée, dans le quart de seconde qui suit la frappe, peut
+voir son affichage remplacé par le résultat de la recherche.
+
 L'aller-retour exact des 929 exemplaires et 12 090 cellules a été vérifié au lot L6 sur le code inchangé depuis. Ce
 code, l'import et l'export, n'est pas modifié par cet audit, et son contrôle automatisé reste dans la suite de tests.
 Les données réelles ne sont pas dans ce dépôt.

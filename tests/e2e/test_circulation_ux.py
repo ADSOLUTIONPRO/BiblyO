@@ -64,9 +64,35 @@ def page(browser: Browser, server: Server) -> Iterator[Page]:
     context.close()
 
 
+_RESULTS = {"#cp-lecteur-q": "cp-lecteurs", "#cp-livre-q": "cp-livres", "#cp-retour-q": "retours-trouves"}
+
+
+def _search(page: Page, field: str, text: str) -> None:
+    """Saisir une recherche et attendre que SA réponse soit en place.
+
+    La liste affichée avant la recherche (liste par défaut, ou celle d'une étape précédente) peut déjà contenir ce que
+    l'on cherche : agir dessus avant la réponse, différée de 250 ms, ferait remplacer le résultat de l'action par celui
+    de la recherche.
+    """
+    zone = _RESULTS[field]
+    # Marqueur posé sur la zone de résultats quand SA réponse est en place (la CSP interdit toute évaluation de chaîne).
+    page.evaluate(
+        """zone => { document.getElementById(zone).removeAttribute("data-essai-recherche");
+          document.addEventListener("htmx:afterSettle", function marque(event) {
+            if (event.detail.target && event.detail.target.id === zone) {
+              event.detail.target.setAttribute("data-essai-recherche", "1");
+              document.removeEventListener("htmx:afterSettle", marque);
+            }
+          }); }""",
+        zone,
+    )
+    page.locator(field).fill(text)
+    expect(page.locator(f"#{zone}")).to_have_attribute("data-essai-recherche", "1")
+
+
 def _pick_reader(page: Page, name: str) -> None:
     """Chercher un lecteur par son nom, comme on le ferait de vive voix, puis cliquer sur sa ligne."""
-    page.locator("#cp-lecteur-q").fill(name)
+    _search(page, "#cp-lecteur-q", name)
     row = page.locator("#cp-lecteurs").get_by_role("button", name=f"Choisir {name}")
     expect(row).to_have_count(1)
     row.click()
@@ -107,7 +133,7 @@ def test_from_a_reader_to_a_loan_of_two_books(page: Page, server: Server, shop) 
     page.get_by_role("link", name="Nouveau prêt").click()
     expect(page.locator(".desk-reader").get_by_text("Paulin Deuxlivres", exact=True)).to_be_visible()
     for title in ("La Rivière lente", "Le Pont bleu"):
-        page.locator("#cp-livre-q").fill(title)
+        _search(page, "#cp-livre-q", title)
         page.locator("#cp-livres").get_by_role("button", name=f"Ajouter « {title} »").click()
         expect(page.locator(".desk-books .counter-line").get_by_text(title)).to_be_visible()
         expect(page.locator("#cp-saisie")).to_be_focused()
@@ -148,7 +174,7 @@ def test_next_page_of_readers_keeps_the_focus_in_the_list(page: Page, server: Se
     for index in range(22):
         shop.adult(f"Prénom{index:02d}", "Pageur")
     page.goto(f"{server.base_url}/comptoir")
-    page.locator("#cp-lecteur-q").fill("Pageur")
+    _search(page, "#cp-lecteur-q", "Pageur")
     expect(page.locator("#cp-lecteurs .desk-pick")).to_have_count(20)
     page.get_by_role("button", name="Lecteurs suivants").click()
     expect(page.locator("#cp-lecteurs .desk-pick")).to_have_count(2)
@@ -158,7 +184,7 @@ def test_next_page_of_readers_keeps_the_focus_in_the_list(page: Page, server: Se
 def test_a_book_with_several_copies_lets_one_be_chosen(page: Page, server: Server, shop) -> None:
     _work, ids = shop.book("Trois Exemplaires", 3)
     page.goto(f"{server.base_url}/comptoir")
-    page.locator("#cp-livre-q").fill("Trois Exemplaires")
+    _search(page, "#cp-livre-q", "Trois Exemplaires")
     page.get_by_role("button", name="Choisir l’exemplaire de « Trois Exemplaires »").click()
     adds = page.locator(".copy-pick").get_by_role("button", name="Ajouter l’exemplaire")
     expect(adds).to_have_count(3)
@@ -198,12 +224,12 @@ def test_quick_return_without_code(page: Page, server: Server, shop) -> None:
     _work, (copy_id,) = shop.book("Le Vent du large")
     page.goto(f"{server.base_url}/comptoir")
     _pick_reader(page, "Armand Rapide")
-    page.locator("#cp-livre-q").fill("Le Vent du large")
+    _search(page, "#cp-livre-q", "Le Vent du large")
     page.locator("#cp-livres").get_by_role("button", name="Ajouter « Le Vent du large »").click()
     page.get_by_role("button", name="Confirmer le prêt du livre").click()
     expect(page.locator(".desk-done")).to_be_visible()
     page.goto(f"{server.base_url}/comptoir/retours")
-    page.locator("#cp-retour-q").fill("Vent du large")
+    _search(page, "#cp-retour-q", "Vent du large")
     page.locator("#retours-trouves").get_by_role("button", name="Enregistrer le retour de Le Vent du large").click()
     expect(page.locator("#retours-lignes").get_by_text("Le Vent du large")).to_be_visible()
     assert "Armand" not in page.locator("main").inner_text()  # bénévole : l'emprunteur n'est jamais nommé
@@ -258,7 +284,7 @@ def test_a_renewal_is_announced_keeps_its_place_and_cannot_be_repeated(page: Pag
     _w2, (second,) = shop.book("Second à rendre")
     for copy_id in (first, second):
         page.goto(f"{server.base_url}/comptoir?lecteur={reader}")
-        page.locator("#cp-livre-q").fill("à rendre")
+        _search(page, "#cp-livre-q", "à rendre")
         page.locator(f'button[name="ajouter"][value="{copy_id}"]').click()
         page.get_by_role("button", name="Confirmer le prêt du livre").click()
         expect(page.locator(".desk-done")).to_be_visible()
