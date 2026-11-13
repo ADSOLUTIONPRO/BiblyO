@@ -16,6 +16,12 @@ l'empreinte sha512 du registre npm lors de la reprise.
 | Manrope | 5.3.0 (Fontsource) | SIL OFL 1.1 | npm `@fontsource-variable/manrope` | `static/fonts/manrope-*` | `static/fonts/licenses/manrope-OFL.txt` |
 | JetBrains Mono | 5.3.0 (Fontsource) | SIL OFL 1.1 | npm `@fontsource-variable/jetbrains-mono` | `static/fonts/jetbrains-mono-*` | `static/fonts/licenses/jetbrains-mono-OFL.txt` |
 
+Polices : fichiers identiques, octet pour octet, à ceux des paquets Fontsource 5.3.0 (sous-ensembles latin et latin
+étendu, non retouchés). Versions et titulaires inscrits dans les fichiers : Bricolage Grotesque 1.001, © 2022 The
+Bricolage Grotesque Project Authors ; Manrope 4.504, © 2019 The Manrope Project Authors ; JetBrains Mono 2.211, © 2020
+The JetBrains Mono Project Authors. Aucun nom de fonte réservé n'est déclaré. Elles ne sont pas vendues seules : elles
+accompagnent le logiciel, comme l'OFL le permet.
+
 ## Traitement des images
 
 | Composant | Version | Licence | Origine | Détail |
@@ -33,14 +39,11 @@ Portions of this software are copyright © The FreeType Project (www.freetype.or
 
 ## Icônes
 
-`static/icons/sprite.svg` reprend les 53 tracés de la maquette d'interface produite pour le projet. Une mesure
-([`docs/provenance/icones.md`](docs/provenance/icones.md)) montre des ressemblances, surtout avec Feather Icons. Les
-licences des deux jeux les plus proches sont jointes **par précaution** :
+| Composant | Version | Licence | Origine | Fichiers | Texte de licence |
+|---|---|---|---|---|---|
+| Lucide (`lucide-static`) | 1.70.0 | ISC ; MIT (Cole Bemis, Feather Icons) pour les icônes dérivées de Feather | npm `lucide-static`, empreinte sha512 vérifiée | `static/icons/sprite.svg` (53 icônes, tracés non modifiés), produit par `scripts/build_icons.py` depuis `static/icons/sources.json` | `static/icons/licenses/lucide-LICENSE.txt` |
 
-| Projet comparé | Version comparée | Licence | Texte de licence |
-|---|---|---|---|
-| Feather Icons | 4.29.2 | MIT | `static/icons/licenses/feather-LICENSE.txt` |
-| Lucide | 1.70.0 | ISC, et MIT pour la part issue de Feather | `static/icons/licenses/lucide-LICENSE.txt` |
+Correspondance et historique : [`docs/provenance/icones.md`](docs/provenance/icones.md).
 
 ## Outil de construction, non livré
 
@@ -60,6 +63,16 @@ licences des deux jeux les plus proches sont jointes **par précaution** :
 Déclarées dans `pyproject.toml`, verrouillées dans `uv.lock`, toutes sous licence permissive (MIT, BSD, ISC, Apache-2.0, PSF)
 ou MPL-2.0 (`certifi`). Inventaire complet produit par `make audit` (`docs/licences-python.md`). La CI publie l'inventaire
 de chaque version.
+
+## Image Docker
+
+L'image publiée part de `python:3.12-slim` (Debian 13), figée par son empreinte dans le `Dockerfile`. Elle contient donc
+l'interpréteur Python (licence PSF) et des paquets Debian sous leurs propres licences, dont certains sous GPL ou LGPL
+(par exemple `bash`, `coreutils`, la bibliothèque C). Ces composants sont redistribués **sans modification**. Chaque
+version publiée joint la liste exacte des paquets, avec leur paquet source et sa version (`composants-image.txt`), et
+celle des paquets Python avec leur licence (`composants-python.txt`). Les sources correspondantes des paquets Debian
+restent disponibles sur <https://snapshot.debian.org/> ; le texte de chaque licence est dans
+`/usr/share/doc/<paquet>/copyright` de l'image. Ces licences s'appliquent à ces composants, pas au code de biblyO.
 
 ## Données de test
 

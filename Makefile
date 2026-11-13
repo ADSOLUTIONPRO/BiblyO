@@ -42,6 +42,7 @@ lint:
 	$(UV_RUN) ruff check src tests scripts
 	$(UV_RUN) mypy
 	$(UV_RUN) python scripts/check_independence.py
+	$(UV_RUN) python scripts/check_provenance.py
 	$(UV_RUN) python scripts/check_spdx.py
 	$(UV_RUN) python scripts/freeze_migrations.py --check
 	$(UV_RUN) python scripts/check_templates.py

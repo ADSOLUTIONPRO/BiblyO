@@ -21,7 +21,7 @@ fichier qui en viendrait, à chaque contrôle.
 | Alpine.js 3.17.5 (build CSP) | npm `@alpinejs/csp` | MIT | `src/biblyo/static/vendor/` |
 | Polices Bricolage Grotesque, Manrope, JetBrains Mono | npm `@fontsource-variable/*` | SIL OFL 1.1 | `src/biblyo/static/fonts/` |
 | Logo, jetons de couleur, styles | Maquette produite pour le projet | Projet | `src/biblyo/static/` |
-| Icônes (53 tracés) | Maquette produite pour le projet ; ressemblances avec Feather (MIT) et Lucide (ISC), licences jointes par précaution | Voir [`provenance/icones.md`](provenance/icones.md) | `src/biblyo/static/icons/` |
+| Icônes (53) | Lucide 1.70.0, npm `lucide-static`, tracés non modifiés | ISC, et MIT pour la part issue de Feather ; voir [`provenance/icones.md`](provenance/icones.md) | `src/biblyo/static/icons/` |
 | Dépendances Python | PyPI, verrouillées (`uv.lock`) | Permissives, et MPL-2.0 pour `certifi` | Image Docker |
 | Pillow et ses bibliothèques embarquées | PyPI `pillow` | MIT-CMU, voir [`provenance/pillow.md`](provenance/pillow.md) | Image Docker |
 | CLI Tailwind CSS v4.3.3 | Versions GitHub de Tailwind Labs, empreinte vérifiée | MIT | Construction seulement |
