@@ -2,16 +2,23 @@
 
 ## Code de biblyO
 
-Écrit pour ce projet, sous **EUPL-1.2** (en-tête `SPDX-License-Identifier: EUPL-1.2` dans chaque fichier source,
-contrôlé par `scripts/check_spdx.py`). Développé avec une assistance par intelligence artificielle, relu, essayé et
-validé par le responsable du projet.
+| Qui | Rôle | Droits |
+|---|---|---|
+| Titulaire (mention de [`NOTICE`](../NOTICE)) | Conception, choix, arbitrages, relectures et validations de chaque lot | Titulaire des éléments originaux et protégeables de biblyO, qu'il met à disposition sous **EUPL-1.2** |
+| Claude Code (Anthropic) | Rédaction assistée du code, des tests et de la documentation, sur les instructions du titulaire | Développement assumé et documenté ; il n'est pas affirmé que chaque ligne produite ainsi fait l'objet d'un droit d'auteur exclusif |
+| Compte GitHub ADSOLUTIONPRO | Publication du dépôt et de l'image | Compte de distribution, pas titulaire des droits |
+| Auteurs des composants tiers | Voir ci-dessous et [`THIRD_PARTY_NOTICES.md`](../THIRD_PARTY_NOTICES.md) | Leurs propres licences ; ces composants n'appartiennent pas au titulaire de biblyO |
+
+En-tête `SPDX-License-Identifier: EUPL-1.2` dans chaque fichier source (`scripts/check_spdx.py`) ; mention de titulaire
+identique dans `NOTICE`, `README.md` et la page « À propos » (`scripts/check_titulaire.py`).
 
 ## Indépendance
 
 biblyO ne reprend **aucun code** d'un autre logiciel de gestion de bibliothèque. Une application antérieure, utilisée
 auparavant par la structure pour laquelle biblyO a été conçu, a seulement servi à recenser des besoins ; son code, ses
 gabarits, ses traductions et ses images ont été écartés. `scripts/check_independence.py` refuse tout identifiant ou
-fichier qui en viendrait, à chaque contrôle.
+fichier qui en viendrait, et `scripts/check_provenance.py` toute suite de code substantielle qui en viendrait, à
+chaque contrôle ([audit d'indépendance](rapports/AUDIT-INDEPENDANCE-BIBLYO-V1.md)).
 
 ## Éléments repris
 

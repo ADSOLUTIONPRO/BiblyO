@@ -39,8 +39,21 @@ BIBLYO_ENV=development BIBLYO_DATA_DIR=./data BIBLYO_BACKUP_DIR=./sauvegardes uv
 
 `compose.yml` sert au développement local ; la production utilise `deploy/synology/compose.yaml`.
 
-## Licence
+## Licence et droits
 
-Code de biblyO : **EUPL-1.2** ([`LICENSE`](LICENSE)), version française de même valeur que les autres versions
-linguistiques. Composants tiers, polices, icônes et données de test : [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md)
-et [`docs/PROVENANCE.md`](docs/PROVENANCE.md).
+```
+Copyright © 2026 [NOM CIVIL DU TITULAIRE]
+Licensed under the EUPL-1.2
+```
+
+- **Code original de biblyO** : propriété de son titulaire, nommé ci-dessus, et mis à disposition sous la licence
+  **EUPL-1.2** ([`LICENSE`](LICENSE), texte officiel ; la version française a la même valeur que les autres). La
+  licence permet d'utiliser, de modifier, de redistribuer et de vendre biblyO, en laissant le code sous EUPL-1.2 ; elle
+  ne transfère pas la propriété. Détail : [`NOTICE`](NOTICE).
+- **Développement assisté par IA** : biblyO a été écrit avec Claude Code, sur les instructions du titulaire, qui l'a
+  conçu, arbitré, relu et validé. Il n'est pas affirmé que chaque ligne produite ainsi fait l'objet d'un droit d'auteur
+  exclusif ([audit d'indépendance](docs/rapports/AUDIT-INDEPENDANCE-BIBLYO-V1.md), section 9).
+- **Composants tiers** (bibliothèques, polices, icônes Lucide, dépendances Python, paquets de l'image Docker, données
+  de test) : propriété de leurs auteurs, sous leurs propres licences, jointes ;
+  [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) et [`docs/PROVENANCE.md`](docs/PROVENANCE.md).
+- **Distribution** : le compte GitHub ADSOLUTIONPRO publie le dépôt et l'image ; ce compte n'est pas le titulaire.

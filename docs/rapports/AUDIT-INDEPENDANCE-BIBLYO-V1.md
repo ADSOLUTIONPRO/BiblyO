@@ -282,12 +282,12 @@ Points d'attention, qui demandent une **validation juridique** :
 | Polices | **Connu** | OFL 1.1, fichiers officiels non modifiés |
 | Icônes | **Connu** | Lucide 1.70.0, ISC et MIT, non modifiées |
 | Données de test | **Connu** | Licence Ouverte, sources mentionnées |
-| **Titulaire des droits sur biblyO** (personne physique, association ou société) | **À confirmer (L1)** | Le compte GitHub ADSOLUTIONPRO n'est pas une personne juridique. Le dépôt ne porte **aucune mention de titulaire** (« Copyright © … ») ni la mention « Licensed under the EUPL » qui doit la suivre. Le concédant doit être nommé avant publication |
-| **Statut des productions de l'IA** | **Incertain (L2)** | Section 9 ; avis juridique recommandé |
+| **Titulaire des droits sur biblyO** | **Décidé (L1), nom à inscrire** | Décision du 13 novembre 2026 : le responsable du projet, à titre personnel, est titulaire des droits qu'il détient sur les éléments originaux et protégeables. ADSOLUTIONPRO est seulement le compte de publication. Mention `Copyright © 2026 [NOM CIVIL DU TITULAIRE]` puis `Licensed under the EUPL-1.2` dans `NOTICE`, `README.md` et la page « À propos » ; **le nom civil à afficher reste à confirmer** : `scripts/check_titulaire.py --publication` refuse toute publication tant qu'il n'est pas inscrit |
+| **Statut des productions de l'IA** | **Décidé (L2) : assumé et documenté** | Décision du 13 novembre 2026 : l'assistance de Claude Code est assumée ; les contributions humaines (conception, décisions, arbitrages, validations) sont conservées dans l'historique et les rapports ; il n'est pas affirmé que chaque ligne produite par l'IA fait l'objet d'un droit d'auteur exclusif (`NOTICE`, `README.md`). L'étendue exacte de la protection reste une question de droit, sans effet sur la diffusion sous EUPL-1.2 |
 | Contributeurs et cessions | **Connu à ce jour** | Aucun autre contributeur. Avant d'accepter une contribution externe : décider d'un accord de contribution (cession ou licence, ou certificat d'origine) |
 | Maquette, logo, jetons | **Incertain** | Productions d'un outil d'IA sur le compte du projet : même question que L2 |
-| Nom et logo « biblyO » comme marque | **À vérifier** | Aucune recherche d'antériorité faite. Une licence libre ne protège pas un nom |
-| Licence EUPL-1.2 | **À confirmer** | Choix provisoire du projet ; non modifié par cet audit |
+| Nom et logo « biblyO » comme marque | **Risque signalé** | Recherche sur le web du 13 novembre 2026 (non exhaustive, sans valeur de garantie) : aucune marque « Biblyo » enregistrée trouvée ; mais une application Android **« Biblyo »** (Blue Carpet Group B.V., Pays-Bas), liée à une bibliothèque, existe sur les magasins d'applications, et **« Biblys »**, logiciel libre français pour libraires, porte un nom proche. Les bases officielles (INPI, EUIPO/TMview, OMPI) n'ont pas été interrogées. Une licence libre ne protège pas un nom |
+| Licence EUPL-1.2 | **Confirmée** | Décision du 13 novembre 2026 ; texte officiel intact dans `LICENSE` ; page « À propos » mise à jour |
 | L'EUPL-1.2 dans la liste des licences admises pour les administrations (article D. 323-2-1 du CRPA) | **À vérifier (L3)** | Utile pour une collectivité |
 | Installation antérieure de Shelf modifiée (hors biblyO) | **À traiter à part** | Ses modules locaux sont des modifications d'un logiciel AGPL-3.0 servi en réseau : tant qu'elle sert des utilisateurs, l'article 13 de l'AGPL demande de leur offrir le code source modifié. Sans effet sur biblyO, qui n'en reprend rien |
 
@@ -315,11 +315,11 @@ couvertures, les prêts et le rangement.
 
 | Vérification | Résultat |
 |---|---|
-| `make check` (lint, types, contrôles d'indépendance et de reprise, gabarits, design, composants tiers, i18n, Docker, tests) | 3 044 tests réussis (13 nouveaux) |
+| `make check` (lint, types, contrôles d'indépendance, de reprise et de titulaire, gabarits, design, composants tiers, i18n, Docker, tests) | 3 044 tests réussis à l'audit ; 3 049 après les mentions de propriété (page « À propos », titulaire) |
 | Contrôle de reprise | Plus longues suites : 20 jetons bruts et 45 logiques, pour des seuils de 30 et 60 |
 | Icônes | 53 symboles, identiques à Lucide 1.70.0 (`build_icons.py --check`) ; chaque icône appelée existe |
 | Parcours navigateur (`make e2e`, Chromium, contrôles d'accessibilité axe compris) | 179 parcours réussis (6 min) |
-| Répétition du flux de publication sur GitHub (linux/amd64 natif : contrôles, navigateur, image reproductible, Trivy, recette complète du paquet Synology avec sauvegarde, restauration et restauration isolée, liste des composants de l'image), sans envoi ni version | RÉSULTAT_REPETITION |
+| Répétition du flux de publication sur GitHub (linux/amd64 natif : contrôles, navigateur, image reproductible, Trivy, recette complète du paquet Synology avec sauvegarde, restauration et restauration isolée, liste des composants de l'image), sans envoi ni version | Run 43481548875 sur `11285f8`, **réussi** : contrôles (3 044 tests, reprise 20 / 45 jetons, icônes identiques à Lucide, pip-audit sans vulnérabilité connue), 179 parcours navigateur, image `sha256:96bb5a6b…`, Trivy sans critique corrigeable (Debian 13.7), recette 33/33 puis 5/5 après redémarrage, sauvegarde, restauration en place et restauration isolée conformes, 122 Mio de mémoire ; 90 lignes de composants Debian et 47 paquets Python listés ; aucun envoi |
 
 L'aller-retour exact des 929 exemplaires et 12 090 cellules a été vérifié au lot L6 sur le code inchangé depuis. Ce
 code, l'import et l'export, n'est pas modifié par cet audit, et son contrôle automatisé reste dans la suite de tests.
@@ -331,9 +331,9 @@ Les données réelles ne sont pas dans ce dépôt.
 |---|---|---|
 | Une reprise de Shelf non détectée par les mesures | Faible | Six mesures indépendantes, revue manuelle, historique complet vérifié ; contrôle permanent en CI |
 | Restitution par l'IA de code public autre que Shelf | Faible, non mesuré | Le code est très spécifique (français, règles métier propres) ; pas de mesure exhaustive possible. À surveiller si un tiers signale une ressemblance |
-| Titulaire des droits non désigné (L1) | **Bloquant pour la publication** | Décision du responsable, puis mention de copyright et « Licensed under the EUPL » |
-| Protection incertaine des productions de l'IA (L2) | Moyen | Avis juridique ; relecture des conditions de l'outil |
-| Nom ou logo déjà déposé comme marque par un tiers | Inconnu | Recherche d'antériorité (INPI, EUIPO) avant une diffusion large |
+| Nom civil du titulaire pas encore inscrit | **Bloquant pour la publication**, verrouillé | Remplacer `[NOM CIVIL DU TITULAIRE]` dans `NOTICE`, `README.md`, `src/biblyo/__init__.py` ; la publication d'une étiquette échoue sinon |
+| Protection incertaine des productions de l'IA (L2) | Moyen, assumé | Documenté ; avis juridique recommandé avant une stratégie commerciale fondée sur l'exclusivité |
+| Conflit de nom avec « Biblyo » (application néerlandaise de bibliothèque) ou « Biblys » | Moyen, non mesuré | Recherche d'antériorité dans les bases officielles (INPI, EUIPO, OMPI), au mieux par un conseil en propriété industrielle, avant une diffusion large ou un dépôt de marque |
 | Obligations des paquets GPL de l'image | Faible | Liste et sources jointes à chaque version (corrigé) |
 | Installation antérieure de Shelf modifiée encore en service | Hors biblyO | Offrir les modules locaux à ses utilisateurs (AGPL, article 13) ou retirer l'instance |
 | Faux sentiment de sécurité d'un contrôle automatique | Faible | Le contrôle et ce rapport le disent : un score n'est pas une certification |
@@ -344,15 +344,13 @@ Les données réelles ne sont pas dans ce dépôt.
 inconnue, les icônes, sont remplacées par des icônes de licence connue. Polices, bibliothèques, dépendances et données
 de test sont identifiées, compatibles avec un usage commercial et avec l'EUPL-1.2, et leurs mentions sont présentes.
 
-**Publication publique : bloquée tant qu'une question de droits significative reste ouverte**, soit :
+**Décisions du 13 novembre 2026** : titulaire personnel (L1), EUPL-1.2 confirmée, assistance par IA assumée et
+documentée (L2). Mentions en place dans `NOTICE`, `README.md`, `docs/PROVENANCE.md` et la page « À propos ».
 
-1. **L1, titulaire des droits** : désigner la personne ou l'entité titulaire, puis ajouter la mention de copyright et
-   « Licensed under the EUPL » (README, et en tête de `LICENSE` ou dans un fichier `NOTICE`).
-2. **Licence** : confirmer l'EUPL-1.2 (ou en choisir une autre ; les en-têtes SPDX se changent par script).
-3. **L2, productions de l'IA** : prendre acte de l'incertitude. Un avis juridique est recommandé avant toute stratégie
-   commerciale fondée sur l'exclusivité (double licence, licence propriétaire de versions futures).
+**Dernier point bloquant : le nom civil du titulaire**, à confirmer puis inscrire à la place de
+`[NOM CIVIL DU TITULAIRE]` (trois fichiers). La publication d'une étiquette est refusée automatiquement d'ici là.
 
-Recommandé sans être bloquant : recherche d'antériorité de la marque « biblyO », et traitement de l'installation
-antérieure de Shelf modifiée.
+Recommandé sans être bloquant : recherche d'antériorité du nom « biblyO » dans les bases officielles (risque signalé
+section 10), et traitement de l'installation antérieure de Shelf modifiée.
 
 Rien n'a été publié : pas d'étiquette `v1.0.0`, pas d'image GHCR, dépôt toujours privé, historique publié inchangé.

@@ -19,7 +19,7 @@ class Settings(BaseSettings):
     base_url: str = "http://localhost:8000"
     trusted_proxies: str = ""
     session_days: int = Field(default=14, ge=1, le=365)
-    source_url: str = ""
+    source_url: str = "https://github.com/ADSOLUTIONPRO/BiblyO"
     log_level: str = "INFO"
     show_planned_modules: bool | None = None
     # Hors production seulement : réponses enregistrées servies à la place des sources (essais de bout en bout)

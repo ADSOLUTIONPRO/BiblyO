@@ -2,6 +2,7 @@
 from fastapi import APIRouter
 from fastapi.testclient import TestClient
 
+from biblyo import __copyright__
 from biblyo.app import create_app
 from biblyo.core.modules import Module
 
@@ -16,8 +17,16 @@ def test_about_shows_version_and_licence(client):
     response = client.get("/a-propos")
     assert response.status_code == 200
     assert "EUPL-1.2" in response.text
-    assert "provisoire" in response.text
-    assert "dépôt non encore publié" in response.text
+    assert "provisoire" not in response.text
+    assert __copyright__ in response.text
+    assert "Licensed under the EUPL-1.2" in response.text
+    assert 'href="https://github.com/ADSOLUTIONPRO/BiblyO"' in response.text
+
+
+def test_about_says_when_no_source_is_configured(settings):
+    settings.source_url = ""
+    with TestClient(create_app(settings)) as test_client:
+        assert "dépôt non encore publié" in test_client.get("/a-propos").text
 
 
 def test_about_links_to_configured_source(settings):

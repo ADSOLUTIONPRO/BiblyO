@@ -60,6 +60,16 @@ historique neuf. Révisions du schéma de la base : **0001 à 0012** ; une insta
 - Aucune migration ni donnée au démarrage, aucun compte prédéfini, aucun secret ; conteneur sans privilège, en lecture
   seule.
 
+### Licence, droits et provenance
+
+- Logiciel libre sous licence **EUPL-1.2** (texte officiel dans `LICENSE`) ; titulaire et répartition des droits dans
+  `NOTICE`. Développé avec une assistance par IA (Claude Code), conçu, arbitré et validé par son titulaire.
+- Audit d'indépendance (`docs/rapports/AUDIT-INDEPENDANCE-BIBLYO-V1.md`) : aucun code, gabarit, style ou texte repris
+  d'une application antérieure ; contrôle automatique de reprise de code à chaque modification.
+- Icônes Lucide 1.70.0 (ISC), polices Bricolage Grotesque, Manrope et JetBrains Mono (SIL OFL 1.1), htmx (0BSD),
+  Alpine.js (MIT) : sous leurs propres licences (`THIRD_PARTY_NOTICES.md`). La liste des paquets Debian et Python de
+  l'image est jointe à cette version.
+
 ### Points d'attention
 
 - La base se crée et se migre à la main (`biblyo db upgrade`), depuis le terminal du conteneur.

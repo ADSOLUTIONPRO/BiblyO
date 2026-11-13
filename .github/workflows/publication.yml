@@ -34,6 +34,7 @@ jobs:
         run: |
           if [ "$GITHUB_REF_TYPE" = "tag" ]; then
             VERSION="${GITHUB_REF_NAME#v}"; PUBLIER=true
+            python3 scripts/check_titulaire.py --publication
           else
             VERSION="$(sed -n 's/^version = "\(.*\)"$/\1/p' pyproject.toml)"; PUBLIER=false
             echo "Répétition : version $VERSION, rien ne sera publié."
