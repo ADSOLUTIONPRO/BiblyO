@@ -1,0 +1,158 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header %}
+{% from "components/buttons.html" import button, link_button %}
+{% from "components/feedback.html" import alert, badge, empty_state %}
+{% from "components/overlays.html" import modal %}
+{% from "components/catalogue.html" import cover, crumbs, fact %}
+{% from "components/icons.html" import icon %}
+{% set can_edit = can("catalogue.edit") and not notice.is_archived %}
+{% set notice_url = "/catalogue/notices/" ~ notice.id %}
+{% macro edition_label(item) %}{{ item.publisher.label if item.publisher else _("Éditeur non renseigné") }}{% if item.year %}, {{ item.year }}{% endif %}{% if item.isbn13 %}, {{ item.isbn13[0] }}{% endif %}{% endmacro %}
+{% macro date_fr(value) %}{% if value %}{{ value[8:10] }}/{{ value[5:7] }}/{{ value[:4] }}{% endif %}{% endmacro %}
+{% macro rights_fields(prefix) %}
+{% set mine = form.get("origine") == prefix %}
+{% set err = errors.get("droit") if mine else "" %}
+{% set err_detail = errors.get("droit_detail") if mine else "" %}
+<input type="hidden" name="origine" value="{{ prefix }}">
+<fieldset class="fld couv-rights" aria-describedby="{{ prefix }}-droit-aide{% if err %} {{ prefix }}-droit-erreur{% endif %}">
+  <legend>{{ _("Origine de l’image et droit de l’utiliser") }} <span aria-hidden="true">*</span></legend>
+  {% for value, label in rights.items() %}
+  <label class="check" for="{{ prefix }}-droit-{{ value }}"><input type="radio" id="{{ prefix }}-droit-{{ value }}" name="droit" value="{{ value }}"{% if mine and form.get("droit") == value %} checked{% endif %} required{% if err %} aria-invalid="true"{% endif %}><span>{{ label }}</span></label>
+  {% endfor %}
+  <span class="h" id="{{ prefix }}-droit-aide">{{ _("Une image trouvée sur Internet n’est pas libre pour autant. Cette origine est conservée avec l’image et affichée dans ses crédits.") }}</span>
+  {% if err %}<span class="err" id="{{ prefix }}-droit-erreur">{{ icon("alert", 14) }}<span>{{ err }}</span></span>{% endif %}
+</fieldset>
+<div class="fld"><label for="{{ prefix }}-droit-detail">{{ _("Précision (obligatoire pour « Autre »)") }}</label>
+  <input class="in" id="{{ prefix }}-droit-detail" name="droit_detail" value="{{ form.get('droit_detail', '') if mine else '' }}" maxlength="300"{% if err_detail %} aria-invalid="true" aria-describedby="{{ prefix }}-detail-erreur"{% endif %}>
+  {% if err_detail %}<span class="err" id="{{ prefix }}-detail-erreur">{{ icon("alert", 14) }}<span>{{ err_detail }}</span></span>{% endif %}</div>
+{%- endmacro %}
+{% block title %}{{ _("Couverture") }} : {{ notice.title }} — biblyO{% endblock %}
+{% block content %}
+{{ crumbs([(_("Catalogue"), "/catalogue"), (notice.title, notice_url ~ "?edition=" ~ edition.id), (_("Couverture"), "")]) }}
+{% call page_header(_("Couverture de « {title} »").format(title=notice.title), _("Une couverture appartient à une édition : elle n’est jamais posée sur les autres éditions ni sur un autre livre du même titre."), "cat", "book") %}
+  {{ link_button(_("Retour à la fiche"), notice_url ~ "?edition=" ~ edition.id, "g", "undo") }}
+{% endcall %}
+{% if message %}{{ alert(message, "late") }}{% endif %}
+
+{% if notice.editions | length > 1 %}
+<nav class="row gap-xs mb-s" aria-label="{{ _('Édition concernée') }}">
+  {% for item in notice.editions %}<a class="chip" href="{{ base }}?edition={{ item.id }}"{% if item.id == edition.id %} aria-current="true"{% endif %}>{{ edition_label(item) }}</a>{% endfor %}
+</nav>
+{% endif %}
+
+<div class="couv-layout">
+  <section class="card" aria-labelledby="couv-actuelle">
+    <div class="card-h"><h2 id="couv-actuelle">{{ _("Couverture actuelle") }}</h2>
+      {% if edition.cover %}{{ badge(_("présente"), "ok") }}{% else %}{{ badge(_("aucune"), "neutral") }}{% endif %}</div>
+    <div class="card-b couv-current">
+      <button type="button" class="notice-zoom plain" data-open-dialog="couv-zoom-actuelle" aria-label="{{ _('Agrandir la couverture actuelle') }}">
+        {{ cover(notice.title, notice.series.title if notice.series else "", notice.series.volume_text if notice.series else "", notice.authors_text, notice.color, edition.cover.path if edition.cover else "", kicker=notice.document_type.label) }}
+      </button>
+      <div class="min0">
+        <p class="b m0">{{ edition_label(edition) }}</p>
+        {% if edition.cover %}
+        <dl class="dlist mt-s">
+          {{ fact(_("Origine"), source_labels.get(edition.cover.source or "", "") or ({"upload": _("Fichier importé"), "url": _("Image d’une adresse web")}.get(edition.cover.origin, edition.cover.origin))) }}
+          {% if edition.cover.retrieved_at %}{{ fact(_("Récupérée le"), date_fr(edition.cover.retrieved_at)) }}{% endif %}
+          {% if edition.cover.width %}{{ fact(_("Dimensions"), edition.cover.width ~ " × " ~ edition.cover.height ~ " px") }}{% endif %}
+          {% if edition.cover.license_note %}{{ fact(_("Conditions et droit d’utilisation"), edition.cover.license_note, wide=True) }}{% endif %}
+        </dl>
+        {% if edition.cover.origin_url %}<p class="small m0"><a href="{{ edition.cover.origin_url }}" rel="noopener noreferrer">{{ _("Référence de l’image") }}</a></p>{% endif %}
+        {% else %}
+        <p class="muted small">{{ _("Sans image, un visuel de remplacement reprend le titre et la série.") }}</p>
+        {% endif %}
+        {% if can_edit and edition.cover %}
+        <div class="form-actions mt-s"><button type="button" class="btn btn-dg btn-sm" data-open-dialog="couv-supprimer">{{ icon("trash", 14) }}<span>{{ _("Supprimer la couverture") }}</span></button></div>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+
+  {% if can_edit %}
+  <section class="card" aria-labelledby="couv-fichier-titre">
+    <div class="card-h"><h2 id="couv-fichier-titre">{{ _("Remplacer : importer un fichier") if edition.cover else _("Ajouter : importer un fichier") }}</h2></div>
+    <div class="card-b">
+      <form class="form" method="post" action="{{ base }}/fichier" enctype="multipart/form-data">
+        <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+        <input type="hidden" name="edition_id" value="{{ edition.id }}">
+        <div class="couv-drop" data-dropzone>
+          <label for="couverture">{{ icon("upload", 20) }}<span><b>{{ _("Choisir une image") }}</b> {{ _("ou la glisser ici") }}</span>
+            <span class="h">{{ _("JPEG, PNG ou WebP, 8 Mio au plus. L’orientation de la photo est corrigée, ses métadonnées retirées.") }}</span></label>
+          <input class="in" id="couverture" type="file" name="couverture" accept="image/jpeg,image/png,image/webp" data-max-bytes="{{ max_bytes }}" data-too-big="{{ _('Cette image dépasse 8 Mio.') }}" required{% if errors.get("couverture") %} aria-invalid="true" aria-describedby="couverture-erreur"{% endif %}>
+          <span class="small b" data-dropzone-name aria-live="polite"></span>
+          {% if errors.get("couverture") %}<span class="err" id="couverture-erreur">{{ icon("alert", 14) }}<span>{{ errors.get("couverture") }}</span></span>{% endif %}
+        </div>
+        {{ rights_fields("fichier") }}
+        <div class="form-actions">{{ button(_("Voir l’aperçu"), "p", "eye", type="submit") }}</div>
+      </form>
+    </div>
+  </section>
+  {% endif %}
+
+  {% if search_ready %}
+  <section class="card couv-search" aria-labelledby="couv-recherche">
+    <div class="card-h"><h2 id="couv-recherche">{{ _("Rechercher une couverture") }}</h2>
+      <button type="button" class="btn btn-s btn-sm push-end" hx-get="{{ base }}/propositions?edition={{ edition.id }}" hx-target="#couv-propositions" hx-swap="innerHTML" hx-indicator="#couv-attente">{{ icon("search", 14) }}<span>{{ _("Rechercher") }}</span></button></div>
+    <div class="card-b">
+      <p class="muted small m0">{{ _("Les sources activées sont interrogées avec l’ISBN, le titre et l’auteur de cette édition. Chaque image dit à quelle édition elle se rapporte ; rien n’est enregistré avant votre confirmation.") }}</p>
+      <div id="couv-attente" class="htmx-indicator couv-wait" role="status">{{ icon("clock", 16) }}<span>{{ _("Recherche en cours : quelques secondes, les sources sont interrogées une à une…") }}</span></div>
+      <div id="couv-propositions" aria-live="polite"{% if search_now %} hx-get="{{ base }}/propositions?edition={{ edition.id }}" hx-trigger="load" hx-indicator="#couv-attente"{% endif %}></div>
+    </div>
+  </section>
+  {% endif %}
+
+  {% if can_edit %}
+  <section class="card" aria-labelledby="couv-adresse-titre">
+    <div class="card-h"><h2 id="couv-adresse-titre">{{ _("Depuis une adresse web") }}</h2></div>
+    <div class="card-b">
+      <form class="form" method="post" action="{{ base }}/adresse">
+        <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+        <input type="hidden" name="edition_id" value="{{ edition.id }}">
+        <div class="fld"><label for="adresse">{{ _("Adresse de l’image") }}</label>
+          <input class="in" id="adresse" name="adresse" type="url" inputmode="url" placeholder="https://" value="{{ form.get('adresse', '') if form.get('origine') == 'adresse' else '' }}" maxlength="2048" aria-describedby="adresse-aide{% if errors.get('adresse') %} adresse-erreur{% endif %}"{% if errors.get("adresse") %} aria-invalid="true"{% endif %}>
+          <span class="h" id="adresse-aide">{{ _("Téléchargée par biblyO, en https seulement, depuis un site public. Une image accessible n’est pas libre pour autant.") }}</span>
+          {% if errors.get("adresse") %}<span class="err" id="adresse-erreur">{{ icon("alert", 14) }}<span>{{ errors.get("adresse") }}</span></span>{% endif %}</div>
+        {{ rights_fields("adresse") }}
+        <div class="form-actions">{{ button(_("Télécharger et voir l’aperçu"), "s", "download", type="submit") }}</div>
+      </form>
+    </div>
+  </section>
+  {% endif %}
+
+  <section class="card" aria-labelledby="couv-historique">
+    <div class="card-h"><h2 id="couv-historique">{{ _("Historique") }}</h2></div>
+    <div class="card-b">
+      {% if history %}
+      <ol class="plain couv-history">
+        {% for entry in history %}
+        <li>
+          <span class="mini">{% if entry.image %}<img class="cover-img" src="{{ entry.image }}" alt="" loading="lazy">{% else %}<span class="cover cv-{{ notice.color }}" aria-hidden="true"></span>{% endif %}</span>
+          <div class="min0">
+            <b>{{ entry.kind_label }}</b>{% if entry.source_label %} · {{ entry.source_label }}{% endif %}
+            <div class="muted small">{{ date_fr(entry.at) }}{% if entry.user_name %} · {{ entry.user_name }}{% endif %}{% if entry.undone_at %} · {{ _("défait le {date}").format(date=date_fr(entry.undone_at)) }}{% endif %}</div>
+            {% if entry.reference and entry.kind not in ("restore", "revert") %}<div class="faint small couv-ref">{{ entry.reference }}</div>{% endif %}
+            {% if entry.rights_note %}<div class="faint small">{{ entry.rights_note }}</div>{% endif %}
+          </div>
+          {% if can_edit and entry.restorable %}
+          <form method="post" action="{{ base }}/retablir"><input type="hidden" name="_csrf" value="{{ csrf_token }}"><input type="hidden" name="edition_id" value="{{ edition.id }}">{{ button(_("Rétablir la couverture précédente") if entry.previous_image or entry.kind == "remove" else _("Défaire : revenir à aucune couverture"), "g", "undo", type="submit", size="sm") }}</form>
+          {% endif %}
+        </li>
+        {% endfor %}
+      </ol>
+      {% else %}
+      <p class="muted m0">{{ _("Aucun changement consigné pour cette édition.") }}</p>
+      {% endif %}
+    </div>
+  </section>
+</div>
+
+{% call modal("couv-zoom-actuelle", _("Couverture actuelle")) %}
+  <div class="cover-zoom">{{ cover(notice.title, notice.series.title if notice.series else "", notice.series.volume_text if notice.series else "", notice.authors_text, notice.color, edition.cover.path if edition.cover else "", kicker=notice.document_type.label) }}</div>
+{% endcall %}
+{% if can_edit and edition.cover %}
+{% call modal("couv-supprimer", _("Supprimer la couverture ?")) %}
+  <p>{{ _("Le visuel de remplacement reprendra sa place sur la fiche et dans les listes. La couverture se rétablit depuis l’historique.") }}</p>
+  <form class="form-actions" method="post" action="{{ base }}/supprimer"><input type="hidden" name="_csrf" value="{{ csrf_token }}"><input type="hidden" name="edition_id" value="{{ edition.id }}">{{ button(_("Supprimer la couverture"), "d", "trash", type="submit") }}</form>
+{% endcall %}
+{% endif %}
+{% endblock %}

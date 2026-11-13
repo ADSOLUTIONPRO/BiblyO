@@ -1,0 +1,22 @@
+{% from "components/icons.html" import icon %}
+<div class="col gap-s" id="zone-coordonnees">
+  {% macro line_row(line) %}
+  <div><dt>{{ {"email": _("Courriel"), "phone": _("Téléphone"), "address": _("Adresse")}[line.kind] }}{% if line.label_text %} · {{ line.label_text }}{% endif %}{% if line.shared_by %} · {{ _("partagée par") }} {{ line.shared_by }}{% endif %}</dt><dd>{{ line.display }}</dd></div>
+  {% endmacro %}
+  {% if minor %}
+    <p class="protect m0">{{ icon("shield", 15) }}<span>{{ _("Un mineur n’a pas de coordonnées propres : il se joint par ses responsables autorisés à être contactés.") }}</span></p>
+    {% for guardian in guardians %}
+      <div>
+        <a class="b" href="/lecteurs/{{ guardian.guardian_id }}">{{ guardian.name }}</a> <span class="mono small faint">{{ guardian.number }}</span>
+        {% if guardian.lines %}<dl class="dlist mt-xs">{% for line in guardian.lines %}{{ line_row(line) }}{% endfor %}</dl>{% else %}<p class="muted small m0">{{ _("Aucune coordonnée renseignée.") }}</p>{% endif %}
+      </div>
+    {% else %}
+      <p class="muted small m0">{{ _("Aucun responsable n’est autorisé à être contacté.") }}</p>
+    {% endfor %}
+  {% elif lines %}
+    <dl class="dlist">{% for line in lines %}{{ line_row(line) }}{% endfor %}</dl>
+  {% else %}
+    <p class="muted small m0">{{ _("Aucune coordonnée renseignée.") }}</p>
+  {% endif %}
+  <div><button class="btn btn-g btn-sm" type="button" hx-get="/lecteurs/{{ patron_id }}/coordonnees/masquer" hx-target="#zone-coordonnees" hx-swap="outerHTML">{{ icon("eyeoff", 15) }}<span>{{ _("Masquer") }}</span></button></div>
+</div>

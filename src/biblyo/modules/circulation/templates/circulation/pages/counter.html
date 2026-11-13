@@ -1,0 +1,35 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header %}
+{% from "components/icons.html" import icon %}
+{% block title %}{{ _("Comptoir de prêt") }} — biblyO{% endblock %}
+{% block content %}
+{% from "components/buttons.html" import link_button %}
+{% call page_header(_("Comptoir de prêt"), _("Choisissez un lecteur et des livres dans les listes, puis confirmez. La douchette reste utilisable à tout moment."), "loan", "out") %}
+  {{ link_button(_("Retour rapide"), "/comptoir/retours", "s", "ret") }}
+  {% if can("circulation.history") %}{{ link_button(_("Tous les prêts"), "/prets", "g", "loans") }}{% endif %}
+{% endcall %}
+<div x-data="counter"{% if view.state.copy_ids and not view.reader and not view.result %} data-reprise{% endif %}{% if view.fresh %} data-nouveau{% endif %}>
+  <form id="f-comptoir" x-ref="form" method="post" action="/comptoir/scan" autocomplete="off"
+        hx-target="#comptoir-etat" hx-sync="this:queue all">
+    <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+    <input type="hidden" name="code" x-ref="code">
+    {# Les scans partent de cet élément, jamais du formulaire : htmx y réutiliserait le dernier bouton cliqué. #}
+    <span hidden x-ref="scanner" hx-post="/comptoir/scan" hx-trigger="scan"></span>
+    {# Une préparation laissée dans cet onglet est proposée quand on arrive d'une fiche de livre (identifiants seuls). #}
+    <span hidden x-ref="restore" hx-post="/comptoir/etat" hx-trigger="restore"></span>
+    <div hidden x-ref="restored"></div>
+    <div class="scan-bar">
+      <label class="scan-lab" for="cp-saisie">{{ icon("scan", 16) }}<span>{{ _("Scanner une carte ou un livre") }}</span></label>
+      <div class="in-icon grow">
+        {{ icon("search", 17) }}
+        <input id="cp-saisie" class="in in-sm" type="text" name="saisie" x-ref="field" autofocus spellcheck="false"
+               autocapitalize="off" x-on:keydown.enter.prevent="enter" aria-describedby="cp-saisie-aide">
+      </div>
+      <span class="faint small hide-m" id="cp-saisie-aide">{{ _("Douchette ou clavier : carte, numéro de lecteur, code d’exemplaire, ISBN.") }}</span>
+    </div>
+    {# Région d'annonce permanente : un message inséré par htmx n'est pas lu de façon sûre par un lecteur d'écran. #}
+    <div class="sr" id="cp-annonce" aria-live="polite" aria-atomic="true" x-ref="announce"></div>
+    <div id="comptoir-etat">{% include "circulation/fragments/counter_state.html" %}</div>
+  </form>
+</div>
+{% endblock %}

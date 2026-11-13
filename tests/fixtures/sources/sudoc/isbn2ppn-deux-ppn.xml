@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sudoc service="isbn2ppn">
+<query><isbn>9782012101333</isbn><result><ppn>139262636</ppn><ppn>165964073</ppn></result></query>
+</sudoc>

@@ -1,0 +1,25 @@
+{% extends layout %}
+{% from "components/catalogue.html" import crumbs, fact %}
+{% from "components/icons.html" import icon %}
+{% block title %}{{ _("Export") }} {{ data.lecteur.numero }} — biblyO{% endblock %}
+{% block content %}
+<div class="no-print">{{ crumbs([(_("Lecteurs & familles"), "/lecteurs"), (data.lecteur.numero, "/lecteurs/" ~ patron_id), (_("Export"), "")]) }}</div>
+<div class="row between gap-s mb-s">
+  <div><h1 id="titre-page" tabindex="-1" class="m0">{{ _("Données du lecteur") }} {{ data.lecteur.numero }}</h1><p class="muted small m0">{{ _("Exporté le") }} {{ data.exporte_le[:10] }} · {{ _("Cet export est inscrit au journal.") }}</p></div>
+  <div class="row gap-xs no-print" x-data="printPage">
+    <button class="btn btn-s" type="button" x-on:click="print">{{ icon("print", 16) }}<span>{{ _("Imprimer") }}</span></button>
+    <a class="btn btn-p" href="/lecteurs/{{ patron_id }}/export.json" download="{{ data.lecteur.numero }}.json">{{ icon("download", 16) }}<span>{{ _("Télécharger le fichier") }}</span></a>
+  </div>
+</div>
+<div class="col gap-m">
+  <section class="card" aria-labelledby="exp-identite"><div class="card-h"><h2 id="exp-identite">{{ _("Identité") }}</h2></div><div class="card-b"><dl class="dlist">
+    {{ fact(_("Numéro"), data.lecteur.numero, mono=True) }}{{ fact(_("Identifiant permanent"), data.lecteur.identifiant, mono=True) }}{{ fact(_("Prénom"), data.lecteur.prenom) }}{{ fact(_("Nom"), data.lecteur.nom) }}{{ fact(_("Catégorie"), data.lecteur.categorie) }}{{ fact(_("Naissance"), data.lecteur.naissance) }}{{ fact(_("Statut"), data.lecteur.statut) }}{{ fact(_("Inscription"), data.lecteur.inscrit_le) }}{{ fact(_("Adhésion jusqu’au"), data.lecteur.adhesion_jusqu_au) }}{{ fact(_("Observations"), data.lecteur.observations, wide=True) }}
+  </dl></div></section>
+  <section class="card" aria-labelledby="exp-coord"><div class="card-h"><h2 id="exp-coord">{{ _("Coordonnées") }}</h2></div>{% for item in data.coordonnees %}<div class="li"><span class="grow pre">{{ item.valeur }}</span><span class="faint small">{{ item.libelle }}{% if item.foyer %} · {{ item.foyer }}{% endif %}</span></div>{% else %}<div class="card-b"><p class="muted small m0">{{ _("Aucune.") }}</p></div>{% endfor %}</section>
+  <section class="card" aria-labelledby="exp-cartes"><div class="card-h"><h2 id="exp-cartes">{{ _("Cartes") }}</h2></div>{% for item in data.cartes %}<div class="li"><span class="grow mono">{{ item.numero }}</span><span class="faint small">{{ item.remise_le }}{% if item.fin_le %} → {{ item.fin_le }} ({{ item.motif_fin }}){% endif %}</span></div>{% else %}<div class="card-b"><p class="muted small m0">{{ _("Aucune.") }}</p></div>{% endfor %}</section>
+  <section class="card" aria-labelledby="exp-foyers"><div class="card-h"><h2 id="exp-foyers">{{ _("Foyers") }}</h2></div>{% for item in data.foyers %}<div class="li"><span class="grow">{{ item.nom }}</span><span class="faint small">{{ item.type }} · {{ item.role }}</span></div>{% else %}<div class="card-b"><p class="muted small m0">{{ _("Aucun.") }}</p></div>{% endfor %}</section>
+  {% if data.responsables %}<section class="card" aria-labelledby="exp-resp"><div class="card-h"><h2 id="exp-resp">{{ _("Responsables") }}</h2></div>{% for item in data.responsables %}<div class="li"><span class="grow">{{ item.nom }} <span class="mono small">{{ item.numero }}</span></span><span class="faint small">{{ item.relation }}</span></div>{% endfor %}</section>{% endif %}
+  {% if data.prets is defined %}<section class="card" aria-labelledby="exp-prets"><div class="card-h"><h2 id="exp-prets">{{ _("Prêts") }}</h2><span class="faint small">{{ data.prets | length }}</span></div>{% for item in data.prets %}<div class="li"><span class="grow"><b>{{ item.ouvrage }}</b> <span class="mono small">{{ item.exemplaire }}</span><span class="faint small block">{{ item.cadre }} · {{ _("prêté le") }} {{ item.prete_le }} · {{ _("échéance") }} {{ item.echeance }}{% if item.rendu_le %} · {{ _("rendu le") }} {{ item.rendu_le }}{% endif %}{% if item.annule %} · {{ _("annulé") }}{% endif %}{% if item.responsable %} · {{ _("responsable") }} {{ item.responsable.nom }} {{ item.responsable.numero }}{% endif %}</span></span></div>{% else %}<div class="card-b"><p class="muted small m0">{{ _("Aucun prêt.") }}</p></div>{% endfor %}{% if data.prets_dont_il_repond %}<div class="card-b"><p class="small b m0">{{ _("Prêts dont la personne a répondu") }} : {{ data.prets_dont_il_repond | length }}</p></div>{% endif %}</section>{% endif %}
+  <section class="card" aria-labelledby="exp-hist"><div class="card-h"><h2 id="exp-hist">{{ _("Historique") }}</h2></div>{% for item in data.historique %}<div class="li"><span class="grow small">{{ item.action }}{% if item.champs %} · {{ item.champs | join(", ") }}{% endif %}</span><span class="faint small">{{ item.date[:10] }}</span></div>{% else %}<div class="card-b"><p class="muted small m0">{{ _("Vide.") }}</p></div>{% endfor %}</section>
+</div>
+{% endblock %}

@@ -1,0 +1,120 @@
+# Publication d'une version : sur une étiquette vX.Y.Z seulement.
+# Ordre : contrôles → image construite (linux/amd64, base figée par empreinte) → analyse des vulnérabilités → recette
+# complète du paquet distribué (deploy/synology/compose.yaml) → SEULEMENT ALORS envoi vers GHCR → l'image retéléchargée
+# par son empreinte doit être celle qui a été éprouvée → version GitHub avec l'empreinte et les fichiers d'installation.
+name: Publication
+
+on:
+  push:
+    tags: ["v[0-9]+.[0-9]+.[0-9]+"]
+
+permissions:
+  contents: read
+
+jobs:
+  controles:
+    uses: ./.github/workflows/ci.yml
+
+  image:
+    needs: controles
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+      packages: write
+    env:
+      IMAGE: ghcr.io/adsolutionpro/biblyo
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Version de l'étiquette = version du code = version du compose
+        id: version
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          grep -q "^version = \"$VERSION\"" pyproject.toml || { echo "pyproject.toml n'est pas en $VERSION"; exit 1; }
+          grep -q "__version__ = \"$VERSION\"" src/biblyo/__init__.py || { echo "__version__ n'est pas $VERSION"; exit 1; }
+          grep -q "image: $IMAGE:$VERSION$" deploy/synology/compose.yaml || { echo "compose.yaml ne désigne pas $VERSION"; exit 1; }
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "epoch=$(git log -1 --format=%ct)" >> "$GITHUB_OUTPUT"
+
+      - name: Tailwind (binaire épinglé, empreinte vérifiée)
+        run: python3 scripts/build_css.py --telecharger linux-x64
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Construction reproductible (linux/amd64)
+        env:
+          SOURCE_DATE_EPOCH: ${{ steps.version.outputs.epoch }}
+        run: |
+          docker buildx build --platform linux/amd64 \
+            --build-arg BIBLYO_COMMIT="$GITHUB_SHA" --build-arg SOURCE_DATE_EPOCH \
+            --provenance=false --sbom=false --output type=docker,rewrite-timestamp=true \
+            -t "$IMAGE:${{ steps.version.outputs.version }}" .
+          docker image inspect -f '{{.Id}}' "$IMAGE:${{ steps.version.outputs.version }}" | tee image-id.txt
+
+      - name: Vulnérabilités de l'image (critiques corrigeables bloquantes)
+        uses: aquasecurity/trivy-action@0.33.1
+        with:
+          image-ref: ${{ env.IMAGE }}:${{ steps.version.outputs.version }}
+          severity: CRITICAL
+          ignore-unfixed: true
+          exit-code: "1"
+
+      - name: Rapport complet des vulnérabilités (non bloquant)
+        uses: aquasecurity/trivy-action@0.33.1
+        with:
+          image-ref: ${{ env.IMAGE }}:${{ steps.version.outputs.version }}
+          severity: HIGH,CRITICAL
+          exit-code: "0"
+          format: table
+          output: trivy.txt
+
+      - name: Recette du paquet distribué
+        run: bash scripts/recette_distribution.sh "$IMAGE:${{ steps.version.outputs.version }}"
+
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Envoi vers GHCR, puis vérification par l'empreinte
+        id: digest
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          SHORT="${GITHUB_SHA::12}"
+          docker tag "$IMAGE:$VERSION" "$IMAGE:sha-$SHORT"
+          docker push "$IMAGE:$VERSION"
+          docker push "$IMAGE:sha-$SHORT"
+          REF="$(docker image inspect -f '{{index .RepoDigests 0}}' "$IMAGE:$VERSION")"
+          DIGEST="${REF#*@}"
+          TESTED="$(cat image-id.txt)"
+          docker image rm "$IMAGE:$VERSION" "$IMAGE:sha-$SHORT"
+          docker pull "$IMAGE@$DIGEST"
+          [ "$(docker image inspect -f '{{.Id}}' "$IMAGE@$DIGEST")" = "$TESTED" ] || { echo "image téléchargée ≠ image éprouvée"; exit 1; }
+          echo "digest=$DIGEST" >> "$GITHUB_OUTPUT"
+          echo "Image éprouvée et publiée : $IMAGE:$VERSION@$DIGEST"
+
+      - name: Version GitHub
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          DIGEST="${{ steps.digest.outputs.digest }}"
+          awk "/^## $VERSION\$/{f=1;next} /^## /{f=0} f" CHANGELOG.md > notes.md
+          {
+            echo
+            echo "## Image"
+            echo
+            echo '```sh'
+            echo "docker pull $IMAGE:$VERSION"
+            echo '```'
+            echo
+            echo "- Empreinte (digest) : \`$DIGEST\`"
+            echo "- Référence immuable : \`$IMAGE@$DIGEST\`"
+            echo "- Plateforme : linux/amd64 ; commit : \`$GITHUB_SHA\`"
+            echo "- Installation : INSTALLATION-SYNOLOGY.md ; fichiers joints : compose.yaml, .env.example"
+          } >> notes.md
+          cp deploy/synology/compose.yaml compose.yaml
+          cp .env.example env.example
+          gh release create "$GITHUB_REF_NAME" --title "biblyO $VERSION" --notes-file notes.md \
+            compose.yaml "env.example#.env.example" trivy.txt

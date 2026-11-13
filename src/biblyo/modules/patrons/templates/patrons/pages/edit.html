@@ -1,0 +1,27 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header %}
+{% from "components/buttons.html" import button, link_button %}
+{% from "components/feedback.html" import alert %}
+{% from "components/forms.html" import field, textarea %}
+{% from "components/catalogue.html" import crumbs %}
+{% block title %}{{ _("Modifier") }} {{ name }} — biblyO{% endblock %}
+{% block content %}
+{{ crumbs([(_("Lecteurs & familles"), "/lecteurs"), (name, "/lecteurs/" ~ patron.id), (_("Modifier"), "")]) }}
+{{ page_header(_("Modifier la fiche"), name ~ " · " ~ patron.number, "rdr", "edit") }}
+{% if message %}{{ alert(message, "late") }}{% endif %}
+<section class="card" aria-label="{{ _('Identité') }}">
+  <div class="card-b">
+    <form class="form col gap-m" method="post" action="/lecteurs/{{ patron.id }}/modifier" novalidate>
+      <input type="hidden" name="_csrf" value="{{ csrf_token }}"><input type="hidden" name="version" value="{{ patron.version }}">
+      <div class="grid g2">
+        {{ field("prenom", _("Prénom"), values.prenom, required=True, error=errors.get("prenom"), autocomplete="off") }}
+        {{ field("nom", _("Nom"), values.nom, required=True, error=errors.get("nom"), autocomplete="off") }}
+        {% if personal %}{{ field("naissance", _("Naissance"), values.naissance, error=errors.get("naissance"), help=_("L’année suffit : 2014."), inputmode="numeric") }}{% endif %}
+        {{ field("adhesion", _("Adhésion jusqu’au"), values.adhesion, error=errors.get("adhesion"), help=_("31/08/2027."), inputmode="numeric") }}
+      </div>
+      {% if personal %}{{ textarea("observations", _("Observations internes"), values.observations, error=errors.get("observations"), help=_("Utiles au service seulement : jamais de donnée sensible (santé, religion, opinions…).")) }}{% endif %}
+      <div class="form-actions">{{ button(_("Enregistrer"), "p", "check", type="submit") }}{{ link_button(_("Annuler"), "/lecteurs/" ~ patron.id, "g") }}</div>
+    </form>
+  </div>
+</section>
+{% endblock %}

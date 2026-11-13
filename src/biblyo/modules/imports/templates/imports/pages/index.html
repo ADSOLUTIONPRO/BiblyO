@@ -1,0 +1,128 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header %}
+{% from "components/buttons.html" import button %}
+{% from "components/feedback.html" import alert, badge %}
+{% from "components/icons.html" import icon %}
+{% block title %}{{ _("Import & export") }} — biblyO{% endblock %}
+{% block content %}
+{% call page_header(_("Import & export"), _("Déposez un fichier, vérifiez la correspondance de ses colonnes, simulez son import, puis appliquez le plan relu. Exportez le catalogue."), "io", "io") %}{% endcall %}
+
+{% if message %}{{ alert(message, "late") }}{% endif %}
+
+<div class="grid g2">
+<section class="card" aria-labelledby="depot-titre">
+  <div class="card-h"><h2 id="depot-titre">{{ _("Simuler un import") }}</h2></div>
+  <div class="card-b">
+    <form class="form" method="post" action="/imports" enctype="multipart/form-data">
+      <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+      <div class="fld">
+        <label for="principal">{{ _("Fichier principal") }} <span aria-hidden="true">*</span></label>
+        <input class="in" id="principal" type="file" name="principal" accept=".xlsx,.csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/csv" required aria-describedby="principal-aide">
+        <span class="h" id="principal-aide">{{ _("Classeur .xlsx ou fichier .csv, {n} Mio au plus. Les macros et l’ancien format .xls sont refusés.").format(n=max_mib) }}</span>
+      </div>
+      <div class="fld">
+        <label for="complementaire">{{ _("Fichier complémentaire (facultatif)") }}</label>
+        <input class="in" id="complementaire" type="file" name="complementaire" accept=".xlsx,.csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/csv" aria-describedby="complementaire-aide">
+        <span class="h" id="complementaire-aide">{{ _("Une autre version du même catalogue, par exemple enrichie. Elle ne fait pas foi : ses écarts deviennent des différences de version, ses valeurs ajoutées des propositions.") }}</span>
+      </div>
+      <div class="fld">
+        <label for="profil">{{ _("Profil de correspondance") }}</label>
+        <select class="in" id="profil" name="profil">
+          <option value="">{{ _("Reconnaître les colonnes automatiquement") }}</option>
+          {% for item in saved %}<option value="{{ item.id }}">{{ item.name }}</option>{% endfor %}
+        </select>
+      </div>
+      <div class="form-actions">{{ button(_("Lire le fichier"), "p", "upload", type="submit") }}</div>
+    </form>
+  </div>
+</section>
+
+<section class="card" aria-labelledby="regles-titre">
+  <div class="card-h"><h2 id="regles-titre">{{ _("Ce que la simulation garantit") }}</h2></div>
+  <div class="card-b">
+    <ul class="small m0">
+      <li>{{ _("Les fichiers sont lus en mémoire, sans être exécutés ; ils restent 24 heures, visibles de vous seul, puis sont supprimés.") }}</li>
+      <li>{{ _("La simulation n’écrit rien dans la base : ni notice, ni exemplaire, ni trace d’import.") }}</li>
+      <li>{{ _("Aucune colonne n’est ignorée : une colonne sans champ est conservée telle quelle, lisible et exportable.") }}</li>
+      {% for rule in rules %}<li>{{ rule }}</li>{% endfor %}
+    </ul>
+  </div>
+</section>
+</div>
+
+{% if deposits %}
+<section class="card" aria-labelledby="depots-titre">
+  <div class="card-h"><h2 id="depots-titre">{{ _("Vos dépôts en cours") }}</h2></div>
+  <div class="tbl-wrap tbl-m-cards" tabindex="0" role="region" aria-label="{{ _("Vos dépôts en cours") }}"><table class="tbl">
+    <caption class="sr">{{ _("Vos dépôts en cours") }}</caption>
+    <thead><tr><th scope="col">{{ _("Fichier") }}</th><th scope="col">{{ _("Complémentaire") }}</th><th scope="col">{{ _("Empreinte") }}</th><th scope="col"><span class="sr">{{ _("Actions") }}</span></th></tr></thead>
+    <tbody>
+      {% for item in deposits %}
+      <tr>
+        <td class="b">{{ item.filename }}</td>
+        <td>{{ item.complement_filename or "—" }}</td>
+        <td class="mono small">{{ item.sha256[:12] }}</td>
+        <td class="ta-end"><span class="row gap-xs row-end">
+          <a class="btn btn-g btn-sm" href="/imports/{{ item.token }}">{{ _("Correspondance") }}</a>
+          <a class="btn btn-s btn-sm" href="/imports/{{ item.token }}/simulation">{{ _("Simulation") }}</a>
+        </span></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table></div>
+</section>
+{% endif %}
+
+{% if saved %}
+<section class="card" aria-labelledby="profils-titre">
+  <div class="card-h"><h2 id="profils-titre">{{ _("Profils de correspondance") }}</h2></div>
+  <div class="tbl-wrap tbl-m-cards" tabindex="0" role="region" aria-label="{{ _("Profils de correspondance") }}"><table class="tbl">
+    <caption class="sr">{{ _("Profils de correspondance") }}</caption>
+    <thead><tr><th scope="col">{{ _("Nom") }}</th><th scope="col">{{ _("Modifié le") }}</th><th scope="col"><span class="sr">{{ _("Actions") }}</span></th></tr></thead>
+    <tbody>
+      {% for item in saved %}
+      <tr>
+        <td class="b">{{ item.name }}</td>
+        <td class="small">{{ item.updated_at[:10] }}</td>
+        <td class="ta-end"><details class="confirm-inline"><summary class="btn btn-g btn-sm" aria-label="{{ _('Supprimer le profil') }} {{ item.name }}">{{ icon("trash", 14) }} {{ _("Supprimer") }}</summary>
+          <form method="post" action="/imports/profils/{{ item.id }}/supprimer" class="mt-xs"><input type="hidden" name="_csrf" value="{{ csrf_token }}"><button type="submit" class="btn btn-p btn-sm">{{ _("Confirmer la suppression") }}</button></form>
+        </details></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table></div>
+</section>
+{% endif %}
+{% if batches %}
+<section class="card" aria-labelledby="lots-titre">
+  <div class="card-h"><h2 id="lots-titre">{{ _("Lots d’import") }}</h2></div>
+  <div class="tbl-wrap tbl-m-cards" tabindex="0" role="region" aria-label="{{ _("Lots d’import") }}"><table class="tbl">
+    <caption class="sr">{{ _("Lots d’import") }}</caption>
+    <thead><tr><th scope="col">{{ _("Lot") }}</th><th scope="col">{{ _("Fichier") }}</th><th scope="col">{{ _("État") }}</th><th scope="col">{{ _("Exemplaires") }}</th><th scope="col">{{ _("Date") }}</th></tr></thead>
+    <tbody>
+      {% for item in batches %}
+      <tr>
+        <td><a class="b" href="/imports/lots/{{ item.id }}">{{ _("Lot n° {n}").format(n=item.id) }}</a></td>
+        <td>{{ item.filename }}</td>
+        <td>{{ badge(batch_statuses.get(item.status, item.status), "ok" if item.status == "applied" else ("late" if item.status == "failed" else "neutral")) }}</td>
+        <td class="mono">{{ item.copies if item.copies is not none else "—" }}</td>
+        <td class="small">{{ item.at | datetime_short }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table></div>
+</section>
+{% endif %}
+
+<section class="card" aria-labelledby="export-titre">
+  <div class="card-h"><h2 id="export-titre">{{ _("Exporter le catalogue") }}</h2></div>
+  <div class="card-b">
+    <p class="small m0">{{ _("Toutes les données du catalogue, avec leurs identifiants stables et leur provenance : œuvres, séries, éditions, exemplaires, cotes, emplacements, contributeurs, éditeurs, collections, propositions, lots et lignes d’import (colonnes d’origine comprises). Ni lecteurs, ni prêts, ni comptes.") }}</p>
+    <div class="row gap-xs mt-s">
+      <a href="/imports/export/catalogue.xlsx" class="btn btn-s" download>{{ icon("download", 16) }}<span class="lbl">{{ _("Catalogue .xlsx") }}</span></a>
+      <a href="/imports/export/catalogue-csv.zip" class="btn btn-g" download>{{ icon("download", 16) }}<span class="lbl">{{ _("Catalogue .csv (archive)") }}</span></a>
+    </div>
+    <p class="small muted m0 mt-s">{{ _("Le classeur d’un lot importé, au format d’origine, se télécharge depuis la page du lot.") }} {% if not apply_enabled %}{{ _("Application des imports : désactivée sur cette instance.") }}{% endif %}</p>
+  </div>
+</section>
+{% endblock %}

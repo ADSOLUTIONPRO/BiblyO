@@ -1,0 +1,10 @@
+{% from "components/icons.html" import icon %}
+
+{# Entrée de la barre latérale. Une entrée « à venir » le dit, à l'écran comme aux lecteurs d'écran. #}
+{% macro nav_entry(item, soon_label) %}
+<a class="nav-i m-{{ item.color }}{% if item.planned %} soon{% endif %}" href="{{ item.path }}" title="{{ item.label }}{% if item.planned %} ({{ soon_label }}){% endif %}"{% if item.current %} aria-current="page"{% endif %}{% if item.shortcut %} data-goto="{{ item.shortcut }}"{% endif %}>
+  <span class="icw">{{ icon(item.icon, 16) }}</span>
+  <span class="lb">{{ item.label }}</span>
+  {% if item.planned %}<span class="ct">{{ soon_label }}</span>{% elif item.count %}<span class="ct">{{ item.count | number }}</span>{% endif %}
+</a>
+{%- endmacro %}

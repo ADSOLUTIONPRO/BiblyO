@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?xml-stylesheet type="text/xsl" href="https://www.sudoc.abes.fr/cbs/sru/DB=2.1/?xsl=searchRetrieveResponse" ?>
+<srw:searchRetrieveResponse xmlns:srw="http://www.loc.gov/zing/srw/"
+			    xmlns:dc="http://purl.org/dc/elements/1.1/"
+			    xmlns:diag="http://www.loc.gov/zing/srw/diagnostic/"
+			    xmlns:xcql="http://www.loc.gov/zing/cql/xcql/">
+    <srw:version>1.1</srw:version>
+    <srw:numberOfRecords>45</srw:numberOfRecords>
+    <srw:resultSetId></srw:resultSetId>
+    <srw:records>
+    
+
+
+<srw:record>
+<srw:recordSchema>unimarc</srw:recordSchema>
+<srw:recordPacking>xml</srw:recordPacking>
+<srw:recordData>
+<record>
+<controlfield tag="005">20231207174756.000</controlfield>
+<leader>     cim0 22        450 </leader>
+<controlfield tag="001">189227877</controlfield>
+<controlfield tag="003">http://www.sudoc.fr/189227877</controlfield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">(OCoLC)1378901310</subfield></datafield>
+<datafield tag="010" ind1=" " ind2=" "><subfield code="a">978-2-35641-255-3</subfield></datafield>
+<datafield tag="071" ind1="0" ind2="1"><subfield code="a">25 0291 2</subfield>
+<subfield code="c">coffret</subfield></datafield>
+<datafield tag="073" ind1=" " ind2="1"><subfield code="a">9782356412553</subfield></datafield>
+<datafield tag="100" ind1=" " ind2=" "><subfield code="a">20151102h20092010m  y0frey50      ba</subfield></datafield>
+<datafield tag="101" ind1="0" ind2=" "><subfield code="a">fre</subfield>
+<subfield code="2">639-2</subfield></datafield>
+<datafield tag="105" ind1=" " ind2=" "><subfield code="a">y   |||||||||</subfield></datafield>
+<datafield tag="126" ind1=" " ind2=" "><subfield code="a">aguxhxx||||||cd</subfield>
+<subfield code="b">bex</subfield></datafield>
+<datafield tag="127" ind1=" " ind2=" "><subfield code="a">130000</subfield></datafield>
+<datafield tag="181" ind1=" " ind2=" "><subfield code="6">z01</subfield>
+<subfield code="c">spw</subfield>
+<subfield code="2">rdacontent</subfield></datafield>
+<datafield tag="181" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="a">h#</subfield>
+<subfield code="b">xxxa##</subfield></datafield>
+<datafield tag="182" ind1=" " ind2=" "><subfield code="6">z01</subfield>
+<subfield code="c">s</subfield>
+<subfield code="2">rdamedia</subfield></datafield>
+<datafield tag="182" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="a">a</subfield></datafield>
+<datafield tag="183" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="a">sea</subfield>
+<subfield code="2">RDAfrCarrier</subfield></datafield>
+<datafield tag="102" ind1=" " ind2=" "><subfield code="a">FR</subfield></datafield>
+<datafield tag="200" ind1="1" ind2=" "><subfield code="a">L&apos;écume des jours, Et on tuera tous les affreux, Les fourmis, Le loup-garou et autres nouvelles</subfield>
+<subfield code="f">Boris Vian</subfield>
+<subfield code="g">lus par Arthur H, Denis Padalydès, François Marthouret et Thibault de Montalembert</subfield></datafield>
+<datafield tag="700" ind1=" " ind2="1"><subfield code="3">027183408</subfield>
+<subfield code="a">Vian</subfield>
+<subfield code="b">Boris</subfield>
+<subfield code="f">1920-1959</subfield>
+<subfield code="4">070</subfield></datafield>
+<datafield tag="702" ind1=" " ind2="1"><subfield code="3">07986130X</subfield>
+<subfield code="a">Arthur H.</subfield>
+<subfield code="f">1966-....</subfield>
+<subfield code="4">550</subfield></datafield>
+<datafield tag="702" ind1=" " ind2="1"><subfield code="3">057736286</subfield>
+<subfield code="a">Podalydès</subfield>
+<subfield code="b">Denis</subfield>
+<subfield code="f">1963-....</subfield>
+<subfield code="4">550</subfield></datafield>
+<datafield tag="702" ind1=" " ind2="1"><subfield code="3">068535260</subfield>
+<subfield code="a">Marthouret</subfield>
+<subfield code="b">François</subfield>
+<subfield code="f">1943-....</subfield>
+<subfield code="4">550</subfield></datafield>
+<datafield tag="702" ind1=" " ind2="1"><subfield code="3">081261357</subfield>
+<subfield code="a">Montalembert</subfield>
+<subfield code="b">Thibault de</subfield>
+<subfield code="f">1962-....</subfield>
+<subfield code="c">comédien</subfield>
+<subfield code="4">550</subfield></datafield>
+<datafield tag="801" ind1=" " ind2="3"><subfield code="a">FR</subfield>
+<subfield code="b">Abes</subfield>
+<subfield code="c">20231207</subfield>
+<subfield code="g">AFNOR</subfield></datafield>
+<datafield tag="214" ind1=" " ind2="0"><subfield code="a">[Paris]</subfield>
+<subfield code="c">Audiolib</subfield></datafield>
+<datafield tag="214" ind1=" " ind2="4"><subfield code="d">C 2009</subfield>
+<subfield code="d">P 2009</subfield></datafield>
+<datafield tag="215" ind1=" " ind2=" "><subfield code="a">3 disques compacts MP3 (13h)</subfield>
+<subfield code="d">19 cm</subfield></datafield>
+<datafield tag="464" ind1=" " ind2="|"><subfield code="t">L&apos;écume des jours</subfield>
+<subfield code="f">lu par Arthur H</subfield></datafield>
+<datafield tag="464" ind1=" " ind2="|"><subfield code="t">Et on tuera tous les affreux</subfield>
+<subfield code="f">lu par Denis Podalydès</subfield></datafield>
+<datafield tag="464" ind1=" " ind2="|"><subfield code="t">Les fourmis, le loup-garou et autres nouvelles</subfield>
+<subfield code="f">lues par François Marthouret et Thibault de Montalembert</subfield></datafield>
+<datafield tag="606" ind1=" " ind2=" "><subfield code="3">029000394</subfield>
+<subfield code="a">Littérature française</subfield>
+<subfield code="z">20e siècle</subfield>
+<subfield code="2">rameau</subfield></datafield>
+<datafield tag="608" ind1=" " ind2=" "><subfield code="3">033162859</subfield>
+<subfield code="a">Livres audio</subfield>
+<subfield code="2">rameau</subfield></datafield>
+<datafield tag="680" ind1=" " ind2=" "><subfield code="a">PQ2601</subfield></datafield>
+<datafield tag="676" ind1=" " ind2=" "><subfield code="a">848</subfield>
+<subfield code="v">23</subfield></datafield>
+</record></srw:recordData><srw:recordPosition>1</srw:recordPosition>
+</srw:record>
+
+<srw:record>
+<srw:recordSchema>unimarc</srw:recordSchema>
+<srw:recordPacking>xml</srw:recordPacking>
+<srw:recordData>
+<record>
+<controlfield tag="005">20231201031931.000</controlfield>
+<leader>     cam0 22        450 </leader>
+<controlfield tag="001">248754238</controlfield>
+<controlfield tag="003">http://www.sudoc.fr/248754238</controlfield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">(OCoLC)1182581302</subfield></datafield>
+<datafield tag="010" ind1=" " ind2=" "><subfield code="a">978-2-253-93454-7</subfield>
+<subfield code="b">br. sous étui</subfield>
+<subfield code="d">19 EUR</subfield>
+<subfield code="b">les 4 vol.</subfield></datafield>
+<datafield tag="073" ind1=" " ind2="0"><subfield code="a">9782253934547</subfield></datafield>
+<datafield tag="021" ind1=" " ind2=" "><subfield code="a">FR</subfield>
+<subfield code="b">DLE-20191115-69592</subfield></datafield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">FRBNF45841014000000X</subfield>
+<subfield code="z">FRBNF45841014</subfield></datafield>
+<datafield tag="033" ind1=" " ind2=" "><subfield code="a">http://catalogue.bnf.fr/ark:/12148/cb458410149</subfield></datafield>
+<datafield tag="100" ind1=" " ind2=" "><subfield code="a">20200901d2019    m  y0frey50      ba</subfield></datafield>
+<datafield tag="101" ind1="0" ind2=" "><subfield code="a">fre</subfield>
+<subfield code="2">639-2</subfield></datafield>
+<datafield tag="105" ind1=" " ind2=" "><subfield code="a">y   z   00|a|</subfield></datafield>
+<datafield tag="106" ind1=" " ind2=" "><subfield code="a">r</subfield></datafield>
+<datafield tag="181" ind1=" " ind2=" "><subfield code="6">z01</subfield>
+<subfield code="c">txt</subfield>
+<subfield code="2">rdacontent</subfield></datafield>
+<datafield tag="181" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="a">i#</subfield>
+<subfield code="b">xxxe##</subfield></datafield>
+<datafield tag="182" ind1=" " ind2=" "><subfield code="6">z01</subfield>
+<subfield code="c">n</subfield>
+<subfield code="2">rdamedia</subfield></datafield>
+<datafield tag="182" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="a">n</subfield></datafield>
+<datafield tag="183" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="a">nga</subfield>
+<subfield code="2">RDAfrCarrier</subfield></datafield>
+<datafield tag="102" ind1=" " ind2=" "><subfield code="a">FR</subfield></datafield>
+<datafield tag="200" ind1="1" ind2=" "><subfield code="a">Boris Vian</subfield>
+<subfield code="f">présenté par Mathias Malzieu</subfield></datafield>
+<datafield tag="700" ind1=" " ind2="1"><subfield code="3">027183408</subfield>
+<subfield code="a">Vian</subfield>
+<subfield code="b">Boris</subfield>
+<subfield code="f">1920-1959</subfield>
+<subfield code="4">070</subfield></datafield>
+<datafield tag="702" ind1=" " ind2="1"><subfield code="3">085265780</subfield>
+<subfield code="a">Malzieu</subfield>
+<subfield code="b">Mathias</subfield>
+<subfield code="f">1974-....</subfield>
+<subfield code="4">080</subfield></datafield>
+<datafield tag="801" ind1=" " ind2="3"><subfield code="a">FR</subfield>
+<subfield code="b">Abes</subfield>
+<subfield code="c">20231201</subfield>
+<subfield code="g">AFNOR</subfield></datafield>
+<datafield tag="214" ind1=" " ind2="0"><subfield code="a">Paris</subfield>
+<subfield code="c">le Livre de poche</subfield>
+<subfield code="d">DL 2019</subfield></datafield>
+<datafield tag="215" ind1=" " ind2=" "><subfield code="a">4 vol.</subfield>
+<subfield code="c">ill. en coul.</subfield>
+<subfield code="d">19 cm</subfield></datafield>
+<datafield tag="463" ind1=" " ind2="|"><subfield code="t">L&apos;écume des jours</subfield></datafield>
+<datafield tag="463" ind1=" " ind2="|"><subfield code="t">Cantilènes en gelée</subfield></datafield>
+<datafield tag="463" ind1=" " ind2="|"><subfield code="t">En avant la zizique</subfield></datafield>
+<datafield tag="300" ind1=" " ind2=" "><subfield code="a">Contient aussi une préface dans un livret illustré de Mathias Malzieu</subfield></datafield>
+<datafield tag="686" ind1=" " ind2=" "><subfield code="a">803</subfield>
+<subfield code="2">Cadre de classement de la Bibliographie nationale française</subfield></datafield>
+<datafield tag="801" ind1=" " ind2="0"><subfield code="a">FR</subfield>
+<subfield code="b">FR-751131015</subfield>
+<subfield code="c">20191115</subfield>
+<subfield code="g">AFNOR</subfield>
+<subfield code="2">intermrc</subfield></datafield>
+<datafield tag="327" ind1="1" ind2=" "><subfield code="a">L&apos;écume des jours</subfield>
+<subfield code="a">Cantilènes en gelée</subfield>
+<subfield code="a">En avant la zizique</subfield></datafield>
+<datafield tag="330" ind1=" " ind2=" "><subfield code="a">Boris Vian présenté par Mathias Malzieu : un coffret collector pour célébrer le centenaire de la naissance de Boris Vian.Ce coffret comprend :  L&apos;Ecume des jours, En avant la zizique, Cantilène en geléeLe coffret sera accompagné d&apos;un livret illustré, avec un texte inédit de Mathias Malzieu, hommage et déclaration d&apos;amour à l&apos;artiste protéiforme qu&apos;était Boris Vian.</subfield>
+<subfield code="2">éditeur</subfield></datafield>
+</record></srw:recordData><srw:recordPosition>2</srw:recordPosition>
+</srw:record>
+
+<srw:record>
+<srw:recordSchema>unimarc</srw:recordSchema>
+<srw:recordPacking>xml</srw:recordPacking>
+<srw:recordData>
+<record>
+<controlfield tag="005">20260519214443.000</controlfield>
+<leader>     cam0 22        450 </leader>
+<controlfield tag="001">045185190</controlfield>
+<controlfield tag="003">http://www.sudoc.fr/045185190</controlfield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">046832998</subfield>
+<subfield code="9">sudoc</subfield></datafield>
+<datafield tag="801" ind1=" " ind2="3"><subfield code="a">FR</subfield>
+<subfield code="b">Abes</subfield>
+<subfield code="c">20260519</subfield>
+<subfield code="g">AFNOR</subfield>
+<subfield code="h">046832998</subfield></datafield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">(OCoLC)40966816</subfield></datafield>
+<datafield tag="010" ind1=" " ind2=" "><subfield code="a">978-2-213-71675-6</subfield>
+<subfield code="b">br.</subfield></datafield>
+<datafield tag="010" ind1=" " ind2=" "><subfield code="a">2-213-60153-4</subfield>
+<subfield code="b">rel.</subfield>
+<subfield code="d">180 FRF</subfield></datafield>
+<datafield tag="073" ind1=" " ind2="1"><subfield code="a">9782213716756</subfield></datafield>
+<datafield tag="073" ind1=" " ind2="1"><subfield code="a">9782213601533</subfield></datafield>
+<datafield tag="020" ind1=" " ind2=" "><subfield code="a">FR</subfield>
+<subfield code="b">09917705</subfield></datafield>
+<datafield tag="021" ind1=" " ind2=" "><subfield code="a">FR</subfield>
+<subfield code="b">DL 99-04313 (D4)</subfield></datafield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">ocm40966816</subfield></datafield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">DYNIX_BUPF_27821</subfield></datafield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">DYNIX_BUFDF_111950</subfield></datafield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">ocm41511482</subfield></datafield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">DYNIX_BUNAN_389081</subfield></datafield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">sib1319677</subfield></datafield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">bua109915</subfield></datafield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">frBN024278691</subfield></datafield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">FRBNF370081230000002</subfield>
+<subfield code="z">FRBNF37008123</subfield></datafield>
+<datafield tag="033" ind1=" " ind2=" "><subfield code="a">http://catalogue.bnf.fr/ark:/12148/cb370081236</subfield></datafield>
+<datafield tag="100" ind1=" " ind2=" "><subfield code="a">20000411h19991999m  y0frey50      ba</subfield></datafield>
+<datafield tag="101" ind1="0" ind2=" "><subfield code="a">fre</subfield>
+<subfield code="2">639-2</subfield></datafield>
+<datafield tag="105" ind1=" " ind2=" "><subfield code="a">a   a   000ay</subfield></datafield>
+<datafield tag="106" ind1=" " ind2=" "><subfield code="a">r</subfield></datafield>
+<datafield tag="181" ind1=" " ind2=" "><subfield code="6">z01</subfield>
+<subfield code="c">txt</subfield>
+<subfield code="2">rdacontent</subfield></datafield>
+<datafield tag="181" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="a">i#</subfield>
+<subfield code="b">xxxe##</subfield></datafield>
+<datafield tag="182" ind1=" " ind2=" "><subfield code="6">z01</subfield>
+<subfield code="c">n</subfield>
+<subfield code="2">rdamedia</subfield></datafield>
+<datafield tag="182" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="a">n</subfield></datafield>
+<datafield tag="183" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="a">nga</subfield>
+<subfield code="2">RDAfrCarrier</subfield></datafield>
+<datafield tag="102" ind1=" " ind2=" "><subfield code="a">FR</subfield></datafield>
+<datafield tag="320" ind1=" " ind2=" "><subfield code="a">Bibliographie p. 525-[544]</subfield></datafield>
+<datafield tag="200" ind1="1" ind2=" "><subfield code="a">Oeuvres</subfield>
+<subfield code="h">Tome deuxième</subfield>
+<subfield code="i">[Oeuvres romanesques 2]</subfield>
+<subfield code="f">Boris Vian</subfield>
+<subfield code="g">édition publiée sous l&apos;autorité d&apos;Ursula Vian Kübler</subfield>
+<subfield code="g">sous la direction de Gilbert Pestureau</subfield>
+<subfield code="g">édition établie et présentée par Gilbert Pestureau et Marc Lapprand</subfield>
+<subfield code="g">documentation et archives : Nicole Bertolt</subfield></datafield>
+<datafield tag="501" ind1="0" ind2=" "><subfield code="a">Oeuvres complètes</subfield></datafield>
+<datafield tag="512" ind1="|" ind2=" "><subfield code="a">Oeuvres de Boris Vian</subfield>
+<subfield code="j">2</subfield></datafield>
+<datafield tag="700" ind1=" " ind2="1"><subfield code="3">027183408</subfield>
+<subfield code="a">Vian</subfield>
+<subfield code="b">Boris</subfield>
+<subfield code="f">1920-1959</subfield>
+<subfield code="4">070</subfield></datafield>
+<datafield tag="701" ind1=" " ind2="1"><subfield code="3">026954699</subfield>
+<subfield code="a">Vian Kübler</subfield>
+<subfield code="b">Ursula</subfield>
+<subfield code="f">1925-2010</subfield>
+<subfield code="4">340</subfield></datafield>
+<datafield tag="701" ind1=" " ind2="1"><subfield code="3">050122282</subfield>
+<subfield code="a">Pestureau</subfield>
+<subfield code="b">Gilbert</subfield>
+<subfield code="f">1933-2000</subfield>
+<subfield code="4">340</subfield></datafield>
+<datafield tag="701" ind1=" " ind2="1"><subfield code="3">032154933</subfield>
+<subfield code="a">Lapprand</subfield>
+<subfield code="b">Marc</subfield>
+<subfield code="f">1955-....</subfield>
+<subfield code="4">340</subfield></datafield>
+<datafield tag="701" ind1=" " ind2="1"><subfield code="3">057789940</subfield>
+<subfield code="a">Bertolt</subfield>
+<subfield code="b">Nicole</subfield>
+<subfield code="f">1957-....</subfield>
+<subfield code="4">340</subfield></datafield>
+<datafield tag="214" ind1=" " ind2="0"><subfield code="a">[Paris]</subfield>
+<subfield code="c">Fayard</subfield>
+<subfield code="d">DL 1999</subfield></datafield>
+<datafield tag="215" ind1=" " ind2=" "><subfield code="a">1 volume (549 pages)</subfield>
+<subfield code="c">couverture illustrée</subfield>
+<subfield code="d">25 cm</subfield></datafield>
+<datafield tag="464" ind1=" " ind2="|"><subfield code="t">L&apos;Écume des jours</subfield></datafield>
+<datafield tag="464" ind1=" " ind2="|"><subfield code="t">Les fourmis</subfield></datafield>
+<datafield tag="464" ind1=" " ind2="|"><subfield code="t">Les morts ont tous la même peau</subfield></datafield>
+<datafield tag="464" ind1=" " ind2="|"><subfield code="t">Les chiens, le désir et la mort</subfield></datafield>
+<datafield tag="608" ind1=" " ind2=" "><subfield code="3">027800512</subfield>
+<subfield code="a">Roman français</subfield>
+<subfield code="2">rameau</subfield></datafield>
+<datafield tag="680" ind1=" " ind2=" "><subfield code="a">PQ2643.I152</subfield></datafield>
+<datafield tag="676" ind1=" " ind2=" "><subfield code="a">800</subfield></datafield>
+<datafield tag="675" ind1=" " ind2=" "><subfield code="a">823</subfield>
+<subfield code="v">Éd. 1967</subfield></datafield>
+<datafield tag="305" ind1=" " ind2=" "><subfield code="a">Autre tirage : 2020</subfield></datafield>
+<datafield tag="801" ind1=" " ind2="3"><subfield code="a">FR</subfield>
+<subfield code="b">BN</subfield>
+<subfield code="c">19990626</subfield>
+<subfield code="g">AFNOR</subfield></datafield>
+<datafield tag="801" ind1=" " ind2="1"><subfield code="a">US</subfield>
+<subfield code="b">OCLC</subfield>
+<subfield code="g">AACR2</subfield></datafield>
+<datafield tag="801" ind1=" " ind2="2"><subfield code="a">FR</subfield>
+<subfield code="b">AUROC</subfield></datafield>
+<datafield tag="801" ind1=" " ind2="3"><subfield code="a">FR</subfield>
+<subfield code="b">SF</subfield>
+<subfield code="c">19000120</subfield></datafield>
+</record></srw:recordData><srw:recordPosition>3</srw:recordPosition>
+</srw:record>
+
+<srw:record>
+<srw:recordSchema>unimarc</srw:recordSchema>
+<srw:recordPacking>xml</srw:recordPacking>
+<srw:recordData>
+<record>
+<controlfield tag="005">20261012115550.000</controlfield>
+<leader>     cam0 22        450 </leader>
+<controlfield tag="001">147557623</controlfield>
+<controlfield tag="003">http://www.sudoc.fr/147557623</controlfield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">(OCoLC)708366513</subfield></datafield>
+<datafield tag="010" ind1=" " ind2=" "><subfield code="a">978-2-07-011552-5</subfield>
+<subfield code="b">rel.</subfield>
+<subfield code="d">57,50 EUR</subfield></datafield>
+<datafield tag="010" ind1=" " ind2=" "><subfield code="a">978-2-07-012944-7</subfield>
+<subfield code="b">édition complète en 2 volumes</subfield></datafield>
+<datafield tag="073" ind1=" " ind2="1"><subfield code="a">9782070129447</subfield>
+<subfield code="b">éd. complète coffret 2 vol.</subfield></datafield>
+<datafield tag="100" ind1=" " ind2=" "><subfield code="a">20101029h20102010m  y0frey50      ba</subfield></datafield>
+<datafield tag="101" ind1="0" ind2=" "><subfield code="a">fre</subfield>
+<subfield code="2">639-2</subfield></datafield>
+<datafield tag="105" ind1=" " ind2=" "><subfield code="a">y   a   000ay</subfield></datafield>
+<datafield tag="106" ind1=" " ind2=" "><subfield code="a">r</subfield></datafield>
+<datafield tag="181" ind1=" " ind2=" "><subfield code="6">z01</subfield>
+<subfield code="c">txt</subfield>
+<subfield code="2">rdacontent</subfield></datafield>
+<datafield tag="181" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="a">i#</subfield>
+<subfield code="b">xxxe##</subfield></datafield>
+<datafield tag="182" ind1=" " ind2=" "><subfield code="6">z01</subfield>
+<subfield code="c">n</subfield>
+<subfield code="2">rdamedia</subfield></datafield>
+<datafield tag="182" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="a">n</subfield></datafield>
+<datafield tag="183" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="a">nga</subfield>
+<subfield code="2">RDAfrCarrier</subfield></datafield>
+<datafield tag="102" ind1=" " ind2=" "><subfield code="a">FR</subfield></datafield>
+<datafield tag="320" ind1=" " ind2=" "><subfield code="a">Notes bibliographiques. Chronolog</subfield></datafield>
+<datafield tag="200" ind1="1" ind2=" "><subfield code="a">Œuvres romanesques complètes</subfield>
+<subfield code="h">I</subfield>
+<subfield code="f">Boris Vian</subfield>
+<subfield code="g">édition publiée sous la direction de Marc Lapprand</subfield>
+<subfield code="g">avec la collaboration de Christelle Gonzalo et François Roulmann</subfield></datafield>
+<datafield tag="501" ind1="1" ind2=" "><subfield code="a">Œuvres choisies</subfield>
+<subfield code="k">2010</subfield></datafield>
+<datafield tag="700" ind1=" " ind2="1"><subfield code="3">027183408</subfield>
+<subfield code="a">Vian</subfield>
+<subfield code="b">Boris</subfield>
+<subfield code="f">1920-1959</subfield>
+<subfield code="4">070</subfield></datafield>
+<datafield tag="701" ind1=" " ind2="1"><subfield code="3">032154933</subfield>
+<subfield code="a">Lapprand</subfield>
+<subfield code="b">Marc</subfield>
+<subfield code="f">1955-....</subfield>
+<subfield code="4">651</subfield></datafield>
+<datafield tag="701" ind1=" " ind2="1"><subfield code="3">128649526</subfield>
+<subfield code="a">Gonzalo</subfield>
+<subfield code="b">Christelle</subfield>
+<subfield code="f">19..-....</subfield>
+<subfield code="4">205</subfield></datafield>
+<datafield tag="701" ind1=" " ind2="1"><subfield code="3">129959774</subfield>
+<subfield code="a">Roulmann</subfield>
+<subfield code="b">François</subfield>
+<subfield code="4">205</subfield></datafield>
+<datafield tag="801" ind1=" " ind2="3"><subfield code="a">FR</subfield>
+<subfield code="b">Abes</subfield>
+<subfield code="c">20261012</subfield>
+<subfield code="g">AFNOR</subfield></datafield>
+<datafield tag="214" ind1=" " ind2="0"><subfield code="a">[Paris]</subfield>
+<subfield code="c">Gallimard</subfield>
+<subfield code="d">DL 2010</subfield></datafield>
+<datafield tag="215" ind1=" " ind2=" "><subfield code="a">1 volume (lxiii-1309 pages)</subfield>
+<subfield code="d">18 cm</subfield></datafield>
+<datafield tag="225" ind1="2" ind2=" "><subfield code="a">Bibliothèque de la Pléiade</subfield>
+<subfield code="v">562</subfield></datafield>
+<datafield tag="410" ind1=" " ind2="|"><subfield code="0">013340182</subfield>
+<subfield code="t">Bibliothèque de la Pléiade</subfield>
+<subfield code="x">0768-0562</subfield>
+<subfield code="v">562</subfield></datafield>
+<datafield tag="464" ind1=" " ind2="|"><subfield code="t">Conte de fées à l&apos;usage des moyennes personnes</subfield></datafield>
+<datafield tag="464" ind1=" " ind2="|"><subfield code="t">Trouble dans les andains</subfield></datafield>
+<datafield tag="464" ind1=" " ind2="|"><subfield code="t">Vercoquin et le plancton</subfield></datafield>
+<datafield tag="464" ind1=" " ind2="|"><subfield code="t">J&apos;irai cracher sur vos tombes</subfield></datafield>
+<datafield tag="464" ind1=" " ind2="|"><subfield code="t">L&apos;écume des jours</subfield></datafield>
+<datafield tag="464" ind1=" " ind2="|"><subfield code="t">L&apos;automne à Pékin</subfield></datafield>
+<datafield tag="464" ind1=" " ind2="|"><subfield code="t">Les morts ont tous la même peau</subfield></datafield>
+<datafield tag="464" ind1=" " ind2="|"><subfield code="t">Les chiens, le désir et la mort</subfield></datafield>
+<datafield tag="608" ind1=" " ind2=" "><subfield code="3">027800512</subfield>
+<subfield code="a">Roman français</subfield>
+<subfield code="2">rameau</subfield></datafield>
+<datafield tag="676" ind1=" " ind2=" "><subfield code="a">843.008</subfield></datafield>
+<datafield tag="304" ind1=" " ind2=" "><subfield code="a">Certaines œuvres attribuées à Vernon Sullivan dans l&apos;ouvrage, pseudonyme de Boris Vian</subfield></datafield>
+<datafield tag="305" ind1=" " ind2=" "><subfield code="a">Autres tirages : 2013, 2019, 2021</subfield></datafield>
+<datafield tag="359" ind1="2" ind2=" "><subfield code="b">Écrits de jeunesse (1942-1943) : Conte de fées à l&apos;usage des moyennes personnes - Trouble dans les Andains</subfield>
+<subfield code="b">Vercoquin et le plancton</subfield>
+<subfield code="b">J&apos;irai cracher sur vos tombes</subfield>
+<subfield code="b">L&apos;Écume des jours</subfield>
+<subfield code="b">L&apos;Automne à Pékin</subfield>
+<subfield code="b">Les Morts ont tous la même peau</subfield>
+<subfield code="b">Les Chiens, le Désir et la Mort</subfield>
+<subfield code="b">Scénarios (1941-1947)</subfield>
+<subfield code="b">Nouvelles (1945-1948)</subfield>
+<subfield code="b">Écrits divers : Articles, chroniques, conférences (1945-1948)</subfield>
+<subfield code="b">En marge des œuvres : textes et documents épars</subfield></datafield>
+</record></srw:recordData><srw:recordPosition>4</srw:recordPosition>
+</srw:record>
+</srw:records>
+    <srw:echoedSearchRetrieveRequest>
+	<srw:version>1.1</srw:version>
+	<srw:query>mti%3D%C3%A9cume+des+jours+and+aut%3Dvian</srw:query>
+	<srw:xQuery><xcql:triple><xcql:boolean> <xcql:value>and</xcql:value></xcql:boolean><xcql:leftOperand><xcql:triple><xcql:boolean> <xcql:value>and</xcql:value></xcql:boolean><xcql:leftOperand><xcql:triple><xcql:boolean> <xcql:value>and</xcql:value></xcql:boolean><xcql:leftOperand><xcql:searchClause><xcql:index>mti</xcql:index><xcql:relation><xcql:value>=</xcql:value></xcql:relation><xcql:term>écume</xcql:term></xcql:searchClause></xcql:leftOperand><xcql:rightOperand><xcql:searchClause><xcql:index>mti</xcql:index><xcql:relation><xcql:value>=</xcql:value></xcql:relation><xcql:term>des</xcql:term></xcql:searchClause></xcql:rightOperand></xcql:triple></xcql:leftOperand><xcql:rightOperand><xcql:searchClause><xcql:index>mti</xcql:index><xcql:relation><xcql:value>=</xcql:value></xcql:relation><xcql:term>jours</xcql:term></xcql:searchClause></xcql:rightOperand></xcql:triple></xcql:leftOperand><xcql:rightOperand><xcql:searchClause><xcql:index>aut</xcql:index><xcql:relation><xcql:value>=</xcql:value></xcql:relation><xcql:term>vian</xcql:term></xcql:searchClause></xcql:rightOperand></xcql:triple></srw:xQuery>
+	<startRecord>1</startRecord>
+	<maximumRecords>4</maximumRecords>
+	<srw:recordPacking>xml</srw:recordPacking>
+	<srw:recordSchema>unimarc</srw:recordSchema>
+	
+	<srw:stylesheet>https://www.sudoc.abes.fr/cbs/sru/DB=2.1/?xsl=searchRetrieveResponse</srw:stylesheet>
+    </srw:echoedSearchRetrieveRequest>
+    <diag:diagnostics>
+        <diag:uri>info:srw/diagnostic/1/0</diag:uri>
+	
+	
+    </diag:diagnostics>
+    <srw:extraResponseData/>
+</srw:searchRetrieveResponse>

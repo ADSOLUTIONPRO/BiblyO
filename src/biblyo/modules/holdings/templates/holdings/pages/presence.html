@@ -1,0 +1,35 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header %}
+{% from "components/buttons.html" import button, link_button %}
+{% from "components/feedback.html" import alert, badge %}
+{% import "holdings/components.html" as parts with context %}
+{% block title %}{{ _("Confirmer la présence") }} — biblyO{% endblock %}
+{% block content %}
+{% call page_header(_("Confirmer la présence"), _("Vérifiés sur l’étagère, ces exemplaires passent « En place » et deviennent prêtables"), "she", "check") %}
+  {{ link_button(_("Retour"), "/emplacements/non-ranges?etat=en_preparation", "g", "undo") }}
+{% endcall %}
+{% if message %}{{ alert(message, "late") }}{% endif %}
+{% call parts.layout(tree, unshelved_count) %}
+{% set ready = lines | selectattr("refusal", "none") | list %}
+<section class="card" aria-labelledby="titre-presence">
+  <div class="card-h"><h2 id="titre-presence">{{ _("{n} à confirmer sur {t}").format(n=ready | length, t=lines | length) }}</h2></div>
+  <div class="card-b col">
+    <ul class="plain-list">
+      {% for line in lines %}
+      <li><b>{{ line.brief.title }}</b> <span class="mono faint small">{{ line.brief.barcode }}</span>
+        <div class="small {% if line.refusal %}late-ink{% else %}muted{% endif %}">{{ line.refusal or line.path }}</div></li>
+      {% endfor %}
+    </ul>
+    {% if ready and ready | length == lines | length %}
+    <form class="form-actions" method="post" action="/emplacements/verifier">
+      <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+      {% for line in lines %}<input type="hidden" name="exemplaire" value="{{ line.brief.id }}"><input type="hidden" name="v_{{ line.brief.id }}" value="{{ line.version }}">{% endfor %}
+      {{ button(_("Je confirme les avoir vus sur l’étagère"), "p", "check", type="submit") }}
+    </form>
+    {% elif ready %}
+    {{ alert(_("Certains exemplaires ne peuvent pas être confirmés : retirez-les de la sélection. Rien ne change tant qu’ils y sont."), "due") }}
+    {% endif %}
+  </div>
+</section>
+{% endcall %}
+{% endblock %}

@@ -1,0 +1,154 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header %}
+{% from "components/buttons.html" import link_button %}
+{% from "components/feedback.html" import empty_state, soon_tag, alert %}
+{% from "components/icons.html" import icon %}
+{% from "components/catalogue.html" import book_card, mini, filter_select %}
+{% from "components/availability.html" import work_summary %}
+{% set can_lend = can("circulation.lend") and can("patrons.view") %}
+{% block title %}{{ _("Catalogue") }} — biblyO{% endblock %}
+{% block content %}
+<div id="zone-catalogue">
+{% set subtitle = (catalogue_total | number) ~ " " ~ _("notices") %}
+{% call page_header(_("Catalogue"), subtitle, "cat", "book") %}
+  {% if planned_visible %}<span class="btn btn-s btn-soon hide-m" title="{{ _('À venir') }}">{{ icon("download", 16) }}<span>{{ _("Exporter") }}</span></span>{% endif %}
+  {% if can("catalogue.edit") %}{{ link_button(_("Listes"), "/admin/catalogue", "g", "tag", extra="hide-m") }}{% endif %}
+  {% if can("catalogue.edit") %}{{ link_button(_("Ajouter"), "/catalogue/notices/nouvelle", "p", "plus") }}{% endif %}
+{% endcall %}
+
+{% if message %}{{ alert(message, "late") }}{% endif %}
+
+<div class="card cat-bar">
+  <form id="f-catalogue" class="col gap-m" method="get" action="/catalogue" role="search"
+        hx-get="/catalogue" hx-trigger="change from:#zone-catalogue, input delay:300ms from:#cat-q, submit"
+        hx-target="#zone-catalogue" hx-select="#zone-catalogue" hx-swap="outerHTML" hx-sync="this:replace">
+    <input type="hidden" name="view" value="{{ criteria.view }}">
+    <div class="row gap-s">
+      <div class="in-icon grow cat-q-wrap">
+        {{ icon("search", 17) }}
+        <input id="cat-q" class="in cat-q" type="search" name="q" value="{{ criteria.q }}" placeholder="{{ _('Titre, auteur, ISBN, éditeur, série, cote, mot-clé…') }}" aria-label="{{ _('Rechercher dans le catalogue') }}">
+      </div>
+      <div class="seg" role="group" aria-label="{{ _('Affichage') }}">
+        <button type="submit" name="view" value="grid" aria-label="{{ _('Grille') }}" aria-pressed="{{ 'true' if criteria.view == 'grid' else 'false' }}">{{ icon("grid", 15) }}<span class="hide-m">{{ _("Grille") }}</span></button>
+        <button type="submit" name="view" value="list" aria-label="{{ _('Liste') }}" aria-pressed="{{ 'true' if criteria.view == 'list' else 'false' }}">{{ icon("list", 15) }}<span class="hide-m">{{ _("Liste") }}</span></button>
+        <a href="/catalogue/series" aria-label="{{ _('Séries') }}">{{ icon("series", 15) }}<span class="hide-m">{{ _("Séries") }}</span></a>
+      </div>
+    </div>
+    <div class="row gap-xs">
+      {{ filter_select("type", _("Type"), options.types, criteria.type) }}
+      {{ filter_select("cat", _("Catégorie"), options.categories, criteria.cat) }}
+      {{ filter_select("meta", _("Métadonnées"), meta_options, criteria.meta) }}
+      {% for field in ("editeur", "collection", "serie", "contributeur") %}
+      {% if field in options.refs %}
+      <input type="hidden" name="{{ field }}" value="{{ criteria[field] }}">
+      <a class="chip" aria-current="true" href="{{ criteria.without(field) }}">{{ options.refs[field] }} {{ icon("x", 13) }}<span class="sr">{{ _("Retirer ce filtre") }}</span></a>
+      {% endif %}
+      {% endfor %}
+      <noscript><button class="btn btn-s btn-sm" type="submit">{{ _("Filtrer") }}</button></noscript>
+      {% if criteria.has_filters %}{{ link_button(_("Effacer"), "/catalogue" ~ ("?view=list" if criteria.view == "list" else ""), "g", "x", "sm") }}{% endif %}
+    </div>
+    <details class="adv"{% if criteria.advanced_open %} open{% endif %}>
+      <summary>{{ _("Recherche avancée") }}</summary>
+      <div class="adv-grid">
+        {{ filter_select("section", _("Section"), options.sections, criteria.section, block=True) }}
+        {{ filter_select("genre", _("Genre"), options.genres, criteria.genre, block=True) }}
+        {{ filter_select("public", _("Public"), audience_options, criteria.public, block=True) }}
+        {{ filter_select("langue", _("Langue"), language_options, criteria.langue, block=True) }}
+        {{ filter_select("exemplaires", _("Exemplaires"), copies_options, criteria.exemplaires, block=True) }}
+        {{ filter_select("emplacement", _("Emplacement"), options.places, criteria.emplacement, block=True) }}
+        {{ filter_select("statut", _("État"), status_options, criteria.statut, block=True, empty=_("Actives")) }}
+        <div class="fld"><label for="f-mot">{{ _("Mot-clé") }}</label><input class="in" id="f-mot" name="mot" value="{{ criteria.mot }}"></div>
+        {% if "editeur" not in options.refs %}<div class="fld"><label for="f-editeur">{{ _("Éditeur") }}</label><input class="in" id="f-editeur" name="editeur" value="{{ criteria.editeur }}"></div>{% endif %}
+        {% if "collection" not in options.refs %}<div class="fld"><label for="f-collection">{{ _("Collection") }}</label><input class="in" id="f-collection" name="collection" value="{{ criteria.collection }}"></div>{% endif %}
+        {% if "serie" not in options.refs %}<div class="fld"><label for="f-serie">{{ _("Série") }}</label><input class="in" id="f-serie" name="serie" value="{{ criteria.serie }}"></div>{% endif %}
+        {% if "contributeur" not in options.refs %}<div class="fld"><label for="f-contributeur">{{ _("Contributeur") }}</label><input class="in" id="f-contributeur" name="contributeur" value="{{ criteria.contributeur }}"></div>{% endif %}
+        <div class="fld"><label for="f-annee-min">{{ _("Année, à partir de") }}</label><input class="in" id="f-annee-min" name="annee_min" inputmode="numeric" value="{{ criteria.annee_min }}"></div>
+        <div class="fld"><label for="f-annee-max">{{ _("Année, jusqu’à") }}</label><input class="in" id="f-annee-max" name="annee_max" inputmode="numeric" value="{{ criteria.annee_max }}"></div>
+      </div>
+    </details>
+  </form>
+  {% if saved %}
+  <div class="row gap-xs">
+    <span class="faint small">{{ _("Recherches enregistrées") }}</span>
+    {% for item in saved %}
+    <span class="saved"><a class="chip" href="/catalogue?{{ item.criteria | urlencode }}">{{ icon("star", 13) }}{{ item.name }}</a><form method="post" action="/catalogue/recherches/{{ item.id }}/supprimer"><input type="hidden" name="_csrf" value="{{ csrf_token }}"><button class="chip" type="submit" aria-label="{{ _('Supprimer la recherche') }} {{ item.name }}">✕</button></form></span>
+    {% endfor %}
+  </div>
+  {% endif %}
+</div>
+
+<div class="row between gap-s mb-s">
+  <span class="muted small" aria-live="polite">{{ result.total | number }} {{ _("notice") if result.total == 1 else _("notices") }} · {{ result.copies | number }} {{ _("exemplaire") if result.copies == 1 else _("exemplaires") }}</span>
+  <span class="row gap-xs">
+    {% if criteria.has_filters %}
+    <details class="save-search">
+      <summary class="btn btn-g btn-sm">{{ icon("star", 14) }}<span>{{ _("Enregistrer") }}</span></summary>
+      <form method="post" action="/catalogue/recherches" class="row gap-xs">
+        <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+        <input type="hidden" name="criteres" value="{{ criteria.query_string(page=1) }}">
+        <input class="in in-sm" name="nom" maxlength="60" required aria-label="{{ _('Nom de la recherche') }}" placeholder="{{ _('Nom de la recherche') }}">
+        <button class="btn btn-s btn-sm" type="submit">{{ _("Enregistrer") }}</button>
+      </form>
+    </details>
+    {% endif %}
+    <select class="in in-sm" name="tri" form="f-catalogue" aria-label="{{ _('Trier') }}">
+      {% for value, label in sort_options %}<option value="{{ value }}"{% if value == criteria.tri %} selected{% endif %}>{{ label }}</option>{% endfor %}
+    </select>
+  </span>
+</div>
+
+{% if result.cards %}
+  {% if criteria.view == "list" %}
+  <section class="card tbl-m-cards tbl-t-cards" aria-label="{{ _('Résultats') }}">
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <thead><tr>
+          <th scope="col">{{ _("Titre") }}</th><th scope="col">{{ _("Auteurs") }}</th><th scope="col">{{ _("Série") }}</th><th scope="col">{{ _("Cote") }}</th><th scope="col">{{ _("Emplacement") }}</th><th scope="col" class="hmd">{{ _("Éditeur") }}</th><th scope="col" class="hmd">{{ _("Année") }}</th><th scope="col" class="hmd">{{ _("ISBN") }}</th><th scope="col" class="hmd hmw">{{ _("Éditions") }}</th><th scope="col" class="hmd hmw">{{ _("Exempl.") }}</th><th scope="col">{{ _("Disponibilité") }}</th><th scope="col" class="hmd hmw">{{ _("Complétude") }}</th><th scope="col"><span class="sr">{{ _("Actions") }}</span></th>
+        </tr></thead>
+        <tbody>
+          {% for card in result.cards %}
+          <tr>
+            <td><span class="row nowrap gap-xs">{{ mini(card.title, card.color, card.thumbnail) }}<a class="t" href="/catalogue/notices/{{ card.id }}">{{ card.title }}</a>{% if card.is_archived %}<span class="soon-tag">{{ _("Archivée") }}</span>{% endif %}</span></td>
+            <td class="hm">{{ card.authors_text }}</td>
+            <td>{% if card.series_title %}{{ card.series_title }}{% if card.volume_text %} · {{ _("t.") }} {{ card.volume_text }}{% endif %}{% endif %}</td>
+            <td><span class="mono small">{{ card.call_number }}</span></td>
+            <td>{{ card.place }}</td>
+            <td class="hm hmd">{{ card.publisher }}</td>
+            <td class="hm hmd">{{ card.year or "" }}</td>
+            <td class="hm hmd"><span class="mono small">{{ card.isbn }}</span></td>
+            <td class="hm hmd hmw">{{ card.edition_count }}</td>
+            <td class="hm hmd hmw">{{ card.copy_count }}</td>
+            <td>{{ work_summary(card.availability, with_total=False) }}</td>
+            <td class="hm hmd hmw">{{ card.completeness }} %</td>
+            <td class="ta-end"><span class="row nowrap gap-xs row-end loan-acts">
+              {% if can_lend and card.availability and card.availability.available and not card.is_archived %}{{ link_button(_("Prêter"), "/comptoir/livre/" ~ card.id ~ "/preter", "s", "out", "sm", aria_label=_("Prêter") ~ " « " ~ card.title ~ " »") }}{% endif %}
+              {% if card.copy_count %}{{ link_button(_("Exemplaires"), "/catalogue/notices/" ~ card.id ~ "?onglet=exemplaires", "g", "", "sm", aria_label=_("Exemplaires de") ~ " « " ~ card.title ~ " »") }}{% endif %}
+            </span></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+  {% else %}
+  <div class="cgrid">{% for card in result.cards %}{{ book_card(card, can_lend) }}{% endfor %}</div>
+  {% endif %}
+
+  {% if result.pages > 1 %}
+  <nav class="pager" aria-label="{{ _('Pagination') }}">
+    {% if result.page > 1 %}<a href="{{ criteria.url(page=result.page - 1) }}" rel="prev" aria-label="{{ _('Page précédente') }}">‹</a>{% endif %}
+    {% for number in result.window %}
+      {% if number is none %}<span class="gap">…</span>
+      {% elif number == result.page %}<span aria-current="page">{{ number }}</span>
+      {% else %}<a href="{{ criteria.url(page=number) }}">{{ number }}</a>{% endif %}
+    {% endfor %}
+    {% if result.page < result.pages %}<a href="{{ criteria.url(page=result.page + 1) }}" rel="next" aria-label="{{ _('Page suivante') }}">›</a>{% endif %}
+  </nav>
+  {% endif %}
+{% elif criteria.has_filters %}
+<section class="card" aria-label="{{ _('Résultats') }}">{{ empty_state("search", _("Aucun résultat"), _("Aucune notice ne correspond à ces critères. Élargissez la recherche.")) }}</section>
+{% else %}
+<section class="card" aria-label="{{ _('Catalogue') }}">{{ empty_state("book", _("Le catalogue est vide"), _("Ajoutez un premier livre pour commencer.")) }}</section>
+{% endif %}
+</div>
+{% endblock %}

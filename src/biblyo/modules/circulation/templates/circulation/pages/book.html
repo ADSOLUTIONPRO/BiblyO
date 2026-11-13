@@ -1,0 +1,80 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header %}
+{% from "components/buttons.html" import link_button, button %}
+{% from "components/feedback.html" import badge, alert %}
+{% from "components/overlays.html" import modal %}
+{% from "components/catalogue.html" import mini %}
+{% from "components/availability.html" import copy_badge, work_summary %}
+{% block title %}{{ _("Prêter ou rendre") }} · {{ title }} — biblyO{% endblock %}
+{% block content %}
+{% call page_header(_("Prêter ou rendre « %(title)s »", title=title), _("Choisissez les exemplaires à prêter, ou enregistrez un retour. Rien n’est enregistré sans votre confirmation."), "loan", "out") %}
+  {{ link_button(_("Revenir au livre"), "/catalogue/notices/" ~ work_id, "g", "undo") }}
+{% endcall %}
+
+{% if returned %}
+<section class="card returned" aria-labelledby="rt-titre" role="status">
+  <div class="card-h"><h2 id="rt-titre">{{ _("Retour enregistré") }}</h2>{{ copy_badge(returned.state) }}</div>
+  <div class="card-b col gap-xs">
+    <p class="m0"><b>{{ returned.title }}</b> <span class="mono small">{{ returned.barcode }}</span> · {{ _("rendu le") }} {{ returned.day }}{% if returned.days_overdue %} {{ badge(_("En retard") ~ " · " ~ returned.days_overdue ~ " " ~ (_("jour") if returned.days_overdue == 1 else _("jours")), "late") }}{% endif %}</p>
+    <p class="m0">{% if returned.location_path %}{{ _("À ranger") }} : <b>{{ returned.location_path }}</b>{% if returned.position %} · {{ _("place") }} {{ returned.position }}{% endif %} · <a href="/emplacements/localiser?q={{ returned.barcode }}">{{ _("Localiser l’emplacement") }}</a>{% else %}{{ _("Cet exemplaire n’a pas de place attribuée.") }}{% endif %}</p>
+  </div>
+</section>
+{% elif message %}{{ alert(message.message, "late" if message.nature.value == "interdiction" else "info") }}{% endif %}
+
+<section class="card book-head" aria-label="{{ _('Le livre') }}">
+  {% if card %}{{ mini(card.title, card.color, card.thumbnail) }}{% endif %}
+  <div class="col gap-xs min0">
+    <b>{{ title }}</b>
+    {% if card %}<span class="muted small">{% if card.authors_text %}{{ card.authors_text }}{% endif %}{% if card.series_title %} · {{ card.series_title }}{% if card.volume_text %}, {{ _("tome") }} {{ card.volume_text }}{% endif %}{% endif %} · {{ card.type_label }}</span>
+    {{ work_summary(card.availability) }}{% endif %}
+  </div>
+</section>
+
+{% if not copies %}
+  {{ alert(_("Ce livre n’a encore aucun exemplaire physique : il n’y a rien à prêter."), "info", _("Aucun exemplaire")) }}
+  {% if can("holdings.edit") %}<p>{{ link_button(_("Ajouter un exemplaire"), "/catalogue/notices/" ~ work_id ~ "?onglet=exemplaires#ajout-exemplaire", "s", "plus") }}</p>{% endif %}
+{% else %}
+  {% if not loanable %}{{ alert(_("Aucun exemplaire ne peut sortir maintenant. La raison est indiquée pour chacun."), "due", _("Rien à prêter pour l’instant")) }}{% endif %}
+  <form class="card" method="get" action="/comptoir" aria-labelledby="pl-titre">
+    <input type="hidden" name="livre" value="{{ work_id }}">
+    <div class="card-h"><h2 id="pl-titre">{{ _("Exemplaires") }}</h2><span class="faint small">{{ loanable | length }} / {{ copies | length }} {{ _("disponible") if loanable | length == 1 else _("disponibles") }}</span></div>
+    <div class="card-b">
+      {% for item in copies %}
+      <div class="book-copy" id="retour-{{ item.id }}">
+        {% if item.reason is none %}
+        <label class="check grow" for="pl-{{ item.id }}"><input type="checkbox" id="pl-{{ item.id }}" name="exemplaire" value="{{ item.id }}"{% if item.id == loanable[0].id %} checked{% endif %}>
+          <span><b class="mono">{{ item.barcode }}</b>{% if item.call_number %} · {{ item.call_number }}{% endif %}{% if item.edition %} · {{ item.edition }}{% endif %}<span class="faint small block">{% if item.location %}{{ item.location }}{% if item.position %} · {{ _("place") }} {{ item.position }}{% endif %}{% else %}{{ _("Sans place attribuée") }}{% endif %}</span></span></label>
+        {{ copy_badge(item.state) }}
+        {% if item.caution %}<span class="small block">{{ badge(item.caution.message, "due", dot=False) }}</span>{% endif %}
+        {% else %}
+        <span class="grow"><b class="mono">{{ item.barcode }}</b>{% if item.call_number %} · {{ item.call_number }}{% endif %}{% if item.edition %} · {{ item.edition }}{% endif %}<span class="small block">{{ item.reason.message }}</span>{% if item.location and item.active_loan %}<span class="faint small block">{{ _("Sa place l’attend") }} : {{ item.location }}{% if item.position %} · {{ _("place") }} {{ item.position }}{% endif %}</span>{% endif %}</span>
+        {{ copy_badge(item.state) }}
+        <span class="row gap-xs">
+          {% if item.active_loan and can("circulation.lend") %}<button type="button" class="btn btn-s btn-sm" data-open-dialog="rendre-{{ item.id }}">{{ _("Enregistrer le retour") }}</button>{% endif %}
+          {% if item.loan_id %}<a class="btn btn-g btn-sm" href="/prets/{{ item.loan_id }}">{{ _("Voir le prêt") }}</a>{% endif %}
+          <a class="btn btn-g btn-sm" href="/exemplaires/{{ item.id }}">{{ _("Fiche de l’exemplaire") }}</a>
+        </span>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+    {% if loanable %}<div class="card-b"><div class="form-actions">{{ button(_("Prêter les exemplaires cochés"), "p", "out", type="submit") }}</div><p class="muted small m0">{{ _("Le comptoir s’ouvre avec ces livres : vous choisirez le lecteur dans la liste, puis vous confirmerez.") }}</p></div>{% endif %}
+  </form>
+  {% if out and can("circulation.lend") %}
+  <span id="retours"></span>
+  {% for item in out %}
+  {% call modal("rendre-" ~ item.id, _("Enregistrer le retour ?")) %}
+    <p class="m0"><b>{{ title }}</b> · <span class="mono">{{ item.barcode }}</span></p>
+    <p class="muted small">{{ item.reason.message if item.reason else "" }} {{ _("Le prêt sera clos aujourd’hui. Son historique est conservé.") }}</p>
+    <form class="form-actions" method="post" action="/comptoir/livre/{{ work_id }}/retour">
+      <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+      <input type="hidden" name="exemplaire_rendu" value="{{ item.id }}">
+      <input type="hidden" name="pret" value="{{ item.active_loan }}">
+      {{ button(_("Confirmer le retour"), "p", "ret", type="submit") }}
+      <button type="button" class="btn btn-g" data-close-dialog>{{ _("Annuler") }}</button>
+    </form>
+  {% endcall %}
+  {% endfor %}
+  {% endif %}
+{% endif %}
+{% endblock %}

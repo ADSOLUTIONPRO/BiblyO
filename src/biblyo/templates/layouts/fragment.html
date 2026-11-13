@@ -1,0 +1,5 @@
+{# Réponse à une requête HTMX : le contenu seul, sans la coquille. #}
+{% from "components/feedback.html" import toast %}
+<title>{% block title %}biblyO{% endblock %}</title>
+{% block content %}{% endblock %}
+{% if flash %}<div id="toasts" hx-swap-oob="beforeend">{{ toast(flash[1], flash[0]) }}</div>{% endif %}

@@ -1,0 +1,19 @@
+{# Résultats de la palette. Repères limités : numéro, carte en service, année, foyer, responsable. Ni coordonnée, ni commune. #}
+{% from "components/feedback.html" import badge %}
+{% from "patrons/components.html" import initials %}
+{% if result is none %}
+<p class="pal-note" data-note>{{ _("Trop de recherches de lecteurs en peu de temps. Patientez une minute.") }}</p>
+{% elif result.rows %}
+<div class="gl">{{ _("Lecteurs") }}</div>
+{% for row in result.rows %}
+<a class="it m-rdr" data-server href="/lecteurs/{{ row.id }}">
+  {{ initials(row, small=True) }}
+  <span class="grow">{{ row.name }}{% if row.homonym %} {{ badge(_("Homonyme"), "due", dot=False) }}{% endif %}
+    <span class="pal-who"><span class="mono">{{ row.number }}</span>{% if row.marks.card %} · <span class="mono">{{ row.marks.card }}</span>{% endif %}{% if row.marks.birth_year %} · {{ _("naissance") }} {{ row.marks.birth_year }}{% endif %}{% if row.marks.household %} · {{ row.marks.household }}{% endif %}{% if row.marks.guardian %} · {{ _("resp.") }} {{ row.marks.guardian }}{% endif %}</span>
+  </span>
+  <span class="pal-cat">{{ row.category_label }}</span>
+  {% if row.status != "active" %}{{ badge(row.status_label, "neutral") }}{% endif %}
+</a>
+{% endfor %}
+{% if result.more %}<p class="pal-note" data-note>{{ _("D’autres lecteurs correspondent : précisez le nom, ou tapez un numéro.") }}</p>{% endif %}
+{% endif %}

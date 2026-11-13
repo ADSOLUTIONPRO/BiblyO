@@ -1,0 +1,130 @@
+{% extends layout %}
+{% from "components/icons.html" import icon, logo, wordmark %}
+{% from "components/buttons.html" import button, link_button, icon_button %}
+{% from "components/forms.html" import field, textarea, select, checkbox %}
+{% from "components/feedback.html" import badge, soon_tag, alert, toast, empty_state, skeleton %}
+{% from "components/layout.html" import page_header, card, kpi_tile, ring, progress_bar, tabs, chip, segmented, data_table, pagination %}
+{% from "components/overlays.html" import modal, sheet, dropdown %}
+{% from "components/shelves.html" import shelf_unit, shelf_legend, location_tree, room_plan %}
+{% from "patrons/components.html" import patron_picker %}
+{% block title %}{{ _("Composants") }} — biblyO{% endblock %}
+{% block content %}
+{% call page_header(_("Composants"), _("Catalogue vivant du design system, en développement seulement."), "cat", "grid") %}
+  {{ button(_("Action"), "p", "plus") }}
+{% endcall %}
+<div class="stack">
+  {% call card(_("Identité"), "c-identite") %}
+  <div class="row">{{ logo(48) }}<span class="auth-brand">{{ wordmark() }}</span></div>
+  {% endcall %}
+
+  {% call card(_("Boutons"), "c-boutons") %}
+  <div class="col">
+    <div class="row">
+      {{ button(_("Principal"), "p") }}{{ button(_("Secondaire"), "s") }}{{ button(_("Discret"), "g") }}{{ button(_("Danger"), "d") }}{{ button(_("Danger discret"), "dg") }}
+    </div>
+    <div class="row">
+      {{ button(_("Petit"), "p", size="sm") }}{{ button(_("Moyen"), "p") }}{{ button(_("Grand"), "p", size="lg") }}{{ button(_("Désactivé"), "p", disabled=True) }}
+      {{ button(_("Avec icône"), "s", "scan") }}{{ button(_("Raccourci"), "s", "out", kbd="P") }}{{ link_button(_("Lien-bouton"), "/", "s", "home") }}{{ icon_button(_("Bouton icône"), "search") }}
+    </div>
+  </div>
+  {% endcall %}
+
+  {% call card(_("Champs"), "c-champs") %}
+  <div class="grid g2">
+    {{ field("c-texte", _("Champ"), help=_("Texte d’aide")) }}
+    {{ field("c-requis", _("Champ obligatoire"), required=True) }}
+    {{ field("c-erreur", _("Champ en erreur"), value="abc", error=_("Ce champ est invalide.")) }}
+    {{ field("c-secret", _("Mot de passe"), type="password", autocomplete="off") }}
+    {{ select("c-liste", _("Liste déroulante"), [("a", _("Premier")), ("b", _("Second"))], "b") }}
+    {{ textarea("c-zone", _("Zone de texte"), help=_("Plusieurs lignes")) }}
+  </div>
+  <fieldset class="fs">
+    <legend>{{ _("Cases à cocher") }}</legend>
+    {{ checkbox("c-case", _("Non cochée"), "1") }}{{ checkbox("c-case", _("Cochée"), "2", True) }}{{ checkbox("c-case", _("Avec aide"), "3", help=_("Précision")) }}{{ checkbox("c-case", _("Désactivée"), "4", disabled=True) }}
+  </fieldset>
+  {% endcall %}
+
+  {% call card(_("États"), "c-etats") %}
+  <div class="col">
+    <div class="row">
+      {{ badge(_("Disponible"), "ok") }}{{ badge(_("Sorti"), "loan") }}{{ badge(_("À échéance"), "due") }}{{ badge(_("En retard"), "late") }}{{ badge(_("Information"), "info") }}{{ badge(_("Neutre")) }}{{ soon_tag(_("À venir")) }}
+    </div>
+    {{ alert(_("Message d’information."), "info") }}
+    {{ alert(_("Opération réussie."), "ok", _("Terminé")) }}
+    {{ alert(_("Point d’attention."), "due") }}
+    {{ alert(_("Erreur à corriger."), "late") }}
+    <div class="row">{{ toast(_("Notification de réussite"), "ok") }}{{ toast(_("Notification d’erreur"), "late") }}</div>
+    {{ skeleton(2) }}
+  </div>
+  {% endcall %}
+
+  <div class="grid g4">
+    {{ kpi_tile(_("Indicateur"), 128, _("Sous-titre"), "cat", "book", "/") }}
+    {{ kpi_tile(_("Sans lien"), 42, _("Sous-titre"), "rdr", "users") }}
+    <div class="kpi m-she"><span class="k">{{ _("Anneau") }}</span>{{ ring(68, _("%(n)s %% rangés", n=68), 72, "she") }}</div>
+    <div class="kpi m-inv"><span class="k">{{ _("Barre") }}</span>{{ progress_bar(40, _("%(n)s %% vérifiés", n=40), "inv") }}</div>
+  </div>
+
+  {% call card(_("Couleurs de module"), "c-modules") %}
+  <div class="swatches">
+    {% for code, label in [("cat", _("Catalogue")), ("ser", _("Séries")), ("she", _("Étagères")), ("loan", _("Prêts")), ("rdr", _("Lecteurs")), ("enr", _("Enrichissement")), ("inv", _("Inventaire")), ("io", _("Import")), ("sta", _("Statistiques"))] %}
+    <div class="swatch m-{{ code }}">{{ label }}</div>
+    {% endfor %}
+  </div>
+  {% endcall %}
+
+  {% call card(_("Navigation"), "c-navigation") %}
+  <div class="col">
+    {{ tabs([{"label": _("Actif"), "href": "/_composants", "current": True, "count": 3}, {"label": _("Autre"), "href": "/_composants", "current": False}], _("Exemple d’onglets"), "cat") }}
+    <div class="row">{{ chip(_("Filtre actif"), "/_composants", True) }}{{ chip(_("Filtre"), "/_composants") }}{{ segmented([{"label": _("Grille"), "href": "/_composants", "current": True}, {"label": _("Liste"), "href": "/_composants", "current": False}], _("Affichage")) }}</div>
+    {{ pagination(1, pages_short, "/_composants?page=") }}
+    {{ pagination(6, pages_long, "/_composants?page=") }}
+  </div>
+  {% endcall %}
+
+  <div class="card">
+    {% call data_table(_("Exemple de tableau")) %}
+    <thead><tr><th scope="col">{{ _("Colonne") }}</th><th scope="col">{{ _("État") }}</th></tr></thead>
+    <tbody><tr><td class="t">{{ _("Ligne") }}</td><td>{{ badge(_("Disponible"), "ok") }}</td></tr><tr><td class="t">{{ _("Ligne") }}</td><td>{{ badge(_("En retard"), "late") }}</td></tr></tbody>
+    {% endcall %}
+  </div>
+
+  {% call card(_("Couches"), "c-couches") %}
+  <div class="row">
+    <button type="button" class="btn btn-s" data-open-dialog="c-modale">{{ _("Ouvrir une fenêtre") }}</button>
+    <button type="button" class="btn btn-s" data-open-dialog="c-feuille">{{ _("Ouvrir une feuille") }}</button>
+    {% call dropdown(_("Menu déroulant")) %}
+      <a class="mi-i" href="/_composants">{{ icon("edit", 16) }}{{ _("Modifier") }}</a>
+      <a class="mi-i" href="/_composants">{{ icon("copy", 16) }}{{ _("Dupliquer") }}</a>
+    {% endcall %}
+  </div>
+  {% endcall %}
+
+  {% call card(_("Sélecteur de lecteur"), "c-lecteur") %}
+    {% if can("patrons.view") %}{{ patron_picker("demo_lecteur", _("Choisir un lecteur"), help=_("Tapez un nom, ou scannez une carte puis Entrée. Interroge les vraies fiches.")) }}{% endif %}
+  {% endcall %}
+  {% call card(_("Étagères"), "c-etageres") %}
+  <div class="stack">
+    <p class="muted">{{ _("Jeu fictif : une série regroupée, une étagère pleine, une étagère dépassée, un bac vide, et chaque état d’un exemplaire. L’Étagère 2 est encadrée, un de ses dos est localisé.") }}</p>
+    {{ shelf_unit(demo_unit, heading=3) }}
+    {{ shelf_legend() }}
+    <h3 class="muted">{{ _("Arbre des emplacements") }}</h3>
+    {{ location_tree(demo_tree, _("Emplacements de démonstration")) }}
+    <h3 class="muted">{{ _("Plan de la salle") }}</h3>
+    {{ room_plan(demo_room, _("Meubles de la salle de démonstration")) }}
+  </div>
+  {% endcall %}
+
+  <section class="card" aria-label="{{ _('État vide') }}">
+    {% call empty_state("search", _("Aucun résultat"), _("Modifiez votre recherche ou vos filtres.")) %}
+      {{ button(_("Effacer les filtres"), "s") }}
+    {% endcall %}
+  </section>
+</div>
+{% call modal("c-modale", _("Fenêtre modale")) %}
+  <p>{{ _("Le navigateur gère le focus, la touche Échap et le fond.") }}</p>
+{% endcall %}
+{% call sheet("c-feuille", _("Feuille latérale")) %}
+  <p>{{ _("Même mécanique, en panneau.") }}</p>
+{% endcall %}
+{% endblock %}

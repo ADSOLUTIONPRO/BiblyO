@@ -1,0 +1,36 @@
+{# Disponibilité de circulation : une seule source, holdings/availability.py. Le libellé porte le sens, la couleur ne
+   fait que le souligner. Jamais d'emprunteur ici : l'état, sa raison et l'échéance (D11 bis). #}
+{% from "components/feedback.html" import badge %}
+
+{# L'état d'un exemplaire : « Disponible », « Emprunté · retour le … », « En retard · 3 jours », « Indisponible · … ». #}
+{% macro copy_badge(state, short=False) %}
+{% if state %}<span class="avail">{{ badge(state.short if short else state.label, state.badge) }}</span>{% endif %}
+{%- endmacro %}
+
+{# Ce qu'une carte montre d'abord : « 2 disponibles », « Aucun disponible », « Emprunté · retour le 01/12 ». #}
+{% macro work_badge(counts) %}
+{% if counts %}{% set label, kind = counts.headline %}<span class="avail">{{ badge(label, kind) }}</span>{% endif %}
+{%- endmacro %}
+
+{# Tous les états présents, sans double compte : « 2 disponibles · 1 emprunté · 1 en retard ». #}
+{% macro work_summary(counts, with_total=True) %}
+{% if counts %}
+<span class="avail-sum" role="group" aria-label="{{ _('Disponibilité') }}">
+  {% if counts.total == 0 %}{{ badge(_("Aucun exemplaire"), "neutral") }}
+  {% else %}
+  {% for label, kind in counts.segments %}{{ badge(label, kind) }}{% endfor %}
+  {% if with_total and counts.segments | length > 1 %}<span class="faint small">{{ _("sur") }} {{ counts.total }}</span>{% endif %}
+  {% endif %}
+</span>
+{% endif %}
+{%- endmacro %}
+
+{# Statut d'un prêt, partout le même (U18) : « En cours » a la couleur d'« Emprunté », qu'il désigne vu du prêt ;
+   « Échéance proche » en ambre, « En retard » en corail ; un prêt terminé (rendu, annulé) en gris. #}
+{% macro loan_badge(late=0, due_soon=False, returned=False, cancelled=False, days=True) %}
+{%- if cancelled %}{{ badge(_("Annulé"), "neutral") }}
+{%- elif returned %}{{ badge(_("Rendu"), "neutral") }}
+{%- elif late %}{{ badge(_("En retard") ~ ((" · " ~ late ~ " " ~ (_("jour") if late == 1 else _("jours"))) if days else ""), "late") }}
+{%- elif due_soon %}{{ badge(_("Échéance proche"), "due") }}
+{%- else %}{{ badge(_("En cours"), "info") }}{% endif %}
+{%- endmacro %}

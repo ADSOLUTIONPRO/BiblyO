@@ -1,0 +1,60 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header, kpi_tile %}
+{% from "components/buttons.html" import link_button %}
+{% from "components/feedback.html" import alert, badge %}
+{% from "components/icons.html" import icon %}
+{% block title %}{{ _("Lot d’import") }} {{ batch.id }} — biblyO{% endblock %}
+{% block content %}
+{% call page_header(_("Lot d’import n° {n}").format(n=batch.id), batch.filename ~ " · " ~ statuses.get(batch.status, batch.status), "io", "io") %}
+  {{ link_button(_("Import & export"), "/imports", "g", "undo") }}
+  {% if batch.status == "applied" %}<a href="/imports/lots/{{ batch.id }}/format-origine.xlsx" class="btn btn-s" download>{{ icon("download", 16) }}<span class="lbl">{{ _("Format d’origine .xlsx") }}</span></a>{% endif %}
+{% endcall %}
+
+{% if batch.status == "failed" %}{{ alert(_("Cet essai a échoué et a été entièrement annulé : rien n’a été écrit au catalogue. Erreur : {e}.").format(e=summary.get("erreur", "?")), "late") }}{% endif %}
+
+<section class="card" aria-labelledby="lot-source">
+  <div class="card-h"><h2 id="lot-source">{{ _("Opération") }}</h2></div>
+  <div class="card-b">
+    <dl class="dlist">
+      <div><dt>{{ _("Identifiant de l’opération") }}</dt><dd class="mono small">{{ batch.public_id or "—" }}</dd></div>
+      <div><dt>{{ _("Fichier") }}</dt><dd>{{ batch.filename }}, {{ _("feuille « {s} »").format(s=batch.sheet) }} · <span class="mono small">{{ batch.file_sha256[:16] }}</span></dd></div>
+      <div><dt>{{ _("Complémentaire") }}</dt><dd>{% if batch.complement_filename %}{{ batch.complement_filename }} · <span class="mono small">{{ (batch.complement_sha256 or "")[:16] }}</span>{% else %}—{% endif %}</dd></div>
+      <div><dt>{{ _("Empreinte du plan") }}</dt><dd class="mono small">{{ batch.plan_sha256 or "—" }}</dd></div>
+      <div><dt>{{ _("Sauvegarde prise avant") }}</dt><dd class="mono small">{{ batch.backup_name or "—" }}</dd></div>
+      <div><dt>{{ _("Appliqué le") }}</dt><dd>{{ (batch.applied_at or batch.created_at) | datetime_short }}</dd></div>
+    </dl>
+  </div>
+</section>
+
+{% if batch.status == "applied" %}
+{% set created = summary.created %}
+<div class="grid g3">
+  {{ kpi_tile(_("Exemplaires"), created.copies, _("un par ligne du fichier"), "io", "copy") }}
+  {{ kpi_tile(_("Livres (éditions)"), created.editions, _("{n} œuvres").format(n=created.works), "io", "book") }}
+  {{ kpi_tile(_("Séries"), created.series, _("{n} rejointe(s)").format(n=summary.joined.series), "io", "series") }}
+</div>
+
+<section class="card" aria-labelledby="lot-reconciliation">
+  <div class="card-h"><h2 id="lot-reconciliation">{{ _("Réconciliation, vérifiée avant la validation") }}</h2></div>
+  <div class="tbl-wrap tbl-m-cards" tabindex="0" role="region" aria-label="{{ _("Réconciliation") }}"><table class="tbl">
+    <caption class="sr">{{ _("Réconciliation") }}</caption>
+    <thead><tr><th scope="col">{{ _("Contrôle") }}</th><th scope="col">{{ _("Prévu") }}</th><th scope="col">{{ _("Écrit") }}</th><th scope="col">{{ _("Résultat") }}</th></tr></thead>
+    <tbody>
+      {% for line in summary.reconciliation %}
+      <tr><td>{{ line.label }}</td><td class="mono">{{ (_("oui") if line.expected else _("non")) if line.expected is sameas true or line.expected is sameas false else line.expected }}</td><td class="mono">{{ (_("oui") if line.found else _("non")) if line.found is sameas true or line.found is sameas false else line.found }}</td><td>{% if line.ok %}{{ badge(_("conforme"), "ok") }}{% else %}{{ badge(_("écart"), "late") }}{% endif %}</td></tr>
+      {% endfor %}
+    </tbody>
+  </table></div>
+</section>
+
+<section class="card" aria-labelledby="lot-detail">
+  <div class="card-h"><h2 id="lot-detail">{{ _("Ce qui a été créé ou rejoint") }}</h2></div>
+  <div class="card-b">
+    <p class="small m0">{{ _("Créés : {a} contributeurs, {p} éditeurs, {c} collections, {i} ISBN proposés.").format(a=created.agents, p=created.publishers, c=created.collections, i=created.isbn_candidates) }}</p>
+    <p class="small m0">{{ _("Rejoints sans être modifiés : {a} contributeurs, {p} éditeurs, {c} collections, {s} séries.").format(a=summary.joined.agents, p=summary.joined.publishers, c=summary.joined.collections, s=summary.joined.series) }}</p>
+    <p class="small m0">{{ _("Exemplaires créés « En préparation », sans place : ils deviennent « En place » à leur premier rangement. Codes-barres : {m}.").format(m=_("à attribuer plus tard (D-L6-7)") if summary.barcode_mode == "deferred" else summary.barcode_mode) }}</p>
+    <p class="small m0">{{ _("Différences entre fichiers : {d} ; cotes partagées : {s}.").format(d=summary.differences | length, s=summary.shared_call_numbers) }}</p>
+  </div>
+</section>
+{% endif %}
+{% endblock %}

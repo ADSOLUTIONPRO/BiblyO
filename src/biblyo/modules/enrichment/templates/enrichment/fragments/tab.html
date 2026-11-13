@@ -1,0 +1,100 @@
+{# Onglet « Enrichissement » de la fiche. Contexte : enrichment (tab.tab_context), notice, edition, base. #}
+{% from "components/feedback.html" import badge, empty_state %}
+{% from "components/buttons.html" import button, link_button %}
+{% from "components/layout.html" import data_table %}
+{% from "components/icons.html" import icon %}
+{% set e = enrichment %}
+<div class="stack">
+<section class="card" aria-labelledby="enr-tab-titre">
+  <div class="card-h"><h2 id="enr-tab-titre">{{ _("Provenance des données") }}</h2>
+    {% if can("enrichment.search") and not notice.is_archived %}{{ link_button(_("Enrichir"), base ~ "/enrichir?edition=" ~ edition.id, "s", "enrich", size="sm") }}{% endif %}</div>
+  <div class="card-b">
+  {% if e.provenance %}
+    {% call data_table(_("Provenance de chaque champ repris d’une source")) %}
+      <thead><tr><th scope="col">{{ _("Champ") }}</th><th scope="col">{{ _("Source") }}</th><th scope="col">{{ _("Notice") }}</th><th scope="col">{{ _("Récupéré le") }}</th><th scope="col">{{ _("État") }}</th></tr></thead>
+      <tbody>
+      {% for p in e.provenance %}
+        <tr>
+          <th scope="row" data-label="{{ _('Champ') }}">{{ e.field_labels.get(p.field, p.field) }}</th>
+          <td data-label="{{ _('Source') }}">{{ e.source_labels.get(p.source_code, p.source_code) }}{% if p.sub_source %} <span class="muted small">{{ _("d’après {who}").format(who=p.sub_source) }}</span>{% endif %}</td>
+          <td data-label="{{ _('Notice') }}"><a class="plain-link mono small" href="{{ p.external_url }}" rel="noopener">{{ p.external_id }}</a>{% if p.source_date %} <span class="muted small">{{ _("du {date}").format(date=p.source_date[6:8] ~ "/" ~ p.source_date[4:6] ~ "/" ~ p.source_date[:4]) }}</span>{% endif %}</td>
+          <td data-label="{{ _('Récupéré le') }}">{{ p.retrieved_at[8:10] }}/{{ p.retrieved_at[5:7] }}/{{ p.retrieved_at[:4] }}</td>
+          <td data-label="{{ _('État') }}">{% if p.changed_since %}{{ badge(_("modifié depuis"), "due", dot=False) }}{% else %}{{ badge(_("tel que repris"), "ok", dot=False) }}{% endif %}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    {% endcall %}
+    <p class="muted small mt-s m0">{{ _("Données : Bibliothèque nationale de France, Abes (Sudoc) — Licence Ouverte de l’État. La source et la date de récupération sont conservées pour chaque champ.") }}</p>
+  {% else %}
+    {{ empty_state("enrich", _("Aucune donnée reprise d’une source"), _("Les champs de cette édition ont été saisis à la main ou importés.")) }}
+  {% endif %}
+  {% if e.cover and e.cover.source %}
+    <p class="small mt-s m0"><b>{{ _("Couverture") }}</b> — {{ _("Bibliothèque nationale de France, service Couvertures, récupérée le {date}.").format(date=e.cover.retrieved_at[8:10] ~ "/" ~ e.cover.retrieved_at[5:7] ~ "/" ~ e.cover.retrieved_at[:4]) }}{% if e.cover.origin_url %} <a class="plain-link" href="{{ e.cover.origin_url }}" rel="noopener">{{ _("Notice de référence") }}</a>{% endif %}</p>
+  {% endif %}
+  </div>
+</section>
+
+{% if e.isbn_candidates %}
+<section class="card" aria-labelledby="enr-isbn">
+  <div class="card-h"><h2 id="enr-isbn">{{ _("ISBN proposés et rejetés") }}</h2></div>
+  <div class="card-b">
+    <p class="muted small mt-0">{{ _("Un ISBN proposé n’entre ni dans la recherche, ni dans le contrôle des doublons, ni dans un export : il attend d’être vérifié sur le livre.") }}</p>
+    <ul class="plain enr-sources">
+    {% for item in e.isbn_candidates %}{% set row = item.row %}
+      <li class="enr-source">
+        <b class="mono">{{ row.isbn13 }}</b>
+        {% if row.status == "proposed" %}{{ badge(_("proposé"), "due", dot=False) }}{% elif row.status == "confirmed" %}{{ badge(_("confirmé"), "ok", dot=False) }}{% else %}{{ badge(_("rejeté"), "neutral", dot=False) }}{% endif %}
+        <span class="muted small">{{ e.source_labels.get(row.source_code, row.source_code) }} · <a class="plain-link" href="{{ row.external_url }}" rel="noopener">{{ row.external_id }}</a> · {{ _("score {n}").format(n=row.score) }}</span>
+        {% if item.agreeing %}<span class="small">{{ _("Concorde : {list}").format(list=item.agreeing | join(" ; ")) }}</span>{% endif %}
+        {% if item.conflicting %}<span class="small late-ink">{{ _("Contredit : {list}").format(list=item.conflicting | join(" ; ")) }}</span>{% endif %}
+        {% if row.status == "proposed" and can("enrichment.review") %}
+        <form method="post" action="{{ base }}/enrichir/isbn/{{ row.id }}" class="row gap-xs">
+          <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+          {{ button(_("Vérifié sur le livre : confirmer"), "s", "check", size="sm", type="submit", name="decision", value="confirmer") }}
+          {{ button(_("Rejeter"), "g", "x", size="sm", type="submit", name="decision", value="rejeter") }}
+        </form>
+        {% endif %}
+      </li>
+    {% endfor %}
+    </ul>
+  </div>
+</section>
+{% endif %}
+
+<section class="card" aria-labelledby="enr-historique">
+  <div class="card-h"><h2 id="enr-historique">{{ _("Historique des enrichissements") }}</h2></div>
+  <div class="card-b">
+  {% if e.operations %}
+    <ul class="plain enr-results">
+    {% for op in e.operations %}
+      <li class="enr-source">
+        <b>{{ op.at[8:10] }}/{{ op.at[5:7] }}/{{ op.at[:4] }}</b>
+        <span class="muted">{{ e.source_labels.get(op.source, op.source) }} · <a class="plain-link mono small" href="{{ op.external_url }}" rel="noopener">{{ op.external_id }}</a>{% if op.by %} · {{ _("par {name}").format(name=op.by) }}{% endif %}</span>
+        {% if op.accepted %}<span class="small">{{ _("Accepté :") }} {% for f in op.accepted %}{{ e.field_labels.get(f, f) }}{% if f in op.reverted %} <span class="muted">({{ _("annulé") }})</span>{% endif %}{% if not loop.last %}, {% endif %}{% endfor %}</span>{% endif %}
+        {% if op.rejected %}<span class="small muted">{{ _("Refusé :") }} {% for f in op.rejected %}{{ e.field_labels.get(f, f) }}{% if not loop.last %}, {% endif %}{% endfor %}</span>{% endif %}
+        {% if op.revertible and can("enrichment.review") %}
+        <form method="post" action="{{ base }}/enrichir/operations/{{ op.id }}/annuler">
+          <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+          {{ button(_("Annuler cet enrichissement"), "g", "undo", size="sm", type="submit") }}
+        </form>
+        {% endif %}
+      </li>
+    {% endfor %}
+    </ul>
+  {% else %}
+    <p class="muted m0">{{ _("Aucun enrichissement appliqué à cette édition.") }}</p>
+  {% endif %}
+  {% if e.searches %}
+    <details class="enr-why mt-s"><summary>{{ _("{n} recherche(s)").format(n=e.searches | length) }}</summary>
+      <ul class="plain">
+      {% for s in e.searches %}
+        <li>{{ s.created_at[8:10] }}/{{ s.created_at[5:7] }}/{{ s.created_at[:4] }} — {{ e.outcome_labels.get(s.outcome, s.outcome) }}{% if s.created_by and e.names.get(s.created_by) %}, {{ _("par {name}").format(name=e.names[s.created_by]) }}{% endif %}
+          {% for p in s.proposals if p.status != "rejected" or p.decisions %} · {{ e.source_labels.get(p.source_code, p.source_code) }} {{ e.status_labels.get(p.status, p.status) }}{% endfor %}
+          {% if can("enrichment.search") %} <a class="plain-link small" href="{{ base }}/enrichir?edition={{ edition.id }}&amp;recherche={{ s.id }}">{{ _("revoir") }}</a>{% endif %}</li>
+      {% endfor %}
+      </ul>
+    </details>
+  {% endif %}
+  </div>
+</section>
+</div>

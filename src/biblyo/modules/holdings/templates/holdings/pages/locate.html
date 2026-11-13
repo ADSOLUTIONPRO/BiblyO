@@ -1,0 +1,18 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header %}
+{% from "components/feedback.html" import empty_state %}
+{% import "holdings/components.html" as parts with context %}
+{% block title %}{{ _("Localiser") }} — biblyO{% endblock %}
+{% block content %}
+{% call page_header(_("Localiser un ouvrage"), "", "she", "locate") %}{% endcall %}
+{{ parts.finder(query) }}
+{% call parts.layout(tree, unshelved_count) %}
+  <section class="card" aria-label="{{ _('Résultats') }}">
+    {% for item in found %}
+    <div class="li"><div class="grow min0"><a class="b" href="{{ item.href }}">{{ item.title }}</a><div class="faint mono small">{{ item.barcode }}{% if item.call_number %} · {{ item.call_number }}{% endif %}</div></div><span class="small{% if not item.path %} muted{% endif %}">{{ item.path or _("Non rangé") }}</span></div>
+    {% else %}
+    {{ empty_state("search", _("Aucun exemplaire trouvé") if query else _("Que cherchez-vous ?"), _("Essayez un titre, une cote ou un numéro d’inventaire.")) }}
+    {% endfor %}
+  </section>
+{% endcall %}
+{% endblock %}

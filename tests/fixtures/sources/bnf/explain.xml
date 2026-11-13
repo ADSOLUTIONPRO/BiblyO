@@ -1,0 +1,614 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<srw:explainResponse xmlns:srw="http://www.loc.gov/zing/srw/">
+	<srw:version>1.2</srw:version>
+	<srw:record>
+		<srw:recordSchema>http://explain.z3950.org/dtd/2.1/</srw:recordSchema>
+		<srw:recordPacking>xml</srw:recordPacking> 
+		<srw:recordData>
+			<zr:explain xmlns:zr="http://explain.z3950.org/dtd/2.1/">
+				<zr:serverInfo protocol="SRU" version="1.2" transport="http" method="GET POST">
+					<zr:host>catalogue.bnf.fr</zr:host>
+					<zr:port>80</zr:port>
+					<zr:database>api/SRU</zr:database>
+				</zr:serverInfo>
+				<zr:databaseInfo>
+					<zr:title>API SRU de BnF catalogue général</zr:title>
+					<zr:description lang="fr">API SRU du catalogue général de la BnF : Recherche et accès à toutes les notices
+						bibliographiques et d'autorité du catalogue général de la BnF (Encodage UTF-8). 
+						Attention: L'accès aux notices d'autorité comprend les notices d'autorité de référence et les notices élémentaires. Par défaut, seules les notices d'autorité de référence sont cherchables.
+						L'index "aut.status" doit être utilisé pour chercher dans toutes les notices d'autorité du catalogue général de la BnF (aut.status any "validated sparse").
+					</zr:description>
+					<zr:description lang="en">BnF catalogue général SRU API : Search and retrieve all bibliographic and authority records
+						within the BnF catalogue général (UTF-8 encoding). Beware that search on Authority records is, by default, performed only on validated records. 
+						Index "aut.status" must be used in order to search both on validated and sparse records (aut.status any "validated sparse").
+					</zr:description>
+					<zr:langUsage codes="fr">Records are in French.</zr:langUsage>
+					<zr:author>Bibliothèque nationale de France</zr:author>
+					<zr:contact>coordination-bibliographique@bnf.fr</zr:contact>
+				</zr:databaseInfo>
+				<zr:indexInfo>
+					<zr:set name="bib" identifier=" ">
+						<zr:title lang="fr">Contexte des notices bibliographiques</zr:title>
+						<zr:title lang="en">Bibliographic records Context Set</zr:title>
+					</zr:set>
+					<zr:set name="aut" identifier=" ">
+						<zr:title lang="fr">Contexte des notices d’autorité</zr:title>
+						<zr:title lang="en">Authority records Context Set</zr:title>
+					</zr:set>
+					<zr:index id="bib.anywhere" scan="false" search="true">
+						<zr:title lang="fr">Recherche mots dans le contenu des notices bibliographiques (eq. Z39.50 : 1016)</zr:title>
+						<zr:title lang="en">Search by keywords anywhere within bibliographic records (eq. Z39.50 : 1016)</zr:title>
+						<zr:map>
+							<name set="bib">anywhere</name>
+						</zr:map>
+					</zr:index>
+					<zr:index id="bib.author" scan="false" search="true">
+						<zr:title lang="fr">Recherche Auteur dans les notices bibliographiques (eq. Z39.50 : 1003)</zr:title>
+						<zr:title lang="en">Search by Author within bibliographic records (eq. Z39.50 : 1003)</zr:title>
+						<zr:map>
+							<name set="bib">author</name>
+						</zr:map>
+						<zr:configInfo>
+							<zr:supports type="relation">startswith</zr:supports>
+						</zr:configInfo>
+					</zr:index>
+					<zr:index id="bib.title" scan="false" search="true">
+						<zr:title lang="fr">Recherche Titre dans les notices bibliographiques (eq. Z39.50 : 4)</zr:title>
+						<zr:title lang="en">Search by Title within bibliographic records (eq. Z39.50 : 4)</zr:title>
+						<zr:map>
+							<name set="bib">title</name>
+						</zr:map>
+						<zr:configInfo>
+							<zr:supports type="relation">startswith</zr:supports>
+						</zr:configInfo>
+					</zr:index>
+					<zr:index id="bib.subject" scan="false" search="true">
+						<zr:title lang="fr">Recherche Sujet dans les notices bibliographiques (eq. Z39.50 : 21)</zr:title>
+						<zr:title lang="en">Search by Subject heading within bibliographic records (eq. Z39.50 : 21)</zr:title>
+						<zr:map>
+							<name set="bib">subject</name>
+						</zr:map>
+					</zr:index>
+					<zr:index id="bib.doctype" scan="false" search="true">
+						<zr:title lang="fr">Recherche par type de document (a : texte imprimé / c : musique notée / e : document cartographique / g : enregistrement sonore / h : image animée / i : image fixe / o : objet monétiforme / p : objet / r : multimédia multisupport / s : document électronique / t : document d'archive et manuscrit) et récupération des notices de spectacles (v : spectacle)</zr:title>
+						<zr:title lang="en">Search by bibliographic document type</zr:title>
+						<zr:map>
+							<name set="bib">doctype</name>
+						</zr:map>
+					</zr:index>
+					<zr:index id="bib.recordtype" scan="false" search="true">
+						<zr:title lang="fr">Recherche par type de notice bibliographique (mon : monographie / per : périodique / rec : recueil / col : collection éditoriale / ens : ensemble / his : notice historique)
+						</zr:title>
+						<zr:title lang="en">Search by bibliographic record type</zr:title>
+						<zr:map>
+							<name set="bib">recordtype</name>
+						</zr:map>
+					</zr:index>
+					<zr:index id="bib.status" scan="false" search="true">
+						<zr:title lang="fr">Recherche par statut de la notice bibliographique (validated : Notice terminée / pending : Notice en cours de traitement / sparse : Notice élémentaire)</zr:title>
+						<zr:title lang="en">Search by bibliographic record status (validated : Validated record / pending : Record being processed / sparse : Sparse record)</zr:title>
+						<zr:map>
+							<name set="bib">status</name>
+						</zr:map>
+					</zr:index>
+					<zr:index id="bib.recordid" scan="false" search="true">
+						<zr:title lang="fr">Recherche par numéro de notice bibliographique (avec ou sans le préfixe FRBNF, avec 8 ou 15 chiffres) (eq. Z39.50 : 1209 ou 12)</zr:title>
+						<zr:title lang="en">Search by bibliographic record identifier (with or without FRBNF prefix, with 8 or 15 numbers) (eq. Z39.50 : 1209 or 12)</zr:title>
+						<zr:map>
+							<name set="bib">recordid</name>
+						</zr:map>
+					</zr:index>
+					<zr:index id="bib.persistentid" scan="false" search="true">
+						<zr:title lang="fr">Recherche par l'identifiant pérenne ark de la notice bibliographique incluant la redirection des arks en cas de fusion de notices (eq. Z39.50 : 1032)
+						</zr:title>
+						<zr:title lang="en">Search by bibliographic record persistent ark identifier including the redirection process (eq. Z39.50 : 1032)
+						</zr:title>
+						<zr:map>
+							<name set="bib">persistentid</name>
+						</zr:map>
+					</zr:index>
+					<zr:index id="bib.ean" scan="false" search="true">
+						<zr:title lang="fr">Recherche par EAN (eq. Z39.50 : 1214)
+						</zr:title>
+						<zr:title lang="en">Search by EAN (eq. Z39.50 : 1214)
+						</zr:title>
+						<zr:map>
+							<name set="bib">ean</name>
+						</zr:map>
+					</zr:index>
+					<zr:index id="bib.isbn" scan="false" search="true">
+						<zr:title lang="fr">Recherche par ISBN (eq. Z39.50 : 7)
+						</zr:title>
+						<zr:title lang="en">Search by ISBN (eq. Z39.50 : 7)
+						</zr:title>
+						<zr:map>
+							<name set="bib">isbn</name>
+						</zr:map>
+					</zr:index>
+					<zr:index id="bib.issn" scan="false" search="true">
+						<zr:title lang="fr">Recherche par ISSN (eq. Z39.50 : 8)
+						</zr:title>
+						<zr:title lang="en">Search by ISSN (eq. Z39.50 : 8)
+						</zr:title>
+						<zr:map>
+							<name set="bib">issn</name>
+						</zr:map>
+					</zr:index>
+					<zr:index id="bib.ismn" scan="false" search="true">
+						<zr:title lang="fr">Recherche par ISMN (eq. Z39.50 : 9)
+						</zr:title>
+						<zr:title lang="en">Search by ISMN (eq. Z39.50 : 9)
+						</zr:title>
+						<zr:map>
+							<name set="bib">ismn</name>
+						</zr:map>
+					</zr:index>
+					<zr:index id="bib.isrc" scan="false" search="true">
+						<zr:title lang="fr">Recherche par ISRC (eq. Z39.50 : 1091)
+						</zr:title>
+						<zr:title lang="en">Search by ISRC (eq. Z39.50 : 1091)
+						</zr:title>
+						<zr:map>
+							<name set="bib">isrc</name>
+						</zr:map>
+					</zr:index>
+					<zr:index id="bib.comref" scan="false" search="true">
+						<zr:title lang="fr">Recherche par référence commerciale</zr:title>
+						<zr:title lang="en">Search by commercial number</zr:title>
+						<zr:map>
+							<name set="bib">comref</name>
+						</zr:map>
+					</zr:index>
+					<zr:index id="bib.otherid" scan="false" search="true">
+						<zr:title lang="fr">Recherche par autres numéros de notice (ancien numéro de notice, etc)</zr:title>
+						<zr:title lang="en">Search by other record identifiers</zr:title>
+						<zr:map><name set="bib">otherid</name></zr:map>
+					</zr:index>
+					<zr:index id="bib.abstract" scan="false" search="true">
+						<zr:title lang="fr">Recherche les notices bibliographiques comportant un résumé (zone 330 (Unimarc) ou zones 830 et 330 (Intermarc)</zr:title>
+						<zr:title lang="en">Search bibliographic records who have an abstract (330 field (Unimarc) or  830 and 330 fields(Intermarc)</zr:title>
+						<zr:map><name set="bib">abstract</name></zr:map>
+					</zr:index>
+					<zr:index id="bib.authorRole" scan="false" search="true">
+						<zr:title lang="fr">Renvoie toutes les notices bibliographiques liées à un auteur (auteurs, collaborateurs, distributeurs et interprètes) pour une fonction donnée - Référentiel des fonctions  : http://www.bnf.fr/documents/intermarc_ref_fonctions.pdf - On peut interroger les fonctions par libellé ou code. Une clause de recherche bib.authorRole doit être couplée avec une clause bib.author2bib. Par exemple: query=(bib.author2bib any "11907966") and (bib.authorRole all "0510 parolier" ) renverra toutes les notices bibliographiques de Victor Hugo en tant que parolier.</zr:title>
+						<zr:title lang="en">Search all bibliographic records linked to authority as author (authors, collaborators, distributors or interpreters) for a specific role - Value vocabulary for roles : http://www.bnf.fr/documents/intermarc_ref_fonctions.pdf or http://data.bnf.fr/fr/vocabulary/roles - Query values are code and/or term values. This query clause must be coupled with a bib.author2bib clause. For example: query=(bib.author2bib any "11907966") and (bib.authorRole all "0510 parolier" ) will provide all the bibliographic records linked to Victor Hugo as a lyricist.</zr:title>
+						<zr:map>
+							<name set="bib">authorRole</name>
+						</zr:map>
+					</zr:index>
+					<zr:index id="bib.cote" scan="false" search="true">
+						<zr:title lang="fr">Recherche par cote</zr:title>
+						<zr:title lang="en">Search by cote</zr:title>
+						<zr:map><name set="bib">cote</name></zr:map>
+					</zr:index>
+					<zr:index id="bib.date" scan="false" search="true">
+						<zr:title lang="fr">Recherche par date (eq. Z39.50 : 31) (dates présentes dans toute la notice) (recherche par YYYY)</zr:title>
+						<zr:title lang="en">Search by date (eq. Z39.50 : 31) (format YYYY)</zr:title>
+						<zr:map>
+							<name set="bib">date</name>
+						</zr:map>
+					</zr:index>
+					<zr:index id="bib.dewey" scan="false" search="true">
+						<zr:title lang="fr">Recherche par indice Dewey</zr:title>
+						<zr:title lang="en">Search by Dewey numbers</zr:title>
+						<zr:map><name set="bib">dewey</name></zr:map>
+					</zr:index>
+					<zr:index id="bib.digitized" scan="false" search="true">
+						<zr:title lang="fr">Recherche des documents numérisés (2 valeurs possibles: freeAccess : document numérisé accessible librement en ligne (Gallica) / restrictedAccess : document numérisé mais accessible sous conditions (ouvrages dans Gallica intra muros, Archives de l'Internet, Ressources électroniques acquises, etc.)</zr:title>
+						<zr:title lang="en">Search digitized documents (freeAccess :  digitized documents freely online (Gallica) / restrictedAccess : digitized documents with restricted access (onSiteAccess or BnF Internet archives) </zr:title>
+						<zr:map><name set="bib">digitized</name></zr:map>
+					</zr:index>
+					<zr:index id="bib.FrenchNationalBibliography" scan="false" search="true">
+						<zr:title lang="fr">Renvoie les notices bibliographiques des 5 produits courants de la Bibliographie Nationale Française : "Livres", "Publications en série", "Audiovisuel", "Musique imprimée" ou " Cartographie" (Books / Serials / Audiovisual / PrintedMusic / Cartography). Attention: Ce critère n'est à utiliser que pour la production récente de la BnF. Il ne permet pas de reconstituer l'intégralité des produits bibliographiques rétrospectifs de la Bibliographie Nationale Française.</zr:title>
+						<zr:title lang="en">Retrieves bibliographic records of the 5 French National Bibliography current products : : "Books", "Serials", "Audiovisual materials", "Printed Music" or " Cartography materials" (Books / Serials / Audiovisual / PrintedMusic / Cartography). Aware : This index is only available for recent BnF records. It does not allow to reconstitute all the retrospective bibliographic products of the French National Bibliography.</zr:title>
+						<zr:map>
+							<name set="bib">FrenchNationalBibliography</name>
+						</zr:map>
+					</zr:index>
+					<zr:index id="bib.fuzzyIsbn" scan="false" search="true">
+						<zr:title lang="fr">Recherche floue par EAN, ISBN 13 ou ISBN 10 
+						</zr:title>
+						<zr:title lang="en">Fuzzy search by EAN, ISBN 13 or ISBN 10
+						</zr:title>
+						<zr:map>
+							<name set="bib">fuzzyIsbn</name>
+						</zr:map>
+					</zr:index>
+					<zr:index id="bib.genre" scan="false" search="true">
+						<zr:title lang="fr">Recherche Genre ou Forme dans les notices bibliographiques.</zr:title>
+						<zr:title lang="en">Searches in genre/form subject in bibliographic records.</zr:title>
+						<zr:map>
+							<name set="bib">genre</name>
+						</zr:map>
+					</zr:index>
+					<zr:index id="bib.gmr" scan="false" search="true">
+						<zr:title lang="fr">Recherche par date de génération de la notice par la migration retour (recherche par YYYYMMDD)</zr:title>
+						<zr:title lang="en">Recherche par date de génération de la notice par la migration retour (recherche par YYYYMMDD)</zr:title>
+						<zr:map>
+							<name set="bib">gmr</name>
+						</zr:map>
+						<zr:configInfo>
+							<zr:supports type="relation">&lt;</zr:supports>
+							<zr:supports type="relation">&lt;=</zr:supports>
+							<zr:supports type="relation">&gt;=</zr:supports>
+							<zr:supports type="relation">&gt;</zr:supports>
+							<zr:supports type="relation">within</zr:supports>
+						</zr:configInfo>
+					</zr:index>
+					<zr:index id="bib.isni" scan="false" search="true">
+						<zr:title lang="fr">Recherche par identifiant ISNI (International Standard Name Identifier) associé aux points d'accès Personne ou Collectivité dans les notices bibliographiques</zr:title>
+						<zr:title lang="en">Search by ISNI identifier (International Standard Name Identifier) associated to a access points Person or Corporate Body within bibliographic records</zr:title>
+						<zr:map>
+							<name set="bib">isni</name>
+						</zr:map>
+					</zr:index>
+					<zr:index id="bib.language" scan="false" search="true">
+						<zr:title lang="fr">Recherche par langue (eq. Z39.50 : 54)</zr:title>
+						<zr:title lang="en">Search by language (eq. Z39.50 : 54)</zr:title>
+						<zr:map>
+							<name set="bib">language</name>
+						</zr:map>
+					</zr:index>
+					<zr:index id="bib.LegalDepositType" scan="false" search="true">
+						<zr:title lang="fr">Renvoie, par type de dépôt, les notices bibliographiques des documents reçus à la BnF au titre du dépôt légal (DLE : Livres / DLM DLV DLS et DLF : Audiovisuel (monographies) / DLME : Musique imprimée (monographies) / DLCE et DLCD : Cartographie / etc.). A noter : 1. Ces notices, disponibles dès le jour d'arrivée du document à la BnF, peuvent être des pré-notices avant d'être des notices en cours de catalogage puis terminées. Ce critère permet donc de récupérer les pré-notices de la Bibliographie Nationale Française. 2. Ce critère n'est applicable que pour les dépôts postérieurs à 2005.</zr:title>
+						<zr:title lang="en">Search, by deposit type, all the bibliographic records of materials received under the French legal deposit scheme (DLE : Books / DLM DLV DLS and DLF : Audiovisual materials (monographs) / DLME : Printed music (monographs) / DLCE and DLCD : cartographic materials / etc.). Note : 1. These records, available from the day of document arrival at BnF, might be sparse records, before being pending records, then validated records. 2. This index is only available for deposits after 2005.</zr:title>
+						<zr:map>
+							<name set="bib">LegalDepositType</name>
+						</zr:map>
+					</zr:index>
+					<zr:index id="bib.LegalDepositDate" scan="false" search="true">
+						<zr:title lang="fr">Renvoie, par date de dépôt, les notices bibliographiques des documents reçus à la BnF au titre du dépôt légal (format YYYYMMDD). Une clause de recherche bib.LegalDepositDate doit être couplée avec une clause bib.LegalDepositType. Par exemple: query=(bib.LegalDepositType all "DLE") and (bib.LegalDepositDate &gt;= "20181112") fournira toutes les notices des documents entrés à la BnF au titre du dépôt légal "Livres" depuis le 12 novembre 2018.</zr:title>
+						<zr:title lang="en">Search, by deposit date, all the bibliographic records of materials received under the French legal deposit scheme(format YYYYMMDD). This query clause must be coupled with a bib.LegalDepositType clause. For example: query=(bib.LegalDepositType all "DLE") and (bib.LegalDepositDate &gt;= "20181112") will provide all bibliographic records for documents received by BnF since the 12th of november 2018 under the French legal deposit of "Books".</zr:title>
+						<zr:map>
+							<name set="bib">LegalDepositDate</name>
+						</zr:map>
+						<zr:configInfo>
+							<zr:supports type="relation">&lt;</zr:supports>
+							<zr:supports type="relation">&lt;=</zr:supports>
+							<zr:supports type="relation">&gt;=</zr:supports>
+							<zr:supports type="relation">&gt;</zr:supports>
+							<zr:supports type="relation">within</zr:supports>
+						</zr:configInfo>
+					</zr:index>
+					<zr:index id="bib.local" scan="false" search="true">
+						<zr:title lang="fr">Recherche les notices bibliographiques pour les documents ayant un exemplaire présent dans les collections de la BnF</zr:title>
+						<zr:title lang="en">Retrieve bibliographic records with local holdings in the BnF collections</zr:title>
+						<zr:map><name set="bib">local</name></zr:map>
+					</zr:index>
+					<zr:index id="bib.publicationcity" scan="false" search="true">
+						<zr:title lang="fr">Recherche par ville de publication</zr:title>
+						<zr:title lang="en">Search by publication city </zr:title>
+						<zr:map><name set="bib">publicationcity</name></zr:map>
+					</zr:index>
+					<zr:index id="bib.publicationdate" scan="false" search="true">
+						<zr:title lang="fr">Recherche par date de publication (recherche par YYYY)</zr:title>
+						<zr:title lang="en">Search by publication date (format YYYY)</zr:title>
+						<zr:map><name set="bib">publicationdate</name></zr:map>
+						<zr:configInfo>
+							<zr:supports type="relation">&lt;</zr:supports>
+							<zr:supports type="relation">&lt;=</zr:supports>
+							<zr:supports type="relation">&gt;=</zr:supports>
+							<zr:supports type="relation">&gt;</zr:supports>
+							<zr:supports type="relation">within</zr:supports>
+						</zr:configInfo>
+					</zr:index>
+					<zr:index id="bib.publicationplace" scan="false" search="true">
+						<zr:title lang="fr">Recherche par pays de publication (eq. Z39.50 : 55)</zr:title>
+						<zr:title lang="en">Search by publication place (eq. Z39.50 : 55)</zr:title>
+						<zr:map><name set="bib">publicationplace</name></zr:map>
+					</zr:index>
+					<zr:index id="bib.publisher" scan="false" search="true">
+						<zr:title lang="fr">Recherche par données éditoriales (eq. Z39.50 : 1018)</zr:title>
+						<zr:title lang="en">Search by publication data (eq. Z39.50 : 1018)</zr:title>
+						<zr:map>
+							<name set="bib">publisher</name>
+						</zr:map>
+					</zr:index>
+					<zr:index id="bib.serialtitle" scan="false" search="true">
+						<zr:title lang="fr">Recherche par Titre dans les notices bibliographiques de type périodique, recueil, collection ou ensemble editorial(eq. Z39.50 : 5)</zr:title>
+						<zr:title lang="en">Search by Title within bibliographic records for serials (eq. Z39.50 : 5)</zr:title>
+						<zr:map><name set="bib">serialtitle</name></zr:map>
+						<zr:configInfo>
+							<zr:supports type="relation">startswith</zr:supports>
+						</zr:configInfo>
+					</zr:index>
+					<zr:index id="bib.set" scan="false" search="true">
+						<zr:title lang="fr">Recherche par Univers Musique, Jeunesse ou Images et Cartes (music / youth / imageandmap)</zr:title>
+						<zr:title lang="en">Search by preselected bibliographic sets in the General catalogue (music : music / youth : materials devoted to youth / imageandmap : images and maps) </zr:title>
+						<zr:map><name set="bib">set</name></zr:map>
+					</zr:index>
+					<zr:index id="bib.technicaldata" scan="false" search="true">
+						<zr:title lang="fr">Recherche par données matérielles et techniques (échelle cartographique, technique de gravure d'estampe, matériau, etc)</zr:title>
+						<zr:title lang="en">Search by technical data</zr:title>
+						<zr:map>
+							<name set="bib">technicaldata</name>
+						</zr:map>
+					</zr:index>
+					<zr:index id="bib.unimarc:doctype" scan="false" search="true">
+						<zr:title lang="fr">Recherche par type de document (am : Livres imprimés / as : Périodiques imprimés / c : Musique notee sauf manuscrite / d : Musique notee manuscrite / e : Documents cartographiques, sauf manuscrits / f : Documents cartographiques manuscrits / g : Image animee / i : Documents sonores musicaux / j : Documents sonores non-musicaux / k : Image fixe / l : Documents electroniques / m : Multimedia) (eq. Z39.50 : 1031)</zr:title>
+						<zr:title lang="en">Search by bibliographic document type (eq. Z39.50 : 1031)</zr:title>
+						<zr:map><name set="bib">unimarc:doctype</name></zr:map>
+					</zr:index>
+					<zr:index id="bib.col2bib" scan="false" search="true">
+						<zr:title lang="fr">Renvoie toutes les notices bibliographiques liées à une notice de collection éditoriale</zr:title>
+						<zr:title lang="en">Search all bibliographic records linked to monographic series record</zr:title>
+						<zr:map>
+							<name set="bib">col2bib</name>
+						</zr:map>
+					</zr:index>
+					<zr:index id="bib.ens2bib" scan="false" search="true">
+						<zr:title lang="fr">Renvoie toutes les notices bibliographiques liées à une notice d'ensemble éditorial</zr:title>
+						<zr:title lang="en">Search all bibliographic records linked to multivolume set record</zr:title>
+						<zr:map>
+							<name set="bib">ens2bib</name>
+						</zr:map>
+					</zr:index>
+					<zr:index id="bib.genre2bib" scan="false" search="true">
+						<zr:title lang="fr">Renvoie toutes les notices bibliographiques liées à l'autorité en tant que genre ou forme</zr:title>
+						<zr:title lang="en">Search all bibliographic records linked to genre/form subject</zr:title>
+						<zr:map>
+							<name set="bib">genre2bib</name>
+						</zr:map>
+					</zr:index>
+					<zr:index id="bib.rec2bib" scan="false" search="true">
+						<zr:title lang="fr">Renvoie toutes les notices bibliographiques liées à une notice de recueil</zr:title>
+						<zr:title lang="en">Search all bibliographic records linked to collection record</zr:title>
+						<zr:map>
+							<name set="bib">rec2bib</name>
+						</zr:map>
+					</zr:index>
+					<zr:index id="bib.author2bib" scan="false" search="true">
+						<zr:title lang="fr">Renvoie toutes les notices bibliographiques liées à l'autorité en tant qu'auteur</zr:title>
+						<zr:title lang="en">Search all bibliographic records linked to authority as author</zr:title>
+						<zr:map>
+							<name set="bib">author2bib</name>
+						</zr:map>
+					</zr:index>
+					<zr:index id="bib.subject2bib" scan="false" search="true">
+						<zr:title lang="fr">Renvoie toutes les notices bibliographiques liées à l'autorité en tant que sujet</zr:title>
+						<zr:title lang="en">Search all bibliographic records linked to authority as subject</zr:title>
+						<zr:map>
+							<name set="bib">subject2bib</name>
+						</zr:map>
+					</zr:index>
+					<zr:index id="bib.work2bib" scan="false" search="true">
+						<zr:title lang="fr">Renvoie toutes les notices bibliographiques liées à l'oeuvre en tant que titre</zr:title>
+						<zr:title lang="en">Search all bibliographic records linked to work authority as title</zr:title>
+						<zr:map>
+							<name set="bib">work2bib</name>
+						</zr:map>
+					</zr:index>
+					<zr:index id="bib.creationdate" scan="false" search="true">
+						<zr:title lang="fr">Recherche par date de création de la notice bibliographique (recherche par YYYYMMDD)</zr:title>
+						<zr:title lang="en">Search by bibliographic record creation date (format YYYYMMDD)</zr:title>
+						<zr:map><name set="bib">creationdate</name></zr:map>
+						<zr:configInfo>
+							<zr:supports type="relation">&lt;</zr:supports>
+							<zr:supports type="relation">&lt;=</zr:supports>
+							<zr:supports type="relation">&gt;=</zr:supports>
+							<zr:supports type="relation">&gt;</zr:supports>
+							<zr:supports type="relation">within</zr:supports>
+						</zr:configInfo>
+					</zr:index>
+					<zr:index id="bib.lastmodificationdate" scan="false" search="true">
+						<zr:title lang="fr">Recherche par date de dernière modification de la notice bibliographique (recherche par YYYYMMDD)</zr:title>
+						<zr:title lang="en">Search by bibliographic record last modification date (format YYYYMMDD)</zr:title>
+						<zr:map><name set="bib">lastmodificationdate</name></zr:map>
+						<zr:configInfo>
+							<zr:supports type="relation">&lt;</zr:supports>
+							<zr:supports type="relation">&lt;=</zr:supports>
+							<zr:supports type="relation">&gt;=</zr:supports>
+							<zr:supports type="relation">&gt;</zr:supports>
+							<zr:supports type="relation">within</zr:supports>
+						</zr:configInfo>
+					</zr:index>
+
+
+
+
+					<zr:index id="aut.anywhere" scan="false" search="true">
+						<zr:title lang="fr">Recherche mots dans le contenu de toutes les notices d'autorité du catalogue général de la BnF. 
+						Attention: Par défaut, seules les notices d'autorité de référence sont cherchables.
+						L'index "aut.status" doit être utilisé pour chercher dans toutes les notices d'autorité du catalogue général de la BnF (aut.status any "validated sparse").
+						</zr:title>
+						<zr:title lang="en">Search by keywords anywhere within authority records. 
+						Beware that search on Authority records is, by default, performed only on validated records. 
+						Index "aut.status" must be used in order to search both on validated and sparse records (aut.status any "validated sparse").
+						</zr:title>
+						<zr:map>
+							<name set="aut">anywhere</name>
+						</zr:map>
+					</zr:index>
+					<zr:index id="aut.accesspoint" scan="false" search="true">
+						<zr:title lang="fr">Recherche mots dans les formes retenues et rejetées de toutes les notices d'autorité.
+						Attention: Par défaut, seules les notices d'autorité de référence sont cherchables.
+						L'index "aut.status" doit être utilisé pour chercher dans toutes les notices d'autorité du catalogue général de la BnF (aut.status any "validated sparse").
+						</zr:title>
+						<zr:title lang="en">Search by keywords in prefered and alternative labels of all authority records.
+						Beware that search on Authority records is, by default, performed only on validated records. 
+						Index "aut.status" must be used in order to search both on validated and sparse records (aut.status any "validated sparse").
+						</zr:title>
+						<zr:map><name set="aut">accesspoint</name></zr:map>
+					</zr:index>
+					<zr:index id="aut.type" scan="false" search="true">
+						<zr:title lang="fr">Recherche par type d'autorité (pep : Personne / org : Collectivité / tic : Titre conventionnel / tut : Titre uniforme textuel / tum : Titre uniforme musical / geo : Nom géographique BnF / mar : Marque / dew : Classification Dewey / ram : RAMEAU / ram_gf : RAMEAU genre ou forme)
+						Attention: Par défaut d'index "aut.status", seules les notices d'autorité de référence sont cherchables.
+						</zr:title>
+						<zr:title lang="en">Search by authority type.
+						Beware that index "aut.status" must be used in order to search both on validated and sparse records.</zr:title>
+						<zr:map>
+							<name set="aut">type</name>
+						</zr:map>
+					</zr:index>
+					<zr:index id="aut.status" scan="false" search="true">
+						<zr:title lang="fr">Recherche par statut de la notice d'autorité (validated : Notice de référence / sparse : Notice élémentaire)</zr:title>
+						<zr:title lang="en">Search by authority record status (validated : Validated authority records / sparse : Sparse records)</zr:title>
+						<zr:map>
+							<name set="aut">status</name>
+						</zr:map>
+					</zr:index>
+					<zr:index id="aut.recordid" scan="false" search="true">
+						<zr:title lang="fr">Recherche par numéro de notice d'autorité (avec ou sans le préfixe FRBNF)
+						Attention: Par défaut d'index "aut.status", seules les notices d'autorité de référence sont cherchables.</zr:title>
+						<zr:title lang="en">Search by authority record identifier (with or without FRBNF prefix).
+						Beware that index "aut.status" must be used in order to search both on validated and sparse records.</zr:title>
+						<zr:map>
+							<name set="aut">recordid</name>
+						</zr:map>
+					</zr:index>
+					<zr:index id="aut.persistentid" scan="false" search="true">
+						<zr:title lang="fr">Recherche par l'identifiant pérenne ark de la notice d'autorité incluant la redirection des arks en cas de fusion de notices.
+						Attention: Par défaut d'index "aut.status", seules les notices d'autorité de référence sont cherchables.</zr:title>
+						<zr:title lang="en">Search by authority record persistent ark identifier including the redirection process.
+						Beware that index "aut.status" must be used in order to search both on validated and sparse records.</zr:title>
+						<zr:map>
+							<name set="aut">persistentid</name>
+						</zr:map>
+					</zr:index>
+					<zr:index id="aut.isni" scan="false" search="true">
+						<zr:title lang="fr">Recherche par identifiant ISNI (International Standard Name Identifier).
+						Attention: Par défaut d'index "aut.status", seules les notices d'autorité de référence sont cherchables.</zr:title>
+						<zr:title lang="en">Search by ISNI identifier (International Standard Name Identifier).
+						Beware that index "aut.status" must be used in order to search both on validated and sparse records.</zr:title>
+						<zr:map><name set="aut">isni</name></zr:map>
+						<zr:map>
+							<name set="">isni</name>
+						</zr:map>
+					</zr:index>
+					<zr:index id="aut.isnidate" scan="false" search="true">
+						<zr:title lang="fr">Recherche par date de chargement de l'ISNI dans le Catalogue général ISNI (recherche par YYYYMMDD).
+						Attention: Par défaut d'index "aut.status", seules les notices d'autorité de référence sont cherchables.</zr:title>
+						<zr:title lang="en">Search by ISNI date of loading in BnF Ctalogue general (format YYYYMMDD).
+						Beware that index "aut.status" must be used in order to search both on validated and sparse records.</zr:title>
+						<zr:map><name set="aut">isnidate</name></zr:map>
+						<zr:configInfo>
+							<zr:supports type="relation">&lt;</zr:supports>
+							<zr:supports type="relation">&lt;=</zr:supports>
+							<zr:supports type="relation">&gt;=</zr:supports>
+							<zr:supports type="relation">&gt;</zr:supports>
+							<zr:supports type="relation">within</zr:supports>
+						</zr:configInfo>
+					</zr:index>
+					<zr:index id="aut.otherid" scan="false" search="true">
+						<zr:title lang="fr">Recherche par autres numéros de notice.
+						Attention: Par défaut d'index "aut.status", seules les notices d'autorité de référence sont cherchables.</zr:title>
+						<zr:title lang="en">Search by other record identifiers.
+						Beware that index "aut.status" must be used in order to search both on validated and sparse records.</zr:title>
+						<zr:map>
+							<name set="aut">otherid</name>
+						</zr:map>
+					</zr:index>
+					<zr:index id="aut.domain" scan="false" search="true">
+						<zr:title lang="fr">Recherche par domaine, genre musical ou cadre de classement géographique.
+						Attention: Par défaut d'index "aut.status", seules les notices d'autorité de référence sont cherchables.</zr:title>
+						<zr:title lang="en">Search by domain, or musical or geographical classification.
+						Beware that index "aut.status" must be used in order to search both on validated and sparse records.</zr:title>
+						<zr:map>
+							<name set="aut">domain</name>
+						</zr:map>
+					</zr:index>
+					<zr:index id="aut.equivalence" scan="false" search="true">
+						<zr:title lang="fr">Recherche par equivalents dans d'autres référentiels (LCSH, ...).
+						Attention: Par défaut d'index "aut.status", seules les notices d'autorité de référence sont cherchables.</zr:title>
+						<zr:title lang="en">Search by authority category equivalents (LCSH, ...).
+						Beware that index "aut.status" must be used in order to search both on validated and sparse records.</zr:title>
+						<zr:map>
+							<name set="aut">equivalence</name>
+						</zr:map>
+					</zr:index>
+					<zr:index id="aut.author2works" scan="false" search="true">
+						<zr:title lang="fr">Renvoie toutes les oeuvres liées à l'autorité en tant qu'auteur
+						Attention: Par défaut d'index "aut.status", seules les notices d'autorité oeuvres de référence seront retrouvées.</zr:title>
+						<zr:title lang="en">Search all work authority linked to authority as author.
+						Beware that index "aut.status" must be used in order to retrieve both validated and sparse works.</zr:title>
+						<zr:map>
+							<name set="aut">author2works</name>
+						</zr:map>
+					</zr:index> 
+					<zr:index id="aut.creationdate" scan="false" search="true">
+						<zr:title lang="fr">Recherche par date de création de la notice d'autorité (recherche par YYYYMMDD)
+						Attention: Par défaut d'index "aut.status", seules les notices d'autorité de référence sont cherchables.</zr:title>
+						<zr:title lang="en">Search by authority record creation date (format YYYYMMDD).
+						Beware that index "aut.status" must be used in order to search both on validated and sparse records.</zr:title>
+						<zr:map>
+							<name set="aut">creationdate</name>
+						</zr:map>
+						<zr:configInfo>
+							<zr:supports type="relation">&lt;</zr:supports>
+							<zr:supports type="relation">&lt;=</zr:supports>
+							<zr:supports type="relation">&gt;=</zr:supports>
+							<zr:supports type="relation">&gt;</zr:supports>
+							<zr:supports type="relation">within</zr:supports>
+						</zr:configInfo>
+					</zr:index>
+					<zr:index id="aut.lastmodificationdate" scan="false" search="true">
+						<zr:title lang="fr">Recherche par date de dernière modification de la notice d'autorité (recherche par YYYYMMDD)
+						Attention: Par défaut d'index "aut.status", seules les notices d'autorité de référence sont cherchables.</zr:title>
+						<zr:title lang="en">Search by authority record last modification date (format YYYYMMDD).
+						Beware that index "aut.status" must be used in order to search both on validated and sparse records.</zr:title>
+						<zr:map>
+							<name set="aut">lastmodificationdate</name>
+						<zr:configInfo>
+							<zr:supports type="relation">&lt;</zr:supports>
+							<zr:supports type="relation">&lt;=</zr:supports>
+							<zr:supports type="relation">&gt;=</zr:supports>
+							<zr:supports type="relation">&gt;</zr:supports>
+							<zr:supports type="relation">within</zr:supports>
+						</zr:configInfo>
+						</zr:map>
+					</zr:index>
+					<zr:index id="aut.gmr" scan="false" search="true">
+						<zr:title lang="fr">Recherche par date de génération de la notice par la migration retour (recherche par YYYYMMDD)</zr:title>
+						<zr:title lang="en">Recherche par date de génération de la notice par la migration retour (recherche par YYYYMMDD)</zr:title>
+						<zr:map>
+							<name set="bib">aut</name>
+						</zr:map>
+						<zr:configInfo>
+							<zr:supports type="relation">&lt;</zr:supports>
+							<zr:supports type="relation">&lt;=</zr:supports>
+							<zr:supports type="relation">&gt;=</zr:supports>
+							<zr:supports type="relation">&gt;</zr:supports>
+							<zr:supports type="relation">within</zr:supports>
+						</zr:configInfo>
+					</zr:index>
+				</zr:indexInfo>
+
+
+
+				<zr:schemaInfo>
+						<zr:schema identifier="info:bnf-srw/xmlns/unimarcXchange" name="unimarcXchange">
+							<zr:title lang="fr">Unimarc (sans analytiques)</zr:title>
+							<zr:title lang="en">Unimarc (without analytic records)</zr:title>
+						</zr:schema>
+						<zr:schema identifier="info:bnf-srw/xmlns/unimarcXchange-anl" name="unimarcXchange-anl">
+							<zr:title lang="fr">Unimarc avec analytiques</zr:title>
+							<zr:title lang="en">Unimarc with analytic records</zr:title>
+						</zr:schema>
+						<zr:schema identifier="info:bnf-srw/xmlns/intermarcXchange" name="intermarcXchange">
+							<zr:title lang="fr">Intermarc (sans analytiques)</zr:title>
+							<zr:title lang="en">Intermarc (without analytic records)</zr:title>
+						</zr:schema>
+						<zr:schema identifier="info:bnf-srw/xmlns/intermarcXchange-anl" name="intermarcXchange-anl">
+							<zr:title lang="fr">Intermarc (avec analytiques)</zr:title>
+							<zr:title lang="en">Intermarc (with analytic records)</zr:title>
+						</zr:schema>
+						<zr:schema identifier="http://www.openarchives.org/OAI/2.0/oai_dc/" location="http://www.openarchives.org/OAI/2.0/oai_dc.xsd" name="dublincore">
+							<zr:title lang="fr">Dublin Core simple (non qualifié) pour les notices bibliographiques</zr:title>
+							<zr:title lang="en">Dublin Core (unqualified) for bibliographic records</zr:title>
+						</zr:schema>
+				</zr:schemaInfo>
+				<zr:configInfo>
+					<zr:default type="numberOfRecords">10</zr:default>
+					<zr:setting type="maximumRecords">1000</zr:setting>
+					<zr:default type="contextSet">bib</zr:default>
+					<zr:default type="retrieveSchema">unimarcXchange</zr:default>
+					<zr:supports type="relation">all</zr:supports>
+					<zr:supports type="relation">any</zr:supports>
+					<zr:supports type="relation">adj</zr:supports>
+					<zr:supports type="relation">=</zr:supports>
+					<zr:default type="relation">all</zr:default>
+				</zr:configInfo>
+			</zr:explain>
+		</srw:recordData>
+	</srw:record>
+</srw:explainResponse>

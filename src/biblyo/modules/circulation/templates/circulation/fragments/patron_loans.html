@@ -1,0 +1,27 @@
+{% from "components/feedback.html" import badge %}
+{% from "components/icons.html" import icon %}
+{% set card = loans_card %}
+<section class="card" aria-labelledby="titre-prets">
+  <div class="card-h"><h2 id="titre-prets">{{ _("Prêts") }}</h2><span class="faint small">{{ card.active }}</span></div>
+  <div class="card-b">
+    <p class="m0">{{ card.active }} {{ _("prêt en cours") if card.active <= 1 else _("prêts en cours") }}{% if card.overdue %} {{ badge(card.overdue ~ " " ~ _("en retard"), "late") }}{% endif %}</p>
+    {% if card.next_due %}<p class="muted small m0">{{ _("Prochaine échéance :") }} {{ card.next_due_label }}</p>{% endif %}
+    {% if card.answering %}<p class="muted small m0">{{ _("Répond de") }} {{ card.answering }} {{ _("prêt en cours") if card.answering == 1 else _("prêts en cours") }}</p>{% endif %}
+    {% if can("circulation.lend") and card.active %}<p class="m0 mt-xs"><a class="small" href="/comptoir?lecteur={{ card.patron_id }}">{{ _("Retours et renouvellements au comptoir") }}</a></p>{% endif %}
+    {% if card.detailed %}
+      {% if card.current %}
+      <ul class="plain mt-xs">{% for row in card.current %}<li class="row gap-s"><span class="grow min0"><a class="b" href="/prets/{{ row.id }}">{{ row.title }}</a> <span class="mono small faint">{{ row.barcode }}</span><span class="faint small block">{{ _("échéance") }} {{ row.due_label }}{% if row.borrower and row.borrower.id != card.patron_id %} · {{ _("utilisé par") }} {{ row.borrower.name }}{% endif %}</span>{% if row.late %}{{ badge(_("En retard"), "late") }}{% endif %}</span>
+        {% if can("circulation.lend") %}
+        <details class="confirm-inline"><summary class="btn btn-s btn-sm">{{ _("Retour") }}</summary>
+          <form method="post" action="/prets/{{ row.id }}/retour" class="row gap-xs mt-xs"><input type="hidden" name="_csrf" value="{{ csrf_token }}"><input type="hidden" name="retour" value="/lecteurs/{{ card.patron_id }}"><button type="submit" class="btn btn-p btn-sm" aria-label="{{ _('Confirmer le retour de') }} {{ row.title }}">{{ _("Confirmer le retour") }}</button></form>
+        </details>
+        {% endif %}</li>{% endfor %}</ul>
+      {% endif %}
+      {% if card.recent %}
+      <p class="small b mt-s mb-xs">{{ _("Derniers prêts terminés") }}</p>
+      <ul class="plain">{% for row in card.recent %}<li><a href="/prets/{{ row.id }}">{{ row.title }}</a> <span class="faint small">{% if row.cancelled_at %}{{ _("annulé") }}{% else %}{{ _("rendu le") }} {{ row.ended_label }}{% endif %}</span></li>{% endfor %}</ul>
+      {% endif %}
+      <p class="m0 mt-xs"><a class="small" href="/prets?vue=historique&amp;lecteur={{ card.patron_id }}">{{ _("Tout l’historique de ses prêts") }}</a></p>
+    {% endif %}
+  </div>
+</section>

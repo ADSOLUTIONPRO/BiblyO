@@ -1,0 +1,178 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header %}
+{% from "components/buttons.html" import button, link_button %}
+{% from "components/feedback.html" import alert, badge %}
+{% from "components/forms.html" import field, textarea, select, checkbox %}
+{% from "components/catalogue.html" import crumbs, fact %}
+{% from "components/icons.html" import icon %}
+{% from "patrons/components.html" import patron_picker, phone_choice, marks %}
+{% block title %}{{ _("Inscrire un lecteur") }} — biblyO{% endblock %}
+{% block content %}
+{{ crumbs([(_("Lecteurs & familles"), "/lecteurs"), (_("Inscrire un lecteur"), "")]) }}
+{{ page_header(_("Inscrire un lecteur"), _("Saisissez, vérifiez, puis enregistrez : rien n’est écrit avant la dernière étape."), "rdr", "plus") }}
+<ol class="steps" aria-label="{{ _('Étapes de l’inscription') }}">
+  <li{% if step == "saisir" %} aria-current="step"{% endif %}>{{ _("1. Saisir") }}</li>
+  <li{% if step == "verifier" %} aria-current="step"{% endif %}>{{ _("2. Vérifier et corriger") }}</li>
+  <li>{{ _("3. Fiche créée") }}</li>
+</ol>
+
+{% if step == "verifier" %}
+<form class="form col gap-m" method="post" action="/lecteurs/nouveau">
+  <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+  {% for name, value in values.items() %}<input type="hidden" name="{{ name }}" value="{{ value }}">{% endfor %}
+
+  {% if homonyms or hidden_homonyms %}
+  <section class="card" aria-labelledby="titre-homonymes">
+    <div class="card-h"><h2 id="titre-homonymes">{{ _("Une personne porte déjà ce nom") }}</h2></div>
+    <div class="card-b col gap-s">
+      <p class="m0">{{ _("Vérifiez qu’il ne s’agit pas de la même personne. Si elle est déjà inscrite, n’enregistrez pas cette fiche : ouvrez la sienne.") }}</p>
+      <ul class="plain col gap-s">
+        {% for row in homonyms %}<li><a class="b" href="/lecteurs/{{ row.id }}" target="_blank" rel="noopener">{{ row.name }}</a> <span class="mono small">{{ row.number }}</span>{% if row.marks.card %} <span class="mono small faint">{{ row.marks.card }}</span>{% endif %} <span class="muted small block">{{ marks(row, say_none=not row.marks.household) }}{% if row.marks.household %} · {{ row.marks.household }}{% endif %}</span></li>{% endfor %}
+      </ul>
+      {% if hidden_homonyms %}<p class="m0 b">{{ _("Une fiche archivée porte aussi ce nom. Votre compte ne peut pas l’ouvrir : demandez à un bibliothécaire de vérifier.") }}</p>{% endif %}
+      {% if errors.get("homonymes") %}{{ alert(errors.homonymes, "late") }}{% endif %}
+      {{ checkbox("homonymes_ok", _("Je confirme qu’il s’agit d’une autre personne")) }}
+    </div>
+  </section>
+  {% endif %}
+
+  <section class="card" aria-labelledby="titre-verifier">
+    <div class="card-h"><h2 id="titre-verifier">{{ _("Vérifiez ces informations") }}</h2></div>
+    <div class="card-b">
+      <dl class="dlist">
+        {{ fact(_("Prénom"), values.prenom) }}
+        {{ fact(_("Nom"), values.nom) }}
+        {{ fact(_("Catégorie"), category_label) }}
+        {{ fact(_("Naissance"), values.naissance) }}
+        {% if values.categorie == "adult" %}
+        {{ fact(_("Courriel"), values.courriel) }}
+        {{ fact(_("Téléphone"), phones.get("telephone") or values.telephone) }}
+        {{ fact(_("Adresse"), ((values.adresse_ligne1 ~ "\n" if values.adresse_ligne1 else "") ~ (values.adresse_ligne2 ~ "\n" if values.adresse_ligne2 else "") ~ values.code_postal ~ " " ~ values.ville) | trim, wide=True) }}
+        {% else %}
+        {{ fact(_("Responsable"), guardian_name or ((values.resp_prenom ~ " " ~ values.resp_nom) | trim)) }}
+        {% if guardian_name or values.resp_nom %}
+        {{ fact(_("Relation"), relation_label) }}
+        {{ fact(_("Peut emprunter pour lui"), _("Oui") if values.resp_emprunte == "1" else _("Non")) }}
+        {{ fact(_("À contacter"), _("Oui") if values.resp_contact == "1" else _("Non")) }}
+        {{ fact(_("L’enfant peut emprunter seul"), _("Oui") if values.resp_seul == "1" else _("Non")) }}
+        {% endif %}
+        {% endif %}
+        {{ fact(_("Foyer"), values.foyer_nom if values.foyer_mode == "nouveau" else values.foyer_label if values.foyer_mode == "existant" else "") }}
+        {{ fact(_("Carte"), values.carte or _("Un numéro sera attribué à l’enregistrement")) }}
+        {% if values.adhesion %}{{ fact(_("Adhésion jusqu’au"), values.adhesion) }}{% endif %}
+        {% if values.observations %}{{ fact(_("Observations"), values.observations, wide=True) }}{% endif %}
+      </dl>
+      {% if values.categorie == "minor" and not guardian_name and not values.resp_nom %}
+      <div class="mt-s">{{ alert(_("Sans responsable, la fiche affichera « Responsable à renseigner ». Aucun prêt ne sera possible tant qu’un adulte habilité et joignable n’y figurera pas."), "due") }}</div>
+      {% endif %}
+    </div>
+  </section>
+  <div class="form-actions">
+    {{ button(_("Enregistrer"), "p", "check", type="submit", name="etape", value="enregistrer") }}
+    {{ button(_("Corriger"), "s", "edit", type="submit", name="etape", value="corriger") }}
+  </div>
+</form>
+
+{% else %}
+{% if errors %}{{ alert(_("Quelques points sont à corriger ci-dessous. Rien n’a été enregistré."), "late") }}{% endif %}
+<form class="form col gap-m" method="post" action="/lecteurs/nouveau" x-data="registrationForm" data-category="{{ values.categorie }}" data-home="{{ values.foyer_mode }}" novalidate>
+  <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+
+  <section class="card" aria-labelledby="titre-personne">
+    <div class="card-h"><h2 id="titre-personne">{{ _("La personne") }}</h2></div>
+    <div class="card-b col gap-m">
+      <fieldset class="choice" x-on:change="setCategory">
+        <legend>{{ _("Catégorie") }}</legend>
+        <label class="check"><input type="radio" name="categorie" value="adult"{% if values.categorie == "adult" %} checked{% endif %}><span>{{ _("Adulte") }}</span></label>
+        <label class="check"><input type="radio" name="categorie" value="minor"{% if values.categorie == "minor" %} checked{% endif %}><span>{{ _("Mineur") }}</span></label>
+        {% if errors.get("categorie") %}<span class="err">{{ errors.categorie }}</span>{% endif %}
+      </fieldset>
+      <div class="grid g2">
+        {{ field("prenom", _("Prénom"), values.prenom, required=True, error=errors.get("prenom"), autocomplete="off") }}
+        {{ field("nom", _("Nom"), values.nom, required=True, error=errors.get("nom"), autocomplete="off") }}
+      </div>
+      {{ field("naissance", _("Naissance (facultatif)"), values.naissance, error=errors.get("naissance"), help=_("L’année suffit : 2014. Elle aide à distinguer deux personnes de même nom."), inputmode="numeric") }}
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="titre-coordonnees" x-show="isAdult">
+    <div class="card-h"><h2 id="titre-coordonnees">{{ _("Coordonnées (facultatif)") }}</h2></div>
+    <div class="card-b col gap-m">
+      {% if errors.get("coordonnees") %}{{ alert(errors.coordonnees, "late") }}{% endif %}
+      <div class="grid g2">
+        {{ field("courriel", _("Courriel"), values.courriel, type="email", error=errors.get("courriel"), autocomplete="off") }}
+        <div class="col gap-s">
+          {{ field("telephone", _("Téléphone"), values.telephone, type="tel", error=errors.get("telephone"), help=_("Métropole, outre-mer ou étranger, avec son indicatif (+44…)."), autocomplete="off") }}
+          {{ phone_choice("telephone_territoire", phone_choices.get("telephone")) }}
+        </div>
+      </div>
+      {{ field("adresse_ligne1", _("Adresse"), values.adresse_ligne1, error=errors.get("adresse"), autocomplete="off") }}
+      {{ field("adresse_ligne2", _("Complément d’adresse"), values.adresse_ligne2, autocomplete="off") }}
+      <div class="grid g2">
+        {{ field("code_postal", _("Code postal"), values.code_postal, inputmode="numeric", autocomplete="off") }}
+        {{ field("ville", _("Commune"), values.ville, autocomplete="off") }}
+      </div>
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="titre-responsable" x-show="isMinor">
+    <div class="card-h"><h2 id="titre-responsable">{{ _("Responsable (facultatif)") }}</h2></div>
+    <div class="card-b col gap-m">
+      <p class="protect m0">{{ icon("shield", 15) }}<span>{{ _("Un mineur n’a pas de coordonnées propres : renseignez celles de son responsable.") }}</span></p>
+      {{ patron_picker("resp_id", _("Adulte déjà inscrit"), adults_only=True, value=values.resp_id, value_label=values.resp_label, error=errors.get("resp_numero"), label_field="resp_label") }}
+      <details class="adv"{% if values.resp_nom or errors.get("resp_nom") or errors.get("resp_prenom") or errors.get("resp_telephone") or errors.get("resp_courriel") %} open{% endif %}>
+        <summary>{{ _("Le responsable n’est pas encore inscrit") }}</summary>
+        <div class="grid g2 mt-s">
+          {{ field("resp_prenom", _("Son prénom"), values.resp_prenom, error=errors.get("resp_prenom"), autocomplete="off") }}
+          {{ field("resp_nom", _("Son nom"), values.resp_nom, error=errors.get("resp_nom"), autocomplete="off") }}
+          {{ field("resp_courriel", _("Son courriel"), values.resp_courriel, type="email", error=errors.get("resp_courriel"), autocomplete="off") }}
+          <div class="col gap-s">
+            {{ field("resp_telephone", _("Son téléphone"), values.resp_telephone, type="tel", error=errors.get("resp_telephone"), autocomplete="off") }}
+            {{ phone_choice("resp_telephone_territoire", phone_choices.get("resp_telephone")) }}
+          </div>
+        </div>
+      </details>
+      {{ select("resp_relation", _("Relation avec l’enfant"), relation_options, values.resp_relation, error=errors.get("resp_relation")) }}
+      <fieldset class="choice">
+        <legend>{{ _("Ce que cet adulte peut faire : chaque droit se coche") }}</legend>
+        {{ checkbox("resp_emprunte", _("Peut emprunter pour cet enfant"), checked=values.resp_emprunte == "1") }}
+        {{ checkbox("resp_contact", _("Peut être contacté à son sujet"), checked=values.resp_contact == "1") }}
+        {{ checkbox("resp_seul", _("L’enfant peut emprunter seul"), checked=values.resp_seul == "1") }}
+      </fieldset>
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="titre-foyer">
+    <div class="card-h"><h2 id="titre-foyer">{{ _("Foyer (facultatif)") }}</h2></div>
+    <div class="card-b col gap-m">
+      <fieldset class="choice" x-on:change="setHome">
+        <legend>{{ _("Rattacher à un foyer ?") }}</legend>
+        <label class="check"><input type="radio" name="foyer_mode" value="aucun"{% if values.foyer_mode == "aucun" %} checked{% endif %}><span>{{ _("Non") }}</span></label>
+        <label class="check"><input type="radio" name="foyer_mode" value="existant"{% if values.foyer_mode == "existant" %} checked{% endif %}><span>{{ _("À un foyer existant") }}</span></label>
+        <label class="check"><input type="radio" name="foyer_mode" value="nouveau"{% if values.foyer_mode == "nouveau" %} checked{% endif %}><span>{{ _("À un nouveau foyer") }}</span></label>
+      </fieldset>
+      {% if errors.get("role") %}{{ alert(errors.role, "late") }}{% endif %}
+      <div x-show="homeExisting">{{ patron_picker("foyer_id", _("Foyer ou structure"), url="/foyers/choix", value=values.foyer_id, value_label=values.foyer_label, error=errors.get("foyer"), label_field="foyer_label") }}</div>
+      <div class="grid g2" x-show="homeNew">
+        {{ field("foyer_nom", _("Nom du foyer"), values.foyer_nom, error=errors.get("foyer"), help=_("Par exemple : Famille Martin."), autocomplete="off") }}
+        {{ select("foyer_type", _("Type"), kind_options, values.foyer_type) }}
+      </div>
+    </div>
+  </section>
+
+  <details class="card adv-card"{% if errors.get("carte") or errors.get("adhesion") or errors.get("observations") or values.carte or values.adhesion or values.observations %} open{% endif %}>
+    <summary>{{ _("Autres options : carte déjà imprimée, adhésion") if can("patrons.edit") else _("Autre option : carte déjà imprimée") }}</summary>
+    <div class="col gap-m mt-s">
+      {{ field("carte", _("Numéro de carte"), values.carte, error=errors.get("carte"), help=_("Laissez vide : un numéro sera attribué. Un numéro déjà pris, même autrefois, est refusé."), autocomplete="off") }}
+      {% if can("patrons.edit") %}{{ field("adhesion", _("Adhésion jusqu’au"), values.adhesion, error=errors.get("adhesion"), help=_("31/08/2027."), inputmode="numeric") }}{% endif %}
+      {% if can("patrons.view_personal") %}{{ textarea("observations", _("Observations internes"), values.observations, error=errors.get("observations"), help=_("Utiles au service seulement : jamais de donnée sensible (santé, religion, opinions…).")) }}{% endif %}
+    </div>
+  </details>
+
+  <div class="form-actions">
+    {{ button(_("Vérifier"), "p", "check", type="submit", name="etape", value="verifier") }}
+    {{ link_button(_("Annuler"), "/lecteurs", "g") }}
+  </div>
+</form>
+{% endif %}
+{% endblock %}

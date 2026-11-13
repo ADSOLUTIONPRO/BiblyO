@@ -1,0 +1,163 @@
+{% from "components/icons.html" import icon %}
+{% from "components/feedback.html" import badge %}
+
+{# Couverture : l'image jointe, sinon un visuel de remplacement fidèle à la maquette, qui ne remplace aucune information. #}
+{% macro cover(title, series="", volume="", authors="", color=0, image="", alt="", kicker="") %}
+{% if image %}
+<img class="cover-img" src="{{ image }}" alt="{{ alt or (_('Couverture de') ~ ' ' ~ title) }}" loading="lazy">
+{% else %}
+<div class="cover cv-{{ color }}" aria-hidden="true">
+  <div class="se">{% if series %}{{ series }}{% if volume %} · {{ volume }}{% endif %}{% else %}{{ kicker }}{% endif %}</div>
+  <div class="ti">{{ title }}</div>
+  {% if volume %}<div class="nu">{{ volume }}</div>{% endif %}
+  <div class="au">{{ authors }}</div>
+</div>
+{% endif %}
+{%- endmacro %}
+
+{% macro mini(title, color=0, image="") %}
+<span class="mini">
+  {% if image %}<img class="cover-img" src="{{ image }}" alt="" loading="lazy">{% else %}<span class="cover cv-{{ color }}" aria-hidden="true"></span>{% endif %}
+</span>
+{%- endmacro %}
+
+{# Carte de la grille. card : voir repository.CardView. La disponibilité est toujours visible, jamais au survol
+   seulement ; « Prêter » est un lien à part, atteignable au clavier, qui ne recouvre ni le titre ni la couverture. #}
+{% macro book_card(card, can_lend=False) %}
+<div class="bcard-w">
+<a class="bcard" href="/catalogue/notices/{{ card.id }}">
+  <div class="cv">{{ cover(card.title, card.series_title, card.volume_text, card.authors_text, card.color, card.thumbnail, kicker=card.type_label) }}</div>
+  {% if card.is_archived %}<span class="flag">{{ badge(_("Archivée"), "due") }}</span>{% endif %}
+  <div class="t">{{ card.title }}</div>
+  <div class="a">{% if card.series_title %}{{ card.series_title }}{% if card.volume_text %} · {{ _("t.") }} {{ card.volume_text }}{% endif %}{% else %}{{ card.authors_text }}{% endif %}</div>
+  <div class="m">
+    {{ badge(card.type_label, "cat", dot=False) }}
+    {% if card.edition_count > 1 %}{{ badge(card.edition_count ~ " " ~ _("éditions"), "ser", dot=False) }}{% endif %}
+  </div>
+  {% if card.availability %}{% set label, kind = card.availability.headline %}<div class="m avail">{{ badge(label, kind) }}{% if card.availability.overdue and card.availability.available %}{{ badge(card.availability.overdue ~ " " ~ _("en retard"), "late") }}{% endif %}</div>{% endif %}
+</a>
+{% if can_lend and card.availability and card.availability.available and not card.is_archived %}<a class="bcard-act" href="/comptoir/livre/{{ card.id }}/preter" aria-label="{{ _('Prêter') }} « {{ card.title }} »">{{ icon("out", 14) }}<span>{{ _("Prêter") }}</span></a>{% endif %}
+</div>
+{%- endmacro %}
+
+{# Frise d'une série : présent, manquant confirmé, à vérifier. L'état n'est jamais porté par la couleur seule. #}
+{% macro series_strip(title, volumes, color=0) %}
+<div class="tl" role="list" aria-label="{{ _('Tomes de') }} {{ title }}">
+  {% for volume in volumes %}
+  {% if volume.state == "present" %}
+  <a class="tome cv-{{ color }}{% if volume.badge %} plus{% endif %}{% if volume.out %} out{% endif %}" role="listitem"{% if volume.badge %} data-plus="{{ volume.badge }}"{% endif %} href="{{ volume.href }}" title="{{ volume.title }}" aria-label="{{ volume.title }}">{{ volume.label }}{% if volume.out %}<small aria-hidden="true">{{ icon("out", 10) }}</small>{% endif %}</a>
+  {% elif volume.state == "missing" %}
+  <span class="tome miss" role="listitem" title="{{ volume.title }}" aria-label="{{ volume.title }}">{{ volume.label }}<small aria-hidden="true">—</small></span>
+  {% else %}
+  <span class="tome gap" role="listitem" title="{{ volume.title }}" aria-label="{{ volume.title }}">{{ volume.label }}<small aria-hidden="true">?</small></span>
+  {% endif %}
+  {% endfor %}
+</div>
+{%- endmacro %}
+
+{% macro series_legend() %}
+<span class="legend">
+  <span><i class="k-present"></i>{{ _("Présent") }}</span>
+  <span><i class="k-miss"></i>{{ _("Manquant confirmé") }}</span>
+  <span><i class="k-gap"></i>{{ _("À vérifier") }}</span>
+  <span><i class="k-plus"></i>{{ _("Éditions ou exemplaires multiples") }}</span>
+  <span><i class="k-out"></i>{{ _("Sorti : toujours dans la collection") }}</span>
+</span>
+{%- endmacro %}
+
+{# Fil d'Ariane. items : liste de couples (libellé, adresse) ; la dernière entrée n'a pas d'adresse. #}
+{% macro crumbs(items) %}
+<nav class="crumbs" aria-label="{{ _('Fil d’Ariane') }}">
+  {% for label, href in items %}
+  {% if href %}<a href="{{ href }}">{{ label }}</a>{{ icon("chev", 12) }}{% else %}<span aria-current="page">{{ label }}</span>{% endif %}
+  {% endfor %}
+</nav>
+{%- endmacro %}
+
+{% macro search_input(name, label, value="", placeholder="", extra_class="") %}
+<div class="in-icon grow">
+  {{ icon("search", 17) }}
+  <input class="in {{ extra_class }}" type="search" name="{{ name }}" value="{{ value }}" placeholder="{{ placeholder }}" aria-label="{{ label }}">
+</div>
+{%- endmacro %}
+
+{# Options d'un champ : une ligne de contributeur, sans identifiant : les tableaux du formulaire gardent l'ordre. #}
+{% macro person_choice(prefix, matches, selected="") %}
+{% if matches %}
+<select class="in" name="{{ prefix }}_choix" aria-label="{{ _('Quelle personne ?') }}">
+  {% if matches | length > 1 %}<option value=""{% if not selected %} selected{% endif %}>{{ _("Choisir une personne…") }}</option>{% endif %}
+  {% for person in matches %}
+  <option value="{{ person.id }}"{% if selected == person.id | string or (matches | length == 1 and not selected) %} selected{% endif %}>{{ person.label }}</option>
+  {% endfor %}
+  <option value="new"{% if selected == "new" %} selected{% endif %}>{{ _("Nouvelle personne, homonyme") }}</option>
+</select>
+{% else %}
+<input type="hidden" name="{{ prefix }}_choix" value="">
+{% endif %}
+{%- endmacro %}
+
+{% macro contributor_row(prefix, roles, row, error="") %}
+<div class="contrib-row">
+  <div class="contrib-name">
+    <input class="in" name="{{ prefix }}_nom" value="{{ row.get('nom', '') }}" aria-label="{{ _('Nom') }}" placeholder="{{ _('Nom') }}"{% if error %} aria-invalid="true"{% endif %} hx-get="/catalogue/contributeurs/choix?prefixe={{ prefix }}" hx-trigger="change" hx-target="next .contrib-choice" hx-swap="innerHTML">
+    {% if error %}<span class="fld"><span class="err">{{ icon("alert", 14) }}<span>{{ error }}</span></span></span>{% endif %}
+  </div>
+  <select class="in" name="{{ prefix }}_role" aria-label="{{ _('Rôle') }}">
+    {% for code, label in roles %}<option value="{{ code }}"{% if code == row.get('role', 'author') %} selected{% endif %}>{{ label }}</option>{% endfor %}
+  </select>
+  <div class="contrib-choice">{{ person_choice(prefix, row.get('matches', []), row.get('choix', '')) }}</div>
+  <input class="in" name="{{ prefix }}_dates" value="{{ row.get('dates', '') }}" aria-label="{{ _('Dates, pour distinguer les homonymes') }}" placeholder="{{ _('Dates, facultatif') }}">
+</div>
+{%- endmacro %}
+
+{% macro contributor_rows(prefix, label, roles, rows, errors) %}
+<fieldset class="fs">
+  <legend class="contrib-head">{{ label }}</legend>
+  <div class="col" id="lignes-{{ prefix }}">
+    {% for row in rows %}{{ contributor_row(prefix, roles, row, errors.get(prefix ~ "_" ~ loop.index0, "")) }}{% endfor %}
+  </div>
+  <button type="button" class="btn btn-g btn-sm" hx-get="/catalogue/contributeurs/ligne?prefixe={{ prefix }}" hx-target="#lignes-{{ prefix }}" hx-swap="beforeend">{{ icon("plus", 14) }}<span>{{ _("Ajouter une personne") }}</span></button>
+</fieldset>
+{%- endmacro %}
+
+{# Champ texte relié à des suggestions, sans JavaScript propre : la liste native du navigateur. #}
+{% macro suggest_field(name, label, kind, value="", error="", help="") %}
+<div class="fld">
+  <label for="{{ name }}">{{ label }}</label>
+  <input class="in" id="{{ name }}" name="{{ name }}" value="{{ value }}" list="liste-{{ name }}" autocomplete="off"{% if error %} aria-invalid="true"{% endif %} hx-get="/catalogue/suggestions/{{ kind }}" hx-trigger="input changed delay:200ms" hx-target="#liste-{{ name }}" hx-swap="innerHTML">
+  <datalist id="liste-{{ name }}"></datalist>
+  {% if help %}<span class="h">{{ help }}</span>{% endif %}
+  {% if error %}<span class="err">{{ icon("alert", 14) }}<span>{{ error }}</span></span>{% endif %}
+</div>
+{%- endmacro %}
+
+{# Ligne de qualité du tableau de bord : un chiffre et un lien préfiltré vers les notices concernées. #}
+{% macro quality_row(label, count, href, kind) %}
+<a class="li qrow" href="{{ href }}">{{ badge(count | number, kind, dot=False) }}<span class="grow b">{{ label }}</span>{{ icon("chev", 16) }}</a>
+{%- endmacro %}
+
+{# Filtre du catalogue. `block` : avec un libellé au-dessus, dans le panneau de recherche avancée. #}
+{% macro filter_select(name, label, options, selected="", block=False, empty="") %}
+{% if block %}
+<div class="fld">
+  <label for="f-{{ name }}">{{ label }}</label>
+  <select class="in" id="f-{{ name }}" name="{{ name }}">
+    <option value="">{{ empty or _("Tous") }}</option>
+    {% for value, text in options %}<option value="{{ value }}"{% if value == selected %} selected{% endif %}>{{ text }}</option>{% endfor %}
+  </select>
+</div>
+{% else %}
+<select class="in in-sm" name="{{ name }}" aria-label="{{ label }}">
+  <option value="">{{ label }}</option>
+  {% for value, text in options %}<option value="{{ value }}"{% if value == selected %} selected{% endif %}>{{ text }}</option>{% endfor %}
+</select>
+{% endif %}
+{%- endmacro %}
+
+{# Une ligne de définition de la fiche : ce qui manque est dit, jamais laissé vide. #}
+{% macro fact(label, value, wide=False, mono=False) %}
+<div{% if wide %} class="wide"{% endif %}>
+  <dt>{{ label }}</dt>
+  <dd>{% if value %}{% if mono %}<span class="mono">{{ value }}</span>{% else %}{{ value }}{% endif %}{% else %}<span class="none">{{ _("Non renseigné") }}</span>{% endif %}</dd>
+</div>
+{%- endmacro %}

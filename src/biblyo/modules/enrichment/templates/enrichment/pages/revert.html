@@ -1,0 +1,38 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header, data_table %}
+{% from "components/buttons.html" import button, link_button %}
+{% from "components/feedback.html" import alert %}
+{% block title %}{{ _("Annuler un enrichissement") }} — biblyO{% endblock %}
+{% block content %}
+{% call page_header(_("Annuler un enrichissement"), _("Certains champs ont été modifiés depuis cet enrichissement. Ils n’ont pas été restaurés : choisissez, champ par champ, ce qui doit l’être."), "enr", "undo") %}
+  {{ link_button(_("Retour à la fiche"), back, "g", "undo") }}
+{% endcall %}
+{% if restored_labels %}{{ alert(_("Déjà rétablis, car inchangés depuis : {list}.").format(list=restored_labels | join(", ")), "ok") }}{% endif %}
+<form method="post" action="{{ action }}" class="form">
+  <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+  <section class="card" aria-labelledby="enr-conflits">
+    <div class="card-h"><h2 id="enr-conflits">{{ _("Champs modifiés depuis") }}</h2></div>
+    <div class="card-b">
+    {% call data_table(_("Champs en conflit")) %}
+      <thead><tr><th scope="col">{{ _("Rétablir") }}</th><th scope="col">{{ _("Champ") }}</th><th scope="col">{{ _("Écrit par l’enrichissement") }}</th><th scope="col">{{ _("Valeur actuelle") }}</th><th scope="col">{{ _("Valeur qui serait rétablie") }}</th></tr></thead>
+      <tbody>
+      {% for field, written, current, old in conflicts %}
+        <tr>
+          <td data-label="{{ _('Rétablir') }}"><label class="check" for="forcer-{{ field }}"><input type="checkbox" id="forcer-{{ field }}" name="forcer" value="{{ field }}"><span class="sr">{{ _("Rétablir {label}").format(label=labels.get(field, field)) }}</span></label></td>
+          <th scope="row" data-label="{{ _('Champ') }}">{{ labels.get(field, field) }}</th>
+          <td data-label="{{ _('Écrit par l’enrichissement') }}">{{ shown(written) }}</td>
+          <td data-label="{{ _('Valeur actuelle') }}"><b>{{ shown(current) }}</b></td>
+          <td data-label="{{ _('Valeur qui serait rétablie') }}">{{ shown(old) }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    {% endcall %}
+    <p class="muted small mt-s m0">{{ _("Une case cochée écrase la valeur actuelle par la valeur d’avant l’enrichissement. Sans case, la valeur actuelle reste.") }}</p>
+    </div>
+  </section>
+  <div class="form-actions">
+    {{ button(_("Rétablir les champs cochés"), "p", "undo", type="submit") }}
+    {{ link_button(_("Garder les valeurs actuelles"), back, "g") }}
+  </div>
+</form>
+{% endblock %}

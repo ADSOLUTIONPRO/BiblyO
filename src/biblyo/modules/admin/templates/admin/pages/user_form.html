@@ -1,0 +1,40 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header, card %}
+{% from "components/forms.html" import field, checkbox %}
+{% from "components/buttons.html" import button, link_button %}
+{% from "components/feedback.html" import alert %}
+{% set page_title = account.display_name if account else _("Créer un compte") %}
+{% block title %}{{ page_title }} — biblyO{% endblock %}
+{% block content %}
+<nav class="crumbs" aria-label="{{ _('Fil d’Ariane') }}"><a href="/admin/utilisateurs">{{ _("Utilisateurs") }}</a><span aria-hidden="true">›</span><span>{{ page_title }}</span></nav>
+{{ page_header(page_title, account.username if account else _("Un mot de passe provisoire sera généré."), "io", "key") }}
+<div class="stack narrow">
+  {% if errors.get("form") %}{{ alert(errors.get("form"), "late") }}{% endif %}
+  {% call card() %}
+  <form class="form" method="post" action="{% if account %}/admin/utilisateurs/{{ account.id }}{% else %}/admin/utilisateurs/nouveau{% endif %}">
+    <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+    {% if not account %}{{ field("identifiant", _("Identifiant"), value=values.get("identifiant", ""), autocomplete="off", required=True, error=errors.get("username", "")) }}{% endif %}
+    {{ field("nom", _("Nom"), value=values.get("nom", ""), autocomplete="off", required=True, error=errors.get("display_name", "")) }}
+    <fieldset class="fs">
+      <legend>{{ _("Rôles") }}</legend>
+      {% for role in roles %}{{ checkbox("roles", role.label, role.code, role.code in values.selected) }}{% endfor %}
+      {% if errors.get("roles") %}<span class="fld"><span class="err">{{ errors.get("roles") }}</span></span>{% endif %}
+    </fieldset>
+    {% if account %}{{ checkbox("actif", _("Compte actif"), "1", account.is_active, help=_("Un compte désactivé ne peut plus se connecter ; ses sessions sont fermées.")) }}{% endif %}
+    <div class="form-actions">
+      {{ button(_("Enregistrer"), "p", type="submit") }}
+      {{ link_button(_("Retour à la liste"), "/admin/utilisateurs", "g") }}
+    </div>
+  </form>
+  {% endcall %}
+  {% if account %}
+  {% call card(_("Mot de passe"), "carte-reinitialisation") %}
+  <form class="form" method="post" action="/admin/utilisateurs/{{ account.id }}/mot-de-passe">
+    <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+    <p class="muted">{{ _("Génère un mot de passe provisoire, ferme les sessions du compte et lève un éventuel verrouillage.") }}</p>
+    <div class="form-actions">{{ button(_("Réinitialiser le mot de passe"), "s", type="submit") }}</div>
+  </form>
+  {% endcall %}
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,99 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header %}
+{% from "components/buttons.html" import button, link_button %}
+{% from "components/feedback.html" import alert, badge %}
+{% from "components/forms.html" import field, textarea, select %}
+{% from "components/catalogue.html" import crumbs %}
+{% from "components/icons.html" import icon %}
+{% from "patrons/components.html" import patron_picker %}
+{% block title %}{{ household.name }} — biblyO{% endblock %}
+{% block content %}
+{% set structure = household.kind == "structure" %}
+{{ crumbs([(_("Lecteurs & familles"), "/lecteurs?vue=foyers"), (household.name, "")]) }}
+{{ page_header(household.name, record.kind_label ~ (" · " ~ _("archivé") if archived else ""), "rdr", "building" if structure else "users") }}
+{% if message %}{{ alert(message, "late") }}{% endif %}
+<p class="protect mb-s">{{ icon("shield", 15) }}<span>{% if structure %}{{ _("Une structure n’est pas une personne. Être référent ou membre ne donne aucun droit sur un mineur : ces droits se donnent lien par lien.") }}{% else %}{{ _("Appartenir à ce foyer ne donne aucun droit d’emprunter ni d’accès aux informations : ces droits se donnent lien par lien, sur la fiche de l’enfant.") }}{% endif %}</span></p>
+
+<div class="sheet-grid">
+  <section class="card" aria-labelledby="titre-membres">
+    <div class="card-h"><h2 id="titre-membres">{{ _("Référents et membres") if structure else _("Membres") }}</h2><span class="faint small">{{ record.members | length }}</span></div>
+    {% for member in record.members %}
+    <div class="li">
+      <span class="grow"><a class="b" href="/lecteurs/{{ member.patron_id }}">{{ member.name }}</a> <span class="mono small faint">{{ member.number }}</span><span class="faint small block">{{ member.role_label }}</span>{% if member.can_borrow_for_structure %}<span class="small block">{{ badge(_("Peut emprunter pour la structure"), "rdr", dot=False) }}</span>{% endif %}</span>
+      {% if not archived and can("patrons.edit") %}
+      <details class="status-ask">
+        <summary class="btn btn-g btn-sm" aria-label="{{ _('Modifier le lien de') }} {{ member.name }}">{{ _("Modifier") }}</summary>
+        <div class="col gap-s mt-xs">
+          {% if structure and member.category == "adult" %}<form class="row gap-xs" method="post" action="/foyers/{{ household.id }}/membres/{{ member.patron_id }}/structure"><input type="hidden" name="_csrf" value="{{ csrf_token }}"><label class="check" for="structure-{{ member.patron_id }}"><input type="checkbox" id="structure-{{ member.patron_id }}" name="structure" value="1"{% if member.can_borrow_for_structure %} checked{% endif %}><span>{{ _("Peut emprunter pour la structure") }}</span></label>{{ button(_("Enregistrer"), "s", "", size="sm", type="submit") }}</form>{% endif %}
+          <form class="row gap-xs" method="post" action="/foyers/{{ household.id }}/membres/{{ member.patron_id }}/role">
+            <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+            <label class="sr" for="role-{{ member.patron_id }}">{{ _("Rôle") }}</label>
+            <select class="in in-sm" id="role-{{ member.patron_id }}" name="role">{% for value, label in role_options %}<option value="{{ value }}"{% if value == member.role %} selected{% endif %}>{{ label }}</option>{% endfor %}</select>
+            {{ button(_("Changer le rôle"), "s", "", size="sm", type="submit") }}
+          </form>
+          <form method="post" action="/foyers/{{ household.id }}/membres/{{ member.patron_id }}/retirer"><input type="hidden" name="_csrf" value="{{ csrf_token }}">{{ button(_("Retirer de ce foyer"), "g", "", size="sm", type="submit") }}</form>
+        </div>
+      </details>
+      {% endif %}
+    </div>
+    {% else %}
+    <div class="card-b"><p class="muted small m0">{{ _("Aucun membre.") }}</p></div>
+    {% endfor %}
+    {% if not archived and can("patrons.edit") %}
+    <div class="card-b">
+      <details class="status-ask"{% if errors %} open{% endif %}>
+        <summary class="btn btn-s btn-sm">{{ icon("plus", 14) }}<span>{{ _("Ajouter un référent ou un membre") if structure else _("Ajouter un membre") }}</span></summary>
+        <form class="form" method="post" action="/foyers/{{ household.id }}/membres">
+          <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+          {{ patron_picker("membre_id", _("Lecteur déjà inscrit")) }}
+          {{ select("role", _("Rôle dans ce foyer"), role_options, "referent" if structure else "member") }}
+          <div class="form-actions">{{ button(_("Ajouter"), "s", "", size="sm", type="submit") }}</div>
+        </form>
+      </details>
+    </div>
+    {% endif %}
+  </section>
+
+  <div class="col gap-m">
+    <section class="card" aria-labelledby="titre-coordonnees">
+      <div class="card-h"><h2 id="titre-coordonnees">{{ _("Coordonnées partagées") }}</h2>{% if personal and not archived and can("patrons.edit") %}<span class="push-end">{{ link_button(_("Modifier"), "/foyers/" ~ household.id ~ "/coordonnees", "g", "edit", "sm", aria_label=_("Modifier les coordonnées partagées")) }}</span>{% endif %}</div>
+      <div class="card-b">
+        {% if personal %}{% with household_id = household.id %}{% include "patrons/fragments/household_contacts_masked.html" %}{% endwith %}
+        {% else %}<p class="protect m0">{{ icon("shield", 15) }}<span>{{ _("Coordonnées réservées : votre compte ne permet pas de les voir.") }}</span></p>{% endif %}
+      </div>
+    </section>
+
+    {% if can("patrons.edit") and not archived %}
+    <section class="card" aria-labelledby="titre-foyer">
+      <div class="card-h"><h2 id="titre-foyer">{{ _("Nom de la structure") if structure else _("Nom du foyer") }}</h2></div>
+      <div class="card-b">
+        <form class="form col gap-s" method="post" action="/foyers/{{ household.id }}/modifier">
+          <input type="hidden" name="_csrf" value="{{ csrf_token }}"><input type="hidden" name="version" value="{{ household.version }}">
+          {{ field("nom", _("Nom"), household.name, required=True, error=errors.get("nom"), autocomplete="off") }}
+          {% if personal %}{{ textarea("observations", _("Observations internes"), notes or "", error=errors.get("notes"), help=_("Utiles au service seulement : jamais de donnée sensible.")) }}{% endif %}
+          <div class="form-actions">{{ button(_("Enregistrer"), "s", "", size="sm", type="submit") }}</div>
+        </form>
+      </div>
+    </section>
+    {% elif personal and notes %}
+    <section class="card" aria-labelledby="titre-observations"><div class="card-h"><h2 id="titre-observations">{{ _("Observations internes") }}</h2></div><div class="card-b"><p class="m0 pre">{{ notes }}</p></div></section>
+    {% endif %}
+
+    {% if can("patrons.archive") %}
+    <section class="card" aria-labelledby="titre-archivage">
+      <div class="card-h"><h2 id="titre-archivage">{{ _("Archivage") }}</h2></div>
+      <div class="card-b col gap-s">
+        {% if archived %}
+        <form method="post" action="/foyers/{{ household.id }}/reactiver"><input type="hidden" name="_csrf" value="{{ csrf_token }}"><input type="hidden" name="version" value="{{ household.version }}">{{ button(_("Réactiver"), "s", "", size="sm", type="submit") }}</form>
+        {% elif record.members %}
+        <p class="muted small m0">{{ _("Une structure ne s’archive que si elle n’a plus de membres. Rien n’est jamais supprimé.") if structure else _("Un foyer ne s’archive que s’il n’a plus de membres. Rien n’est jamais supprimé.") }}</p>
+        {% else %}
+        <p class="muted small m0">{{ _("Cette structure n’a plus de membres : elle peut être archivée.") if structure else _("Ce foyer n’a plus de membres : il peut être archivé.") }}</p>
+        <form method="post" action="/foyers/{{ household.id }}/archiver"><input type="hidden" name="_csrf" value="{{ csrf_token }}"><input type="hidden" name="version" value="{{ household.version }}">{{ button(_("Archiver"), "s", "archive", size="sm", type="submit") }}</form>
+        {% endif %}
+      </div>
+    </section>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header %}
+{% from "components/buttons.html" import link_button, button %}
+{% from "components/feedback.html" import alert, badge %}
+{% block title %}{{ _("Règles de prêt") }} — biblyO{% endblock %}
+{% macro number(name, value, label, min, max, empty="") %}
+<label class="sr" for="{{ name }}">{{ label }}</label><input class="in in-sm rule-in" id="{{ name }}" name="{{ name }}" type="number" min="{{ min }}" max="{{ max }}" value="{{ typed.get(name, value if value is not none else empty) }}">
+{% endmacro %}
+{% block content %}
+{% call page_header(_("Règles de prêt"), _("Durées, renouvellements, plafonds et seuils. Chaque changement est journalisé."), "loan", "gear") %}
+  {{ link_button(_("Tous les prêts"), "/prets", "g", "loans") }}
+{% endcall %}
+{% if message %}{{ alert(message, "late") }}{% endif %}
+{% if errors %}{{ alert(_("Certaines valeurs ne sont pas acceptées : elles sont signalées ci-dessous. Rien n’a été enregistré."), "late") }}{% endif %}
+<form class="stack" method="post" action="/prets/regles">
+  <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+  <section class="card tbl-m-cards" aria-labelledby="rg-regles">
+    <div class="card-h"><h2 id="rg-regles">{{ _("Durées et plafonds") }}</h2></div>
+    <div class="tbl-wrap"><table class="tbl">
+      <thead><tr><th scope="col">{{ _("Portée") }}</th><th scope="col">{{ _("Durée (jours)") }}</th><th scope="col">{{ _("Prolongation (jours)") }}</th><th scope="col">{{ _("Renouvellements") }}</th><th scope="col">{{ _("Plafond") }}</th><th scope="col"><span class="sr">{{ _("Action") }}</span></th></tr></thead>
+      <tbody>
+        {% for rule in rules %}
+        {% set key = "regle_" ~ rule.id %}
+        <tr>
+          <td><b>{{ rule.scope_label }}</b></td>
+          <td>{{ number(key ~ "_duree", rule.loan_days, _("Durée en jours") ~ " · " ~ rule.scope_label, 1, 365) }}</td>
+          <td>{{ number(key ~ "_prolongation", rule.renewal_days, _("Prolongation en jours") ~ " · " ~ rule.scope_label, 1, 365) }}</td>
+          <td>{{ number(key ~ "_renouvellements", rule.max_renewals, _("Renouvellements") ~ " · " ~ rule.scope_label, 0, 20) }}</td>
+          <td>{{ number(key ~ "_plafond", rule.max_active_loans, _("Plafond") ~ " · " ~ rule.scope_label, 1, 999) }}</td>
+          <td>{% if rule.removable %}<button class="btn btn-g btn-sm" type="submit" name="supprimer" value="{{ rule.id }}" formaction="/prets/regles/supprimer" aria-label="{{ _('Supprimer la règle') }} {{ rule.scope_label }}">{{ _("Supprimer") }}</button>{% endif %}</td>
+        </tr>
+        {% if errors.get(key) %}<tr><td colspan="6"><span class="err">{{ errors.get(key) }}</span></td></tr>{% endif %}
+        {% endfor %}
+      </tbody>
+    </table></div>
+    <div class="card-b"><p class="muted small m0">{{ _("Plafond vide : aucun plafond. Une règle propre à un type de document l’emporte sur celle de la catégorie.") }}</p></div>
+  </section>
+
+  <section class="card" aria-labelledby="rg-seuils">
+    <div class="card-h"><h2 id="rg-seuils">{{ _("Plafonds et retards") }}</h2></div>
+    <div class="card-b col gap-s">
+      <fieldset class="choice"><legend>{{ _("Quand un plafond est dépassé") }}</legend>
+        {% for code, label in limit_modes.items() %}<label class="check"><input type="radio" name="mode_plafond" value="{{ code }}"{% if values.limit_mode == code %} checked{% endif %}><span>{{ label }}</span></label>{% endfor %}
+        <span class="h">{{ _("En mode bloquant, seul un compte habilité peut dépasser le plafond, avec un motif journalisé. Un bénévole est arrêté.") }}</span>
+      </fieldset>
+      <div class="fld"><label for="rg-retards">{{ _("Seuil de retards qui demande une dérogation") }}</label><input class="in in-sm num-short" id="rg-retards" name="seuil_retards" type="number" min="1" max="99" value="{{ values.overdue_block or '' }}"{% if errors.get("seuil_retards") %} aria-invalid="true"{% endif %}><span class="h">{{ _("Vide : désactivé. Les retards restent toujours affichés au comptoir.") }}</span>{% if errors.get("seuil_retards") %}<span class="err">{{ errors.seuil_retards }}</span>{% endif %}</div>
+      <div class="fld"><label for="rg-fermeture">{{ _("Jour de fermeture hebdomadaire") }}</label><select class="in" id="rg-fermeture" name="fermeture"><option value="">{{ _("Aucun") }}</option>{% for code, label in weekdays %}<option value="{{ code }}"{% if values.closed_weekday == code %} selected{% endif %}>{{ label }}</option>{% endfor %}</select><span class="h">{{ _("Une échéance ce jour-là est signalée, sans être déplacée.") }}</span></div>
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="rg-conservation">
+    <div class="card-h"><h2 id="rg-conservation">{{ _("Conservation de l’historique") }}</h2>{{ badge(_("Hypothèse, sans effet"), "due", dot=False) }}</div>
+    <div class="card-b col gap-s">
+      <div class="fld"><label for="rg-mois">{{ _("Durée envisagée, en mois après le retour") }}</label><input class="in in-sm num-short" id="rg-mois" name="conservation_mois" type="number" min="1" max="120" value="{{ values.retention_months }}"{% if errors.get("conservation_mois") %} aria-invalid="true"{% endif %}>{% if errors.get("conservation_mois") %}<span class="err">{{ errors.conservation_mois }}</span>{% endif %}</div>
+      <p class="m0"><b>{{ _("Simulation") }}</b> · {{ _("avant le") }} {{ preview.cutoff_label }} :
+        {{ preview.concerned | number }} {{ _("prêt terminé serait concerné") if preview.concerned == 1 else _("prêts terminés seraient concernés") }},
+        {{ preview.kept_lost_copy | number }} {{ _("conservé pour un exemplaire perdu") if preview.kept_lost_copy == 1 else _("conservés pour un exemplaire perdu") }},
+        {{ preview.kept_hold | number }} {{ _("conservé par une mise en conservation") if preview.kept_hold == 1 else _("conservés par une mise en conservation") }}.</p>
+      <p class="muted small m0">{{ _("Rien n’est effacé : biblyO ne fournit aucune commande d’effacement à ce stade. Un effacement demandera une décision écrite. Les sauvegardes déjà faites ne sont jamais modifiées. Ce n’est pas un avis juridique.") }}</p>
+    </div>
+  </section>
+
+  <div class="form-actions">{{ button(_("Enregistrer les règles"), "p", "check", type="submit") }}</div>
+</form>
+
+<section class="card mt-s" aria-labelledby="rg-ajout">
+  <div class="card-h"><h2 id="rg-ajout">{{ _("Ajouter une règle pour un type de document") }}</h2></div>
+  <form class="card-b remind-form" method="post" action="/prets/regles/ajouter">
+    <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+    <div class="fld"><label for="rg-type">{{ _("Type de document") }}</label><select class="in" id="rg-type" name="type">{% for item in document_types %}<option value="{{ item.id }}">{{ item.label }}</option>{% endfor %}</select></div>
+    <div class="fld"><label for="rg-categorie">{{ _("Catégorie") }}</label><select class="in" id="rg-categorie" name="categorie"><option value="">{{ _("Toutes") }}</option>{% for code, label in categories.items() %}<option value="{{ code }}">{{ label }}</option>{% endfor %}</select></div>
+    <div class="fld"><label for="rg-n-duree">{{ _("Durée (jours)") }}</label><input class="in in-sm" id="rg-n-duree" name="duree" type="number" min="1" max="365" value="14"></div>
+    <div class="fld"><label for="rg-n-prolongation">{{ _("Prolongation (jours)") }}</label><input class="in in-sm" id="rg-n-prolongation" name="prolongation" type="number" min="1" max="365" value="14"></div>
+    <div class="fld"><label for="rg-n-renouvellements">{{ _("Renouvellements") }}</label><input class="in in-sm" id="rg-n-renouvellements" name="renouvellements" type="number" min="0" max="20" value="1"></div>
+    <div class="fld"><label for="rg-n-plafond">{{ _("Plafond") }}</label><input class="in in-sm" id="rg-n-plafond" name="plafond" type="number" min="1" max="999"></div>
+    <div class="form-actions">{{ button(_("Ajouter"), "s", "plus", size="sm", type="submit") }}</div>
+  </form>
+</section>
+{% endblock %}

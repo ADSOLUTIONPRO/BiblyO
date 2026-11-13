@@ -1,0 +1,36 @@
+# biblyO : développement sur le Mac mini. Ne s'adresse ni à biblyo-dev ni à ses volumes.
+# Jamais de `down -v`, de `docker volume rm` ni de `docker volume prune` : voir docs/exploitation/developpement.md.
+name: biblyo-original
+
+services:
+  app:
+    build:
+      context: .
+      args:
+        BIBLYO_COMMIT: "${BIBLYO_COMMIT:-inconnu}"
+    image: biblyo-original:dev
+    container_name: biblyo-original-dev
+    restart: unless-stopped
+    ports:
+      - "18890:8000"
+    environment:
+      TZ: Europe/Paris
+      BIBLYO_ENV: development
+      BIBLYO_BASE_URL: "${BIBLYO_BASE_URL:-http://localhost:18890}"
+      BIBLYO_TRUSTED_PROXIES: ""
+    volumes:
+      - biblyo_original_dev_data:/data
+      - biblyo_original_dev_backups:/backups
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+
+volumes:
+  biblyo_original_dev_data:
+    name: biblyo_original_dev_data
+  biblyo_original_dev_backups:
+    name: biblyo_original_dev_backups

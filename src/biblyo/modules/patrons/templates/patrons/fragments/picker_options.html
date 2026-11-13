@@ -1,0 +1,16 @@
+{% from "components/feedback.html" import badge %}
+{% from "patrons/components.html" import initials, states, marks %}
+{% for row in rows %}
+<div class="picker-opt" id="choix-{{ row.id }}" role="option" aria-selected="false" data-id="{{ row.id }}" data-label="{{ row.name }} · {{ row.number }}">
+  {{ initials(row, small=True) }}
+  <span class="grow">
+    <b>{{ row.name }}</b>{% if row.homonym %} {{ badge(_("Homonyme"), "due", dot=False) }}{% endif %}
+    <span class="mono small">{{ row.number }}</span>{% if row.marks.card %} <span class="mono small">{{ row.marks.card }}</span>{% endif %}
+    {% if row.card_note %}<span class="small block">{{ row.card_note }}</span>{% endif %}
+    <span class="faint small block">{{ marks(row) }}{% if row.marks.household %} · {{ row.marks.household }}{% endif %}</span>
+  </span>
+  <span class="row gap-xs nowrap">{{ states(row) }}</span>
+</div>
+{% else %}
+{% if query %}<p class="picker-none muted small" role="status">{{ _("Aucun lecteur ne correspond.") }}</p>{% endif %}
+{% endfor %}

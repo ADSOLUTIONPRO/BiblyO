@@ -1,0 +1,42 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header, card %}
+{% from "components/buttons.html" import button, link_button %}
+{% from "components/feedback.html" import alert %}
+{% from "components/catalogue.html" import crumbs %}
+{% from "catalogue/fragments/fields.html" import identity_fields, series_fields, content_fields, edition_fields %}
+{% block title %}{{ _("Ajouter un livre") }} — biblyO{% endblock %}
+{% block content %}
+{{ crumbs([(_("Catalogue"), "/catalogue"), (_("Ajouter un livre"), "")]) }}
+{{ page_header(_("Ajouter un livre"), _("Une notice décrit l’œuvre et sa première édition. Vous pourrez ensuite ajouter d’autres éditions et des exemplaires."), "cat", "plus") }}
+{% if errors %}{{ alert(_("Certains champs sont à corriger."), "late") }}{% endif %}
+{% if prefill %}
+<section class="card m-enr" aria-labelledby="carte-source">
+  <div class="card-h"><h2 id="carte-source">{{ _("Prérempli depuis la {source}").format(source=prefill.source) }}</h2></div>
+  <div class="card-b">
+    <p class="m0">{{ _("Relisez et corrigez chaque champ : rien n’est enregistré avant « Créer la notice ». Les champs gardés tels quels garderont leur provenance.") }} <a class="plain-link" href="{{ prefill.url }}" rel="noopener">{{ _("Notice {id}").format(id=prefill.external_id) }}</a></p>
+    {% if prefill.duplicates %}<p class="m0 mt-s late-ink">{{ _("Notices proches déjà au catalogue :") }} {% for d in prefill.duplicates %}<a href="/catalogue/notices/{{ d.work_id }}">{{ d.title }}</a> ({{ d.reason }}){% if not loop.last %}, {% endif %}{% endfor %}</p>{% endif %}
+    {% if prefill.hints %}<ul class="plain small muted mt-s">{% for h in prefill.hints %}<li>{{ h }}</li>{% endfor %}</ul>{% endif %}
+  </div>
+</section>
+{% endif %}
+<form class="stack" method="post" action="/catalogue/notices" novalidate>
+  <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+  {% if values.get("depuis") %}<input type="hidden" name="depuis" value="{{ values.get('depuis') }}"><input type="hidden" name="isbn_verifie" value="{{ values.get('isbn_verifie', '') }}">{% endif %}
+  {% call card(_("Identification"), "carte-identification") %}
+    <div class="form">{{ identity_fields(values, errors, type_options, section_options, audience_options, role_options, rows.get("work", [])) }}</div>
+  {% endcall %}
+  {% call card(_("Série"), "carte-serie") %}
+    <div class="form">{{ series_fields(values, errors) }}</div>
+  {% endcall %}
+  {% call card(_("Publication"), "carte-publication") %}
+    <div class="form">{{ edition_fields(values, errors, language_options, role_options, rows.get("edition", [])) }}</div>
+  {% endcall %}
+  {% call card(_("Contenu"), "carte-contenu") %}
+    <div class="form">{{ content_fields(values, errors) }}</div>
+  {% endcall %}
+  <div class="form-actions">
+    {{ button(_("Créer la notice"), "p", "check", type="submit") }}
+    {{ link_button(_("Annuler"), "/catalogue", "g") }}
+  </div>
+</form>
+{% endblock %}

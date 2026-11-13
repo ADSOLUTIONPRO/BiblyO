@@ -1,0 +1,51 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header, card %}
+{% from "components/forms.html" import field %}
+{% from "components/buttons.html" import button %}
+{% from "components/feedback.html" import alert, badge %}
+{% block title %}{{ _("Mon compte") }} — biblyO{% endblock %}
+{% block content %}
+{{ page_header(_("Mon compte"), user.username ~ " · " ~ (user.role_labels | join(", ")), "rdr", "users") }}
+<div class="stack narrow">
+  {% if user.must_change_password %}{{ alert(_("Choisissez un nouveau mot de passe pour continuer."), "due") }}{% endif %}
+
+  {% call card(_("Profil"), "carte-profil") %}
+  <form class="form" method="post" action="/compte/profil">
+    <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+    {{ field("nom", _("Votre nom"), value=user.display_name, autocomplete="name", required=True, error=profile_errors.get("display_name", "")) }}
+    <div class="form-actions">{{ button(_("Enregistrer"), "p", type="submit") }}</div>
+  </form>
+  {% endcall %}
+
+  {% call card(_("Mot de passe"), "carte-mot-de-passe") %}
+  <form class="form" method="post" action="/compte/mot-de-passe">
+    <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+    {{ field("actuel", _("Mot de passe actuel"), type="password", autocomplete="current-password", required=True, error=password_errors.get("current", "")) }}
+    {{ field("nouveau", _("Nouveau mot de passe"), type="password", autocomplete="new-password", required=True, help=_("10 caractères au minimum."), error=password_errors.get("new", "")) }}
+    {{ field("confirmation", _("Confirmez le nouveau mot de passe"), type="password", autocomplete="new-password", required=True, error=password_errors.get("confirmation", "")) }}
+    <div class="form-actions">{{ button(_("Changer le mot de passe"), "p", type="submit") }}</div>
+  </form>
+  {% endcall %}
+
+  {% call card(_("Sessions ouvertes"), "carte-sessions") %}
+  {% for row in sessions %}
+  <div class="setrow">
+    <div class="grow">
+      <b>{{ row.browser }}</b>
+      <span class="h">{{ _("Dernière activité :") }} {{ row.last_seen_at | datetime_short }}</span>
+    </div>
+    {% if row.current %}{{ badge(_("cette session"), "ok") }}{% endif %}
+    <form method="post" action="/compte/sessions/{{ row.id }}/fermer">
+      <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+      {{ button(_("Fermer"), "dg", size="sm", type="submit") }}
+    </form>
+  </div>
+  {% endfor %}
+  {% endcall %}
+
+  <form method="post" action="/deconnexion">
+    <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+    {{ button(_("Se déconnecter"), "s", "out", type="submit") }}
+  </form>
+</div>
+{% endblock %}

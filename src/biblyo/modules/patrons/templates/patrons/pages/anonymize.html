@@ -1,0 +1,53 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header %}
+{% from "components/buttons.html" import button, link_button %}
+{% from "components/feedback.html" import alert %}
+{% from "components/forms.html" import field, select %}
+{% from "components/catalogue.html" import crumbs, fact %}
+{% block title %}{{ _("Anonymiser") }} {{ patron.number }} — biblyO{% endblock %}
+{% block content %}
+{{ crumbs([(_("Lecteurs & familles"), "/lecteurs"), (name, "/lecteurs/" ~ patron.id), (_("Anonymiser"), "")]) }}
+{{ page_header(_("Anonymiser cette fiche"), name ~ " · " ~ patron.number, "rdr", "eyeoff") }}
+{{ alert(_("Cette opération est définitive. Une fiche anonymisée ne se restaure pas."), "late") }}
+{% if message %}<div class="mt-s">{{ alert(message, "late") }}</div>{% endif %}
+<div class="sheet-grid mt-s">
+  <section class="card" aria-labelledby="titre-efface">
+    <div class="card-h"><h2 id="titre-efface">{{ _("Ce qui sera effacé ou retiré") }}</h2></div>
+    <div class="card-b col gap-m">
+      <dl class="dlist">
+        {{ fact(_("Identité"), _("Nom, prénom, naissance, observations, adhésion")) }}
+        {{ fact(_("Coordonnées propres"), preview.contacts | string) }}
+        {{ fact(_("Liens avec un foyer"), preview.households | string) }}
+        {{ fact(_("Liens de responsabilité"), preview.guardianships | string) }}
+        {{ fact(_("Cartes détachées"), preview.cards | string) }}
+      </dl>
+      <p class="muted small m0">{{ _("Restent : le numéro de lecteur sans personne derrière, la catégorie et les dates, pour les statistiques. Les numéros de carte restent réservés, sans lien avec la fiche.") }}</p>
+    </div>
+  </section>
+  <section class="card" aria-labelledby="titre-reste">
+    <div class="card-h"><h2 id="titre-reste">{{ _("Ce qui ne sera pas effacé") }}</h2></div>
+    <div class="card-b col gap-s">
+      <p class="m0"><b>{{ _("Sauvegardes antérieures.") }}</b> {{ _("Elles contiennent encore ces données jusqu’à leur suppression. biblyO ne les modifie pas.") }}</p>
+      <p class="m0"><b>{{ _("Exports déjà remis.") }}</b> {% if preview.exports %}{{ preview.exports | length }} {{ _("export d’après le journal :") if preview.exports | length == 1 else _("exports d’après le journal :") }} {% for at in preview.exports %}{{ fr_date(at) }}{% if not loop.last %}, {% endif %}{% endfor %}. {{ _("Ces fichiers sont hors de biblyO.") }}{% else %}{{ _("Aucun d’après le journal.") }}{% endif %}</p>
+    </div>
+  </section>
+</div>
+{% if preview.blockers %}
+<div class="mt-s">{{ alert(preview.blockers | join(" "), "late", _("Anonymisation impossible pour le moment")) }}</div>
+<div class="form-actions mt-s">{{ link_button(_("Retour à la fiche"), "/lecteurs/" ~ patron.id, "s") }}</div>
+{% else %}
+<section class="card mt-s" aria-labelledby="titre-confirmer">
+  <div class="card-h"><h2 id="titre-confirmer">{{ _("Confirmer") }}</h2></div>
+  <div class="card-b">
+    <form class="form col gap-m" method="post" action="/lecteurs/{{ patron.id }}/anonymiser" novalidate>
+      <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+      {{ select("motif", _("Motif"), reason_options, values.motif, error=errors.get("motif"), required=True) }}
+      {{ field("precision", _("Précision"), values.precision, help=_("Obligatoire pour « Autre motif ». Elle reste au journal : ni nom, ni coordonnée, ni numéro."), autocomplete="off") }}
+      {{ field("numero", _("Retapez le numéro de lecteur permanent") ~ " : " ~ patron.number, "", required=True, error=errors.get("numero"), autocomplete="off") }}
+      {{ field("mot_de_passe", _("Votre mot de passe"), type="password", required=True, error=errors.get("mot_de_passe"), autocomplete="current-password") }}
+      <div class="form-actions">{{ button(_("Anonymiser définitivement"), "d", "eyeoff", type="submit") }}{{ link_button(_("Annuler"), "/lecteurs/" ~ patron.id, "g") }}</div>
+    </form>
+  </div>
+</section>
+{% endif %}
+{% endblock %}

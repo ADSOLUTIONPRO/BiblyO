@@ -1,0 +1,20 @@
+{# Les exemplaires d'un livre au comptoir : édition, place, état. Ceux qui ne peuvent pas sortir disent pourquoi,
+   sans jamais nommer qui les a. #}
+{% from "components/feedback.html" import badge %}
+{% from "components/icons.html" import icon %}
+{% from "components/availability.html" import copy_badge %}
+<ul class="plain copy-pick" aria-label="{{ _('Exemplaires de') }} « {{ title }} »">
+  {% for item in copies if not (item.state and item.state.state == "gone") %}
+  <li class="row gap-s">
+    <span class="grow min0"><b class="mono">{{ item.barcode }}</b>{% if item.call_number %} · <span class="mono">{{ item.call_number }}</span>{% endif %}{% if item.edition %} · {{ item.edition }}{% endif %}
+      <span class="faint small block">{% if item.location %}{{ item.location }}{% if item.position %} · {{ _("place") }} {{ item.position }}{% endif %}{% else %}{{ _("Sans place attribuée") }}{% endif %}</span>
+      {% if item.reason %}<span class="small block">{{ item.reason.message }}</span>{% elif item.caution %}<span class="small block">{{ badge(item.caution.message, "due", dot=False) }}</span>{% endif %}
+    </span>
+    {{ copy_badge(item.state) }}
+    {% if item.id in cart %}{{ badge(_("Dans la sélection"), "neutral", dot=False) }}
+    {% elif item.reason is none %}<button type="submit" class="btn btn-s btn-sm" name="ajouter" value="{{ item.id }}" hx-post="/comptoir/etat" formaction="/comptoir/etat" hx-target="#comptoir-etat" aria-label="{{ _('Ajouter l’exemplaire') }} {{ item.barcode }}">{{ icon("plus", 14) }}<span>{{ _("Ajouter") }}</span></button>{% endif %}
+  </li>
+  {% else %}
+  <li class="muted">{{ _("Ce livre n’a aucun exemplaire dans le fonds.") }}</li>
+  {% endfor %}
+</ul>

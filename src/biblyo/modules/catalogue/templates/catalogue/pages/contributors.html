@@ -1,0 +1,31 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header %}
+{% from "components/feedback.html" import empty_state, badge %}
+{% from "components/catalogue.html" import crumbs, search_input %}
+{% block title %}{{ _("Contributeurs") }} — biblyO{% endblock %}
+{% block content %}
+{{ crumbs([(_("Séries & collections"), "/catalogue/series"), (_("Contributeurs"), "")]) }}
+{{ page_header(_("Contributeurs"), (total | number) ~ " " ~ (_("personne") if total == 1 else _("personnes")), "ser", "users") }}
+<form class="row gap-s mb-s" method="get" action="/catalogue/contributeurs" role="search">
+  {{ search_input("q", _("Chercher une personne"), query, _("Chercher une personne…")) }}
+  <button class="btn btn-s" type="submit">{{ _("Filtrer") }}</button>
+</form>
+{% if rows %}
+<section class="card" aria-label="{{ _('Contributeurs') }}">
+  {% for agent, count in rows %}
+  <div class="li"><a class="grow b" href="/catalogue/contributeurs/{{ agent.id }}">{{ agent.display_name }}</a>{% if agent.id in homonyms %}{{ badge(_("Homonyme"), "due", dot=False) }}{% endif %}{% if agent.dates %}<span class="faint small">{{ agent.dates }}</span>{% elif agent.id in homonyms %}<span class="faint small">{{ _("dates inconnues") }}</span>{% endif %}<span class="muted small">{{ count }} {{ _("titre") if count == 1 else _("titres") }}</span></div>
+  {% endfor %}
+</section>
+{% if pages > 1 %}
+<nav class="pager" aria-label="{{ _('Pagination') }}">
+  {% for number in window %}
+    {% if number is none %}<span class="gap">…</span>
+    {% elif number == page %}<span aria-current="page">{{ number }}</span>
+    {% else %}<a href="/catalogue/contributeurs?{{ {'q': query, 'page': number} | urlencode }}">{{ number }}</a>{% endif %}
+  {% endfor %}
+</nav>
+{% endif %}
+{% else %}
+<section class="card" aria-label="{{ _('Contributeurs') }}">{{ empty_state("users", _("Aucune personne"), _("Une personne apparaît ici dès qu’elle est rattachée à une notice.")) }}</section>
+{% endif %}
+{% endblock %}

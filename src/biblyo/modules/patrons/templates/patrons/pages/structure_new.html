@@ -1,0 +1,17 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header %}
+{% from "components/buttons.html" import button, link_button %}
+{% from "components/forms.html" import field %}
+{% from "components/catalogue.html" import crumbs %}
+{% block title %}{{ _("Nouvelle structure") }} — biblyO{% endblock %}
+{% block content %}
+{{ crumbs([(_("Lecteurs & familles"), "/lecteurs?vue=foyers"), (_("Nouvelle structure"), "")]) }}
+{{ page_header(_("Nouvelle structure"), _("Une école, un centre de loisirs, une association : elle n’est pas une personne et ses référents sont des adultes inscrits."), "rdr", "building") }}
+<section class="card" aria-label="{{ _('Structure') }}"><div class="card-b">
+  <form class="form col gap-m" method="post" action="/foyers/structure">
+    <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+    {{ field("nom", _("Nom de la structure"), values.nom, required=True, error=errors.get("nom"), autocomplete="off") }}
+    <div class="form-actions">{{ button(_("Créer"), "p", "check", type="submit") }}{{ link_button(_("Annuler"), "/lecteurs?vue=foyers", "g") }}</div>
+  </form>
+</div></section>
+{% endblock %}

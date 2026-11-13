@@ -1,0 +1,5 @@
+{% from "components/catalogue.html" import mini %}
+{% if cards %}
+<div class="gl">{{ _("Notices") }}</div>
+{% for card in cards %}<a class="it m-cat" data-server href="/catalogue/notices/{{ card.id }}">{{ mini(card.title, card.color, card.thumbnail) }}<span class="grow">{{ card.title }}{% if card.series_title or card.authors_text %} <span class="faint">{% if card.series_title %}{{ card.series_title }}{% if card.volume_text %} · {{ _("t.") }} {{ card.volume_text }}{% endif %}{% else %}{{ card.authors_text }}{% endif %}</span>{% endif %}</span></a>{% endfor %}
+{% endif %}

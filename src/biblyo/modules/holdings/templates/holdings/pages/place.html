@@ -1,0 +1,85 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header %}
+{% from "components/buttons.html" import button, link_button %}
+{% from "components/feedback.html" import alert, empty_state, badge %}
+{% from "components/icons.html" import icon %}
+{% from "components/forms.html" import field %}
+{% from "components/shelves.html" import room_plan, room_tile, shelf_unit, shelf_legend, shelf_table %}
+{% from "components/layout.html" import segmented %}
+{% from "components/catalogue.html" import crumbs %}
+{% import "holdings/components.html" as parts with context %}
+{% block title %}{{ place.name }} — biblyO{% endblock %}
+{% block content %}
+{{ crumbs(trail) }}
+{% call page_header(place.name, kind_label ~ (" · " ~ place.content_hint if place.content_hint else ""), "she", "shelf") %}
+  {% if can("holdings.edit") %}{{ link_button(_("Ranger en scannant"), "/emplacements/scanner" ~ ("?lieu=" ~ place.id if place.kind in ("shelf", "bin", "virtual") else ""), "s", "scan") }}{% endif %}
+  {% if can("locations.manage") %}
+    {% if place.kind == "room" %}{{ link_button(_("Modifier le plan"), "/emplacements/" ~ place.id ~ "?edition=plan#plan", "s", "grid", extra="hide-m") }}{{ link_button(_("Meuble"), "/emplacements/nouveau?type=furniture&parent=" ~ place.id, "s", "plus") }}{% endif %}
+    {{ link_button(_("Modifier"), "/emplacements/" ~ place.id ~ "/modifier", "s", "edit") }}
+  {% endif %}
+{% endcall %}
+{% if message %}{{ alert(message, "late") }}{% endif %}
+{% if not place.is_active %}{{ alert(_("Ce lieu est désactivé : on ne peut plus y ranger."), "due") }}{% endif %}
+{{ parts.finder() }}
+{% if located %}{{ parts.located_note(located) }}{% endif %}
+{% call parts.layout(tree, unshelved_count) %}
+<div class="stack">
+  {% if plans is defined %}
+    {% for plan in plans %}<section class="card" aria-labelledby="salle-{{ plan.id }}"><div class="card-h"><h2 id="salle-{{ plan.id }}"><a class="plain-link" href="/emplacements/{{ plan.id }}">{{ plan.name }}</a></h2></div><div class="card-b">{{ room_plan(plan, _("Meubles de %(name)s", name=plan.name)) }}</div></section>{% endfor %}
+  {% endif %}
+  {% if room is defined %}
+  <section class="card" id="plan" aria-labelledby="titre-plan">
+    <div class="card-h"><h2 id="titre-plan">{{ room.name }}</h2></div>
+    <div class="card-b col">
+      {% if editing %}
+      <p class="muted small m0">{{ _("Choisissez un meuble, puis la case où le poser. Une case déjà occupée est refusée.") }}</p>
+      {% if selected %}
+      <form id="f-plan" class="row gap-xs" method="post" action="/emplacements/{{ place.id }}/plan">
+        <input type="hidden" name="_csrf" value="{{ csrf_token }}"><input type="hidden" name="meuble" value="{{ selected.id }}">
+        <b class="self-end">{{ selected.name }}</b>
+        {{ field("largeur", _("Largeur (cases)"), selected.box.width if selected.box else 2, inputmode="numeric") }}
+        {{ field("hauteur", _("Hauteur (cases)"), selected.box.height if selected.box else 1, inputmode="numeric") }}
+      </form>
+      {% endif %}
+      <div class="room-scroll">
+      <ul class="room-plan {{ room.grid_classes }}" aria-label="{{ _('Plan modifiable de %(name)s', name=room.name) }}">
+        {% for tile in room.placed %}<li class="{{ tile.grid_classes }}"><a class="furn{% if selected and selected.id == tile.id %} on{% endif %}" href="?edition=plan&amp;meuble={{ tile.id }}#plan"{% if selected and selected.id == tile.id %} aria-current="true"{% endif %}><b>{{ tile.name }}</b><span class="furn-s">{{ _("Choisir ce meuble") }}</span></a></li>{% endfor %}
+        {% if selected %}{% for row, col in free_cells %}<li class="md:row-start-{{ row }} md:col-start-{{ col }}"><button class="plan-cell" type="submit" form="f-plan" name="cellule" value="{{ row }},{{ col }}" aria-label="{{ _('Poser à la ligne %(r)s, colonne %(c)s', r=row, c=col) }}"><span aria-hidden="true">+</span></button></li>{% endfor %}{% endif %}
+      </ul>
+      </div>
+      {% if room.unplaced %}<div class="row gap-xs">{% for tile in room.unplaced %}<a class="chip" href="?edition=plan&amp;meuble={{ tile.id }}#plan">{{ tile.name }}</a>{% endfor %}</div>{% endif %}
+      {{ link_button(_("Terminer"), "/emplacements/" ~ place.id, "p", "check", "sm", extra="self-start") }}
+      {% else %}
+      {% if room.tiles %}{{ room_plan(room, _("Meubles de %(name)s", name=room.name)) }}{% else %}<p class="muted m0">{{ _("Aucun meuble dans cette salle.") }}</p>{% endif %}
+      {% endif %}
+    </div>
+  </section>
+  {% endif %}
+  {% if unit is defined %}
+  <div class="row gap-s">
+    {{ segmented(views, _("Représentation")) }}
+    {% if can_arrange and not as_list %}<span class="hide-m">{{ segmented([{"label": _("Consultation"), "href": "/emplacements/" ~ place.id, "current": not arranging}, {"label": _("Rangement"), "href": "/emplacements/" ~ place.id ~ "?mode=rangement", "current": arranging}], _("Mode")) }}</span>{% endif %}
+    {% if not as_list %}<a class="chip" href="{{ series_toggle }}"{% if group_series %} aria-current="true"{% endif %}>{{ _("Regrouper par série") }}</a>{% endif %}
+    {% if place.kind in ("shelf", "bin") %}<a class="chip" href="/catalogue?view=list&amp;emplacement={{ place.id }}&amp;tri=rayon">{{ icon("book", 14) }}{{ _("Voir dans le catalogue") }}</a>{% endif %}
+  </div>
+  {% if arranging %}
+  <div class="callout m-she" role="status">{{ icon("info", 18) }}<div>{% if arrange.selected %}<b>{{ _("« %(title)s » est choisi.", title=arrange.selected_title) }}</b> {{ _("Activez un « + » pour le placer juste avant ce dos, ou à la fin d’un niveau.") }}{% else %}<b>{{ _("Mode Rangement.") }}</b> {{ _("Choisissez un dos au clavier ou à la souris, ou glissez-le directement. Sur téléphone, ouvrez l’exemplaire et utilisez « Déplacer ».") }}{% endif %}</div></div>
+  <form id="f-drag" method="post" action="/emplacements/ranger" hidden>
+    <input type="hidden" name="_csrf" value="{{ csrf_token }}"><input type="hidden" name="copie"><input type="hidden" name="version"><input type="hidden" name="lieu"><input type="hidden" name="version_lieu"><input type="hidden" name="rang"><input type="hidden" name="retour" value="{{ place.id }}">
+  </form>
+  {% endif %}
+  {% if as_list %}<div>{{ shelf_table(unit, selectable) }}</div>{% else %}<div{% if arranging %} class="reorder"{% endif %}>{{ shelf_unit(unit, show_positions=arranging, arrange=arrange) }}</div>{{ shelf_legend() }}{% endif %}
+  {% endif %}
+  {% if virtual_copies is defined %}
+  <section class="card" aria-labelledby="titre-virtuel">
+    <div class="card-h"><h2 id="titre-virtuel">{{ _("Exemplaires présents") }}</h2></div>
+    {% for item in virtual_copies %}
+    <div class="li"><div class="grow min0"><a class="b" href="/exemplaires/{{ item.id }}">{{ item.title }}</a><div class="faint mono small">{{ item.barcode }}{% if item.call_number %} · {{ item.call_number }}{% endif %}</div></div>{{ badge(item.status_label, "neutral") }}</div>
+    {% else %}
+    <div class="card-b"><p class="muted m0">{{ _("Aucun exemplaire ici.") }}</p></div>
+    {% endfor %}
+  </section>
+  {% endif %}
+</div>
+{% endcall %}
+{% endblock %}

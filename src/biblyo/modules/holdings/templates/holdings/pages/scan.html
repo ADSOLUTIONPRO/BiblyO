@@ -1,0 +1,36 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header %}
+{% from "components/buttons.html" import button, link_button %}
+{% from "components/forms.html" import field, select %}
+{% from "components/feedback.html" import alert %}
+{% import "holdings/components.html" as parts with context %}
+{% block title %}{{ _("Ranger en scannant") }} — biblyO{% endblock %}
+{% block content %}
+{% call page_header(_("Ranger en scannant"), _("Chaque scan prend la place suivante sur l’étagère choisie."), "she", "scan") %}{{ link_button(_("Étagères"), "/emplacements", "g", "shelf") }}{% endcall %}
+{% if message %}{{ alert(message, "late") }}{% endif %}
+<div class="stack">
+  <section class="card" aria-labelledby="titre-scan">
+    <div class="card-h"><h2 id="titre-scan">{{ _("Scanner") }}</h2></div>
+    <div class="card-b">
+      <form class="form" method="post" action="/emplacements/scanner">
+        <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+        <div class="grid g2">
+          {{ select("lieu", _("Étagère à remplir"), place_options, selected, required=True) }}
+          {{ field("code", _("Code-barres ou numéro d’inventaire"), autocomplete="off", autofocus=True, help=_("La douchette se comporte comme un clavier : le code est validé tout seul.")) }}
+        </div>
+        <div class="form-actions">{{ button(_("Ranger"), "p", "scan", type="submit") }}</div>
+      </form>
+    </div>
+  </section>
+  <section class="card" aria-labelledby="titre-journal">
+    <div class="card-h"><h2 id="titre-journal">{{ _("Derniers scans") }}</h2></div>
+    {% for line in log %}
+    <div class="li"><div class="grow min0"><b>{{ line.copy.title }}</b> <span class="mono faint small">{{ line.copy.barcode }}</span><div class="muted small">{{ line.at | datetime_short }} · {{ line.target }}{% if line.rank %}, {{ _("position") }} {{ line.rank }}{% endif %}{% if line.origin %} · {{ _("venait de %(path)s", path=line.origin) }}{% endif %}</div></div>
+      {% if line.undoable %}<form method="post" action="/emplacements/scanner/annuler"><input type="hidden" name="_csrf" value="{{ csrf_token }}"><input type="hidden" name="entree" value="{{ line.entry_id }}"><input type="hidden" name="lieu" value="{{ selected }}">{{ button(_("Annuler"), "g", "undo", size="sm", type="submit", aria_label=_("Annuler le rangement de %(title)s", title=line.copy.title)) }}</form>{% endif %}
+    </div>
+    {% else %}
+    <div class="card-b"><p class="muted m0">{{ _("Aucun scan pour l’instant.") }}</p></div>
+    {% endfor %}
+  </section>
+</div>
+{% endblock %}

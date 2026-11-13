@@ -1,0 +1,23 @@
+{% extends "layouts/auth.html" %}
+{% from "components/forms.html" import field %}
+{% from "components/buttons.html" import button %}
+{% from "components/feedback.html" import alert %}
+{% block title %}{{ _("Connexion") }} — biblyO{% endblock %}
+{% block content %}
+<div class="col">
+  <div>
+    <h1>{{ _("Connexion") }}</h1>
+    <p class="muted">{{ library_name }}</p>
+  </div>
+  {% if flash %}{{ alert(flash[1], "ok") }}{% endif %}
+  {% if error %}{{ alert(error, "late") }}{% endif %}
+  <form class="form" method="post" action="/connexion">
+    <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+    <input type="hidden" name="suivant" value="{{ next }}">
+    {{ field("identifiant", _("Identifiant"), value=username, autocomplete="username", required=True, autofocus=True) }}
+    {{ field("mot_de_passe", _("Mot de passe"), type="password", autocomplete="current-password", required=True) }}
+    {{ button(_("Se connecter"), "p", size="lg", type="submit") }}
+  </form>
+  <p class="muted">{{ _("Après plusieurs échecs, un compte peut être temporairement verrouillé. Mot de passe perdu : demandez à votre administrateur.") }}</p>
+</div>
+{% endblock %}

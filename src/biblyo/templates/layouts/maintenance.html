@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>{{ _("Maintenance") }} — biblyO</title>
+  <link rel="icon" type="image/svg+xml" href="{{ static_url('icons/logo.svg') }}">
+  <link rel="stylesheet" href="{{ static_url('dist/app.css') }}">
+  <script src="{{ static_url('js/theme-init.js') }}"></script>
+</head>
+<body>
+{% from "components/icons.html" import logo, wordmark %}
+{% from "components/feedback.html" import alert %}
+<div class="auth">
+  <span class="auth-brand">{{ logo(40) }}{{ wordmark() }}</span>
+  <main class="card auth-card wide maint col">
+    <h1>{{ _("biblyO est en maintenance") }}</h1>
+    {{ alert(state.message, "due") }}
+    {% if state.current %}
+    <p>{{ _("Révision de la base :") }} <code>{{ state.current }}</code>. {{ _("Révision attendue :") }} <code>{{ state.head }}</code>.</p>
+    {% endif %}
+    <p class="muted">{{ _("Administrateur : consultez l’état de la base, puis lancez la mise à jour sur le serveur.") }}</p>
+    <pre><code>biblyo db status
+biblyo db upgrade</code></pre>
+  </main>
+</div>
+</body>
+</html>

@@ -1,0 +1,97 @@
+# biblyO — fichiers à ne jamais versionner
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+.python-version
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+.hypothesis/
+
+# --- macOS ---
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# --- Éditeurs ---
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+*.swp
+*~
+
+# --- Secrets et configuration locale ---
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.p12
+*.crt
+secrets/
+
+# --- Bases SQLite et journaux ---
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+*.sqlite
+*.sqlite3
+*.sqlite-journal
+*.sqlite-wal
+*.sqlite-shm
+
+# --- Données locales, sauvegardes, imports, exports ---
+/data/
+/backups/
+/imports/
+/exports/
+*.tar.gz
+*.bak
+*.backup
+*.xlsx
+*.xls
+*.ods
+# Exception : jeux d'essai synthétiques des tests (jamais de données réelles)
+!tests/fixtures/**/*.xlsx
+!tests/fixtures/**/*.ods
+!tests/fixtures/**/*.tar.gz
+
+# --- Docker (copies locales éventuelles de volumes) ---
+biblyo_original_dev_data/
+biblyo_original_dev_backups/
+docker-compose.override.yml
+compose.override.yml
+
+# --- Front-end : CSS construit et outillage ---
+/src/biblyo/static/dist/
+node_modules/
+tailwindcss
+tailwindcss-*
+
+# --- Tests de bout en bout ---
+/test-results/
+/playwright-report/
+/tests/e2e/artifacts/
+
+# --- Temporaires et journaux ---
+*.log
+*.tmp
+*.temp
+tmp/
+.cache/

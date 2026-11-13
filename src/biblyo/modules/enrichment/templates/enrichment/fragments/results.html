@@ -1,0 +1,58 @@
+{# Résultats groupés par édition. Contexte : groups, excluded, class_labels, source_labels, levels ; action_kind
+   « compare » (écran d'une fiche) ou « create » (recherche libre), base pour les liens de comparaison. #}
+{% from "components/layout.html" import ring %}
+{% from "components/icons.html" import icon %}
+{% from "components/buttons.html" import link_button %}
+{% from "components/feedback.html" import badge %}
+{% if groups %}
+    <ul class="plain enr-results">
+    {% for group in groups %}
+      {% set p = group.lead %}{% set label = class_labels.get(p.match_class, (p.match_class, "neutral")) %}
+      <li class="enr-result m-{{ label[1] }}">
+        <div class="enr-score">{{ ring(p.score, _("Score {n} sur 100").format(n=p.score), 56, "enr", 6, uncertain=(p.match_class in ("uncertain", "multiple"))) }}</div>
+        <div class="grow min0">
+          <div class="row gap-xs">{{ badge(label[0], label[1]) }}
+            {% for item in [p] + group.others %}<span class="chip">{{ source_labels.get(item.source_code, item.source_code) }}{% if item.payload.record_status == "sparse" %} · {{ _("notice provisoire") }}{% endif %}</span>{% endfor %}
+            <span class="faint small">{{ _("niveau : {level}").format(level=levels.get(p.match_level, p.match_level)) }}</span>
+          </div>
+          <h3 class="enr-title">{{ p.payload.work.title.value }}{% if p.payload.work.subtitle %} <span class="muted">— {{ p.payload.work.subtitle.value }}</span>{% endif %}</h3>
+          <p class="m0">{% for person in p.payload.work.contributors %}{{ person.name }}{% if not loop.last %}, {% endif %}{% endfor %}</p>
+          <dl class="dlist enr-facts">
+            <dt>{{ _("Éditeur") }}</dt><dd>{{ p.payload.edition.publisher.value if p.payload.edition.publisher else "—" }}{% if p.payload.edition.year %} · {{ p.payload.edition.year.raw }}{% endif %}</dd>
+            <dt>{{ _("ISBN") }}</dt><dd>{{ p.payload.edition.isbn13 | join(", ") or "—" }}</dd>
+            <dt>{{ _("Collection") }}</dt><dd>{{ p.payload.edition.collection.value if p.payload.edition.collection else "—" }}{% if p.payload.edition.collection_number %} · {{ p.payload.edition.collection_number.value }}{% endif %}</dd>
+            <dt>{{ _("Pages") }}</dt><dd>{{ p.payload.edition.pages.raw if p.payload.edition.pages else "—" }}</dd>
+            {% if (p.payload.work.series or p.payload.work.volume) and not ((p.payload.work.volume and p.payload.work.volume.origin.startswith("225")) or (not p.payload.work.volume and p.payload.work.series and p.payload.work.series.origin.startswith("225"))) %}<dt>{{ _("Série et tome") }}</dt><dd>{{ p.payload.work.series.value if p.payload.work.series else "" }}{% if p.payload.work.volume %} · {{ _("tome {n}").format(n=("%g" | format(p.payload.work.volume.value)) | replace(".", ",")) }}{% endif %}</dd>{% endif %}
+            <dt>{{ _("Couverture") }}</dt><dd>{% if p.payload.cover_sides %}{{ _("signalée par la source") }}{% else %}<span class="none">{{ _("aucune") }}</span>{% endif %}</dd>
+          </dl>
+          <details class="enr-why">
+            <summary>{{ _("Pourquoi ce score") }}</summary>
+            <ul class="plain">
+              {% for c in p.explanation.criteria %}<li>{{ c.note }} <span class="faint">({{ c.points }}/{{ c.possible }})</span></li>{% endfor %}
+              {% for d in p.explanation.demoted %}<li class="late-ink">{{ _("Déclassé : {reason}").format(reason=d) }}</li>{% endfor %}
+              <li class="muted">{{ _("Score {score}, base de preuve {evidence}").format(score=p.score, evidence=p.evidence) }}</li>
+            </ul>
+          </details>
+          <div class="row gap-xs">
+            {% for item in [p] + group.others %}<a class="plain-link small" href="{{ item.external_url }}" rel="noopener">{{ _("Notice {source}").format(source=source_labels.get(item.source_code, item.source_code)) }} {{ icon("open", 12) }}</a>{% endfor %}
+          </div>
+        </div>
+        <div class="enr-act">
+          {% if p.status != "pending" %}{{ badge(_("traitée"), "neutral") }}
+          {% elif action_kind == "create" %}{% if can("catalogue.edit") %}{{ link_button(_("Créer une notice"), "/sources/propositions/" ~ p.id ~ "/creer", "p", "plus") }}{% endif %}
+          {% else %}{{ link_button(_("Comparer et choisir"), base ~ "/propositions/" ~ p.id, "p", "enrich") }}{% endif %}
+        </div>
+      </li>
+    {% endfor %}
+    </ul>
+{% endif %}
+  {% if excluded %}
+    <details class="enr-why mt-s">
+      <summary>{{ _("{n} notice(s) écartée(s)").format(n=excluded | length) }}</summary>
+      <ul class="plain">
+      {% for item in excluded %}{% set p = item.proposal %}
+        <li>{{ badge(_("Écarté"), "neutral", dot=False) }} <b>{{ p.payload.work.title.value }}</b>{% if p.payload.edition.publisher %}, {{ p.payload.edition.publisher.value }}{% endif %}{% if p.payload.edition.year %} ({{ p.payload.edition.year.raw }}){% endif %} — {{ item.reason }} <a class="plain-link small" href="{{ p.external_url }}" rel="noopener">{{ source_labels.get(p.source_code, p.source_code) }}</a></li>
+      {% endfor %}
+      </ul>
+    </details>
+  {% endif %}

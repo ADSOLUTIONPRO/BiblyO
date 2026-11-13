@@ -1,0 +1,32 @@
+{% from "components/icons.html" import icon %}
+
+{# Fenêtres sur <dialog> natif : piège de focus, Échap et fond fournis par le navigateur. #}
+{% macro modal(id, title) %}
+<dialog class="modal" id="{{ id }}" aria-labelledby="{{ id }}-titre">
+  <div class="modal-h">
+    <h2 id="{{ id }}-titre" class="grow">{{ title }}</h2>
+    <button type="button" class="icon-btn" data-close-dialog aria-label="{{ _('Fermer') }}">{{ icon("x") }}</button>
+  </div>
+  <div class="modal-b">{{ caller() }}</div>
+</dialog>
+{%- endmacro %}
+
+{% macro sheet(id, title) %}
+<dialog class="sheet" id="{{ id }}" aria-labelledby="{{ id }}-titre">
+  <div class="sheet-h">
+    <h2 id="{{ id }}-titre" class="grow">{{ title }}</h2>
+    <button type="button" class="icon-btn" data-close-dialog aria-label="{{ _('Fermer') }}">{{ icon("x") }}</button>
+  </div>
+  <div class="sheet-b">{{ caller() }}</div>
+</dialog>
+{%- endmacro %}
+
+{# Menu déroulant : le contenu porte la classe .mi-i sur chaque entrée. #}
+{% macro dropdown(label, button_class="btn btn-s", button_text="") %}
+<div class="menu-wrap" x-data="dropdown" @click.outside="close" @keydown.escape.window="closeAndRefocus">
+  <button type="button" class="{{ button_class }}" x-ref="button" aria-haspopup="true" :aria-expanded="expanded" aria-label="{{ label }}" @click="toggle">{{ button_text or label }}</button>
+  <div class="menu" x-ref="panel" hidden :hidden="closed" @keydown.down.prevent="next" @keydown.up.prevent="previous">
+    {{ caller() }}
+  </div>
+</div>
+{%- endmacro %}

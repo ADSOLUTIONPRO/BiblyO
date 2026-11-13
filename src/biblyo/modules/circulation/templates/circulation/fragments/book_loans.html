@@ -1,0 +1,35 @@
+{% from "components/feedback.html" import badge, empty_state %}
+{% from "components/buttons.html" import link_button %}
+{% from "components/availability.html" import loan_badge %}
+{% set data = book_loans %}
+<section class="card tbl-m-cards" aria-labelledby="bl-cours">
+  <div class="card-h"><h2 id="bl-cours">{{ _("En prêt") }}</h2><span class="faint small">{{ data.current | length }}</span>{% if can("circulation.lend") %}<span class="push-end row gap-xs">{{ link_button(_("Prêter"), "/comptoir/livre/" ~ data.work_id ~ "/preter", "s", "out", size="sm") }}{% if data.current %}{{ link_button(_("Enregistrer le retour"), "/comptoir/livre/" ~ data.work_id ~ "#retours", "s", "ret", size="sm") }}{% endif %}</span>{% endif %}</div>
+  {% if data.current %}
+  <div class="tbl-wrap"><table class="tbl">
+    <thead><tr><th scope="col">{{ _("Exemplaire") }}</th><th scope="col">{{ _("Échéance") }}</th><th scope="col">{{ _("Statut") }}</th>{% if data.detailed %}<th scope="col">{{ _("Utilisé par") }}</th>{% endif %}</tr></thead>
+    <tbody>
+      {% for row in data.current %}
+      <tr>
+        <td class="mono">{% if data.detailed %}<a href="/prets/{{ row.id }}">{{ row.barcode }}</a>{% else %}{{ row.barcode }}{% endif %}</td>
+        <td>{{ row.due_label }}</td>
+        <td>{{ loan_badge(row.late) }}</td>
+        {% if data.detailed %}<td>{% if row.borrower %}<a href="/lecteurs/{{ row.borrower.id }}">{{ row.borrower.name }}</a>{% else %}<span class="faint">{{ _("Fiche fermée") }}</span>{% endif %}</td>{% endif %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table></div>
+  {% else %}
+  <div class="card-b"><p class="muted m0">{{ _("Aucun exemplaire de ce livre n’est sorti.") }}</p></div>
+  {% endif %}
+  {% if not data.detailed %}<div class="card-b"><p class="faint small m0">{{ _("Les emprunteurs et l’historique ne sont visibles qu’avec le droit sur l’historique des prêts.") }}</p></div>{% endif %}
+</section>
+{% if data.detailed %}
+<section class="card mt-s" aria-labelledby="bl-hist">
+  <div class="card-h"><h2 id="bl-hist">{{ _("Derniers prêts terminés") }}</h2><span class="faint small">{{ data.total_finished }}</span></div>
+  {% if data.finished %}
+  <div class="card-b"><ul class="plain">{% for row in data.finished %}<li><a class="mono" href="/prets/{{ row.id }}">{{ row.barcode }}</a> · {% if row.borrower %}{{ row.borrower.name }}{% else %}<span class="faint">{{ _("Fiche fermée") }}</span>{% endif %} <span class="faint small">· {% if row.cancelled_at %}{{ _("annulé") }}{% else %}{{ _("rendu le") }} {{ row.ended_label }}{% endif %}</span></li>{% endfor %}</ul></div>
+  {% else %}
+  <div class="card-b"><p class="muted m0">{{ _("Aucun prêt terminé.") }}</p></div>
+  {% endif %}
+</section>
+{% endif %}

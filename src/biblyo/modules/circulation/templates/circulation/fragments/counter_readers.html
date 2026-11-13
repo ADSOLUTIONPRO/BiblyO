@@ -1,0 +1,37 @@
+{# La liste des lecteurs du comptoir : une page à la fois, choisie par un clic, jamais d'office (homonymes). Aucune
+   coordonnée : les repères de distinction n'apparaissent que pour des homonymes. #}
+{% from "components/feedback.html" import badge %}
+{% from "patrons/components.html" import initials, states, marks %}
+{% if readers.options %}
+<ul class="desk-pick-list{% if show_all %} all{% endif %}" aria-label="{{ _('Lecteurs') }}">
+  {% for option in readers.options %}{% set row = option.row %}
+  <li><button type="submit" class="desk-pick" name="choisir_lecteur" value="{{ row.id }}" hx-post="/comptoir/etat" formaction="/comptoir/etat" hx-target="#comptoir-etat" aria-label="{{ _('Choisir') }} {{ row.name }}, {{ row.number }}">
+    {{ initials(row, small=True) }}
+    <span class="grow min0"><b>{{ row.name }}</b>{% if row.homonym %} {{ badge(_("Homonyme"), "due", dot=False) }}{% endif %}
+      <span class="mono small block">{{ row.number }}{% if row.marks.card %} · {{ row.marks.card }}{% endif %}</span>
+      {% if row.homonym %}<span class="faint small block">{{ marks(row, say_none=True) }}</span>{% endif %}
+      {% if row.card_note %}<span class="small block">{{ row.card_note }}</span>{% endif %}
+    </span>
+    <span class="desk-pick-st">{{ states(row) }}{{ badge(option.active_loans ~ " " ~ (_("prêt") if option.active_loans <= 1 else _("prêts")), "neutral", dot=False) }}{% if option.membership_expired %}{{ badge(_("Adhésion échue"), "due") }}{% endif %}</span>
+  </button></li>
+  {% endfor %}
+</ul>
+{# Sur téléphone, cinq lecteurs d'abord : les livres et le récapitulatif restent proches (U19). La recherche, elle,
+   porte toujours sur tout l'annuaire visible par ce compte. #}
+{% if not show_all and readers.options | length > 5 %}<button type="submit" class="btn btn-g btn-sm only-m desk-pick-all" name="lecteurs_tous" value="1" hx-post="/comptoir/lecteurs" formaction="/comptoir/lecteurs" hx-target="#cp-lecteurs" hx-swap="innerHTML" data-focus-after="#cp-lecteurs .desk-pick-list > li:nth-child(6) .desk-pick">{{ _("Voir %(n)s autres lecteurs", n=readers.options | length - 5) }}</button>{% endif %}
+{% if readers.pages > 1 %}
+<div class="row gap-s between desk-pick-more">
+  <span class="faint small">{{ _("Page") }} {{ readers.page }} / {{ readers.pages }} · {{ readers.total }} {{ _("lecteurs") }}</span>
+  <span class="row gap-xs">
+    {% if readers.page > 1 %}<button type="submit" class="btn btn-g btn-sm" name="lecteur_page" value="{{ readers.page - 1 }}" hx-post="/comptoir/lecteurs" formaction="/comptoir/lecteurs" hx-target="#cp-lecteurs" hx-swap="innerHTML" data-focus-after="#cp-lecteur-q">{{ _("Précédents") }}</button>{% endif %}
+    {% if readers.has_more %}<button type="submit" class="btn btn-s btn-sm" name="lecteur_page" value="{{ readers.page + 1 }}" hx-post="/comptoir/lecteurs" formaction="/comptoir/lecteurs" hx-target="#cp-lecteurs" hx-swap="innerHTML" data-focus-after="#cp-lecteur-q">{{ _("Lecteurs suivants") }}</button>{% endif %}
+  </span>
+</div>
+{% endif %}
+{% elif readers.query %}
+<p class="desk-pick-none muted" role="status">{{ _("Aucun lecteur ne correspond à cette recherche. Vérifiez l’orthographe, ou cherchez par numéro de lecteur ou de carte.") }}</p>
+{% if can("patrons.register") %}<p class="m0"><a href="/lecteurs/nouveau">{{ _("Inscrire un nouveau lecteur") }}</a></p>{% endif %}
+{% else %}
+<p class="desk-pick-none muted" role="status">{{ _("Aucun lecteur n’est encore inscrit.") }}</p>
+{% if can("patrons.register") %}<p class="m0"><a href="/lecteurs/nouveau">{{ _("Inscrire un premier lecteur") }}</a></p>{% endif %}
+{% endif %}

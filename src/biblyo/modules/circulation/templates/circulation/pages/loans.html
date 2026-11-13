@@ -1,0 +1,62 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header %}
+{% from "components/buttons.html" import link_button %}
+{% from "components/feedback.html" import badge, empty_state %}
+{% from "components/catalogue.html" import mini %}
+{% from "components/availability.html" import loan_badge %}
+{% from "components/icons.html" import icon %}
+{% block title %}{{ _("Prêts") }} — biblyO{% endblock %}
+{% block content %}
+{% set subtitle = (found.total | number) ~ " " ~ (_("prêt") if found.total == 1 else _("prêts")) ~ " · " ~ views[view] %}
+{% call page_header(_("Prêts"), subtitle, "loan", "loans") %}
+  {{ link_button(_("À rappeler"), "/prets/a-rappeler", "s", "bell") }}
+  {{ link_button(_("Comptoir"), "/comptoir", "g", "out") }}
+  {% if can("circulation.settings") %}{{ link_button(_("Règles de prêt"), "/prets/regles", "g", "gear") }}{% endif %}
+{% endcall %}
+<nav class="chips mb-s" aria-label="{{ _('Vues des prêts') }}">
+  {% for code, label in views.items() %}<a class="chip" href="/prets?vue={{ code }}{{ query_base }}"{% if code == view %} aria-current="true"{% endif %}>{{ label }}</a>{% endfor %}
+</nav>
+<form class="loans-search" method="post" action="/prets/recherche" role="search">
+  <input type="hidden" name="_csrf" value="{{ csrf_token }}"><input type="hidden" name="vue" value="{{ view }}">
+  <div class="in-icon">{{ icon("search", 17) }}<input class="in" type="search" name="q" value="{{ query }}" aria-label="{{ _('Chercher un prêt') }}" placeholder="{{ _('Titre, code d’exemplaire ou nom du lecteur') }}"></div>
+  <button type="submit" class="btn btn-s">{{ _("Chercher") }}</button>
+  {% if query %}<a class="btn btn-g" href="/prets?vue={{ view }}">{{ _("Effacer") }}</a><span class="muted small">{{ found.total }} {{ _("résultat") if found.total <= 1 else _("résultats") }}{% if found.total > found.rows | length %}, {{ found.rows | length }} {{ _("affichés") }}{% endif %}</span>{% endif %}
+</form>
+{% if patron %}<p class="muted small">{{ _("Prêts de") }} <a href="/lecteurs/{{ patron.id }}">{{ patron.name }}</a> <span class="mono">{{ patron.number }}</span>, {{ _("ou dont il répond") }} · <a href="/prets?vue={{ view }}">{{ _("Tous les lecteurs") }}</a></p>{% endif %}
+{% if found.rows %}
+<section class="card tbl-m-cards tbl-t-cards" aria-label="{{ views[view] }}">
+  <div class="tbl-wrap"><table class="tbl">
+    <thead><tr><th scope="col">{{ _("Ouvrage") }}</th><th scope="col" class="hmd">{{ _("Exemplaire") }}</th><th scope="col">{{ _("Utilisé par") }}</th><th scope="col" class="hmd">{{ _("Responsable") }}</th><th scope="col">{{ _("Échéance") if view != "historique" else _("Fin") }}</th><th scope="col">{{ _("Statut") }}</th><th scope="col"><span class="sr">{{ _("Actions") }}</span></th></tr></thead>
+    <tbody>
+      {% for row in found.rows %}
+      <tr>
+        {% set card = cards.get(row.work_id) %}
+        <td><span class="row nowrap gap-xs">{% if card %}{{ mini(card.title, card.color, card.thumbnail) }}{% endif %}<a class="b" href="/catalogue/notices/{{ row.work_id }}">{{ row.title }}</a></span></td>
+        <td class="mono small hmd">{{ row.barcode }}</td>
+        <td>{% if row.borrower %}<a href="/lecteurs/{{ row.borrower.id }}">{{ row.borrower.name }}</a> <span class="mono small faint">{{ row.borrower.number }}</span>{% else %}<span class="faint">{{ _("Fiche fermée") }}</span>{% endif %}</td>
+        <td class="hm hmd">{% if row.responsible %}{{ row.responsible.name }}{% elif row.mode == "structure" %}{{ row.mode_label }}{% endif %}</td>
+        <td><span class="m-lab">{{ _("Fin :") if view == "historique" else _("Échéance :") }} </span>{% if view == "historique" %}{{ row.ended_label }}{% else %}{{ row.due_label }}{% endif %}</td>
+        <td>{{ loan_badge(row.late, False, row.returned_at, row.cancelled_at) }}</td>
+        <td class="ta-end"><span class="row gap-xs row-end loan-acts">
+          <a class="btn btn-g btn-sm" href="/prets/{{ row.id }}" aria-label="{{ _('Voir le prêt de') }} {{ row.title }}">{{ _("Voir") }}</a>
+          {% if row.active and can("circulation.renew") %}<form method="post" action="/prets/{{ row.id }}/renouveler"><input type="hidden" name="_csrf" value="{{ csrf_token }}"><input type="hidden" name="version_{{ row.id }}" value="{{ row.version }}"><input type="hidden" name="retour" value="{{ here }}"><button type="submit" class="btn btn-s btn-sm" aria-label="{{ _('Renouveler') }} {{ row.title }}">{{ _("Renouveler") }}</button></form>{% endif %}
+          {% if row.active and can("circulation.lend") %}<details class="confirm-inline"><summary class="btn btn-s btn-sm" aria-label="{{ _('Enregistrer le retour de') }} {{ row.title }}">{{ _("Retour") }}</summary>
+            <form method="post" action="/prets/{{ row.id }}/retour" class="mt-xs"><input type="hidden" name="_csrf" value="{{ csrf_token }}"><input type="hidden" name="retour" value="{{ here }}"><button type="submit" class="btn btn-p btn-sm" aria-label="{{ _('Confirmer le retour de') }} {{ row.title }}">{{ _("Confirmer le retour") }}</button></form>
+          </details>{% endif %}
+        </span></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table></div>
+</section>
+{% if pages > 1 and not query %}
+<nav class="pager" aria-label="{{ _('Pagination') }}">
+  {% if page > 1 %}<a href="/prets?vue={{ view }}{{ query_base }}&amp;page={{ page - 1 }}" rel="prev" aria-label="{{ _('Page précédente') }}">‹</a>{% endif %}
+  <span aria-current="page">{{ page }} / {{ pages }}</span>
+  {% if page < pages %}<a href="/prets?vue={{ view }}{{ query_base }}&amp;page={{ page + 1 }}" rel="next" aria-label="{{ _('Page suivante') }}">›</a>{% endif %}
+</nav>
+{% endif %}
+{% else %}
+<section class="card" aria-label="{{ views[view] }}">{{ empty_state("check", _("Rien dans cette vue"), _("Aucun prêt ne correspond à cette vue.")) }}</section>
+{% endif %}
+{% endblock %}

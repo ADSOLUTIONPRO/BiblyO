@@ -1,0 +1,71 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header, kpi_tile, ring %}
+{% from "components/buttons.html" import link_button %}
+{% from "components/catalogue.html" import book_card, quality_row %}
+{% from "components/feedback.html" import empty_state %}
+{% block title %}{{ _("Tableau de bord") }} — biblyO{% endblock %}
+{% block content %}
+{{ page_header(greeting, (today | date_with_weekday) ~ " · " ~ library_name, "loan", "home") }}
+<div class="stack">
+  {% if catalogue_stats %}
+  {% set stats = catalogue_stats %}
+  <section class="grid g4" aria-label="{{ _('Chiffres clés') }}">
+    {{ kpi_tile(_("Titres"), stats.works | number, _("notices bibliographiques"), "cat", "book", "/catalogue") }}
+    {{ kpi_tile(_("Exemplaires"), stats.copies | number, _("livres physiques"), "cat", "tag", "/catalogue?exemplaires=avec&view=list") }}
+    {{ kpi_tile(_("Séries"), stats.series | number, (stats.incomplete_series | number) ~ " " ~ (_("incomplète") if stats.incomplete_series == 1 else _("incomplètes")), "ser", "series", "/catalogue/series") }}
+    {{ kpi_tile(_("Contributeurs"), stats.contributors | number, _("personnes et collectivités"), "ser", "users", "/catalogue/contributeurs") }}
+  </section>
+  {% endif %}
+  {% if loan_stats is defined and loan_stats %}
+  {% set history = can("circulation.history") %}
+  <section class="grid g3" aria-label="{{ _('Prêts') }}">
+    {{ kpi_tile(_("Prêts en cours"), loan_stats.active | number, _("exemplaires sortis"), "loan", "loans", "/prets" if history else "/comptoir") }}
+    {{ kpi_tile(_("En retard"), loan_stats.overdue | number, _("depuis le lendemain de l’échéance"), "loan", "alert", "/prets?vue=retards" if history else "") }}
+    {{ kpi_tile(_("Échéance proche"), loan_stats.due_soon | number, _("dans les 3 jours"), "loan", "clock", "/prets?vue=proches" if history else "") }}
+  </section>
+  {% if loan_stats.late %}
+  <section class="card" aria-labelledby="titre-retards">
+    <div class="card-h"><h2 id="titre-retards">{{ _("Retards à suivre") }}</h2>{{ link_button(_("Tout voir"), "/prets?vue=retards", "g", size="sm", extra="push-end") }}</div>
+    {% for row in loan_stats.late %}
+    <div class="li"><span class="grow"><a class="b" href="/prets/{{ row.id }}">{{ row.title }}</a> <span class="mono small faint">{{ row.barcode }}</span><span class="faint small block">{% if row.borrower %}{{ row.borrower.name }}{% else %}{{ _("Fiche fermée") }}{% endif %} · {{ _("échéance") }} {{ row.due_label }}</span></span><span class="badge m-late"><i aria-hidden="true"></i>{{ row.late }} {{ _("jour") if row.late == 1 else _("jours") }}</span></div>
+    {% endfor %}
+  </section>
+  {% endif %}
+  {% endif %}
+  {% if figures %}
+  <div class="grid g4">
+    {% if figures.get("active_users") is not none and "active_users" in figures %}
+    {{ kpi_tile(_("Comptes actifs"), figures.active_users | number, _("Gérer les utilisateurs"), "io", "key", "/admin/utilisateurs") }}
+    {% endif %}
+    {% if "backups" in figures %}
+    {{ kpi_tile(_("Sauvegardes"), figures.backups | number, (_("Dernière :") ~ " " ~ (figures.last_backup | datetime_short)) if figures.last_backup else _("Aucune pour l’instant"), "inv", "shield") }}
+    {% endif %}
+  </div>
+  {% endif %}
+  {% if catalogue_stats and catalogue_stats.works %}
+  <section class="card" aria-labelledby="titre-qualite">
+    <div class="card-h"><h2 id="titre-qualite">{{ _("Qualité du catalogue") }}</h2></div>
+    <div class="card-b">
+      <div class="row gap-m mb-s">
+        {{ ring(stats.average, stats.average ~ " % " ~ _("de complétude moyenne"), 72, "ok" if stats.average >= 75 else "due") }}
+        <div class="grow"><b>{{ _("Complétude moyenne des notices") }}</b><div class="muted small">{{ _("ISBN, éditeur, année, résumé, couverture…") }}</div></div>
+      </div>
+      {{ quality_row(_("Sans ISBN"), stats.no_isbn, "/catalogue?meta=sans-isbn&view=list", "late") }}
+      {{ quality_row(_("Métadonnées incomplètes (< 50 %%)"), stats.low, "/catalogue?meta=incomplet&view=list", "due") }}
+      {{ quality_row(_("Sans couverture"), stats.no_cover, "/catalogue?meta=sans-couverture", "enr") }}
+      {{ quality_row(_("Sans résumé"), stats.no_summary, "/catalogue?meta=sans-resume&view=list", "enr") }}
+      {{ quality_row(_("Séries incomplètes"), stats.incomplete_series, "/catalogue/series?filtre=incompletes", "ser") }}
+    </div>
+  </section>
+  <section class="card" aria-labelledby="titre-recents">
+    <div class="card-h"><h2 id="titre-recents">{{ _("Dernières entrées au catalogue") }}</h2>{{ link_button(_("Tout voir"), "/catalogue?tri=recents", "g", size="sm", extra="push-end") }}</div>
+    <div class="card-b"><div class="cgrid">{% for card in stats.recent %}{{ book_card(card) }}{% endfor %}</div></div>
+  </section>
+  {% else %}
+  <section class="card" aria-labelledby="titre-accueil">
+    <h2 id="titre-accueil" class="sr">{{ _("Votre bibliothèque") }}</h2>
+    {{ empty_state("book", _("Votre bibliothèque est prête"), _("Le catalogue est encore vide. Les lecteurs et les prêts arriveront avec les prochains lots.")) }}
+  </section>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header %}
+{% from "components/buttons.html" import button, link_button %}
+{% from "components/feedback.html" import alert %}
+{% from "components/layout.html" import chip %}
+{% import "holdings/components.html" as parts with context %}
+{% block title %}{{ _("Trier") }} {{ place.name }} — biblyO{% endblock %}
+{% block content %}
+{% call page_header(_("Trier %(name)s", name=place.name), place.path, "she", "list") %}{{ link_button(_("Annuler"), "/emplacements/" ~ back ~ "?mode=rangement", "g", "x") }}{% endcall %}
+{% if message %}{{ alert(message, "late") }}{% endif %}
+{% call parts.layout(tree, unshelved_count) %}
+<div class="stack">
+  <div class="row gap-xs" role="group" aria-label="{{ _('Type de tri') }}">{% for code, label in modes %}{{ chip(label, "/emplacements/" ~ place.id ~ "/trier?tri=" ~ code ~ "&retour=" ~ back, code == mode) }}{% endfor %}</div>
+  <section class="card" aria-labelledby="titre-apercu">
+    <div class="card-h"><h2 id="titre-apercu">{{ _("Aperçu") }}</h2></div>
+    <div class="card-b col">
+      <p class="m0" role="status"><b>{% if preview.moved == 0 %}{{ _("Cette étagère est déjà dans cet ordre.") }}{% elif preview.moved == 1 %}{{ _("1 exemplaire changerait de position.") }}{% else %}{{ _("%(n)s exemplaires changeraient de position.", n=preview.moved) }}{% endif %}</b></p>
+      <div class="grid g2">
+        <div><h3 class="muted small">{{ _("Ordre actuel") }}</h3><ol class="sort-list">{% for item in before %}<li>{{ item.title }} <span class="mono faint small">{{ item.call_number or "" }}</span></li>{% endfor %}</ol></div>
+        <div><h3 class="muted small">{{ _("Après le tri") }}</h3><ol class="sort-list">{% for item in after %}<li{% if before[loop.index0].id != item.id %} class="moved"{% endif %}>{{ item.title }} <span class="mono faint small">{{ item.call_number or "" }}</span></li>{% endfor %}</ol></div>
+      </div>
+      {% if preview.moved %}
+      <form class="form-actions" method="post" action="/emplacements/{{ place.id }}/trier"><input type="hidden" name="_csrf" value="{{ csrf_token }}"><input type="hidden" name="tri" value="{{ mode }}"><input type="hidden" name="version_lieu" value="{{ preview.location_version }}"><input type="hidden" name="retour" value="{{ back }}">{{ button(_("Appliquer ce tri"), "p", "check", type="submit") }}</form>
+      {% endif %}
+    </div>
+  </section>
+</div>
+{% endcall %}
+{% endblock %}

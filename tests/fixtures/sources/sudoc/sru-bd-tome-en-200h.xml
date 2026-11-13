@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?xml-stylesheet type="text/xsl" href="https://www.sudoc.abes.fr/cbs/sru/DB=2.1/?xsl=searchRetrieveResponse" ?>
+<srw:searchRetrieveResponse xmlns:srw="http://www.loc.gov/zing/srw/"
+			    xmlns:dc="http://purl.org/dc/elements/1.1/"
+			    xmlns:diag="http://www.loc.gov/zing/srw/diagnostic/"
+			    xmlns:xcql="http://www.loc.gov/zing/cql/xcql/">
+    <srw:version>1.1</srw:version>
+    <srw:numberOfRecords>13</srw:numberOfRecords>
+    <srw:resultSetId></srw:resultSetId>
+    <srw:records>
+    
+
+
+<srw:record>
+<srw:recordSchema>unimarc</srw:recordSchema>
+<srw:recordPacking>xml</srw:recordPacking>
+<srw:recordData>
+<record>
+<controlfield tag="005">20240110230451.000</controlfield>
+<leader>     cam0 22        450 </leader>
+<controlfield tag="001">051694662</controlfield>
+<controlfield tag="003">http://www.sudoc.fr/051694662</controlfield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">(OCoLC)496215117</subfield></datafield>
+<datafield tag="010" ind1=" " ind2=" "><subfield code="a">3-7704-0005-4</subfield></datafield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">sib1598390</subfield></datafield>
+<datafield tag="100" ind1=" " ind2=" "><subfield code="a">20000727d1991    m  |0frey50      ba</subfield></datafield>
+<datafield tag="101" ind1="1" ind2=" "><subfield code="a">ger</subfield>
+<subfield code="c">fre</subfield>
+<subfield code="2">639-2</subfield></datafield>
+<datafield tag="105" ind1=" " ind2=" "><subfield code="a">a   t   000ay</subfield></datafield>
+<datafield tag="106" ind1=" " ind2=" "><subfield code="a">r</subfield></datafield>
+<datafield tag="181" ind1=" " ind2=" "><subfield code="6">z01</subfield>
+<subfield code="c">txt</subfield>
+<subfield code="2">rdacontent</subfield></datafield>
+<datafield tag="181" ind1=" " ind2=" "><subfield code="6">z02</subfield>
+<subfield code="c">sti</subfield>
+<subfield code="2">rdacontent</subfield></datafield>
+<datafield tag="181" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="a">i#</subfield>
+<subfield code="b">xxxe##</subfield></datafield>
+<datafield tag="181" ind1=" " ind2="1"><subfield code="6">z02</subfield>
+<subfield code="a">b#</subfield>
+<subfield code="b">xb2e##</subfield></datafield>
+<datafield tag="182" ind1=" " ind2=" "><subfield code="6">z01</subfield>
+<subfield code="c">n</subfield>
+<subfield code="2">rdamedia</subfield></datafield>
+<datafield tag="182" ind1=" " ind2=" "><subfield code="6">z02</subfield>
+<subfield code="c">n</subfield>
+<subfield code="2">rdamedia</subfield></datafield>
+<datafield tag="182" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="a">n</subfield></datafield>
+<datafield tag="182" ind1=" " ind2="1"><subfield code="6">z02</subfield>
+<subfield code="a">n</subfield></datafield>
+<datafield tag="183" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="a">nga</subfield>
+<subfield code="2">RDAfrCarrier</subfield></datafield>
+<datafield tag="102" ind1=" " ind2=" "><subfield code="a">DE</subfield></datafield>
+<datafield tag="200" ind1="1" ind2=" "><subfield code="a">Die goldene Sichel</subfield>
+<subfield code="a">Tour de France</subfield>
+<subfield code="a">Asterix und die Goten</subfield>
+<subfield code="a">Asterix bei den Briten</subfield>
+<subfield code="f">René Goscinny</subfield>
+<subfield code="g">Albert Uderzo</subfield></datafield>
+<datafield tag="700" ind1=" " ind2="1"><subfield code="3">026897717</subfield>
+<subfield code="a">Goscinny</subfield>
+<subfield code="b">René</subfield>
+<subfield code="f">1926-1977</subfield>
+<subfield code="4">070</subfield></datafield>
+<datafield tag="701" ind1=" " ind2="1"><subfield code="3">027172112</subfield>
+<subfield code="a">Uderzo</subfield>
+<subfield code="b">Albert</subfield>
+<subfield code="f">1927-2020</subfield>
+<subfield code="4">440</subfield></datafield>
+<datafield tag="801" ind1=" " ind2="3"><subfield code="a">FR</subfield>
+<subfield code="b">Abes</subfield>
+<subfield code="c">20240110</subfield>
+<subfield code="g">AFNOR</subfield></datafield>
+<datafield tag="214" ind1=" " ind2="0"><subfield code="a">Filderstadt</subfield>
+<subfield code="c">Horizont Verlag</subfield>
+<subfield code="d">1991</subfield></datafield>
+<datafield tag="215" ind1=" " ind2=" "><subfield code="a">46 p., 48 p., 47 p., 48 p</subfield>
+<subfield code="c">ill., en coul</subfield>
+<subfield code="d">30 cm</subfield></datafield>
+<datafield tag="454" ind1=" " ind2="|"><subfield code="t">La serpe d&apos;Or</subfield></datafield>
+<datafield tag="454" ind1=" " ind2="|"><subfield code="t">Le tour de Gaule d&apos;Astérix</subfield></datafield>
+<datafield tag="454" ind1=" " ind2="|"><subfield code="t">Le domaine des dieux</subfield></datafield>
+<datafield tag="454" ind1=" " ind2="|"><subfield code="t">Astérix chez les Bretons</subfield></datafield>
+<datafield tag="464" ind1=" " ind2="|"><subfield code="t">Die goldene Sichel</subfield></datafield>
+<datafield tag="464" ind1=" " ind2="|"><subfield code="t">Tour de France</subfield></datafield>
+<datafield tag="464" ind1=" " ind2="|"><subfield code="t">Asterix und die Goten</subfield></datafield>
+<datafield tag="464" ind1=" " ind2="|"><subfield code="t">Asterix bei den Briten</subfield></datafield>
+<datafield tag="608" ind1=" " ind2=" "><subfield code="3">027220796</subfield>
+<subfield code="a">Bandes dessinées</subfield>
+<subfield code="2">rameau</subfield></datafield>
+<datafield tag="801" ind1=" " ind2="3"><subfield code="a">FR</subfield>
+<subfield code="b">SF</subfield>
+<subfield code="c">19000920</subfield></datafield>
+</record></srw:recordData><srw:recordPosition>1</srw:recordPosition>
+</srw:record>
+
+<srw:record>
+<srw:recordSchema>unimarc</srw:recordSchema>
+<srw:recordPacking>xml</srw:recordPacking>
+<srw:recordData>
+<record>
+<controlfield tag="005">20191011191552.000</controlfield>
+<leader>     cam0 22        450 </leader>
+<controlfield tag="001">094733023</controlfield>
+<controlfield tag="003">http://www.sudoc.fr/094733023</controlfield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">(OCoLC)468994025</subfield></datafield>
+<datafield tag="010" ind1=" " ind2=" "><subfield code="a">2-01-210005-8</subfield>
+<subfield code="b">rel.</subfield></datafield>
+<datafield tag="100" ind1=" " ind2=" "><subfield code="a">20020711h20011965a  y0frey50      ba</subfield></datafield>
+<datafield tag="101" ind1="0" ind2=" "><subfield code="a">fre</subfield>
+<subfield code="2">639-2</subfield></datafield>
+<datafield tag="105" ind1=" " ind2=" "><subfield code="a">a   t   000yy</subfield></datafield>
+<datafield tag="106" ind1=" " ind2=" "><subfield code="a">r</subfield></datafield>
+<datafield tag="181" ind1=" " ind2=" "><subfield code="6">z01</subfield>
+<subfield code="c">txt</subfield>
+<subfield code="2">rdacontent</subfield></datafield>
+<datafield tag="181" ind1=" " ind2=" "><subfield code="6">z02</subfield>
+<subfield code="c">sti</subfield>
+<subfield code="2">rdacontent</subfield></datafield>
+<datafield tag="181" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="a">i#</subfield>
+<subfield code="b">xxxe##</subfield></datafield>
+<datafield tag="181" ind1=" " ind2="1"><subfield code="6">z02</subfield>
+<subfield code="a">b#</subfield>
+<subfield code="b">xb2e##</subfield></datafield>
+<datafield tag="182" ind1=" " ind2=" "><subfield code="6">z01</subfield>
+<subfield code="c">n</subfield>
+<subfield code="2">rdamedia</subfield></datafield>
+<datafield tag="182" ind1=" " ind2=" "><subfield code="6">z02</subfield>
+<subfield code="c">n</subfield>
+<subfield code="2">rdamedia</subfield></datafield>
+<datafield tag="182" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="a">n</subfield></datafield>
+<datafield tag="182" ind1=" " ind2="1"><subfield code="6">z02</subfield>
+<subfield code="a">n</subfield></datafield>
+<datafield tag="102" ind1=" " ind2=" "><subfield code="a">FR</subfield></datafield>
+<datafield tag="200" ind1="1" ind2=" "><subfield code="a">Une aventure d&apos;Astérix</subfield>
+<subfield code="h">5</subfield>
+<subfield code="i">Le tour de Gaule d&apos;Astérix</subfield>
+<subfield code="f">texte de René Goscinny</subfield>
+<subfield code="g">dessins d&apos;Albert Uderzo</subfield></datafield>
+<datafield tag="517" ind1="|" ind2=" "><subfield code="a">Le tour de Gaule d&apos;Astérix</subfield></datafield>
+<datafield tag="700" ind1=" " ind2="1"><subfield code="3">026897717</subfield>
+<subfield code="a">Goscinny</subfield>
+<subfield code="b">René</subfield>
+<subfield code="f">1926-1977</subfield>
+<subfield code="4">070</subfield></datafield>
+<datafield tag="701" ind1=" " ind2="1"><subfield code="3">027172112</subfield>
+<subfield code="a">Uderzo</subfield>
+<subfield code="b">Albert</subfield>
+<subfield code="f">1927-2020</subfield>
+<subfield code="4">070</subfield></datafield>
+<datafield tag="801" ind1=" " ind2="3"><subfield code="a">FR</subfield>
+<subfield code="b">Abes</subfield>
+<subfield code="c">20191011</subfield>
+<subfield code="g">AFNOR</subfield></datafield>
+<datafield tag="210" ind1=" " ind2=" "><subfield code="a">Paris</subfield>
+<subfield code="c">Hachette</subfield>
+<subfield code="d">2001</subfield></datafield>
+<datafield tag="215" ind1=" " ind2=" "><subfield code="a">1 vol. (48 p.)</subfield>
+<subfield code="c">ill. en coul., couv. ill. en coul.</subfield>
+<subfield code="d">30 cm.</subfield></datafield>
+<datafield tag="608" ind1=" " ind2=" "><subfield code="3">027220796</subfield>
+<subfield code="a">Bandes dessinées</subfield>
+<subfield code="2">rameau</subfield></datafield>
+<datafield tag="305" ind1=" " ind2=" "><subfield code="a">Autre tirage : 2003</subfield></datafield>
+<datafield tag="801" ind1=" " ind2="0"><subfield code="b">Université du Littoral Valérie</subfield></datafield>
+</record></srw:recordData><srw:recordPosition>2</srw:recordPosition>
+</srw:record>
+
+<srw:record>
+<srw:recordSchema>unimarc</srw:recordSchema>
+<srw:recordPacking>xml</srw:recordPacking>
+<srw:recordData>
+<record>
+<controlfield tag="005">20240328163759.000</controlfield>
+<leader>     cam0 22        450 </leader>
+<controlfield tag="001">010791833</controlfield>
+<controlfield tag="003">http://www.sudoc.fr/010791833</controlfield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">(OCoLC)489754421</subfield></datafield>
+<datafield tag="010" ind1=" " ind2=" "><subfield code="a">2-205-00146-9</subfield>
+<subfield code="b">rel.</subfield></datafield>
+<datafield tag="020" ind1=" " ind2=" "><subfield code="a">FR</subfield>
+<subfield code="b">07513928</subfield></datafield>
+<datafield tag="021" ind1=" " ind2=" "><subfield code="a">FR</subfield>
+<subfield code="b">D.L. 75-10886</subfield></datafield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">sib1231124</subfield></datafield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">sib1231258</subfield></datafield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">frBN000274859</subfield></datafield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">AIC03980034</subfield></datafield>
+<datafield tag="100" ind1=" " ind2=" "><subfield code="a">19981109h19751975a  y0frey50      ba</subfield></datafield>
+<datafield tag="101" ind1="0" ind2=" "><subfield code="a">fre</subfield>
+<subfield code="2">639-2</subfield></datafield>
+<datafield tag="105" ind1=" " ind2=" "><subfield code="a">a   t   000ay</subfield></datafield>
+<datafield tag="106" ind1=" " ind2=" "><subfield code="a">r</subfield></datafield>
+<datafield tag="181" ind1=" " ind2=" "><subfield code="6">z01</subfield>
+<subfield code="c">txt</subfield>
+<subfield code="2">rdacontent</subfield></datafield>
+<datafield tag="181" ind1=" " ind2=" "><subfield code="6">z02</subfield>
+<subfield code="c">sti</subfield>
+<subfield code="2">rdacontent</subfield></datafield>
+<datafield tag="181" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="a">i#</subfield>
+<subfield code="b">xxxe##</subfield></datafield>
+<datafield tag="181" ind1=" " ind2="1"><subfield code="6">z02</subfield>
+<subfield code="a">b#</subfield>
+<subfield code="b">xb2e##</subfield></datafield>
+<datafield tag="182" ind1=" " ind2=" "><subfield code="6">z01</subfield>
+<subfield code="c">n</subfield>
+<subfield code="2">rdamedia</subfield></datafield>
+<datafield tag="182" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="6">z02</subfield>
+<subfield code="a">n</subfield></datafield>
+<datafield tag="183" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="a">nga</subfield>
+<subfield code="2">RDAfrCarrier</subfield></datafield>
+<datafield tag="102" ind1=" " ind2=" "><subfield code="a">FR</subfield></datafield>
+<datafield tag="200" ind1="1" ind2=" "><subfield code="a">Une aventure d&apos;Astérix le Gaulois</subfield>
+<subfield code="h">V</subfield>
+<subfield code="i">Le tour de Gaule d&apos;Astérix</subfield>
+<subfield code="f">texte de Goscinny</subfield>
+<subfield code="g">dessins de Uderzo</subfield></datafield>
+<datafield tag="517" ind1="|" ind2=" "><subfield code="a">Le tour de Gaule d&apos;Astérix</subfield></datafield>
+<datafield tag="517" ind1="|" ind2=" "><subfield code="a">Une aventure d&apos;Astérix le gaulois</subfield>
+<subfield code="j">5</subfield></datafield>
+<datafield tag="700" ind1=" " ind2="1"><subfield code="3">026897717</subfield>
+<subfield code="a">Goscinny</subfield>
+<subfield code="b">René</subfield>
+<subfield code="f">1926-1977</subfield>
+<subfield code="4">070</subfield></datafield>
+<datafield tag="701" ind1=" " ind2="0"><subfield code="3">027172112</subfield>
+<subfield code="a">Uderzo</subfield>
+<subfield code="b">Albert</subfield>
+<subfield code="f">1927-2020</subfield>
+<subfield code="4">440</subfield></datafield>
+<datafield tag="801" ind1=" " ind2="3"><subfield code="a">FR</subfield>
+<subfield code="b">Abes</subfield>
+<subfield code="c">20240328</subfield>
+<subfield code="g">AFNOR</subfield></datafield>
+<datafield tag="214" ind1=" " ind2="0"><subfield code="a">Neuilly sur Seine</subfield>
+<subfield code="c">Dargaud</subfield>
+<subfield code="d">DL 1975</subfield></datafield>
+<datafield tag="215" ind1=" " ind2=" "><subfield code="a">1 vol. (48 p.)</subfield>
+<subfield code="c">ill. en coul., couv. ill. en coul</subfield>
+<subfield code="d">30 cm</subfield></datafield>
+<datafield tag="461" ind1=" " ind2="|"><subfield code="t">Une aventure d&apos;Astérix le gaulois</subfield>
+<subfield code="v">5</subfield></datafield>
+<datafield tag="608" ind1=" " ind2=" "><subfield code="3">027220796</subfield>
+<subfield code="a">Bandes dessinées</subfield>
+<subfield code="2">rameau</subfield></datafield>
+<datafield tag="676" ind1=" " ind2=" "><subfield code="a">830</subfield></datafield>
+<datafield tag="675" ind1=" " ind2=" "><subfield code="a">83</subfield>
+<subfield code="v">Éd. 1967</subfield></datafield>
+<datafield tag="305" ind1=" " ind2=" "><subfield code="a">Autre tirage : DL 1992</subfield></datafield>
+<datafield tag="801" ind1=" " ind2="3"><subfield code="a">FR</subfield>
+<subfield code="b">SF</subfield>
+<subfield code="c">19990209</subfield></datafield>
+<datafield tag="801" ind1=" " ind2="1"><subfield code="a">FR</subfield>
+<subfield code="b">AIC</subfield>
+<subfield code="c">20010912</subfield></datafield>
+<datafield tag="801" ind1=" " ind2="3"><subfield code="a">FR</subfield>
+<subfield code="b">BN</subfield>
+<subfield code="c">20000827</subfield>
+<subfield code="g">AFNOR</subfield></datafield>
+</record></srw:recordData><srw:recordPosition>3</srw:recordPosition>
+</srw:record>
+
+<srw:record>
+<srw:recordSchema>unimarc</srw:recordSchema>
+<srw:recordPacking>xml</srw:recordPacking>
+<srw:recordData>
+<record>
+<controlfield tag="005">20231126153619.000</controlfield>
+<leader>     cam0 22        450 </leader>
+<controlfield tag="001">165817585</controlfield>
+<controlfield tag="003">http://www.sudoc.fr/165817585</controlfield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">(OCoLC)835096963</subfield></datafield>
+<datafield tag="010" ind1=" " ind2=" "><subfield code="a">3-7704-0006-2</subfield>
+<subfield code="b">rel.</subfield></datafield>
+<datafield tag="010" ind1=" " ind2=" "><subfield code="a">978-3-7704-0006-5</subfield>
+<subfield code="b">rel.</subfield></datafield>
+<datafield tag="100" ind1=" " ind2=" "><subfield code="a">20121128d2012    a  y0frey50      ba</subfield></datafield>
+<datafield tag="101" ind1="1" ind2=" "><subfield code="a">ger</subfield>
+<subfield code="c">fre</subfield>
+<subfield code="2">639-2</subfield></datafield>
+<datafield tag="105" ind1=" " ind2=" "><subfield code="a">a   ||||000zy</subfield></datafield>
+<datafield tag="106" ind1=" " ind2=" "><subfield code="a">r</subfield></datafield>
+<datafield tag="181" ind1=" " ind2=" "><subfield code="6">z01</subfield>
+<subfield code="c">txt</subfield>
+<subfield code="2">rdacontent</subfield></datafield>
+<datafield tag="181" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="a">i#</subfield>
+<subfield code="b">xxxe##</subfield></datafield>
+<datafield tag="182" ind1=" " ind2=" "><subfield code="6">z01</subfield>
+<subfield code="c">n</subfield>
+<subfield code="2">rdamedia</subfield></datafield>
+<datafield tag="182" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="a">n</subfield></datafield>
+<datafield tag="102" ind1=" " ind2=" "><subfield code="a">DE</subfield></datafield>
+<datafield tag="200" ind1="1" ind2=" "><subfield code="a">Tour de France</subfield>
+<subfield code="f">Text von René Goscinny</subfield>
+<subfield code="g">Zeichnungen von Albert Uderzo</subfield>
+<subfield code="g">[Aus dem Französischen von : Gudrun Penndorf]</subfield></datafield>
+<datafield tag="700" ind1=" " ind2="1"><subfield code="3">026897717</subfield>
+<subfield code="a">Goscinny</subfield>
+<subfield code="b">René</subfield>
+<subfield code="f">1926-1977</subfield>
+<subfield code="4">070</subfield></datafield>
+<datafield tag="702" ind1=" " ind2="1"><subfield code="3">027172112</subfield>
+<subfield code="a">Uderzo</subfield>
+<subfield code="b">Albert</subfield>
+<subfield code="f">1927-2020</subfield>
+<subfield code="4">440</subfield></datafield>
+<datafield tag="702" ind1=" " ind2="1"><subfield code="3">069256446</subfield>
+<subfield code="a">Penndorf</subfield>
+<subfield code="b">Gudrun</subfield>
+<subfield code="f">19..-....</subfield>
+<subfield code="4">730</subfield></datafield>
+<datafield tag="801" ind1=" " ind2="3"><subfield code="a">FR</subfield>
+<subfield code="b">Abes</subfield>
+<subfield code="c">20231126</subfield>
+<subfield code="g">AFNOR</subfield></datafield>
+<datafield tag="210" ind1=" " ind2=" "><subfield code="a">Köln</subfield>
+<subfield code="c">Egmont Ehapa</subfield>
+<subfield code="d">cop. 2012</subfield></datafield>
+<datafield tag="215" ind1=" " ind2=" "><subfield code="a">1 vol. (48 p.)</subfield>
+<subfield code="c">Ill.en coul</subfield>
+<subfield code="d">29 x 23 cm</subfield></datafield>
+<datafield tag="225" ind1="0" ind2=" "><subfield code="a">Asterix</subfield>
+<subfield code="f">René Goscinny, Albert Uderzo</subfield>
+<subfield code="v">Bd 6</subfield></datafield>
+<datafield tag="225" ind1="0" ind2=" "><subfield code="a">Ehapa Comic Collection</subfield></datafield>
+<datafield tag="410" ind1=" " ind2="|"><subfield code="a">Goscinny, René</subfield>
+<subfield code="t">Asterix</subfield>
+<subfield code="v">6</subfield></datafield>
+<datafield tag="410" ind1=" " ind2="|"><subfield code="a">Uderzo, Albert</subfield>
+<subfield code="t">Asterix</subfield>
+<subfield code="v">6</subfield></datafield>
+<datafield tag="454" ind1=" " ind2="|"><subfield code="t">Le tour de Gaule d&apos;Asterix</subfield></datafield>
+</record></srw:recordData><srw:recordPosition>4</srw:recordPosition>
+</srw:record>
+</srw:records>
+    <srw:echoedSearchRetrieveRequest>
+	<srw:version>1.1</srw:version>
+	<srw:query>mti%3Dtour+de+Gaule+and+aut%3Dgoscinny+and+tdo%3Db</srw:query>
+	<srw:xQuery><xcql:triple><xcql:boolean> <xcql:value>and</xcql:value></xcql:boolean><xcql:leftOperand><xcql:triple><xcql:boolean> <xcql:value>and</xcql:value></xcql:boolean><xcql:leftOperand><xcql:triple><xcql:boolean> <xcql:value>and</xcql:value></xcql:boolean><xcql:leftOperand><xcql:triple><xcql:boolean> <xcql:value>and</xcql:value></xcql:boolean><xcql:leftOperand><xcql:searchClause><xcql:index>mti</xcql:index><xcql:relation><xcql:value>=</xcql:value></xcql:relation><xcql:term>tour</xcql:term></xcql:searchClause></xcql:leftOperand><xcql:rightOperand><xcql:searchClause><xcql:index>mti</xcql:index><xcql:relation><xcql:value>=</xcql:value></xcql:relation><xcql:term>de</xcql:term></xcql:searchClause></xcql:rightOperand></xcql:triple></xcql:leftOperand><xcql:rightOperand><xcql:searchClause><xcql:index>mti</xcql:index><xcql:relation><xcql:value>=</xcql:value></xcql:relation><xcql:term>Gaule</xcql:term></xcql:searchClause></xcql:rightOperand></xcql:triple></xcql:leftOperand><xcql:rightOperand><xcql:searchClause><xcql:index>aut</xcql:index><xcql:relation><xcql:value>=</xcql:value></xcql:relation><xcql:term>goscinny</xcql:term></xcql:searchClause></xcql:rightOperand></xcql:triple></xcql:leftOperand><xcql:rightOperand><xcql:searchClause><xcql:index>tdo</xcql:index><xcql:relation><xcql:value>=</xcql:value></xcql:relation><xcql:term>b</xcql:term></xcql:searchClause></xcql:rightOperand></xcql:triple></srw:xQuery>
+	<startRecord>1</startRecord>
+	<maximumRecords>4</maximumRecords>
+	<srw:recordPacking>xml</srw:recordPacking>
+	<srw:recordSchema>unimarc</srw:recordSchema>
+	
+	<srw:stylesheet>https://www.sudoc.abes.fr/cbs/sru/DB=2.1/?xsl=searchRetrieveResponse</srw:stylesheet>
+    </srw:echoedSearchRetrieveRequest>
+    <diag:diagnostics>
+        <diag:uri>info:srw/diagnostic/1/0</diag:uri>
+	
+	
+    </diag:diagnostics>
+    <srw:extraResponseData/>
+</srw:searchRetrieveResponse>

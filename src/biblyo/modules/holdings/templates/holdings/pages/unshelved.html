@@ -1,0 +1,73 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header %}
+{% from "components/feedback.html" import empty_state, badge %}
+{% from "components/buttons.html" import button, link_button %}
+{% from "components/icons.html" import icon %}
+{% import "holdings/components.html" as parts with context %}
+{% block title %}{{ _("À ranger") }} — biblyO{% endblock %}
+{% block content %}
+{% call page_header(_("À ranger"), _("Exemplaires sans place, ou rangés mais pas encore vérifiés sur l’étagère"), "she", "alert") %}{% endcall %}
+{{ parts.finder() }}
+{% call parts.layout(tree, unshelved_count, on_unshelved=True) %}
+<div class="stack">
+  <section class="card" aria-labelledby="titre-filtres">
+    <div class="card-h"><h2 id="titre-filtres">{{ _("Trouver les exemplaires") }}</h2></div>
+    <div class="card-b">
+      <form class="form" method="get" action="/emplacements/non-ranges">
+        <div class="grid g3">
+          <div class="fld"><label for="etat">{{ _("Lesquels") }}</label>
+            <select class="in" id="etat" name="etat">
+              <option value="non_ranges"{% if chosen.state == "non_ranges" %} selected{% endif %}>{{ _("Sans place") }}</option>
+              <option value="en_preparation"{% if chosen.state == "en_preparation" %} selected{% endif %}>{{ _("En préparation (à vérifier)") }}</option>
+            </select></div>
+          <div class="fld"><label for="origine">{{ _("Origine") }}</label>
+            <select class="in" id="origine" name="origine">
+              <option value="">{{ _("Tous") }}</option>
+              <option value="importes"{% if chosen.origin == "importes" %} selected{% endif %}>{{ _("Importés d’un classeur") }}</option>
+            </select></div>
+          <div class="fld"><label for="q">{{ _("Titre, série, inventaire ou cote") }}</label>
+            <input class="in" id="q" name="q" value="{{ chosen.query }}" maxlength="120"></div>
+        </div>
+        <div class="form-actions">{{ button(_("Filtrer"), "s", "search", type="submit") }}</div>
+      </form>
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="titre-liste">
+    <div class="card-h"><h2 id="titre-liste">{{ _("{n} exemplaire(s)").format(n=total) }}</h2>{% if total %}<span class="muted small">{{ _("Page {p} sur {n}").format(p=chosen.page, n=pages_count) }}</span>{% endif %}</div>
+    {% if copies %}
+    <form method="get" action="/emplacements/deplacer-groupe" id="selection">
+      {% if can("holdings.edit") %}
+      <div class="card-b row gap-xs wrap">
+        {{ button(_("Ranger la sélection…"), "p", "shelf", type="submit") }}
+        <button type="submit" class="btn btn-s" formaction="/emplacements/verifier">{{ icon("check", 16) }}<span class="lbl">{{ _("Confirmer la présence…") }}</span></button>
+        <button type="submit" class="btn btn-g" formaction="/emplacements/codes-barres">{{ icon("scan", 16) }}<span class="lbl">{{ _("Attribuer des codes-barres…") }}</span></button>
+        <a class="btn btn-g btn-sm" href="/emplacements/non-ranges?{{ query_base }}{% if query_base %}&amp;{% endif %}page={{ chosen.page }}&amp;tout={{ '0' if all_checked else '1' }}">{{ _("Tout décocher") if all_checked else _("Cocher toute la page") }}</a>
+      </div>
+      {% endif %}
+      <ul class="plain-list">
+      {% for item in copies %}
+        <li class="li">
+          {% if can("holdings.edit") %}<input type="checkbox" id="x-{{ item.id }}" name="exemplaire" value="{{ item.id }}"{% if all_checked %} checked{% endif %}>{% endif %}
+          <div class="grow min0"><label for="x-{{ item.id }}"><a class="b" href="/exemplaires/{{ item.id }}">{{ item.title }}</a><span class="sr">, {{ _("inventaire") }} {{ item.inventory }}</span></label>
+            <div class="faint small">{% if item.series %}{{ item.series }}{% if item.volume %}, {{ _("tome") }} {{ item.volume }}{% endif %} · {% endif %}<span class="mono">{{ _("Inv.") }} {{ item.inventory }}</span>{% if item.call_number %} · <span class="mono">{{ item.call_number }}</span>{% endif %}{% if not item.has_barcode %} · {{ _("sans code-barres") }}{% endif %}{% if item.path %} · {{ item.path }}{% endif %}</div></div>
+          {{ badge(item.status_label, "info" if item.status == "in_processing" else "neutral") }}{% if item.imported %}{{ badge(_("importé"), "neutral", dot=False) }}{% endif %}{% if can("holdings.edit") %}{{ link_button(_("Ranger…"), "/exemplaires/" ~ item.id ~ "/deplacer", "g", "", "sm", aria_label=_("Ranger") ~ " " ~ item.title) }}{% endif %}
+        </li>
+      {% endfor %}
+      </ul>
+    </form>
+    {% if pages_count > 1 %}
+    <nav class="card-b row gap-xs" aria-label="{{ _('Pages') }}">
+      {% if chosen.page > 1 %}<a class="btn btn-g btn-sm" href="/emplacements/non-ranges?{{ query_base }}{% if query_base %}&amp;{% endif %}page={{ chosen.page - 1 }}">{{ _("Précédente") }}</a>{% endif %}
+      {% if chosen.page < pages_count %}<a class="btn btn-g btn-sm" href="/emplacements/non-ranges?{{ query_base }}{% if query_base %}&amp;{% endif %}page={{ chosen.page + 1 }}">{{ _("Suivante") }}</a>{% endif %}
+    </nav>
+    {% endif %}
+    {% else %}
+    {% if chosen.state == "non_ranges" and not chosen.query and not chosen.origin %}{{ empty_state("check", _("Tout est rangé"), _("Chaque exemplaire a une place sur une étagère.")) }}
+    {% else %}{{ empty_state("check", _("Rien à ranger ici"), _("Aucun exemplaire ne correspond à ces critères.")) }}{% endif %}
+    {% endif %}
+  </section>
+  <p class="muted small">{{ _("« Ranger la sélection » donne une place ; l’exemplaire ne passe « En place » que si vous cochez « rangement vérifié ». « Confirmer la présence » le fait pour des exemplaires déjà rangés. Numéros d’inventaire, cotes et valeurs d’origine ne changent jamais.") }}</p>
+</div>
+{% endcall %}
+{% endblock %}

@@ -1,0 +1,245 @@
+{% from "components/feedback.html" import badge, alert %}
+{% from "components/icons.html" import icon %}
+{% from "components/catalogue.html" import mini %}
+{% from "components/availability.html" import copy_badge, loan_badge %}
+{% from "patrons/components.html" import initials, states %}
+{% set state = view.state %}
+{% if state.patron_id %}<input type="hidden" name="lecteur" value="{{ state.patron_id }}">{% endif %}
+{% for copy_id in state.copy_ids %}<input type="hidden" name="ex" value="{{ copy_id }}">{% endfor %}
+{% for code in state.waiting %}<input type="hidden" name="attente" value="{{ code }}">{% endfor %}
+{% if state.doubt %}<input type="hidden" name="doute" value="{{ state.doubt }}">{% endif %}
+<input type="hidden" name="jeton" value="{{ view.token }}">
+{% if state.book_id %}<input type="hidden" name="livre" value="{{ state.book_id }}">{% endif %}
+{% if view.books %}<input type="hidden" name="parcourir" value="1">{% endif %}
+
+{# --- Prêt enregistré : ce qui est sorti, pour qui, jusqu'à quand ------------------------------------------------- #}
+{% if view.result %}
+<section class="card desk-done" aria-labelledby="cp-fait" role="status">
+  <div class="card-h"><h2 id="cp-fait">{{ icon("check", 18) }} {{ _("Prêt enregistré") }}</h2>{% if view.lent_reader %}<span class="b">{{ view.lent_reader.name }}</span> <span class="mono small faint">{{ view.lent_reader.number }}</span>{% endif %}</div>
+  <div class="card-b">
+    {% if view.lent %}
+    <ul class="plain">{% for item in view.lent %}<li><a class="b" href="/catalogue/notices/{{ item.work_id }}">{{ item.title }}</a> <span class="mono small faint">{{ item.barcode }}</span> · {{ _("retour le") }} <b>{{ item.due_label }}</b></li>{% endfor %}</ul>
+    {% endif %}
+    <p class="muted small mt-xs mb-s">{{ _("L’échéance de chaque livre est à indiquer au lecteur.") }}</p>
+    <div class="row gap-s">
+      <a class="btn btn-p" href="/comptoir?nouveau=1">{{ icon("plus", 16) }}<span class="lbl">{{ _("Nouveau prêt") }}</span></a>
+      {% if view.book %}<a class="btn btn-s" href="/catalogue/notices/{{ view.book[0] }}">{{ icon("undo", 16) }}<span class="lbl">{{ _("Revenir à « %(title)s »", title=view.book[1]) }}</span></a>{% endif %}
+      <a class="btn btn-s" href="/catalogue">{{ icon("book", 16) }}<span class="lbl">{{ _("Revenir au catalogue") }}</span></a>
+      {% if view.lent_reader %}<a class="btn btn-g" href="/lecteurs/{{ view.lent_reader.id }}">{{ _("Fiche du lecteur") }}</a>{% endif %}
+      <span class="grow"></span>
+      <button type="submit" class="btn btn-g btn-sm" hx-post="/comptoir/annuler/{{ view.result.operation_id }}" formaction="/comptoir/annuler/{{ view.result.operation_id }}" hx-disabled-elt="this">{{ _("Annuler ce prêt") }}</button>
+    </div>
+  </div>
+</section>
+{% endif %}
+{% if view.notice %}{{ alert(view.notice.message, "late" if view.notice.nature.value == "interdiction" else ("due" if view.notice.nature.value == "avertissement" else ("ok" if view.renewed and view.notice.code == "D7" else "info"))) }}{% if view.renewed %}<span hidden data-annonce>{{ view.notice.message }}</span>{% endif %}{% endif %}
+
+{# --- Une préparation laissée dans cet onglet : proposée, jamais reprise d'office ------------------------------------ #}
+{% if view.proposal %}
+{% set proposal = view.proposal %}
+<section class="card desk-proposal" aria-labelledby="cp-proposition">
+  <input type="hidden" name="propose_lecteur" value="{{ proposal.reader.id }}">
+  {% for copy_id in proposal.copy_ids %}<input type="hidden" name="propose_ex" value="{{ copy_id }}">{% endfor %}
+  {% if proposal.mode %}<input type="hidden" name="propose_cadre" value="{{ proposal.mode }}">{% endif %}
+  {% if proposal.guardian_id %}<input type="hidden" name="propose_responsable" value="{{ proposal.guardian_id }}">{% endif %}
+  <div class="card-b row gap-s">
+    {{ initials(proposal.reader) }}
+    <span class="grow"><b id="cp-proposition">{{ _("Un prêt était en préparation pour %(name)s", name=proposal.reader.name) }}</b> <span class="mono small">{{ proposal.reader.number }}</span>
+      {% if proposal.titles %}<span class="faint small block">{{ _("Déjà choisi :") }} {{ proposal.titles | join(", ") }}</span>{% endif %}</span>
+    <button type="submit" class="btn btn-s" name="reprendre" value="1" hx-post="/comptoir/etat" formaction="/comptoir/etat">{{ _("Reprendre ce lecteur") }}</button>
+    <button type="submit" class="btn btn-g" name="ignorer" value="1" hx-post="/comptoir/etat" formaction="/comptoir/etat">{{ _("Choisir un autre lecteur") }}</button>
+  </div>
+</section>
+{% endif %}
+
+{% if view.choices %}
+<section class="card counter-choices" aria-labelledby="cp-choix">
+  <div class="card-h"><h2 id="cp-choix">{{ _("Quel résultat ?") }}</h2></div>
+  <div class="card-b">
+    <p class="muted small choice-intro">{{ _("Ce code désigne plusieurs choses. Rien n’est ajouté tant que vous n’avez pas choisi.") }}{% if state.waiting %} {{ state.waiting | length }} {{ _("code en attente.") if state.waiting | length == 1 else _("codes en attente.") }}{% endif %}</p>
+    <div class="choice-list" data-choix>
+      {% for choice in view.choices %}
+      <button type="submit" class="choice" name="choix" value="{{ choice.value }}" hx-post="/comptoir/choix" formaction="/comptoir/choix">
+        {{ badge(choice.kind_label, "neutral", dot=False) }}<span class="grow"><b>{{ choice.title }}</b> <span class="mono small">{{ choice.detail }}</span></span>
+      </button>
+      {% endfor %}
+      <button type="submit" class="btn btn-g" name="choix" value="aucun" hx-post="/comptoir/choix" formaction="/comptoir/choix">{{ _("Aucun de ceux-là") }}</button>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% macro reader_zone() %}
+<section class="card desk-reader" aria-labelledby="cp-lecteur">
+  {% if view.reader %}
+  {% set row = view.reader %}
+  <div class="card-h"><h2 id="cp-lecteur">{{ _("Lecteur") }}</h2><button type="submit" class="btn btn-g btn-sm push-end" name="changer" value="1" hx-post="/comptoir/etat" formaction="/comptoir/etat">{{ _("Changer de lecteur") }}</button></div>
+  <div class="card-b">
+    <div class="row gap-s nowrap">{{ initials(row) }}<span class="grow min0"><b>{{ row.name }}</b>{% if row.homonym %} {{ badge(_("Homonyme"), "due", dot=False) }}{% endif %}
+      <span class="mono small block">{{ row.number }}{% if row.marks.card %} · {{ row.marks.card }}{% endif %}</span>
+      {% set found = [] %}{% if row.marks.birth_year %}{% set _x = found.append(_("naissance") ~ " " ~ row.marks.birth_year) %}{% endif %}{% if row.marks.household %}{% set _x = found.append(row.marks.household) %}{% endif %}{% if row.marks.guardian %}{% set _x = found.append(_("resp.") ~ " " ~ row.marks.guardian) %}{% endif %}
+      <span class="faint small block">{{ found | join(" · ") }}</span>
+    </span></div>
+    <p class="row gap-xs mt-xs">{{ states(row) }}{% if view.limit %}{{ badge(view.active_count ~ " / " ~ view.limit ~ " " ~ _("prêts"), "neutral", dot=False) }}{% else %}{{ badge(view.active_count ~ " " ~ (_("prêt") if view.active_count == 1 else _("prêts")), "neutral", dot=False) }}{% endif %}{% if view.overdue %}{{ badge(view.overdue ~ " " ~ _("en retard"), "late") }}{% endif %}{% if view.membership_expired %}{{ badge(_("Adhésion échue"), "due") }}{% endif %}</p>
+    {% if view.membership_expired %}<p class="faint small m0">{{ _("Avertissement seulement : le prêt reste possible.") }}</p>{% endif %}
+
+    {% if view.is_minor %}
+    <fieldset class="counter-frame" hx-post="/comptoir/etat" hx-trigger="change">
+      <legend>{{ _("Comment cet enfant emprunte-t-il ?") }}</legend>
+      <label class="radio-line{% if not view.adults %} off{% endif %}"><input type="radio" name="cadre" value="with_adult"{% if state.mode == "with_adult" %} checked{% endif %}{% if not view.adults %} disabled{% endif %}> <span><b>{{ _("Un adulte l’accompagne et emprunte pour lui") }}</b>{% if not view.adults %} <span class="faint small block">{{ _("Aucun adulte habilité et joignable.") }}</span>{% endif %}</span></label>
+      <label class="radio-line{% if not view.alone_by %} off{% endif %}"><input type="radio" name="cadre" value="alone"{% if state.mode == "alone" %} checked{% endif %}{% if not view.alone_by %} disabled{% endif %}> <span><b>{{ _("L’enfant emprunte seul") }}</b> <span class="faint small block">{% if view.alone_by %}{{ _("Autorisé par") }} {{ view.alone_by.name }}{% else %}{{ _("Aucune autorisation utilisable.") }}{% endif %}</span></span></label>
+    </fieldset>
+    {% if state.mode == "with_adult" and view.adults %}
+    <fieldset class="counter-frame" hx-post="/comptoir/etat" hx-trigger="change">
+      <legend>{{ _("Quel adulte répond de ce prêt ?") }}</legend>
+      {% for person in view.adults %}<label class="radio-line"><input type="radio" name="responsable" value="{{ person.id }}"{% if state.guardian_id == person.id %} checked{% endif %}> <span><b>{{ person.name }}</b> <span class="mono small">{{ person.number }}</span></span></label>{% endfor %}
+    </fieldset>
+    {% endif %}
+    {% if not view.adults and not view.alone_by %}{{ alert(_("Responsable à renseigner : aucun prêt n’est possible pour cet enfant."), "late") }}{% endif %}
+    {% elif view.structures %}
+    <fieldset class="counter-frame" hx-post="/comptoir/etat" hx-trigger="change">
+      <legend>{{ _("Pour qui ?") }}</legend>
+      <label class="radio-line"><input type="radio" name="cadre" value="self"{% if state.mode == "self" %} checked{% endif %}> <span><b>{{ _("Pour lui-même") }}</b></span></label>
+      {% for household_id, name in view.structures %}<label class="radio-line"><input type="radio" name="cadre" value="structure:{{ household_id }}"{% if state.mode == "structure" and state.household_id == household_id %} checked{% endif %}> <span><b>{{ _("Pour la structure") }}</b> {{ name }}</span></label>{% endfor %}
+    </fieldset>
+    {% else %}<input type="hidden" name="cadre" value="self">{% endif %}
+  </div>
+  {% elif view.readers %}
+  <div class="card-h"><h2 id="cp-lecteur">{{ _("Choisir un lecteur") }}</h2><span class="faint small">{{ view.readers.total }}</span></div>
+  <div class="card-b">
+    <div class="in-icon">
+      {{ icon("search", 17) }}
+      <input id="cp-lecteur-q" class="in" type="search" name="lecteur_q" value="{{ view.readers.query }}" autocomplete="off" spellcheck="false"
+             aria-label="{{ _('Chercher un lecteur') }}" aria-controls="cp-lecteurs" placeholder="{{ _('Nom, prénom, numéro de lecteur ou carte') }}"
+             hx-post="/comptoir/lecteurs" hx-trigger="input changed delay:250ms, search" hx-target="#cp-lecteurs" hx-swap="innerHTML" hx-sync="this:replace"
+             x-on:keydown.enter.prevent="">
+    </div>
+    <div id="cp-lecteurs" class="desk-pick-zone" aria-live="polite">{% with readers = view.readers, show_all = False %}{% include "circulation/fragments/counter_readers.html" %}{% endwith %}</div>
+  </div>
+  {% else %}
+  <div class="card-h"><h2 id="cp-lecteur">{{ _("Lecteur") }}</h2></div>
+  <div class="card-b"><p class="muted m0">{{ _("Scannez une carte pour choisir le lecteur.") }}</p></div>
+  {% endif %}
+</section>
+{%- endmacro %}
+
+{% macro books_zone() %}
+<section class="card desk-books" aria-labelledby="cp-liste">
+  <div class="card-h"><h2 id="cp-liste">{{ _("Livres à prêter") }}</h2><span class="faint small">{{ view.lines | length }}</span>
+    {% if view.can_lend and not view.books %}<button type="submit" class="btn btn-s btn-sm push-end" name="parcourir" value="1" hx-post="/comptoir/etat" formaction="/comptoir/etat">{{ icon("plus", 14) }}<span>{{ _("Ajouter un livre") }}</span></button>{% endif %}</div>
+  <div class="card-b">
+    {% for line in view.lines %}
+    {% set card = line.card %}
+    <div class="counter-line">
+      {% if card %}{{ mini(card.title, card.color, card.thumbnail) }}{% endif %}
+      <span class="grow min0"><b>{{ line.title }}</b>
+        {% if card %}<span class="muted small block">{% if card.authors_text %}{{ card.authors_text }}{% endif %}{% if card.series_title %}{% if card.authors_text %} · {% endif %}{{ card.series_title }}{% if card.volume_text %}, {{ _("tome") }} {{ card.volume_text }}{% endif %}{% endif %}</span>{% endif %}
+        <span class="mono small block">{{ line.barcode }}{% if line.call_number %} · {{ line.call_number }}{% endif %}{% if line.edition %} <span class="faint">· {{ line.edition }}</span>{% endif %}</span>
+        {% set blocked = line.notes | selectattr("nature.value", "equalto", "interdiction") | list %}
+        {% if not blocked %}<span class="small block">{{ badge(_("Disponible, vérifié"), "ok") }}</span>{% endif %}
+        {% for note in line.notes %}<span class="small block">{{ badge(note.message, "late" if note.nature.value == "interdiction" else "due", dot=False) }}</span>{% endfor %}</span>
+      {% if line.due_on %}<input type="hidden" name="calcul_{{ line.copy_id }}" value="{{ line.computed_due or line.due_on }}"><label class="small nowrap">{{ _("Retour") }} <input class="in in-sm" type="date" name="retour_{{ line.copy_id }}" value="{{ line.chosen_due or line.due_on }}" aria-label="{{ _('Date de retour de') }} {{ line.title }}" hx-post="/comptoir/etat" hx-trigger="change"></label>{% endif %}
+      <button type="submit" class="btn btn-g btn-sm" name="retirer" value="{{ line.copy_id }}" hx-post="/comptoir/etat" formaction="/comptoir/etat" aria-label="{{ _('Retirer de la sélection') }} {{ line.title }}">{{ icon("x", 14) }}<span>{{ _("Retirer") }}</span></button>
+    </div>
+    {% else %}
+    <p class="muted m0">{{ _("Aucun livre choisi. Cherchez-le ci-dessous, ou scannez-le.") if view.books else _("Aucun livre choisi.") }}</p>
+    {% endfor %}
+  </div>
+  {% if view.books %}
+  <div class="card-b desk-catalogue">
+    <div class="row gap-s between"><h3 class="m0 small b">{{ _("Ajouter un livre") }}</h3>{% if view.lines %}<button type="submit" class="btn btn-g btn-sm" name="fermer_catalogue" value="1" hx-post="/comptoir/etat" formaction="/comptoir/etat">{{ _("Fermer le catalogue") }}</button>{% endif %}</div>
+    <div class="in-icon mt-xs">
+      {{ icon("search", 17) }}
+      <input id="cp-livre-q" class="in" type="search" name="livre_q" value="{{ view.books.query }}" autocomplete="off" spellcheck="false"
+             aria-label="{{ _('Chercher un livre') }}" aria-controls="cp-livres" placeholder="{{ _('Titre, auteur, série, tome, ISBN, cote ou code') }}"
+             hx-post="/comptoir/livres" hx-trigger="input changed delay:250ms, search" hx-target="#cp-livres" hx-swap="innerHTML" hx-sync="this:replace"
+             x-on:keydown.enter.prevent="">
+    </div>
+    <div id="cp-livres" class="desk-pick-zone" aria-live="polite">{% with books = view.books %}{% include "circulation/fragments/counter_books.html" %}{% endwith %}</div>
+  </div>
+  {% endif %}
+</section>
+{%- endmacro %}
+
+{% if not view.result %}
+<div class="desk">
+  <div class="desk-main">
+    {# Un livre venu d'une fiche reste en tête tant que le lecteur n'est pas choisi : le contexte ne se perd pas. #}
+    {% if view.lines and not view.reader %}{{ books_zone() }}{{ reader_zone() }}{% else %}{{ reader_zone() }}{{ books_zone() }}{% endif %}
+  </div>
+
+  <aside class="desk-side" aria-labelledby="cp-recap">
+    <section class="card desk-recap">
+      <div class="card-h"><h2 id="cp-recap">{{ _("Récapitulatif") }}</h2></div>
+      <div class="card-b col gap-xs">
+        <p class="m0"><span class="faint small">{{ _("Lecteur") }}</span><br>{% if view.reader %}<b>{{ view.reader.name }}</b> <span class="mono small">{{ view.reader.number }}</span>{% else %}<span class="muted">{{ _("À choisir") }}</span>{% endif %}</p>
+        {% if view.responsible_text %}<p class="m0 small"><b>{{ view.responsible_text }}</b></p>{% endif %}
+        {% if view.membership_expired %}<p class="m0 small">{{ badge(_("Adhésion échue"), "due") }} <span class="faint">{{ _("le prêt reste possible") }}</span></p>{% endif %}
+        <p class="m0"><span class="faint small">{{ _("Livres") }}</span></p>
+        {% if view.lines %}
+        <ul class="plain recap-list">{% for line in view.lines %}<li><span class="grow">{{ line.title }}</span>{% if line.due_on %} <span class="small nowrap">{{ _("retour le") }} {{ (line.chosen_due or line.due_on)[8:10] }}/{{ (line.chosen_due or line.due_on)[5:7] }}</span>{% endif %}</li>{% endfor %}</ul>
+        {% else %}<p class="muted m0 small">{{ _("Aucun pour l’instant.") }}</p>{% endif %}
+        {% for item in view.general %}{% if item.nature.value == "interdiction" %}{{ alert(item.message, "late") }}{% elif item.nature.value == "avertissement" %}{{ alert(item.message, "due") }}{% elif item.nature.value == "information" %}{{ alert(item.message, "info") }}{% endif %}{% endfor %}
+        {% if view.to_justify %}
+          {% if view.can_override %}
+          <div class="counter-override" aria-labelledby="cp-derog">
+            <h3 id="cp-derog" class="small b m0">{{ _("Dérogation") }}</h3>
+            {% for item in view.to_justify %}<p class="m0 small">{{ item.message }}</p>{% endfor %}
+            <label class="small block mt-xs" for="cp-motif">{{ _("Motif, conservé au journal") }}</label>
+            <select class="in" id="cp-motif" name="motif">
+              <option value="">{{ _("Choisissez un motif") }}</option>
+              {% for code, label in view.reasons.items() %}<option value="{{ code }}"{% if view.reason_code == code %} selected{% endif %}>{{ label }}</option>{% endfor %}
+            </select>
+            <label class="small block mt-xs" for="cp-motif-texte">{{ _("Si « Autre motif » : sans nom, coordonnée ni numéro") }}</label>
+            <input class="in" id="cp-motif-texte" name="motif_texte" maxlength="120" value="{{ view.reason_text }}">
+          </div>
+          {% else %}
+          {{ alert(_("Cette opération demande une dérogation : faites intervenir un bibliothécaire."), "due") }}
+          {% endif %}
+        {% endif %}
+        {% if view.can_lend and view.can_override %}<label class="small nowrap">{{ _("Date de prêt") }} <input class="in in-sm" type="date" name="date_pret" value="{{ view.loaned_on }}" hx-post="/comptoir/etat" hx-trigger="change"></label>{% endif %}
+      </div>
+    </section>
+    {% if view.can_lend %}
+    <div class="counter-bar">
+      <span class="grow counter-why" id="cp-pourquoi" aria-live="polite">{% if view.waiting_reason %}{{ view.waiting_reason }}{% elif view.summary %}<b>{{ view.summary }}</b>{% endif %}</span>
+      <button type="submit" class="btn btn-p btn-lg" hx-post="/comptoir/valider" formaction="/comptoir/valider" hx-disabled-elt="this" aria-describedby="cp-pourquoi"{% if not view.ready %} disabled{% endif %}>{{ view.confirm_label }}</button>
+    </div>
+    {% if view.book %}<p class="small m0 mt-xs"><a href="/catalogue/notices/{{ view.book[0] }}">{{ _("Revenir à « %(title)s » sans prêter", title=view.book[1]) }}</a></p>{% endif %}
+    {% if view.reader or view.lines %}<p class="small m0 mt-xs"><a href="/comptoir?nouveau=1">{{ _("Abandonner cette préparation") }}</a></p>{% endif %}
+    {% endif %}
+  </aside>
+</div>
+{% endif %}
+
+{% if view.reader and view.loans %}
+<section class="card tbl-m-cards desk-loans" aria-labelledby="cp-cours">
+  <div class="card-h"><h2 id="cp-cours">{{ _("Prêts en cours de ce lecteur") }}</h2><span class="faint small">{{ view.loans | length }}</span></div>
+  <div class="tbl-wrap"><table class="tbl">
+    <thead><tr><th scope="col">{{ _("Ouvrage") }}</th><th scope="col">{{ _("Exemplaire") }}</th><th scope="col">{{ _("Échéance") }}</th><th scope="col">{{ _("Statut") }}</th>{% if view.can_renew or view.can_lend %}<th scope="col"><span class="sr">{{ _("Actions") }}</span></th>{% endif %}</tr></thead>
+    <tbody>
+      {% for loan in view.loans %}
+      <tr{% if view.renewed == loan.id %} class="row-done"{% endif %}>
+        <td>{{ loan.title }}</td>
+        <td class="mono small">{{ loan.barcode }}</td>
+        <td><span class="m-lab">{{ _("Échéance :") }} </span>{{ loan.due_label }}</td>
+        <td>{{ loan_badge(loan.late, loan.due_soon, days=False) }}{% if view.renewed == loan.id %} {{ badge(_("Renouvelé"), "ok") }}{% endif %}</td>
+        {% if view.can_renew or view.can_lend %}<td><span class="row nowrap gap-xs">
+          <input type="hidden" name="version_{{ loan.id }}" value="{{ loan.version }}">
+          {% if view.can_renew and view.renewed == loan.id %}<input type="hidden" name="vient_renouvele" value="{{ loan.id }}"><button type="button" class="btn btn-s btn-sm" disabled aria-label="{{ _('Renouvelé à l’instant :') }} {{ loan.title }}">{{ icon("check", 14) }}<span>{{ _("Renouvelé") }}</span></button>
+          {% elif view.can_renew %}<button type="submit" class="btn btn-s btn-sm" hx-post="/comptoir/renouveler/{{ loan.id }}" formaction="/comptoir/renouveler/{{ loan.id }}" hx-disabled-elt="this" aria-label="{{ _('Renouveler') }} {{ loan.title }}">{{ _("Renouveler") }}</button>{% endif %}
+          {% if view.can_lend %}
+            {% if view.confirm_return == loan.id %}
+            <button type="submit" class="btn btn-p btn-sm" hx-post="/comptoir/rendre/{{ loan.id }}" formaction="/comptoir/rendre/{{ loan.id }}" hx-disabled-elt="this" aria-label="{{ _('Confirmer le retour de') }} {{ loan.title }}">{{ _("Confirmer le retour") }}</button>
+            <button type="submit" class="btn btn-g btn-sm" hx-post="/comptoir/etat" formaction="/comptoir/etat">{{ _("Annuler") }}</button>
+            {% else %}
+            <button type="submit" class="btn btn-s btn-sm" name="rendre" value="{{ loan.id }}" hx-post="/comptoir/etat" formaction="/comptoir/etat" aria-label="{{ _('Enregistrer le retour de') }} {{ loan.title }}">{{ _("Retour") }}</button>
+            {% endif %}
+          {% endif %}
+        </span></td>{% endif %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table></div>
+</section>
+{% endif %}

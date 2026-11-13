@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="fr"{% if theme %} data-theme="{{ theme }}"{% endif %}>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#13252A">
+  <meta name="csrf-token" content="{{ csrf_token }}">
+  <meta name="htmx-config" content='{"includeIndicatorStyles":false,"allowEval":false,"allowScriptTags":false,"selfRequestsOnly":true,"historyCacheSize":0}'>
+  <title>{% block title %}biblyO{% endblock %}</title>
+  <link rel="icon" type="image/svg+xml" href="{{ static_url('icons/logo.svg') }}">
+  <link rel="stylesheet" href="{{ static_url('dist/app.css') }}">
+  <script src="{{ static_url('js/theme-init.js') }}"></script>
+  <script defer src="{{ static_url('vendor/htmx.min.js') }}"></script>
+  <script defer src="{{ static_url('js/app.js') }}"></script>
+  <script defer src="{{ static_url('js/components/dropdown.js') }}"></script>
+  <script defer src="{{ static_url('js/components/theme.js') }}"></script>
+  <script defer src="{{ static_url('js/components/palette.js') }}"></script>
+  <script defer src="{{ static_url('js/components/shortcuts.js') }}"></script>
+  <script defer src="{{ static_url('js/components/shelves.js') }}"></script>
+  <script defer src="{{ static_url('js/components/picker.js') }}"></script>
+  <script defer src="{{ static_url('js/components/counter.js') }}"></script>
+  <script defer src="{{ static_url('vendor/alpine-csp.min.js') }}"></script>
+</head>
+<body{% block body_attrs %}{% endblock %}>
+{% block body %}{% endblock %}
+</body>
+</html>

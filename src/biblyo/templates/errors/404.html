@@ -1,0 +1,10 @@
+{% extends layout %}
+{% from "components/feedback.html" import empty_state %}
+{% from "components/buttons.html" import link_button %}
+{% block title %}{{ _("Page introuvable") }} — biblyO{% endblock %}
+{% block content %}
+<h1 class="sr">{{ _("Page introuvable") }}</h1>
+{% call empty_state("search", _("Page introuvable"), _("Cette page n’existe pas ou plus.")) %}
+  {{ link_button(_("Retour à l’accueil"), "/", "p") }}
+{% endcall %}
+{% endblock %}

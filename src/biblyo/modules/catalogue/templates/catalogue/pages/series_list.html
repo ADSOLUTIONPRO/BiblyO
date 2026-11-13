@@ -1,0 +1,65 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header, ring %}
+{% from "components/feedback.html" import empty_state, badge %}
+{% from "components/forms.html" import field %}
+{% from "components/buttons.html" import link_button, button %}
+{% from "components/catalogue.html" import series_strip, series_legend, search_input %}
+{% from "components/icons.html" import icon %}
+{% block title %}{{ _("Séries & collections") }} — biblyO{% endblock %}
+{% block content %}
+{% set subtitle = (result.total | number) ~ " " ~ (_("série") if result.total == 1 else _("séries")) ~ " · " ~ (result.incomplete | number) ~ " " ~ (_("incomplète") if result.incomplete == 1 else _("incomplètes")) %}
+{% call page_header(_("Séries & collections"), subtitle, "ser", "series") %}
+  {{ link_button(_("Contributeurs"), "/catalogue/contributeurs", "s", "users") }}
+{% endcall %}
+<form class="row gap-s mb-s" method="get" action="/catalogue/series" role="search">
+  {{ search_input("q", _("Chercher une série"), query, _("Chercher une série…")) }}
+  <noscript><button class="btn btn-s" type="submit">{{ _("Filtrer") }}</button></noscript>
+  <span class="row gap-xs">
+    {% for code, label in filters.items() %}<a class="chip"{% if code == filter_code %} aria-current="true"{% endif %} href="/catalogue/series{% set params = {} %}{% if code %}{% set _ = params.update({'filtre': code}) %}{% endif %}{% if query %}{% set _ = params.update({'q': query}) %}{% endif %}{% if params %}?{{ params | urlencode }}{% endif %}">{{ label }}</a>{% endfor %}
+  </span>
+</form>
+<div class="row between gap-s mb-s">{{ series_legend() }}</div>
+{% if can("catalogue.edit") %}
+<details class="card card-fold mb-s"{% if errors %} open{% endif %}>
+  <summary class="b">{{ _("Créer une série") }}</summary>
+  <form method="post" action="/catalogue/series" class="col gap-m mt-s">
+    <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+    {{ field("titre", _("Titre de la série"), values.get("titre", ""), error=errors.get("titre", ""), required=True) }}
+    {{ button(_("Créer la série"), "p", "plus", type="submit") }}
+  </form>
+</details>
+{% endif %}
+{% if result.cards %}
+<div class="col gap-m">
+  {% for card in result.cards %}
+  <article class="card series-row">
+    {{ ring(card.percent, card.percent_caption, 60, card.ring_module, uncertain=card.is_uncertain) }}
+    <div class="min0">
+      <div class="row gap-s mb-xs">
+        <h2 class="series-title"><a href="/catalogue/series/{{ card.id }}">{{ card.title }}</a></h2>
+        <span class="muted small b">{{ card.title_count }} {{ _("titre") if card.title_count == 1 else _("titres") }} · {{ card.copies }} {{ _("exemplaire") if card.copies == 1 else _("exemplaires") }}</span>
+        {% if card.missing %}{{ badge(card.missing ~ " " ~ (_("manquant confirmé") if card.missing == 1 else _("manquants confirmés")), "due") }}{% endif %}
+        {% if card.unverified %}{{ badge(card.unverified_label, "neutral") }}{% endif %}
+        {% if card.is_complete %}{{ badge(card.complete_label, "ok") }}{% endif %}
+        {% if card.has_duplicates %}{{ badge(_("Doublons ou éditions"), "io", dot=False) }}{% endif %}
+      </div>
+      <p class="series-scope">{{ card.percent_caption }}</p>
+      {{ series_strip(card.title, card.strip, card.color) }}
+    </div>
+    <div class="series-acts">{{ link_button(_("Ouvrir"), "/catalogue/series/" ~ card.id, "s", size="sm") }}</div>
+  </article>
+  {% endfor %}
+</div>
+{% if result.pages > 1 %}
+<nav class="pager" aria-label="{{ _('Pagination') }}">
+  {% for number in window %}
+    {% if number is none %}<span class="gap">…</span>
+    {% elif number == result.page %}<span aria-current="page">{{ number }}</span>
+    {% else %}<a href="/catalogue/series?{{ {'q': query, 'filtre': filter_code, 'page': number} | urlencode }}">{{ number }}</a>{% endif %}
+  {% endfor %}
+</nav>
+{% endif %}
+{% else %}
+<section class="card" aria-label="{{ _('Séries') }}">{{ empty_state("series", _("Aucune série"), _("Une série apparaît ici dès qu’une notice lui est rattachée.")) }}</section>
+{% endif %}
+{% endblock %}

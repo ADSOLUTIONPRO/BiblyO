@@ -1,0 +1,36 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header %}
+{% from "components/icons.html" import icon %}
+{% block title %}{{ _("Retour rapide") }} — biblyO{% endblock %}
+{% block content %}
+{% call page_header(_("Retour rapide"), _("Chaque scan rend le livre aussitôt, et dit où le ranger."), "loan", "ret") %}{% endcall %}
+<div x-data="counter">
+  <form id="f-retours" x-ref="form" method="post" action="/comptoir/retours/scan" autocomplete="off"
+        hx-target="#retours-lignes" hx-swap="afterbegin" hx-sync="this:queue all">
+    <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+    <input type="hidden" name="code" x-ref="code">
+    {# Les scans partent de cet élément, jamais du formulaire : htmx y réutiliserait le dernier bouton cliqué. #}
+    <span hidden x-ref="scanner" hx-post="/comptoir/retours/scan" hx-trigger="scan"></span>
+    <div class="card counter-scan">
+      <label class="counter-label" for="cp-saisie">{{ _("Code de l’exemplaire") }}</label>
+      <div class="in-icon grow">
+        {{ icon("search", 17) }}
+        <input id="cp-saisie" class="in" type="text" name="saisie" x-ref="field" autofocus spellcheck="false"
+               autocapitalize="off" x-on:keydown.enter.prevent="enter">
+      </div>
+    </div>
+    <div class="card return-search">
+      <label class="counter-label" for="cp-retour-q">{{ _("Sans code : chercher le livre rendu") }}</label>
+      <div class="in-icon">
+        {{ icon("search", 17) }}
+        <input id="cp-retour-q" class="in" type="search" name="q_retour" autocomplete="off" spellcheck="false"
+               placeholder="{{ _('Titre du livre') ~ (_(', ou nom du lecteur') if can('circulation.history') else '') }}"
+               hx-post="/comptoir/retours/recherche" hx-trigger="input changed delay:250ms, search" hx-target="#retours-trouves" hx-swap="innerHTML" hx-sync="this:replace"
+               x-on:keydown.enter.prevent="">
+      </div>
+      <div id="retours-trouves" aria-live="polite"></div>
+    </div>
+    <div id="retours-lignes" aria-live="polite">{% for line in lines %}{% include "circulation/fragments/return_line.html" %}{% endfor %}</div>
+  </form>
+</div>
+{% endblock %}

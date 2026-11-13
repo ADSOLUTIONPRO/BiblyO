@@ -1,0 +1,12 @@
+{% from "components/icons.html" import icon %}
+{% macro lines_of(lines) %}
+{% if lines %}<dl class="dlist">{% for line in lines %}<div><dt>{{ {"email": _("Courriel"), "phone": _("Téléphone"), "address": _("Adresse")}[line.kind] }}{% if line.shared_by %} · {{ _("partagée par") }} {{ line.shared_by }}{% endif %}</dt><dd>{{ line.display }}</dd></div>{% endfor %}</dl>{% else %}<p class="muted small m0">{{ _("Aucune coordonnée renseignée.") }}</p>{% endif %}
+{% endmacro %}
+<div class="col gap-s">
+{% if minor %}
+  <p class="protect m0">{{ icon("shield", 15) }}<span>{{ _("Un mineur se joint par ses responsables autorisés à être contactés, eux seuls.") }}</span></p>
+  {% for guardian in guardians %}<div><b>{{ guardian.name }}</b> <span class="mono small faint">{{ guardian.number }}</span>{{ lines_of(guardian.lines) }}</div>{% else %}<p class="muted small m0">{{ _("Aucun responsable n’est autorisé à être contacté.") }}</p>{% endfor %}
+{% else %}
+  {{ lines_of(lines) }}
+{% endif %}
+</div>

@@ -1,0 +1,37 @@
+/* SPDX-License-Identifier: EUPL-1.2 */
+/* biblyO : point d'entrée de la feuille de style, construite par `make css`. */
+@import "tailwindcss";
+@import "./fonts.css" layer(base);
+@import "./tokens.css";
+@import "./base.css" layer(base);
+@import "./components.css" layer(components);
+
+@source "../../templates";
+@source "../../modules";
+/* Plan de salle (D5) : la place d'un meuble vient de la base, ces classes ne figurent dans aucun gabarit. */
+@source inline("[--room-cols:{8..40}] md:row-start-{1..40} md:col-start-{1..40} md:row-span-{1..40} md:col-span-{1..40}");
+
+/* Le thème se pilote par l'attribut data-theme, jamais par la seule préférence du système. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* Les classes utilitaires de Tailwind parlent le langage des jetons. */
+@theme inline {
+  --font-display: var(--font-display);
+  --font-sans: var(--font-ui);
+  --font-mono: var(--font-mono);
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-coral: var(--brand-coral);
+  --color-ok: var(--ok);
+  --color-late: var(--late);
+  --color-due: var(--due);
+  --color-info: var(--info);
+  --radius-sm: var(--r-sm);
+  --radius-md: var(--r-md);
+  --radius-lg: var(--r-lg);
+}

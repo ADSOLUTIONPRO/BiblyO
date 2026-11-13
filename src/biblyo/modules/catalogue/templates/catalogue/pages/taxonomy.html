@@ -1,0 +1,105 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header %}
+{% from "components/feedback.html" import badge, empty_state, alert %}
+{% from "components/forms.html" import field %}
+{% from "components/buttons.html" import button %}
+{% from "components/catalogue.html" import crumbs, search_input %}
+{% block title %}{{ kind.label }} — biblyO{% endblock %}
+{% block content %}
+{{ crumbs([(_("Catalogue"), "/catalogue"), (kind.label, "")]) }}
+{{ page_header(kind.label, (total | number) ~ " " ~ (_("élément") if total == 1 else _("éléments")), "cat", "tag") }}
+<nav class="row gap-xs mb-s" aria-label="{{ _('Listes du catalogue') }}">
+  {% for other in kinds %}<a class="chip"{% if other.code == kind.code %} aria-current="true"{% endif %} href="/admin/catalogue/{{ other.code }}">{{ other.label }}</a>{% endfor %}
+</nav>
+{% if message %}{{ alert(message, "late") }}{% endif %}
+<div class="row gap-s mb-s">
+  <form class="row gap-s grow" method="get" action="/admin/catalogue/{{ kind.code }}" role="search">
+    {{ search_input("q", _("Filtrer la liste"), query, _("Filtrer la liste…")) }}
+    <button class="btn btn-s" type="submit">{{ _("Filtrer") }}</button>
+  </form>
+</div>
+{% if kind.can_create %}
+<section class="card card-fold mb-s" aria-labelledby="titre-creer">
+  <h2 id="titre-creer" class="small b m0">{{ _("Ajouter un élément") }}</h2>
+  <form method="post" action="/admin/catalogue/{{ kind.code }}" class="row gap-s mt-xs">
+    <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+    <input type="hidden" name="action" value="creer">
+    <input class="in grow cat-q-wrap" name="libelle" required maxlength="200" aria-label="{{ _('Libellé') }}" placeholder="{{ _('Libellé') }}">
+    {% if kind.code == "sections" %}
+    <select class="in in-sm" name="cible" aria-label="{{ _('Section parente') }}">
+      <option value="">{{ _("Sans section parente") }}</option>
+      {% for row in all_rows %}<option value="{{ row.id }}">{{ row.label }}</option>{% endfor %}
+    </select>
+    {% endif %}
+    {{ button(_("Ajouter"), "p", "plus", type="submit") }}
+  </form>
+</section>
+{% endif %}
+{% if rows %}
+<section class="card" aria-label="{{ kind.label }}">
+  {% for row in rows %}
+  <details class="tax-row">
+    <summary class="row gap-s grow">
+      <span class="b">{{ row.label }}</span>
+      {% if row.detail %}<span class="faint small">{{ row.detail }}</span>{% endif %}
+      <span class="muted small">{{ row.count }} {{ _("notice") if row.count == 1 else _("notices") }}</span>
+      {% if not row.is_active %}{{ badge(_("Désactivé"), "neutral") }}{% endif %}
+    </summary>
+    <div class="tax-forms">
+      <form method="post" action="/admin/catalogue/{{ kind.code }}" class="col gap-s">
+        <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+        <input type="hidden" name="action" value="renommer">
+        <input type="hidden" name="element" value="{{ row.id }}">
+        <label class="small b" for="r-{{ row.id }}">{{ _("Renommer") }}</label>
+        <input class="in" id="r-{{ row.id }}" name="libelle" value="{{ row.label }}" required maxlength="200">
+        {{ button(_("Renommer"), "s", "edit", size="sm", type="submit") }}
+      </form>
+      <form method="post" action="/admin/catalogue/{{ kind.code }}" class="col gap-s">
+        <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+        <input type="hidden" name="action" value="fusionner">
+        <input type="hidden" name="element" value="{{ row.id }}">
+        <label class="small b" for="f-{{ row.id }}">{{ _("Fusionner dans") }}</label>
+        <select class="in" id="f-{{ row.id }}" name="cible" required>
+          <option value="">{{ _("Choisir…") }}</option>
+          {% for other in all_rows if other.id != row.id %}<option value="{{ other.id }}">{{ other.label }}{% if other.detail %} — {{ other.detail }}{% endif %}</option>{% endfor %}
+        </select>
+        {{ button(_("Fusionner"), "s", "merge", size="sm", type="submit") }}
+      </form>
+      {% if kind.code == "sections" %}
+      <form method="post" action="/admin/catalogue/{{ kind.code }}" class="col gap-s">
+        <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+        <input type="hidden" name="action" value="parent">
+        <input type="hidden" name="element" value="{{ row.id }}">
+        <label class="small b" for="p-{{ row.id }}">{{ _("Section parente") }}</label>
+        <select class="in" id="p-{{ row.id }}" name="cible">
+          <option value="">{{ _("Sans section parente") }}</option>
+          {% for other in all_rows if other.id != row.id %}<option value="{{ other.id }}"{% if other.id == row.parent_id %} selected{% endif %}>{{ other.label }}</option>{% endfor %}
+        </select>
+        {{ button(_("Déplacer"), "s", size="sm", type="submit") }}
+      </form>
+      {% endif %}
+      {% if kind.can_disable %}
+      <form method="post" action="/admin/catalogue/{{ kind.code }}">
+        <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+        <input type="hidden" name="action" value="{{ 'desactiver' if row.is_active else 'activer' }}">
+        <input type="hidden" name="element" value="{{ row.id }}">
+        {{ button(_("Désactiver") if row.is_active else _("Réactiver"), "g", size="sm", type="submit") }}
+      </form>
+      {% endif %}
+    </div>
+  </details>
+  {% endfor %}
+</section>
+{% if pages > 1 %}
+<nav class="pager" aria-label="{{ _('Pagination') }}">
+  {% for number in window %}
+    {% if number is none %}<span class="gap">…</span>
+    {% elif number == page %}<span aria-current="page">{{ number }}</span>
+    {% else %}<a href="/admin/catalogue/{{ kind.code }}?{{ {'q': query, 'page': number} | urlencode }}">{{ number }}</a>{% endif %}
+  {% endfor %}
+</nav>
+{% endif %}
+{% else %}
+<section class="card" aria-label="{{ kind.label }}">{{ empty_state("tag", _("Liste vide"), _("Rien à afficher ici pour l’instant.")) }}</section>
+{% endif %}
+{% endblock %}

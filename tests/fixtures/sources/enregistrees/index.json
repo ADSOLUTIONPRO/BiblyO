@@ -1,0 +1,9 @@
+[
+  {"contains": "bib.isbn%20any%20%229782070612758", "file": "../bnf/isbn-exact-petit-prince.xml"},
+  {"contains": "isb%3D9782070612758", "file": "../sudoc/sru-isbn-petit-prince.xml"},
+  {"contains": "bib.title%20all%20%22le%20petit%20prince", "file": "../bnf/isbn-exact-petit-prince.xml"},
+  {"contains": "bib.isbn%20any%20%229782012101333", "file": "../bnf/bd-asterix-unimarc.xml"},
+  {"contains": "isb%3D9782012101333", "file": "../sudoc/sru-isbn-deux-notices.xml"},
+  {"contains": "idArk=ark%3A%2F12148%2Fcb41023439w", "file": "../../couverture-essai.jpg", "content_type": "image/jpeg"},
+  {"contains": "recupererImage", "file": "../../page-erreur-500.html", "status": 500, "content_type": "text/html;charset=utf-8"}
+]

@@ -1,0 +1,45 @@
+{% from "components/icons.html" import icon %}
+
+{% macro _message(id, help, error) %}
+{% if help %}<span class="h" id="{{ id }}-aide">{{ help }}</span>{% endif %}
+{% if error %}<span class="err" id="{{ id }}-erreur">{{ icon("alert", 14) }}<span>{{ error }}</span></span>{% endif %}
+{% endmacro %}
+
+{% macro _describedby(id, help, error) %}{% if help or error %} aria-describedby="{% if help %}{{ id }}-aide{% endif %}{% if help and error %} {% endif %}{% if error %}{{ id }}-erreur{% endif %}"{% endif %}{% endmacro %}
+
+{% macro field(name, label, value="", type="text", help="", error="", required=False, autocomplete="", placeholder="", autofocus=False, inputmode="") %}
+<div class="fld">
+  <label for="{{ name }}">{{ label }}{% if required %} <span aria-hidden="true">*</span>{% endif %}</label>
+  <input class="in" id="{{ name }}" name="{{ name }}" type="{{ type }}"{% if type != "password" %} value="{{ value }}"{% endif %}{% if autocomplete %} autocomplete="{{ autocomplete }}"{% endif %}{% if placeholder %} placeholder="{{ placeholder }}"{% endif %}{% if inputmode %} inputmode="{{ inputmode }}"{% endif %}{% if required %} required{% endif %}{% if autofocus %} autofocus{% endif %}{% if error %} aria-invalid="true"{% endif %}{{ _describedby(name, help, error) }}>
+  {{ _message(name, help, error) }}
+</div>
+{%- endmacro %}
+
+{% macro textarea(name, label, value="", help="", error="", required=False) %}
+<div class="fld">
+  <label for="{{ name }}">{{ label }}{% if required %} <span aria-hidden="true">*</span>{% endif %}</label>
+  <textarea class="in" id="{{ name }}" name="{{ name }}"{% if required %} required{% endif %}{% if error %} aria-invalid="true"{% endif %}{{ _describedby(name, help, error) }}>{{ value }}</textarea>
+  {{ _message(name, help, error) }}
+</div>
+{%- endmacro %}
+
+{# options : liste de couples (valeur, libellé) #}
+{% macro select(name, label, options, selected="", help="", error="", required=False) %}
+<div class="fld">
+  <label for="{{ name }}">{{ label }}{% if required %} <span aria-hidden="true">*</span>{% endif %}</label>
+  <select class="in" id="{{ name }}" name="{{ name }}"{% if required %} required{% endif %}{% if error %} aria-invalid="true"{% endif %}{{ _describedby(name, help, error) }}>
+    {% for value, text in options %}
+    <option value="{{ value }}"{% if value == selected %} selected{% endif %}>{{ text }}</option>
+    {% endfor %}
+  </select>
+  {{ _message(name, help, error) }}
+</div>
+{%- endmacro %}
+
+{% macro checkbox(name, label, value="1", checked=False, help="", disabled=False, id="") %}
+{% set control = id or name ~ "-" ~ value %}
+<label class="check" for="{{ control }}">
+  <input type="checkbox" id="{{ control }}" name="{{ name }}" value="{{ value }}"{% if checked %} checked{% endif %}{% if disabled %} disabled{% endif %}>
+  <span>{{ label }}{% if help %}<span class="h">{{ help }}</span>{% endif %}</span>
+</label>
+{%- endmacro %}

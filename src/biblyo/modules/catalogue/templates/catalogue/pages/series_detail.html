@@ -1,0 +1,99 @@
+{% extends layout %}
+{% from "components/layout.html" import ring %}
+{% from "components/feedback.html" import badge, alert %}
+{% from "components/forms.html" import field, select, textarea %}
+{% from "components/buttons.html" import button, link_button %}
+{% from "components/catalogue.html" import crumbs, series_strip, series_legend %}
+{% from "components/icons.html" import icon %}
+{% block title %}{{ detail.card.title }} — biblyO{% endblock %}
+{% set card = detail.card %}
+{% block content %}
+{{ crumbs([(_("Séries & collections"), "/catalogue/series"), (card.title, "")]) }}
+{% if message %}{{ alert(message, "late") }}{% endif %}
+<section class="card card-fold mb-s" aria-labelledby="titre-page">
+  <div class="series-band cv-{{ card.color }}"></div>
+  <div class="series-head">
+    {{ ring(card.percent, card.percent_caption, 84, card.ring_module, uncertain=card.is_uncertain) }}
+    <div class="grow min0">
+      <h1 id="titre-page" tabindex="-1">{{ card.title }}</h1>
+      <p class="muted m0">{{ card.status_label }}</p>
+      {% if card.is_complete %}<div class="mt-xs">{{ badge(card.complete_label, "ok") }}</div>{% endif %}
+      <p class="series-scope">{{ card.percent_caption }}</p>
+      <div class="series-facts">
+        <span><b class="num">{{ card.present }}</b> {{ _("tomes présents") }}</span>
+        <span><b class="num">{{ card.missing }}</b> {{ _("manquant confirmé") if card.missing == 1 else _("manquants confirmés") }}</span>
+        <span><b class="num">{{ card.unverified }}</b> {{ _("à vérifier") }}</span>
+        <span><b class="num">{{ card.copies }}</b> {{ _("exemplaire") if card.copies == 1 else _("exemplaires") }}</span>
+      </div>
+    </div>
+  </div>
+  <div class="mt-s">{{ series_strip(card.title, card.strip, card.color) }}</div>
+  <div class="mt-s">{{ series_legend() }}</div>
+  {% if card.notes %}<p class="muted mt-s">{{ card.notes }}</p>{% endif %}
+</section>
+
+{% if can("catalogue.edit") %}
+<details class="card card-fold mb-s"{% if errors.get("premier") or errors.get("dernier") %} open{% endif %}>
+  <summary class="b">{{ _("Confirmer des tomes parus") }}</summary>
+  <p class="muted small">{{ _("Un tome confirmé et absent du fonds est compté comme manquant. Sans confirmation, un numéro absent reste « à vérifier ».") }}</p>
+  <form method="post" action="/catalogue/series/{{ card.id }}/tomes-confirmes" class="adv-grid">
+    <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+    {{ field("premier", _("Premier tome"), error=errors.get("premier", ""), required=True) }}
+    {{ field("dernier", _("Dernier tome (facultatif)"), error=errors.get("dernier", "")) }}
+    {{ field("note", _("Source, facultatif")) }}
+    <div class="fld self-end">{{ button(_("Confirmer"), "p", "check", type="submit") }}</div>
+  </form>
+</details>
+{% endif %}
+
+<section class="card mb-s tbl-m-cards" aria-labelledby="titre-tomes">
+  <div class="card-h"><h2 id="titre-tomes">{{ _("Détail par tome") }}</h2></div>
+  <div class="tbl-wrap">
+    <table class="tbl">
+      <thead><tr><th scope="col">{{ _("Tome") }}</th><th scope="col">{{ _("Titre") }}</th><th scope="col">{{ _("Éditions") }}</th><th scope="col">{{ _("Exemplaires") }}</th><th scope="col"><span class="sr">{{ _("Actions") }}</span></th></tr></thead>
+      <tbody>
+        {% for row in detail.rows %}
+        <tr{% if row.anchor %} id="{{ row.anchor }}"{% endif %}>
+          <td><span class="tome{% if row.state == 'missing' %} miss{% elif row.state == 'unverified' %} gap{% else %} cv-{{ card.color }}{% endif %}">{{ row.label or "—" }}</span></td>
+          {% if row.state == "present" %}
+          <td><a class="t" href="/catalogue/notices/{{ row.work_id }}">{{ row.title }}</a>{% if row.duplicate %} {{ badge(_("Doublon de tome"), "io", dot=False) }}{% endif %}</td>
+          <td>{% for line in row.editions %}<div>{{ line.label }}{% if line.is_primary and row.editions | length > 1 %} <span class="faint small">({{ _("principale") }})</span>{% endif %}{% if line.copies %} <span class="faint small">· {{ line.copies }} {{ _("ex.") }}</span>{% endif %}</div>{% endfor %}</td>
+          <td>{{ row.copies }} <span class="muted small">{{ _("ex.") }}</span></td>
+          <td></td>
+          {% elif row.state == "missing" %}
+          <td class="muted" colspan="3">{{ _("Tome manquant confirmé") }}{% if row.note %} <span class="faint">· {{ row.note }}</span>{% endif %}</td>
+          <td>{% if can("catalogue.edit") %}<form method="post" action="/catalogue/series/{{ card.id }}/tomes-confirmes/retirer"><input type="hidden" name="_csrf" value="{{ csrf_token }}"><input type="hidden" name="numero" value="{{ row.label }}">{{ button(_("Retirer"), "g", size="sm", type="submit") }}</form>{% endif %}</td>
+          {% else %}
+          <td class="muted" colspan="3">{{ _("Numéro absent, parution non confirmée") }}</td>
+          <td>{% if can("catalogue.edit") %}<form method="post" action="/catalogue/series/{{ card.id }}/tomes-confirmes"><input type="hidden" name="_csrf" value="{{ csrf_token }}"><input type="hidden" name="premier" value="{{ row.label }}">{{ button(_("Confirmer"), "g", size="sm", type="submit") }}</form>{% endif %}</td>
+          {% endif %}
+        </tr>
+        {% else %}
+        <tr><td colspan="5" class="muted">{{ _("Aucun tome pour l’instant.") }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+{% if can("catalogue.edit") %}
+<details class="card card-fold"{% if errors.get("titre") or errors.get("statut") %} open{% endif %}>
+  <summary class="b">{{ _("Modifier la série") }}</summary>
+  <form method="post" action="/catalogue/series/{{ card.id }}" class="col gap-m mt-s">
+    <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+    {{ field("titre", _("Titre de la série"), form_titre, error=errors.get("titre", ""), required=True) }}
+    {{ select("etat", _("État de la parution"), status_options, form_etat, error=errors.get("statut", "")) }}
+    {{ textarea("notes", _("Notes"), form_notes) }}
+    <div class="row gap-s">
+      {{ button(_("Enregistrer"), "p", "check", type="submit") }}
+    </div>
+  </form>
+  {% if not detail.in_use %}
+  <form method="post" action="/catalogue/series/{{ card.id }}/supprimer" class="mt-s">
+    <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+    {{ button(_("Supprimer la série"), "dg", "trash", type="submit") }}
+  </form>
+  {% endif %}
+</details>
+{% endif %}
+{% endblock %}

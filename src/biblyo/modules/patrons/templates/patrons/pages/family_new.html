@@ -1,0 +1,128 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header %}
+{% from "components/buttons.html" import button, link_button %}
+{% from "components/feedback.html" import alert %}
+{% from "components/forms.html" import field, select, checkbox %}
+{% from "components/catalogue.html" import crumbs, fact %}
+{% from "components/icons.html" import icon %}
+{% from "patrons/components.html" import phone_choice, marks %}
+{% block title %}{{ _("Inscrire une famille") }} — biblyO{% endblock %}
+{% block content %}
+{{ crumbs([(_("Lecteurs & familles"), "/lecteurs?vue=foyers"), (_("Inscrire une famille"), "")]) }}
+{{ page_header(_("Inscrire une famille"), _("Tout le foyer en une saisie. Rien n’est écrit avant la dernière étape."), "rdr", "users") }}
+<ol class="steps" aria-label="{{ _('Étapes de l’inscription') }}">
+  <li{% if step == "saisir" %} aria-current="step"{% endif %}>{{ _("1. Saisir") }}</li>
+  <li{% if step == "verifier" %} aria-current="step"{% endif %}>{{ _("2. Vérifier et corriger") }}</li>
+  <li>{{ _("3. Foyer créé") }}</li>
+</ol>
+
+{% if step == "verifier" %}
+<form class="form col gap-m" method="post" action="/foyers/nouveau">
+  <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+  {% for name, value in values.items() %}<input type="hidden" name="{{ name }}" value="{{ value }}">{% endfor %}
+  {% if homonyms or hidden_homonyms %}
+  <section class="card" aria-labelledby="titre-homonymes">
+    <div class="card-h"><h2 id="titre-homonymes">{{ _("Des personnes portent déjà l’un de ces noms") }}</h2></div>
+    <div class="card-b col gap-s">
+      <ul class="plain col gap-s">{% for row in homonyms %}<li><a class="b" href="/lecteurs/{{ row.id }}" target="_blank" rel="noopener">{{ row.name }}</a> <span class="mono small">{{ row.number }}</span>{% if row.marks.card %} <span class="mono small faint">{{ row.marks.card }}</span>{% endif %} <span class="muted small block">{{ marks(row, say_none=not row.marks.household) }}{% if row.marks.household %} · {{ row.marks.household }}{% endif %}</span></li>{% endfor %}</ul>
+      {% if hidden_homonyms %}<p class="m0 b">{{ _("Une fiche archivée porte aussi ce nom. Votre compte ne peut pas l’ouvrir : demandez à un bibliothécaire de vérifier.") }}</p>{% endif %}
+      {% if errors.get("homonymes") %}{{ alert(errors.homonymes, "late") }}{% endif %}
+      {{ checkbox("homonymes_ok", _("Je confirme qu’il s’agit d’autres personnes")) }}
+    </div>
+  </section>
+  {% endif %}
+  <section class="card" aria-labelledby="titre-verifier">
+    <div class="card-h"><h2 id="titre-verifier">{{ values.nom_foyer }}</h2></div>
+    {% for adult in data.adults %}
+    <div class="li"><span class="grow"><b>{{ adult.person.first_name }} {{ adult.person.last_name }}</b><span class="faint small block">{{ _("Responsable") }} · {{ relation_labels[adult.relation] }}{% if adult.person.email %} · {{ adult.person.email }}{% endif %}{% if phones.get("a" ~ loop.index0 ~ "_telephone") %} · {{ phones.get("a" ~ loop.index0 ~ "_telephone") }}{% endif %}</span><span class="small block">{{ _("Emprunte pour les enfants") if adult.can_borrow_for else _("N’emprunte pas pour les enfants") }} · {{ _("À contacter") if adult.is_contact else _("Pas à contacter") }}</span></span></div>
+    {% endfor %}
+    {% for child in data.children %}
+    <div class="li"><span class="grow"><b>{{ child.first_name }} {{ child.last_name }}</b><span class="faint small block">{{ _("Enfant") }}{% if child.birth %} · {{ child.birth }}{% endif %}</span></span></div>
+    {% endfor %}
+    <div class="card-b"><p class="muted small m0">{{ _("Chaque personne recevra un numéro de lecteur et une carte. Les droits cochés valent pour chaque enfant ; ils se règlent ensuite lien par lien.") }}</p></div>
+  </section>
+  <div class="form-actions">
+    {{ button(_("Enregistrer"), "p", "check", type="submit", name="etape", value="enregistrer") }}
+    {{ button(_("Corriger"), "s", "edit", type="submit", name="etape", value="corriger") }}
+  </div>
+</form>
+
+{% else %}
+{% if errors %}{{ alert(errors.get("personnes") or _("Quelques points sont à corriger ci-dessous. Rien n’a été enregistré."), "late") }}{% endif %}
+<form class="form col gap-m" method="post" action="/foyers/nouveau" novalidate>
+  <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+  <section class="card" aria-labelledby="titre-foyer">
+    <div class="card-h"><h2 id="titre-foyer">{{ _("Le foyer") }}</h2></div>
+    <div class="card-b col gap-m">
+      {{ field("nom_foyer", _("Nom du foyer"), values.nom_foyer, required=True, error=errors.get("nom_foyer"), help=_("Par exemple : Famille Martin."), autocomplete="off") }}
+      <details class="adv"{% if values.foyer_courriel or values.foyer_telephone or values.adresse_ligne1 or errors.get("foyer_courriel") or errors.get("foyer_telephone") or errors.get("foyer_adresse") %} open{% endif %}>
+        <summary>{{ _("Coordonnées partagées (facultatif)") }}</summary>
+        <div class="col gap-m mt-s">
+          <div class="grid g2">
+            {{ field("foyer_courriel", _("Courriel"), values.foyer_courriel, type="email", error=errors.get("foyer_courriel"), autocomplete="off") }}
+            <div class="col gap-s">{{ field("foyer_telephone", _("Téléphone"), values.foyer_telephone, type="tel", error=errors.get("foyer_telephone"), autocomplete="off") }}{{ phone_choice("foyer_telephone_territoire", phone_choices.get("foyer_telephone")) }}</div>
+          </div>
+          {{ field("adresse_ligne1", _("Adresse"), values.adresse_ligne1, error=errors.get("foyer_adresse"), autocomplete="off") }}
+          {{ field("adresse_ligne2", _("Complément d’adresse"), values.adresse_ligne2, autocomplete="off") }}
+          <div class="grid g2">{{ field("code_postal", _("Code postal"), values.code_postal, inputmode="numeric", autocomplete="off") }}{{ field("ville", _("Commune"), values.ville, autocomplete="off") }}</div>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  {% macro adult_fields(index) %}
+  {% set p = "a" ~ index ~ "_" %}
+  <div class="col gap-m">
+    <div class="grid g2">
+      {{ field(p ~ "prenom", _("Prénom"), values[p ~ "prenom"], error=errors.get(p ~ "prenom"), autocomplete="off") }}
+      {{ field(p ~ "nom", _("Nom"), values[p ~ "nom"], error=errors.get(p ~ "nom"), autocomplete="off") }}
+      {{ field(p ~ "courriel", _("Courriel"), values[p ~ "courriel"], type="email", error=errors.get(p ~ "courriel"), autocomplete="off") }}
+      <div class="col gap-s">{{ field(p ~ "telephone", _("Téléphone"), values[p ~ "telephone"], type="tel", error=errors.get(p ~ "telephone"), autocomplete="off") }}{{ phone_choice(p ~ "telephone_territoire", phone_choices.get(p ~ "telephone")) }}</div>
+    </div>
+    {{ select(p ~ "relation", _("Relation avec les enfants"), relation_options, values[p ~ "relation"], error=errors.get(p ~ "relation")) }}
+    <fieldset class="choice">
+      <legend>{{ _("Ce que cet adulte peut faire : chaque droit se coche") }}</legend>
+      {{ checkbox(p ~ "emprunte", _("Peut emprunter pour ces enfants"), checked=values[p ~ "emprunte"] == "1") }}
+      {{ checkbox(p ~ "contact", _("Peut être contacté à leur sujet"), checked=values[p ~ "contact"] == "1") }}
+    </fieldset>
+  </div>
+  {% endmacro %}
+  {% macro child_fields(index) %}
+  {% set p = "e" ~ index ~ "_" %}
+  <fieldset class="family-row">
+    <legend>{{ _("Enfant") }} {{ index + 1 }}</legend>
+    {{ field(p ~ "prenom", _("Prénom"), values[p ~ "prenom"], error=errors.get(p ~ "prenom"), autocomplete="off") }}
+    {{ field(p ~ "nom", _("Nom"), values[p ~ "nom"], error=errors.get(p ~ "nom"), autocomplete="off") }}
+    {{ field(p ~ "naissance", _("Naissance"), values[p ~ "naissance"], error=errors.get(p ~ "naissance"), inputmode="numeric", help=_("L’année suffit.")) }}
+  </fieldset>
+  {% endmacro %}
+
+  <section class="card" aria-labelledby="titre-a0">
+    <div class="card-h"><h2 id="titre-a0">{{ _("Premier responsable") }}</h2></div>
+    <div class="card-b">{{ adult_fields(0) }}</div>
+  </section>
+
+  <details class="card adv-card"{% if second_adult_open %} open{% endif %}>
+    <summary>{{ _("Ajouter un second responsable") }}</summary>
+    <div class="mt-s">{{ adult_fields(1) }}</div>
+  </details>
+
+  <section class="card" aria-labelledby="titre-enfants">
+    <div class="card-h"><h2 id="titre-enfants">{{ _("Enfants") }}</h2></div>
+    <div class="card-b col gap-m">
+      <p class="protect m0">{{ icon("shield", 15) }}<span>{{ _("Un mineur n’a pas de coordonnées propres. L’année de naissance suffit.") }}</span></p>
+      {% for index in first_children %}{{ child_fields(index) }}{% endfor %}
+      <details class="adv"{% if more_children_open %} open{% endif %}>
+        <summary>{{ _("Ajouter d’autres enfants") }}</summary>
+        <div class="col gap-m mt-s">{% for index in more_children %}{{ child_fields(index) }}{% endfor %}</div>
+      </details>
+    </div>
+  </section>
+
+  <div class="form-actions">
+    {{ button(_("Vérifier"), "p", "check", type="submit", name="etape", value="verifier") }}
+    {{ link_button(_("Annuler"), "/lecteurs?vue=foyers", "g") }}
+  </div>
+</form>
+{% endif %}
+{% endblock %}

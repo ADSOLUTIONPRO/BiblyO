@@ -1,0 +1,8 @@
+{% from "components/icons.html" import icon %}
+<div class="col gap-s" id="zone-coordonnees">
+  <p class="muted small m0">{{ _("Les coordonnées partagées restent masquées tant que vous ne demandez pas à les voir. Chaque affichage est journalisé.") }}</p>
+  <form method="post" action="/foyers/{{ household_id }}/coordonnees/afficher" hx-post="/foyers/{{ household_id }}/coordonnees/afficher" hx-target="#zone-coordonnees" hx-swap="outerHTML">
+    <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+    <button class="btn btn-s btn-sm" type="submit">{{ icon("eye", 15) }}<span>{{ _("Afficher les coordonnées") }}</span></button>
+  </form>
+</div>

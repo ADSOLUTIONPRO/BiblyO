@@ -1,0 +1,21 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header %}
+{% from "components/feedback.html" import empty_state, alert %}
+{% from "components/catalogue.html" import book_card, crumbs %}
+{% block title %}{{ agent.display_name }} — biblyO{% endblock %}
+{% block content %}
+{{ crumbs([(_("Contributeurs"), "/catalogue/contributeurs"), (agent.display_name, "")]) }}
+{{ page_header(agent.display_name, agent.dates or "", "ser", "users") }}
+{% if homonyms %}
+<div class="callout m-due mb-s" role="status">
+  <div><b>{{ _("Homonymes : ce n’est pas la même personne.") }}</b> {{ _("D’autres fiches portent ce nom :") }}
+    {% for other in homonyms %}<a href="/catalogue/contributeurs/{{ other.id }}">{{ other.display_name }} ({{ other.dates or _("dates inconnues") }})</a>{% if not loop.last %}, {% endif %}{% endfor %}
+  </div>
+</div>
+{% endif %}
+{% if cards %}
+<div class="cgrid">{% for card in cards %}{{ book_card(card) }}{% endfor %}</div>
+{% else %}
+<section class="card" aria-label="{{ agent.display_name }}">{{ empty_state("book", _("Aucune notice active"), _("Cette personne n’est rattachée à aucune notice active.")) }}</section>
+{% endif %}
+{% endblock %}

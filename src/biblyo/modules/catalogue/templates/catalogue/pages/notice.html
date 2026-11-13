@@ -1,0 +1,396 @@
+{% extends layout %}
+{% from "components/layout.html" import tabs, ring %}
+{% from "components/buttons.html" import button, link_button %}
+{% from "components/feedback.html" import alert, badge, empty_state %}
+{% from "components/overlays.html" import modal %}
+{% from "components/catalogue.html" import cover, mini, crumbs, fact %}
+{% from "components/icons.html" import icon %}
+{% from "components/availability.html" import copy_badge, work_summary %}
+{% from "catalogue/fragments/fields.html" import identity_fields, series_fields, content_fields, edition_fields %}
+{% set base = "/catalogue/notices/" ~ notice.id %}
+{% macro section_card(key, title, editable=True, extra="") %}
+<section class="card" id="sec-{{ key }}" aria-labelledby="titre-{{ key }}">
+  <div class="card-h">
+    <h2 id="titre-{{ key }}">{{ title }}</h2>
+    {% if editing == key %}{{ badge(_("Mode édition"), "info", dot=False) }}{% elif editable and can("catalogue.edit") and not notice.is_archived %}<a class="btn btn-g btn-sm push-end" href="{{ base }}?onglet=notice&amp;modifier={{ key }}{{ extra }}#sec-{{ key }}">{{ icon("edit", 14) }}<span>{{ _("Modifier") }}</span></a>{% endif %}
+  </div>
+  <div class="card-b">{{ caller() }}</div>
+</section>
+{%- endmacro %}
+{% macro edit_form(key, version) %}
+<form class="form" method="post" action="{{ base }}/sections/{{ key }}" novalidate>
+  <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+  <input type="hidden" name="version" value="{{ version }}">
+  {{ caller() }}
+  <div class="form-actions">
+    {{ button(_("Enregistrer"), "p", "check", type="submit") }}
+    {{ link_button(_("Annuler"), base ~ "?onglet=notice#sec-" ~ key, "g") }}
+  </div>
+</form>
+{%- endmacro %}
+{% macro people(items) %}{% for person in items %}{{ person.name }}{% if person.dates %} ({{ person.dates }}){% endif %}, {{ person.role_label | lower }}{% if not loop.last %} · {% endif %}{% endfor %}{% endmacro %}
+{% macro edition_label(item) %}{{ item.publisher.label if item.publisher else _("Éditeur non renseigné") }}{% if item.year %}, {{ item.year }}{% endif %}{% if item.statement %}, {{ item.statement }}{% endif %}{% endmacro %}
+{% block title %}{{ notice.title }} — biblyO{% endblock %}
+{% block content %}
+{% set trail = [(_("Catalogue"), "/catalogue")] %}
+{% if notice.series %}{% set trail = trail + [(notice.series.title, "/catalogue/series/" ~ notice.series.series_id)] %}{% endif %}
+{{ crumbs(trail + [(notice.title, "")]) }}
+{% if message %}{{ alert(message, "late") }}{% endif %}
+{% if notice.is_archived %}{{ alert(_("Cette notice est archivée : elle n’apparaît plus dans le catalogue par défaut."), "due") }}{% endif %}
+{% if notice.duplicates %}
+<div class="callout m-due" role="status">{{ icon("alert", 18) }}<div><b>{{ _("Doublon probable.") }}</b> {{ _("Le même ISBN figure sur :") }}
+  {% for item in notice.duplicates %}<a href="/catalogue/notices/{{ item.work_id }}">{{ item.title }}</a>{% if not loop.last %}, {% endif %}{% endfor %}.</div></div>
+{% endif %}
+
+{% set known = [notice.subtitle, notice.contributors, notice.series, edition.publisher, edition.year, edition.isbn13] | select | list | length %}
+<section class="card notice-hero{% if known <= 2 %} is-sparse{% endif %}" aria-labelledby="titre-page">
+  {% if can("catalogue.edit") and not notice.is_archived %}
+  {% set cover_url = base ~ "/couverture?edition=" ~ edition.id %}
+  <div class="notice-zoom">
+    <a class="couv-link" href="{{ cover_url }}" aria-label="{{ _('Changer la couverture') if edition.cover else _('Ajouter une couverture') }}">
+      {{ cover(notice.title, notice.series.title if notice.series else "", notice.series.volume_text if notice.series else "", notice.authors_text, notice.color, edition.cover.path if edition.cover else "", kicker=notice.document_type.label) }}
+    </a>
+    <span class="row gap-s couv-acts">
+      <a href="{{ cover_url }}">{{ icon("upload", 14) }}{{ _("Changer la couverture") if edition.cover else _("Ajouter une couverture") }}</a>
+      {% if edition.cover %}<button type="button" class="linkish" data-open-dialog="zoom-couverture">{{ icon("zoom", 14) }}{{ _("Agrandir") }}</button>{% endif %}
+    </span>
+  </div>
+  {% else %}
+  <button type="button" class="notice-zoom plain" data-open-dialog="zoom-couverture" aria-label="{{ _('Agrandir la couverture') }}">
+    {{ cover(notice.title, notice.series.title if notice.series else "", notice.series.volume_text if notice.series else "", notice.authors_text, notice.color, edition.cover.path if edition.cover else "", kicker=notice.document_type.label) }}
+    <span class="row nowrap gap-xs">{{ icon("zoom", 14) }}{{ _("Agrandir") }}</span>
+  </button>
+  {% endif %}
+  <div class="col min0">
+    <div class="row gap-xs">
+      {{ badge(notice.document_type.label, "cat", dot=False) }}
+      {% if notice.section %}{{ badge(notice.section.label, "neutral", dot=False) }}{% endif %}
+      {% for label in notice.categories if label != notice.document_type.label and (not notice.section or label != notice.section.label) %}{% if loop.index <= 3 %}{{ badge(label, "neutral", dot=False) }}{% endif %}{% endfor %}
+    </div>
+    <h1 id="titre-page" tabindex="-1">{{ notice.title }}</h1>
+    {% if notice.subtitle %}<div class="muted hero-sub">{{ notice.subtitle }}</div>{% endif %}
+    {% if notice.contributors %}
+    <div class="hero-people">{% for person in notice.contributors %}<a class="b" href="/catalogue/contributeurs/{{ person.agent_id }}">{{ person.name }}</a> <span class="faint">{{ person.role_label | lower }}</span>{% if not loop.last %} · {% endif %}{% endfor %}</div>
+    {% endif %}
+    {% if notice.series %}
+    <a class="btn btn-g btn-sm self-start hero-series" href="/catalogue/series/{{ notice.series.series_id }}">{{ icon("series", 15) }}<span>{{ notice.series.title }}{% if notice.series.volume_text %} · {{ _("tome") }} {{ notice.series.volume_text }}{% endif %} — {{ _("voir la série") }}</span></a>
+    {% endif %}
+    {% set counts = notice.availability %}
+    <div class="hero-avail">{{ work_summary(counts) }}{% if counts.next_due and not counts.available and counts.out %}<span class="muted small">{{ _("Prochain retour prévu le") }} {{ counts.next_due[8:10] }}/{{ counts.next_due[5:7] }}/{{ counts.next_due[:4] }}</span>{% endif %}</div>
+    <div class="notice-facts">
+      {% if edition.publisher %}<span><span class="faint">{{ _("Éditeur") }}</span> <b>{{ edition.publisher.label }}</b></span>{% endif %}
+      {% if edition.year %}<span><span class="faint">{{ _("Année") }}</span> <b>{{ edition.year }}</b></span>{% endif %}
+      {% if edition.isbn13 %}<span><span class="faint">{{ _("ISBN") }}</span> <b class="mono">{{ edition.isbn13[0] }}</b></span>{% endif %}
+      <span><span class="faint">{{ _("Éditions") }}</span> <b>{{ notice.editions | length }}</b></span>
+      <span><span class="faint">{{ _("Exemplaires") }}</span> <b>{{ notice.copies | length }}</b></span>
+    </div>
+    {% set can_lend = can("circulation.lend") and can("patrons.view") %}
+    <div class="row gap-s hero-acts">
+      {% if can_lend and notice.copies and not notice.is_archived %}
+        {# Un seul exemplaire prêt à sortir : le comptoir s'ouvre avec lui. Sinon, le choix des exemplaires, et pourquoi. #}
+        {% set ready = notice.loanable_copies %}
+        {% if ready | length == 1 %}{{ link_button(_("Prêter"), "/comptoir?exemplaire=" ~ ready[0].id ~ "&livre=" ~ notice.id, "p", "out") }}
+        {% else %}{{ link_button(_("Prêter"), "/comptoir/livre/" ~ notice.id, "p" if ready else "s", "out") }}{% endif %}
+      {% endif %}
+      {% if can("circulation.lend") and notice.out_copies %}{{ link_button(_("Enregistrer le retour"), "/comptoir/livre/" ~ notice.id ~ "#retours", "s", "ret") }}{% endif %}
+      {% if can("catalogue.edit") and not notice.is_archived %}{{ link_button(_("Modifier"), base ~ "?onglet=notice&modifier=identification#sec-identification", "s", "edit") }}{% endif %}
+      {% if can("holdings.edit") and not notice.is_archived %}{{ link_button(_("Exemplaire"), base ~ "?onglet=exemplaires#ajout-exemplaire", "s", "plus") }}{% endif %}
+      {% if can("holdings.edit") and notice.has_copies_in_stock %}{{ link_button(_("Déplacer"), ("/exemplaires/" ~ notice.copies[0].id ~ "/deplacer") if notice.copies | length == 1 else (base ~ "?onglet=exemplaires"), "s", "shelf") }}{% endif %}
+      {% if can("enrichment.search") and not notice.is_archived %}{{ link_button(_("Enrichir"), base ~ "/enrichir?edition=" ~ edition.id, "s", "enrich") }}{% endif %}
+      {% if can("catalogue.archive") %}
+        {% if notice.is_archived %}
+        <form method="post" action="{{ base }}/desarchiver"><input type="hidden" name="_csrf" value="{{ csrf_token }}">{{ button(_("Réactiver"), "s", "undo", type="submit") }}</form>
+        {% endif %}
+        <button type="button" class="btn btn-dg" data-open-dialog="retirer-notice">{{ icon("trash", 16) }}<span>{{ _("Retirer") }}</span></button>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% call modal("zoom-couverture", _("Couverture : {title}").format(title=notice.title)) %}
+  <div class="cover-zoom">{{ cover(notice.title, notice.series.title if notice.series else "", notice.series.volume_text if notice.series else "", notice.authors_text, notice.color, edition.cover.path if edition.cover else "", kicker=notice.document_type.label) }}</div>
+  {% if not edition.cover %}<p class="muted small m0 ta-center">{{ _("Aucune image jointe : ce visuel de remplacement reprend le titre et la série.") }}</p>
+  {% elif edition.cover.source == "bnf" %}<p class="muted small m0 ta-center">{{ _("Couverture : Bibliothèque nationale de France, service Couvertures, récupérée le {date}.").format(date=edition.cover.retrieved_at[8:10] ~ "/" ~ edition.cover.retrieved_at[5:7] ~ "/" ~ edition.cover.retrieved_at[:4]) }}{% if edition.cover.origin_url %} <a href="{{ edition.cover.origin_url }}" rel="noopener">{{ _("Notice de référence") }}</a>{% endif %}</p>
+  {% elif edition.cover.source == "openlibrary" %}<p class="muted small m0 ta-center">{{ _("Couverture trouvée par Open Library (Internet Archive), récupérée le {date}. Droits de l’éditeur ; utilisation confirmée par le Club.").format(date=edition.cover.retrieved_at[8:10] ~ "/" ~ edition.cover.retrieved_at[5:7] ~ "/" ~ edition.cover.retrieved_at[:4]) }}{% if edition.cover.origin_url %} <a href="{{ edition.cover.origin_url }}" rel="noopener">{{ _("Référence") }}</a>{% endif %}</p>
+  {% elif edition.cover.license_note %}<p class="muted small m0 ta-center">{{ edition.cover.license_note }}</p>{% endif %}
+{% endcall %}
+
+{% if can("catalogue.archive") %}
+{% call modal("retirer-notice", _("Retirer cette notice ?")) %}
+  {% if notice.copies %}
+    <p>{{ _("Cette notice a des exemplaires : elle ne peut pas être supprimée. Une fois ses exemplaires retirés, elle pourra être archivée.") }}</p>
+  {% else %}
+    <p>{{ _("L’archivage la masque du catalogue et se défait. La suppression efface la notice et ses éditions, définitivement.") }}</p>
+    <div class="form-actions">
+      {% if not notice.is_archived %}<form method="post" action="{{ base }}/archiver"><input type="hidden" name="_csrf" value="{{ csrf_token }}">{{ button(_("Archiver"), "s", "archive", type="submit") }}</form>{% endif %}
+      <form method="post" action="{{ base }}/supprimer"><input type="hidden" name="_csrf" value="{{ csrf_token }}">{{ button(_("Supprimer définitivement"), "d", "trash", type="submit") }}</form>
+    </div>
+  {% endif %}
+{% endcall %}
+{% endif %}
+
+{{ tabs(tabs_links, _("Parties de la fiche"), "cat") }}
+<div class="tab-body">
+{% if tab == "apercu" %}
+<div class="notice-split">
+  <div class="stack">
+    <section class="card" aria-labelledby="titre-resume">
+      <div class="card-h"><h2 id="titre-resume">{{ _("Résumé") }}</h2></div>
+      <div class="card-b">
+        {% if notice.summary %}<p class="prose">{{ notice.summary }}</p>{% else %}<p class="muted m0">{{ _("Pas de résumé.") }}</p>{% endif %}
+        {% if notice.categories or notice.genres or notice.keywords %}
+        <div class="row gap-xs mt-s">
+          {% for label in notice.categories %}<a class="chip" href="/catalogue?categorie={{ label | urlencode }}">{{ label }}</a>{% endfor %}
+          {% for label in notice.genres %}<a class="chip" href="/catalogue?genre={{ label | urlencode }}">{{ label }}</a>{% endfor %}
+          {% for label in notice.keywords %}<a class="badge" href="/catalogue?mot_cle={{ label | urlencode }}">#{{ label }}</a>{% endfor %}
+        </div>
+        {% endif %}
+      </div>
+    </section>
+    <section class="card" aria-labelledby="titre-trouver">
+      <div class="card-h"><h2 id="titre-trouver">{{ _("Où le trouver") }}</h2></div>
+      <div class="card-b col">
+        {% for item in notice.copies %}
+        <div class="where">
+          <div class="row gap-xs"><a class="mono" href="/exemplaires/{{ item.id }}">{{ item.barcode }}</a>{% if item.call_number %}<span class="mono faint small">{{ item.call_number }}</span>{% endif %}<span class="grow"></span>{{ copy_badge(item.state) }}</div>
+          {% if item.location_path %}
+          <div class="small"><a class="b" href="/emplacements/{{ item.location_id }}?localiser={{ item.id }}#dos-{{ item.id }}">{{ item.location_path }}</a>{% if item.position %} · {{ _("position") }} {{ item.position }}{% endif %}</div>
+          {% set place = places.get(item.id) %}
+          {% if place and (place.before or place.after) %}<div class="muted small">{% if place.before %}{{ _("Après « %(title)s »", title=place.before.title) }}{% else %}{{ _("En début d’étagère") }}{% endif %}{% if place.after %}, {{ _("avant « %(title)s »", title=place.after.title) }}{% endif %}</div>{% endif %}
+          {% elif not item.is_gone %}
+          <div class="muted small">{{ _("Non rangé") }}</div>
+          {% endif %}
+        </div>
+        {% else %}
+        <p class="muted m0">{{ _("Aucun exemplaire physique : cette notice n’a pas encore d’exemplaire.") }}</p>
+        {% endfor %}
+      </div>
+    </section>
+  </div>
+  <section class="card" aria-labelledby="titre-qualite">
+    <div class="card-h"><h2 id="titre-qualite">{{ _("Qualité de la notice") }}</h2></div>
+    <div class="card-b">
+      <div class="row quality-row gap-m">
+        {{ ring(notice.completeness, _("Notice complète à") ~ " " ~ notice.completeness ~ " %", 76, "ok" if notice.completeness >= 80 else ("due" if notice.completeness >= 50 else "late")) }}
+        <div class="min0">
+          <b>{% if notice.completeness >= 80 %}{{ _("Notice complète") }}{% elif notice.completeness >= 50 %}{{ _("Notice à compléter") }}{% else %}{{ _("Notice très incomplète") }}{% endif %}</b>
+          <div class="muted small">{% if notice.missing %}{{ _("Manque :") }} {{ notice.missing | join(", ") }}{% else %}{{ _("Tous les champs clés sont renseignés.") }}{% endif %}</div>
+        </div>
+      </div>
+      <div class="mt-s">
+        <div class="eyebrow">{{ _("Provenance") }}</div>
+        <span class="badge">{{ origin_label }}</span>
+      </div>
+    </div>
+  </section>
+</div>
+{% elif tab == "notice" %}
+<div class="stack">
+  {% if editing == "identification" %}
+    {% call section_card("identification", _("Identification")) %}
+      {% call edit_form("identification", notice.version) %}{{ identity_fields(values, errors, type_options, section_options, audience_options, role_options, rows.get("work", [])) }}{% endcall %}
+    {% endcall %}
+  {% else %}
+    {% call section_card("identification", _("Identification")) %}
+      <dl class="dlist">
+        {{ fact(_("Titre"), notice.title) }}
+        {{ fact(_("Sous-titre"), notice.subtitle) }}
+        {{ fact(_("Titre original"), notice.original_title) }}
+        {{ fact(_("Type"), notice.document_type.label) }}
+        {{ fact(_("Section principale"), notice.section.label if notice.section else "") }}
+        {{ fact(_("Public"), notice.audience_label) }}
+        {{ fact(_("Auteurs et contributeurs"), people(notice.contributors), wide=True) }}
+      </dl>
+    {% endcall %}
+  {% endif %}
+
+  {% if editing == "serie" %}
+    {% call section_card("serie", _("Série")) %}
+      {% call edit_form("serie", notice.version) %}{{ series_fields(values, errors) }}{% endcall %}
+    {% endcall %}
+  {% else %}
+    {% call section_card("serie", _("Série")) %}
+      <dl class="dlist">
+        {{ fact(_("Série"), notice.series.title if notice.series else "") }}
+        {{ fact(_("Tome"), notice.series.volume_text if notice.series else "") }}
+        {% if notice.series and notice.series.call_sequence %}{{ fact(_("Numéro interne de cote"), notice.series.call_sequence, mono=True) }}{% endif %}
+      </dl>
+    {% endcall %}
+  {% endif %}
+
+  {% if editing == "publication" %}
+    {% call section_card("publication", _("Publication")) %}
+      <form class="form" method="post" action="{{ base }}/sections/publication" novalidate>
+        <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+        <input type="hidden" name="version" value="{{ edition.version }}">
+        <input type="hidden" name="edition_id" value="{{ edition.id }}">
+        {{ edition_fields(values, errors, language_options, role_options, rows.get("edition", [])) }}
+        <div class="form-actions">
+          {{ button(_("Enregistrer"), "p", "check", type="submit") }}
+          {{ link_button(_("Annuler"), base ~ "?onglet=notice&edition=" ~ edition.id ~ "#sec-publication", "g") }}
+        </div>
+      </form>
+    {% endcall %}
+  {% else %}
+    {% call section_card("publication", _("Publication"), extra="&amp;edition=" ~ edition.id) %}
+      {% if notice.editions | length > 1 %}
+      <div class="row gap-xs mb-s" role="group" aria-label="{{ _('Édition affichée') }}">
+        {% for item in notice.editions %}<a class="chip" href="{{ base }}?onglet=notice&amp;edition={{ item.id }}#sec-publication"{% if item.id == edition.id %} aria-current="true"{% endif %}>{{ edition_label(item) }}</a>{% endfor %}
+      </div>
+      {% endif %}
+      <dl class="dlist">
+        {{ fact(_("ISBN-13"), edition.isbn13 | join(", "), mono=True) }}
+        {{ fact(_("ISBN-10"), edition.isbn10 | join(", "), mono=True) }}
+        {{ fact(_("Éditeur"), edition.publisher.label if edition.publisher else "") }}
+        {{ fact(_("Collection"), (edition.collection.label ~ (" " ~ edition.collection_number if edition.collection_number else "")) if edition.collection else "") }}
+        {{ fact(_("Édition"), edition.statement) }}
+        {{ fact(_("Année"), edition.year) }}
+        {{ fact(_("Date précise"), edition.date) }}
+        {{ fact(_("Langue"), edition.language_label) }}
+        {{ fact(_("Pages"), edition.pages) }}
+        {{ fact(_("Description physique"), edition.physical_note) }}
+        {% if edition.title_variant %}{{ fact(_("Titre de cette édition"), edition.title_variant) }}{% endif %}
+        {% if edition.contributors %}{{ fact(_("Contributeurs de cette édition"), people(edition.contributors), wide=True) }}{% endif %}
+        {% if edition.notes %}{{ fact(_("Notes sur l’édition"), edition.notes, wide=True) }}{% endif %}
+      </dl>
+      <p class="small mt-s"><a href="{{ base }}/couverture?edition={{ edition.id }}">{{ icon("upload", 14) }} {{ _("Couverture de cette édition : voir, ajouter, rechercher") }}</a></p>
+    {% endcall %}
+  {% endif %}
+
+  {% if editing == "contenu" %}
+    {% call section_card("contenu", _("Contenu")) %}
+      {% call edit_form("contenu", notice.version) %}{{ content_fields(values, errors) }}{% endcall %}
+    {% endcall %}
+  {% else %}
+    {% call section_card("contenu", _("Contenu")) %}
+      <dl class="dlist">
+        {{ fact(_("Résumé"), notice.summary, wide=True) }}
+        {{ fact(_("Catégories"), notice.categories | join(", ")) }}
+        {{ fact(_("Genres"), notice.genres | join(", ")) }}
+        {{ fact(_("Mots-clés"), notice.keywords | join(", ")) }}
+        {% if notice.notes %}{{ fact(_("Notes internes"), notice.notes, wide=True) }}{% endif %}
+      </dl>
+    {% endcall %}
+  {% endif %}
+</div>
+{% elif tab == "editions" %}
+<section class="card" aria-labelledby="titre-editions">
+  <div class="card-h">
+    <h2 id="titre-editions">{{ _("Éditions de cette œuvre") }}</h2>
+    {% if can("catalogue.edit") and not notice.is_archived %}<a class="btn btn-s btn-sm push-end" href="{{ base }}/editions/nouvelle">{{ icon("plus", 14) }}<span>{{ _("Ajouter une édition") }}</span></a>{% endif %}
+  </div>
+  <div>
+    {% for item in notice.editions %}
+    <article class="edition-row" id="edition-{{ item.id }}">
+      {{ cover(notice.title, notice.series.title if notice.series else "", notice.series.volume_text if notice.series else "", notice.authors_text, notice.color, item.cover.thumbnail_path if item.cover else "", kicker=notice.document_type.label) }}
+      <div class="col gap-xs min0">
+        <div class="row gap-xs"><b>{{ edition_label(item) }}</b>
+          {% if item.is_primary %}{{ badge(_("Édition principale"), "ok") }}{% endif %}
+          {% if item.status == "archived" %}{{ badge(_("Archivée"), "due") }}{% endif %}
+        </div>
+        <div class="muted small">
+          {% if item.isbn13 %}<span class="mono">{{ item.isbn13 | join(", ") }}</span>{% else %}{{ _("Sans ISBN") }}{% endif %}
+          · {{ item.language_label }}
+          {% if item.pages %}· {{ item.pages }} {{ _("pages") }}{% endif %}
+          {% if item.collection %}· {{ item.collection.label }}{% endif %}
+          · {{ item.copies | length }} {{ _("exemplaire(s)") }}
+        </div>
+        {% if can("catalogue.edit") and not notice.is_archived %}
+        <div><a class="btn btn-g btn-sm" href="{{ base }}/couverture?edition={{ item.id }}" aria-label="{{ _('Couverture de cette édition') if item.cover else _('Ajouter une couverture à cette édition') }}">{{ icon("upload", 14) }}<span>{{ _("Couverture") }}</span></a></div>
+        {% endif %}
+      </div>
+      <div class="row gap-xs edition-acts">
+        <a class="btn btn-g btn-sm" href="{{ base }}?onglet=notice&amp;edition={{ item.id }}#sec-publication">{{ _("Voir") }}</a>
+        {% if can("catalogue.edit") and not notice.is_archived %}
+          <a class="btn btn-g btn-sm" href="{{ base }}?onglet=notice&amp;modifier=publication&amp;edition={{ item.id }}#sec-publication">{{ icon("edit", 14) }}<span>{{ _("Modifier") }}</span></a>
+          {% if not item.is_primary and item.status == "active" %}
+          <form method="post" action="/catalogue/editions/{{ item.id }}/principale"><input type="hidden" name="_csrf" value="{{ csrf_token }}">{{ button(_("Définir comme principale"), "g", type="submit", size="sm") }}</form>
+          {% endif %}
+        {% endif %}
+        {% if can("catalogue.archive") and not item.is_primary %}
+          {% if item.status == "archived" %}
+          <form method="post" action="/catalogue/editions/{{ item.id }}/desarchiver"><input type="hidden" name="_csrf" value="{{ csrf_token }}">{{ button(_("Réactiver"), "g", type="submit", size="sm") }}</form>
+          {% else %}
+          <form method="post" action="/catalogue/editions/{{ item.id }}/archiver"><input type="hidden" name="_csrf" value="{{ csrf_token }}">{{ button(_("Archiver"), "g", type="submit", size="sm") }}</form>
+          {% endif %}
+          <button type="button" class="btn btn-dg btn-sm" data-open-dialog="suppr-edition-{{ item.id }}">{{ _("Supprimer") }}</button>
+        {% endif %}
+      </div>
+    </article>
+    {% if can("catalogue.archive") and not item.is_primary %}
+    {% call modal("suppr-edition-" ~ item.id, _("Supprimer cette édition ?")) %}
+      <p>{{ edition_label(item) }}. {{ _("Cette suppression est définitive.") }}</p>
+      <form class="form-actions" method="post" action="/catalogue/editions/{{ item.id }}/supprimer"><input type="hidden" name="_csrf" value="{{ csrf_token }}">{{ button(_("Supprimer définitivement"), "d", "trash", type="submit") }}</form>
+    {% endcall %}
+    {% endif %}
+    {% endfor %}
+  </div>
+</section>
+{% elif tab == "exemplaires" %}
+<div class="stack">
+  {% if notice.copies %}
+  <div class="card tbl-wrap tbl-m-cards tbl-t-cards">
+    <table class="tbl">
+      <caption class="sr">{{ _("Exemplaires de cette notice") }}</caption>
+      <thead><tr><th scope="col">{{ _("Code-barres") }}</th><th scope="col" class="hmd">{{ _("Édition") }}</th><th scope="col">{{ _("Cote") }}</th><th scope="col">{{ _("Emplacement") }}</th><th scope="col">{{ _("Statut physique") }}</th><th scope="col">{{ _("Circulation") }}</th><th scope="col"><span class="sr">{{ _("Actions") }}</span></th></tr></thead>
+      <tbody>
+        {% for item in notice.editions %}{% for copy in item.copies %}
+        <tr>
+          <td><a class="mono t" href="/exemplaires/{{ copy.id }}">{{ copy.barcode }}</a>{% if copy.inventory_differs %}<div class="mono faint small">{{ _("Inv.") }} {{ copy.inventory_number }}</div>{% endif %}{% if copy.notes %}<div class="muted small">{{ copy.notes }}</div>{% endif %}</td>
+          <td class="hm hmd">{{ edition_label(item) }}</td>
+          <td><span class="mono nowrap">{{ copy.call_number or "—" }}</span></td>
+          <td>{% if copy.location_path %}{{ copy.location_path }}{% if copy.position %} · {{ _("position") }} {{ copy.position }}{% endif %}{% elif copy.is_gone %}—{% else %}<span class="muted">{{ _("Non rangé") }}</span>{% endif %}</td>
+          <td>{{ badge(copy.status_label, copy.status_badge) }}</td>
+          <td>{{ copy_badge(copy.state) }}</td>
+          <td class="ta-end"><span class="row nowrap gap-xs row-end">
+            {% if can("circulation.lend") and can("patrons.view") and copy.state.is_loanable_now and not notice.is_archived %}{{ link_button(_("Prêter"), "/comptoir?exemplaire=" ~ copy.id ~ "&livre=" ~ notice.id, "s", "out", "sm", aria_label=_("Prêter l’exemplaire") ~ " " ~ copy.barcode) }}{% endif %}
+            {% if can("circulation.lend") and copy.state.is_out %}{{ link_button(_("Retour"), "/comptoir/livre/" ~ notice.id ~ "#retour-" ~ copy.id, "s", "ret", "sm", aria_label=_("Enregistrer le retour de") ~ " " ~ copy.barcode) }}{% endif %}
+            {{ link_button(_("Fiche"), "/exemplaires/" ~ copy.id, "g", "", "sm") }}
+            {% if can("holdings.edit") and not copy.is_gone %}{{ link_button(_("Déplacer"), "/exemplaires/" ~ copy.id ~ "/deplacer", "s", "shelf", "sm") }}{% endif %}
+            {% if can("holdings.edit") and copy.is_deletable %}<button type="button" class="btn btn-dg btn-sm" data-open-dialog="suppr-copie-{{ copy.id }}">{{ _("Supprimer") }}</button>{% endif %}
+          </span></td>
+        </tr>
+        {% endfor %}{% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% if can("holdings.edit") %}{% for item in notice.editions %}{% for copy in item.copies if copy.is_deletable %}
+  {% call modal("suppr-copie-" ~ copy.id, _("Supprimer cet exemplaire ?")) %}
+    <p><span class="mono">{{ copy.barcode }}</span>. {{ _("Réservé à un exemplaire créé par erreur. Ses codes ne seront jamais réattribués.") }}</p>
+    <form class="form-actions" method="post" action="/catalogue/exemplaires/{{ copy.id }}/supprimer"><input type="hidden" name="_csrf" value="{{ csrf_token }}">{{ button(_("Supprimer définitivement"), "d", "trash", type="submit") }}</form>
+  {% endcall %}
+  {% endfor %}{% endfor %}{% endif %}
+  {% else %}
+  <section class="card" aria-label="{{ _('Exemplaires') }}">{{ empty_state("book", _("Aucun exemplaire"), _("Ajoutez un exemplaire pour chaque livre physique de cette édition.")) }}</section>
+  {% endif %}
+  {% if can("holdings.edit") and not notice.is_archived %}
+  <section class="card" id="ajout-exemplaire" aria-labelledby="titre-ajout">
+    <div class="card-h"><h2 id="titre-ajout">{{ _("Ajouter des exemplaires") }}</h2></div>
+    <div class="card-b">
+      <form class="form" method="post" action="{{ base }}/exemplaires">
+        <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+        <div class="grid g3">
+          <div class="fld"><label for="edition_id">{{ _("Édition") }}</label>
+            <select class="in" id="edition_id" name="edition_id">{% for item in notice.editions if item.status == "active" %}<option value="{{ item.id }}">{{ edition_label(item) }}</option>{% endfor %}</select></div>
+          <div class="fld"><label for="quantite">{{ _("Nombre") }}</label>
+            <input class="in" id="quantite" name="quantite" value="1" inputmode="numeric"{% if errors.get("quantite") %} aria-invalid="true"{% endif %}>
+            {% if errors.get("quantite") %}<span class="err">{{ icon("alert", 14) }}<span>{{ errors.get("quantite") }}</span></span>{% endif %}</div>
+          <div class="fld"><label for="note">{{ _("Note") }}</label><input class="in" id="note" name="note"></div>
+        </div>
+        <p class="muted small m0">{{ _("Un code-barres et une cote sont attribués à chaque exemplaire. Ils restent modifiables depuis sa fiche.") }}</p>
+        <div class="form-actions">{{ button(_("Ajouter"), "p", "plus", type="submit") }}</div>
+      </form>
+    </div>
+  </section>
+  {% endif %}
+</div>
+{% elif tab == "prets" %}
+{% if book_loans is not none %}{% include "circulation/fragments/book_loans.html" %}{% else %}
+<section class="card" aria-label="{{ _('Prêts') }}">{{ empty_state("loans", _("Prêts"), _("Votre compte ne donne pas accès aux prêts.")) }}</section>{% endif %}
+{% elif enrichment %}
+{% include "enrichment/fragments/tab.html" %}
+{% else %}
+<section class="card" aria-label="{{ _('Enrichissement') }}">{{ empty_state("enrich", _("Enrichissement indisponible"), _("Le module d’enrichissement est désactivé sur cette installation. Aucune donnée n’est simulée ici.")) }}</section>
+{% endif %}
+</div>
+{% endblock %}

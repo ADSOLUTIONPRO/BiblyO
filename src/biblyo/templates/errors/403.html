@@ -1,0 +1,10 @@
+{% extends layout %}
+{% from "components/feedback.html" import empty_state %}
+{% from "components/buttons.html" import link_button %}
+{% block title %}{{ _("Accès refusé") }} — biblyO{% endblock %}
+{% block content %}
+<h1 class="sr">{{ _("Accès refusé") }}</h1>
+{% call empty_state("shield", _("Accès refusé"), _("Votre rôle ne permet pas d’accéder à cette page.")) %}
+  {{ link_button(_("Retour à l’accueil"), "/", "p") }}
+{% endcall %}
+{% endblock %}

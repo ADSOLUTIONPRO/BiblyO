@@ -1,0 +1,68 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header %}
+{% from "components/buttons.html" import button, link_button %}
+{% from "components/forms.html" import field, select, textarea, checkbox %}
+{% from "components/feedback.html" import alert %}
+{% import "holdings/components.html" as parts with context %}
+{% block title %}{{ _("Modifier") }} {{ place.name }} — biblyO{% endblock %}
+{% block content %}
+{% call page_header(place.name, kind_label ~ " · " ~ place.path, "she", "edit") %}{{ link_button(_("Retour"), "/emplacements/" ~ place.id, "g", "undo") }}{% endcall %}
+{% if message %}{{ alert(message, "late") }}{% endif %}
+{% call parts.layout(tree, unshelved_count) %}
+<div class="stack">
+  <section class="card" aria-labelledby="titre-mod">
+    <div class="card-h"><h2 id="titre-mod">{{ _("Informations") }}</h2></div>
+    <div class="card-b">
+      <form class="form" method="post" action="/emplacements/{{ place.id }}/modifier">
+        <input type="hidden" name="_csrf" value="{{ csrf_token }}"><input type="hidden" name="version" value="{{ place.version }}">
+        <div class="grid g2">
+          {{ field("nom", _("Nom"), values.nom, required=True, error=errors.get("nom")) }}
+          {{ field("code", _("Code court"), values.code, error=errors.get("code")) }}
+          {{ field("indication", _("Indication de contenu"), values.indication, error=errors.get("indication")) }}
+          {% if is_level %}{{ field("capacite", _("Capacité (places)"), values.capacite, error=errors.get("capacite"), inputmode="numeric", help=_("Facultative. Un dépassement sera signalé, jamais refusé.")) }}{% endif %}
+        </div>
+        {{ textarea("notes", _("Notes"), values.notes, error=errors.get("notes")) }}
+        <div class="form-actions">{{ button(_("Enregistrer"), "p", "check", type="submit") }}</div>
+      </form>
+    </div>
+  </section>
+  {% if children %}
+  <section class="card" aria-labelledby="titre-ordre">
+    <div class="card-h"><h2 id="titre-ordre">{{ _("Ordre, de haut en bas") }}</h2></div>
+    <div>
+      {% for child in children %}
+      <div class="li"><a class="grow b" href="/emplacements/{{ child.id }}">{{ child.name }}</a>
+        <form method="post" action="/emplacements/{{ place.id }}/ordre" class="row nowrap gap-xs"><input type="hidden" name="_csrf" value="{{ csrf_token }}"><input type="hidden" name="lieu" value="{{ child.id }}">
+          <button class="btn btn-s btn-sm" type="submit" name="sens" value="monter"{% if loop.first %} disabled{% endif %} aria-label="{{ _('Monter %(name)s', name=child.name) }}">{{ _("Monter") }}</button>
+          <button class="btn btn-s btn-sm" type="submit" name="sens" value="descendre"{% if loop.last %} disabled{% endif %} aria-label="{{ _('Descendre %(name)s', name=child.name) }}">{{ _("Descendre") }}</button>
+        </form>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+  <section class="card" aria-labelledby="titre-org">
+    <div class="card-h"><h2 id="titre-org">{{ _("Organisation") }}</h2></div>
+    <div class="card-b col">
+      {% if parents %}
+      <form class="row gap-xs" method="post" action="/emplacements/{{ place.id }}/deplacer">
+        <input type="hidden" name="_csrf" value="{{ csrf_token }}"><input type="hidden" name="version" value="{{ place.version }}">
+        {{ select("parent", _("Déplacer dans"), parents, parent) }}
+        <button class="btn btn-s self-end" type="submit">{{ _("Déplacer") }}</button>
+      </form>
+      {% endif %}
+      <form method="post" action="/emplacements/{{ place.id }}/activation"><input type="hidden" name="_csrf" value="{{ csrf_token }}"><input type="hidden" name="version" value="{{ place.version }}"><input type="hidden" name="actif" value="{{ '0' if place.is_active else '1' }}">{{ button(_("Désactiver") if place.is_active else _("Réactiver"), "s", "", type="submit") }}</form>
+      <details class="status-ask">
+        <summary class="btn btn-dg btn-sm">{{ _("Supprimer ce lieu") }}</summary>
+        <form class="form" method="post" action="/emplacements/{{ place.id }}/supprimer">
+          <input type="hidden" name="_csrf" value="{{ csrf_token }}"><input type="hidden" name="version" value="{{ place.version }}">
+          {% if contents %}<p class="m0">{{ _("Ce lieu contient %(n)s exemplaire(s) : il faut d’abord les déplacer.", n=contents) }}</p>{% endif %}
+          {% if children %}{{ checkbox("ensemble", _("Supprimer aussi ce qu’il contient (lieux vides)"), "1") }}{% endif %}
+          <div class="form-actions">{{ button(_("Supprimer définitivement"), "d", "trash", type="submit") }}</div>
+        </form>
+      </details>
+    </div>
+  </section>
+</div>
+{% endcall %}
+{% endblock %}

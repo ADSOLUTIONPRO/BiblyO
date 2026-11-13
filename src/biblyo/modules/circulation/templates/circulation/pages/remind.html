@@ -1,0 +1,51 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header %}
+{% from "components/buttons.html" import link_button, button %}
+{% from "components/feedback.html" import badge, alert, empty_state %}
+{% from "components/icons.html" import icon %}
+{% block title %}{{ _("À rappeler") }} — biblyO{% endblock %}
+{% block content %}
+{% set subtitle = (total | number) ~ " " ~ (_("prêt") if total == 1 else _("prêts")) ~ " " ~ _("en retard ou à échéance proche") %}
+{% call page_header(_("À rappeler"), subtitle, "loan", "bell") %}
+  {{ link_button(_("Tous les prêts"), "/prets", "g", "loans") }}
+{% endcall %}
+{{ alert(_("biblyO n’envoie aucun message. Appelez, parlez à la personne, écrivez depuis votre propre messagerie ou par courrier, puis notez ici ce qui a été fait."), "info", _("Rien n’est envoyé d’ici")) }}
+{% for row in rows %}
+{% set loan = row.loan %}
+<article class="card remind-card" aria-labelledby="rp-{{ loan.id }}-t">
+  <div class="row gap-s">
+    <h2 class="grow remind-title" id="rp-{{ loan.id }}-t"><a href="/prets/{{ loan.id }}">{{ loan.title }}</a> <span class="mono small faint">{{ loan.barcode }}</span></h2>
+    {% if loan.late %}{{ badge(_("En retard") ~ " · " ~ loan.late ~ " " ~ (_("jour") if loan.late == 1 else _("jours")), "late") }}{% else %}{{ badge(_("Échéance le") ~ " " ~ loan.due_label, "due") }}{% endif %}
+  </div>
+  <p class="m0 small"><span class="faint">{{ _("Utilisé par") }}</span> {% if loan.borrower %}<a href="/lecteurs/{{ loan.borrower.id }}">{{ loan.borrower.name }}</a>{% else %}{{ _("Fiche fermée") }}{% endif %}</p>
+  <p class="m0 small"><span class="faint">{{ _("À joindre") }}</span>
+    {% for person in row.callees %}<a href="/lecteurs/{{ person.id }}">{{ person.name }}</a>{% if not loop.last %}, {% endif %}{% else %}{% if row.minor %}{{ _("aucun responsable n’accepte d’être contacté") }}{% else %}—{% endif %}{% endfor %}</p>
+  {% if can("patrons.view_personal") and row.callees %}
+  <div id="coord-{{ loan.id }}" class="mt-xs">
+    <form method="post" action="/prets/{{ loan.id }}/coordonnees" hx-post="/prets/{{ loan.id }}/coordonnees" hx-target="#coord-{{ loan.id }}" hx-swap="innerHTML">
+      <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+      <button class="btn btn-s btn-sm" type="submit">{{ icon("eye", 15) }}<span>{{ _("Afficher les coordonnées") }}</span></button>
+      <span class="faint small">{{ _("Chaque affichage est journalisé.") }}</span>
+    </form>
+  </div>
+  {% endif %}
+  <p class="m0 small mt-xs">{% if row.last %}<span class="faint">{{ _("Dernier rappel") }}</span> {{ row.last.day_label }} · {{ row.last.channel_label }} · {{ row.last.result_label }}{% if row.last.who %} · {{ row.last.who }}{% endif %}{% if row.count > 1 %} <span class="faint">({{ row.count }} {{ _("rappels notés") }})</span>{% endif %}{% else %}<span class="faint">{{ _("Aucun rappel noté.") }}</span>{% endif %}</p>
+  <form class="remind-form" method="post" action="/prets/{{ loan.id }}/rappel">
+    <input type="hidden" name="_csrf" value="{{ csrf_token }}"><input type="hidden" name="retour" value="liste">
+    <div class="fld"><label for="rp-{{ loan.id }}-date">{{ _("Date") }}</label><input class="in" id="rp-{{ loan.id }}-date" type="date" name="date" value="{{ today }}" max="{{ today }}"></div>
+    <div class="fld"><label for="rp-{{ loan.id }}-canal">{{ _("Canal") }}</label><select class="in" id="rp-{{ loan.id }}-canal" name="canal">{% for code, label in channels.items() %}<option value="{{ code }}">{{ label }}</option>{% endfor %}</select></div>
+    <div class="fld"><label for="rp-{{ loan.id }}-resultat">{{ _("Résultat") }}</label><select class="in" id="rp-{{ loan.id }}-resultat" name="resultat">{% for code, label in results.items() %}<option value="{{ code }}">{{ label }}</option>{% endfor %}</select></div>
+    <div class="form-actions">{{ button(_("Noter le rappel"), "s", "bell", size="sm", type="submit") }}</div>
+  </form>
+</article>
+{% else %}
+<section class="card" aria-label="{{ _('À rappeler') }}">{{ empty_state("check", _("Personne à rappeler"), _("Aucun prêt n’est en retard ni proche de son échéance.")) }}</section>
+{% endfor %}
+{% if pages > 1 %}
+<nav class="pager" aria-label="{{ _('Pagination') }}">
+  {% if page > 1 %}<a href="/prets/a-rappeler?page={{ page - 1 }}" rel="prev" aria-label="{{ _('Page précédente') }}">‹</a>{% endif %}
+  <span aria-current="page">{{ page }} / {{ pages }}</span>
+  {% if page < pages %}<a href="/prets/a-rappeler?page={{ page + 1 }}" rel="next" aria-label="{{ _('Page suivante') }}">›</a>{% endif %}
+</nav>
+{% endif %}
+{% endblock %}

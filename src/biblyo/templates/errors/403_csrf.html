@@ -1,0 +1,10 @@
+{% extends layout %}
+{% from "components/feedback.html" import empty_state %}
+{% from "components/buttons.html" import link_button %}
+{% block title %}{{ _("Action refusée") }} — biblyO{% endblock %}
+{% block content %}
+<h1 class="sr">{{ _("Action refusée") }}</h1>
+{% call empty_state("shield", _("Action refusée"), _("Le formulaire a expiré. Revenez en arrière, actualisez la page, puis recommencez.")) %}
+  {{ link_button(_("Retour à l’accueil"), "/", "p") }}
+{% endcall %}
+{% endblock %}

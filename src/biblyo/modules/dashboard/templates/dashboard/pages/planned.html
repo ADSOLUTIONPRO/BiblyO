@@ -1,0 +1,14 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header %}
+{% from "components/feedback.html" import empty_state, soon_tag %}
+{% from "components/buttons.html" import link_button %}
+{% block title %}{{ module.label }} — biblyO{% endblock %}
+{% block content %}
+{{ page_header(module.label, module.summary, module.color, module.icon) }}
+<section class="card" aria-label="{{ module.label }}">
+  {% call empty_state(module.icon, _("Ce module n’est pas encore disponible"), _("Il sera livré dans un prochain lot. Rien n’est enregistré ni simulé sur cette page.")) %}
+    {{ soon_tag(_("À venir")) }}
+    {{ link_button(_("Retour au tableau de bord"), "/", "s") }}
+  {% endcall %}
+</section>
+{% endblock %}

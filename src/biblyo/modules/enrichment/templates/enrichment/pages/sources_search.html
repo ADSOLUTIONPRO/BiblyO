@@ -1,0 +1,77 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header %}
+{% from "components/buttons.html" import button, link_button %}
+{% from "components/forms.html" import field, checkbox %}
+{% from "components/feedback.html" import badge, alert, empty_state %}
+{% block title %}{{ _("Recherche bibliographique") }} — biblyO{% endblock %}
+{% block content %}
+{% call page_header(_("Recherche bibliographique"), _("Cherchez un livre à la BnF et au Sudoc, par ISBN, titre, auteur ou série. Un résultat peut servir à créer une notice, que vous relisez avant de l’enregistrer."), "enr", "search") %}
+  {% if can("admin.sources") %}{{ link_button(_("Sources"), "/admin/sources", "g", "gear") }}{% endif %}
+{% endcall %}
+
+<div class="enr-grid">
+<section class="card" aria-labelledby="src-criteres">
+  <div class="card-h"><h2 id="src-criteres">{{ _("Critères") }}</h2></div>
+  <div class="card-b">
+    <form method="post" action="/sources" class="form">
+      <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+      <div class="enr-fields">
+        {{ field("isbn", _("ISBN"), criteria.isbn, inputmode="numeric", autofocus=not search, help=_("Cherché sous ses deux formes. Une douchette peut le saisir.")) }}
+        {{ field("titre", _("Titre"), criteria.title) }}
+        {{ field("auteur", _("Auteur"), criteria.author) }}
+        {{ field("editeur", _("Éditeur"), criteria.publisher) }}
+        {{ field("annee", _("Année"), criteria.year, inputmode="numeric") }}
+        {{ field("serie", _("Série"), criteria.series) }}
+        {{ field("tome", _("Tome"), criteria.volume) }}
+      </div>
+      <fieldset class="fs">
+        <legend>{{ _("Sources interrogées") }}</legend>
+        <div class="row gap-xs">
+        {% for config in configs %}
+          {{ checkbox("sources", source_labels.get(config.code, config.label), config.code, checked=config.enabled, disabled=not config.enabled, help=(_("priorité {n}").format(n=config.priority) if config.enabled else _("désactivée dans les réglages"))) }}
+        {% endfor %}
+        </div>
+      </fieldset>
+      <div class="form-actions">
+        {{ button(_("Rechercher"), "p", "search", type="submit") }}
+        <label class="check"><input type="checkbox" name="actualiser" value="1"><span>{{ _("Actualiser") }}<span class="h">{{ _("Ignorer les réponses gardées en cache") }}</span></span></label>
+      </div>
+    </form>
+  </div>
+</section>
+
+{% if search %}
+<section class="card" aria-labelledby="src-sources">
+  <div class="card-h"><h2 id="src-sources">{{ _("Sources interrogées") }}</h2>
+    {% set outcome = class_labels.get(search.outcome, (search.outcome, "neutral")) %}{{ badge(outcome[0], outcome[1]) }}</div>
+  <div class="card-b">
+    <ul class="plain enr-sources">
+    {% for state in search.sources %}
+      <li class="enr-source">
+        <b>{{ source_labels.get(state.code, state.label) }}</b>
+        <span class="muted">{{ state_labels.get(state.status, state.status).format(n=state.total) }}</span>
+        {% if state.from_cache_at %}<span class="faint small">{{ _("réponse gardée du {date}").format(date=state.from_cache_at[:10]) }}</span>{% endif %}
+        {% if state.status not in ("found", "not_found", "disabled", "not_needed") %}<span class="badge m-late">{{ _("incomplète") }}</span>{% endif %}
+      </li>
+    {% endfor %}
+    </ul>
+  </div>
+</section>
+
+<section class="card" aria-labelledby="src-resultats" id="resultats">
+  <div class="card-h"><h2 id="src-resultats">{{ _("Résultats") }}</h2><span class="muted small">{{ _("{n} édition(s) proposée(s)").format(n=groups | length) }}</span></div>
+  <div class="card-b">
+  {% if not groups %}
+    {% if search.outcome == "incomplete" %}
+      {{ empty_state("alert", _("Recherche incomplète"), _("Une source n’a pas répondu : rien ne permet de dire qu’il n’existe aucune notice. Réessayez plus tard.")) }}
+    {% else %}
+      {{ empty_state("search", _("Aucune notice correspondante"), _("Modifiez les critères : moins de mots dans le titre, ou le nom de la série seul.")) }}
+    {% endif %}
+  {% endif %}
+  {% set action_kind = "create" %}{% include "enrichment/fragments/results.html" %}
+  </div>
+</section>
+{% endif %}
+{{ alert(_("Enrichir toute la bibliothèque d’un coup : conçu, il sera développé après la reprise du catalogue (lot L6). Chaque fiche s’enrichit dès maintenant depuis son bouton « Enrichir »."), "info") }}
+</div>
+{% endblock %}

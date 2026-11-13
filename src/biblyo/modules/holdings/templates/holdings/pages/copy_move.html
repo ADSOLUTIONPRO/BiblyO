@@ -1,0 +1,33 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header %}
+{% from "components/buttons.html" import button, link_button %}
+{% from "components/forms.html" import field, select %}
+{% from "components/feedback.html" import alert %}
+{% block title %}{{ _("Déplacer") }} {{ copy.barcode or copy.inventory_number }} — biblyO{% endblock %}
+{% block content %}
+{% call page_header(_("Déplacer un exemplaire"), record.work_title ~ " · " ~ (copy.barcode or copy.inventory_number), "she", "shelf") %}
+  {{ link_button(_("Annuler"), "/exemplaires/" ~ copy.id, "g", "x") }}
+{% endcall %}
+{% if message %}{{ alert(message, "late") }}{% endif %}
+<section class="card" aria-labelledby="titre-deplacer">
+  <div class="card-h"><h2 id="titre-deplacer">{{ _("Nouvelle place") }}</h2></div>
+  <div class="card-b col">
+    <p class="m0">{% if current_path %}{{ _("Actuellement") }} : <b>{{ current_path }}</b>{% if copy.shelf_position %} · {{ _("position") }} {{ copy.shelf_position }}{% endif %}{% else %}{{ _("Cet exemplaire n’a pas encore de place.") }}{% endif %}</p>
+    {% if not shelvable %}
+    {{ alert(_("Cet exemplaire est « %(status)s » : déclarez-le d’abord retrouvé.", status=status_label | lower), "due") }}
+    {% elif not place_options %}
+    <p class="muted m0">{{ _("Aucun emplacement n’est encore créé.") }}</p>
+    {% else %}
+    <form class="form" method="post" action="/exemplaires/{{ copy.id }}/deplacer">
+      <input type="hidden" name="_csrf" value="{{ csrf_token }}"><input type="hidden" name="version" value="{{ copy.version }}">
+      <div class="grid g2">
+        {{ select("emplacement", _("Emplacement"), place_options, selected, required=True, help=_("Entre parenthèses : places occupées et capacité. Une étagère pleine reste possible, le dépassement sera signalé.")) }}
+        {{ field("rang", _("Rang sur l’étagère"), rank, inputmode="numeric", help=_("Vide : à la fin. Les exemplaires suivants se décalent, aucun n’est écrasé.")) }}
+      </div>
+      <p class="muted small m0">{{ _("La cote %(call)s ne change pas.", call=copy.call_number or "—") }}</p>
+      <div class="form-actions">{{ button(_("Ranger ici"), "p", "shelf", type="submit") }}</div>
+    </form>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

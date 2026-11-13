@@ -1,0 +1,32 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header %}
+{% from "components/buttons.html" import button, link_button %}
+{% from "components/feedback.html" import alert %}
+{% from "components/forms.html" import field %}
+{% from "components/catalogue.html" import crumbs %}
+{% from "patrons/components.html" import phone_choice %}
+{% block title %}{{ _("Coordonnées de") }} {{ household.name }} — biblyO{% endblock %}
+{% block content %}
+{{ crumbs([(_("Lecteurs & familles"), "/lecteurs?vue=foyers"), (household.name, "/foyers/" ~ household.id), (_("Coordonnées"), "")]) }}
+{{ page_header(_("Coordonnées partagées"), household.name, "rdr", "edit") }}
+{% if message %}{{ alert(message, "late") }}{% endif %}
+<section class="card" aria-label="{{ _('Coordonnées') }}"><div class="card-b">
+  <form class="form col gap-m" method="post" action="/foyers/{{ household.id }}/coordonnees" novalidate>
+    <input type="hidden" name="_csrf" value="{{ csrf_token }}"><input type="hidden" name="version" value="{{ household.version }}">
+    <div class="grid g2">
+      {{ field("foyer_courriel", _("Courriel"), values.foyer_courriel, type="email", error=errors.get("foyer_courriel"), autocomplete="off") }}
+      <div class="col gap-s">
+        {{ field("foyer_telephone", _("Téléphone"), values.foyer_telephone, type="tel", error=errors.get("foyer_telephone"), autocomplete="off") }}
+        {{ phone_choice("foyer_telephone_territoire", phone_choices.get("foyer_telephone")) }}
+      </div>
+    </div>
+    {{ field("adresse_ligne1", _("Adresse"), values.adresse_ligne1, error=errors.get("foyer_adresse"), autocomplete="off") }}
+    {{ field("adresse_ligne2", _("Complément d’adresse"), values.adresse_ligne2, autocomplete="off") }}
+    <div class="grid g2">
+      {{ field("code_postal", _("Code postal"), values.code_postal, inputmode="numeric", autocomplete="off") }}
+      {{ field("ville", _("Commune"), values.ville, autocomplete="off") }}
+    </div>
+    <div class="form-actions">{{ button(_("Enregistrer"), "p", "check", type="submit") }}{{ link_button(_("Annuler"), "/foyers/" ~ household.id, "g") }}</div>
+  </form>
+</div></section>
+{% endblock %}

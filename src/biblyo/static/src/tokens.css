@@ -1,0 +1,78 @@
+/* SPDX-License-Identifier: EUPL-1.2 */
+/* Jetons de biblyO : les seules couleurs de l'application. Remplacer ce fichier change l'apparence sans toucher aux écrans.
+   Documentation et écarts à la maquette : docs/design/tokens.md */
+:root{
+  --font-display:"Bricolage Grotesque","Manrope",system-ui,sans-serif;
+  --font-ui:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  /* marque */
+  --brand-ink:#13252A; --brand-coral:#E8603C; --brand-coral-ink:#B8401F; --on-coral:#13252A; --on-brand:#F6F3EE;
+  --accent:#0F6E6E; --accent-hover:#0B5757; --on-accent:#FFFFFF; --accent-soft:#DDF0EE; --accent-ink:#0B5252;
+  /* neutres chauds */
+  --bg:#F6F3EE; --surface:#FFFFFF; --surface-2:#F0ECE5; --surface-3:#E8E3DA;
+  --line:#E4DED3; --line-strong:#8C8576; --text:#1B1F22; --muted:#5B605D; --faint:#6A6F6B;
+  /* barre latérale : foncée dans les deux thèmes */
+  --side-bg:#13252A; --side-text:#D7DEDC; --side-muted:#93A3A1; --side-hover:#1E363C; --side-on:#25444B; --side-strong:#FFFFFF;
+  --side-line:rgba(255,255,255,.07); --side-chip:rgba(255,255,255,.1);
+  --side-cat:#9EA2F0; --side-ser:#7FB0E6; --side-she:#D9A26B; --side-loan:#4FB8AE; --side-rdr:#B898EA; --side-enr:#EB86C0; --side-inv:#A9C76A; --side-io:#A3B4C4; --side-sta:#6EC1DD;
+  /* modules (base / fond doux / encre sur fond doux) */
+  --cat:#4C51BF; --cat-soft:#E8E9FA; --cat-ink:#343994;
+  --ser:#2563A8; --ser-soft:#E2ECF7; --ser-ink:#1D4F86;
+  --she:#A0642A; --she-soft:#F5E9DC; --she-ink:#774615;
+  --loan:#0F6E6E; --loan-soft:#DDF0EE; --loan-ink:#0B5252;
+  --rdr:#7B4FBF; --rdr-soft:#EFE7FA; --rdr-ink:#5C3896;
+  --enr:#B83280; --enr-soft:#F8E3EF; --enr-ink:#8C2161;
+  --inv:#5F7D1F; --inv-soft:#ECF3DC; --inv-ink:#455C14;
+  --io:#4A5B6B; --io-soft:#E6EBF0; --io-ink:#36444F;
+  --sta:#1F7A99; --sta-soft:#DFF0F6; --sta-ink:#175C74;
+  /* états */
+  --ok:#2E7D4F; --ok-soft:#E1F2E7; --ok-ink:#21603B;
+  --late:#C0392B; --late-soft:#FBE3DF; --late-ink:#972A1E; --on-late:#FFFFFF;
+  --due:#B7791F; --due-soft:#FBEFD9; --due-ink:#7E520D;
+  --info:#2563A8; --info-soft:#E2ECF7; --info-ink:#1D4F86;
+  /* avatar */
+  --avatar:#7B4FBF; --on-avatar:#FFFFFF;
+  /* initiales des lecteurs : six teintes de la maquette, distinctes, toutes lisibles en blanc */
+  --ini-0:#7B4FBF; --ini-1:#0F6E6E; --ini-2:#B83280; --ini-3:#2563A8; --ini-4:#93591F; --ini-5:#56701C;
+  /* bois des étagères */
+  --wood:#C79B6A; --wood-dark:#9C7244; --wood-back:#EFE5D8; --wood-back-2:#E6D8C6;
+  --on-wood:#13252A; /* écart à la maquette : le blanc sur ce bois clair n'atteint pas 4,5:1 */
+  --hit:#B8401F; /* dos localisé : le corail de la maquette, foncé pour atteindre 3:1 sur le fond de l'étagère */
+  --spine-edge:#9C7244; /* liseré des dos, utilisé en thème sombre seulement */
+  --on-spine:#FBF6EE;
+  /* couvertures de remplacement : les neuf couleurs de la maquette, deux d'entre elles foncées pour le contraste */
+  --cv-0:#B4472E; --cv-1:#2F6B4F; --cv-2:#2E5A88; --cv-3:#955F27; --cv-4:#6A4A8C; --cv-5:#636F26; --cv-6:#3B3A36; --cv-7:#2C6E80; --cv-8:#7A2E4A;
+  --spine-shade:#0B1A1E;
+  /* formes */
+  --r-xs:3px; --r-sm:8px; --r-md:12px; --r-lg:18px; --r-pill:999px;
+  --shadow-1:0 1px 2px rgba(19,37,42,.06),0 1px 1px rgba(19,37,42,.04);
+  --shadow-pop:0 18px 40px rgba(19,37,42,.18),0 3px 8px rgba(19,37,42,.08);
+  --shadow-fab:0 8px 20px rgba(232,96,60,.35);
+  --scrim:rgba(10,20,22,.45); --on-brand-line:rgba(246,243,238,.35);
+  --side-w:252px;
+  color-scheme:light;
+}
+[data-theme="dark"]{
+  --accent:#4FB8AE; --accent-hover:#6CCAC0; --on-accent:#0B1C1E; --accent-soft:#163633; --accent-ink:#8FD9D0;
+  --bg:#111618; --surface:#182023; --surface-2:#1F292C; --surface-3:#273337;
+  --line:#2B373B; --line-strong:#6C7B7E; --text:#ECEFEC; --muted:#A8B2B0; --faint:#8D9896;
+  --side-bg:#0B1214; --side-hover:#162125; --side-on:#1D2E33;
+  --cat:#9EA2F0; --cat-soft:#252846; --cat-ink:#C2C5FA;
+  --ser:#7FB0E6; --ser-soft:#192B40; --ser-ink:#B5D2F2;
+  --she:#D9A26B; --she-soft:#3A2817; --she-ink:#EBC59D;
+  --loan:#4FB8AE; --loan-soft:#163633; --loan-ink:#8FD9D0;
+  --rdr:#B898EA; --rdr-soft:#2C2240; --rdr-ink:#D4C0F5;
+  --enr:#EB86C0; --enr-soft:#3D1D30; --enr-ink:#F5B6DA;
+  --inv:#A9C76A; --inv-soft:#26301A; --inv-ink:#C9DF9E;
+  --io:#A3B4C4; --io-soft:#232C34; --io-ink:#C9D4DE;
+  --sta:#6EC1DD; --sta-soft:#16303A; --sta-ink:#A6DBEC;
+  --ok:#6CC892; --ok-soft:#173326; --ok-ink:#9EE0B8;
+  --late:#F08A7E; --late-soft:#3D1B17; --late-ink:#F7B5AD; --on-late:#2A0F0B;
+  --due:#E7B45F; --due-soft:#3A2B12; --due-ink:#F2D199;
+  --info:#7FB0E6; --info-soft:#192B40; --info-ink:#B5D2F2;
+  --wood:#8C6A45; --wood-dark:#5E4529; --wood-back:#1E2427; --wood-back-2:#192023; --on-wood:#FFFFFF;
+  --hit:#E8603C; --spine-edge:#7C8587;
+  --shadow-pop:0 18px 40px rgba(0,0,0,.55),0 3px 8px rgba(0,0,0,.4);
+  color-scheme:dark;
+}
+@media (max-width:1180px){:root{--side-w:76px}}

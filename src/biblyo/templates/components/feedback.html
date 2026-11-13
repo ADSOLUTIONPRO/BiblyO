@@ -1,0 +1,34 @@
+{% from "components/icons.html" import icon %}
+
+{# Un état n'est jamais porté par la couleur seule : le libellé, et une pastille, l'accompagnent. #}
+{% macro badge(label, kind="neutral", dot=True) %}
+<span class="badge m-{{ kind }}">{% if dot %}<i aria-hidden="true"></i>{% endif %}{{ label }}</span>
+{%- endmacro %}
+
+{% macro soon_tag(label) %}<span class="soon-tag">{{ label }}</span>{% endmacro %}
+
+{# kind : info, ok, due, late #}
+{% macro alert(text, kind="info", title="") %}
+{% set icons = {"info": "info", "ok": "check", "due": "alert", "late": "alert"} %}
+<div class="callout m-{{ kind }}"{% if kind == "late" %} role="alert"{% else %} role="status"{% endif %}>
+  {{ icon(icons[kind], 18) }}
+  <div>{% if title %}<b>{{ title }}</b>{% endif %}{{ text }}</div>
+</div>
+{%- endmacro %}
+
+{% macro toast(text, kind="ok") %}
+<div class="toast t-{{ kind }}"><span>{{ text }}</span><button type="button" data-close-toast>{{ _("Fermer") }}</button></div>
+{%- endmacro %}
+
+{% macro empty_state(icon_name, title, text="") %}
+<div class="empty">
+  <div class="ill">{{ icon(icon_name, 28) }}</div>
+  <b>{{ title }}</b>
+  {% if text %}<div class="tx">{{ text }}</div>{% endif %}
+  {% if caller is defined %}{{ caller() }}{% endif %}
+</div>
+{%- endmacro %}
+
+{% macro skeleton(lines=3) %}
+<div class="col" aria-hidden="true">{% for _line in range(lines) %}<span class="skel"></span>{% endfor %}</div>
+{%- endmacro %}

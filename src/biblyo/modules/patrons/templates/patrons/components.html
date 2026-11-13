@@ -1,0 +1,70 @@
+{# Composants des lecteurs. Aucune coordonnée ne passe par ces macros : elles ne reçoivent que des repères (D8). #}
+{% from "components/feedback.html" import badge %}
+{% from "components/icons.html" import icon %}
+
+{# La teinte vient du numéro interne : stable pour une même personne, sans rien révéler. #}
+{% macro initials(row, small=False) %}
+<span class="ini{% if small %} sm{% endif %} ini-{{ row.id % 6 }}" aria-hidden="true">{{ row.initials }}</span>
+{%- endmacro %}
+
+{# Les états qui comptent au guichet, jamais portés par la couleur seule. #}
+{% macro states(row) %}
+{{ badge(row.category_label, "rdr" if row.category == "minor" else "io", dot=False) }}
+{% if row.needs_guardian %}{{ badge(_("Responsable à renseigner"), "late") }}{% endif %}
+{% if row.status != "active" %}{{ badge(row.status_label, "neutral") }}{% endif %}
+{%- endmacro %}
+
+{# Repères qui s'ajoutent au nom : année de naissance, commune, premier responsable d'un mineur. #}
+{% macro marks(row, say_none=False) %}
+{% set parts = [] %}
+{% if row.marks.birth_year %}{% set _x = parts.append(_("naissance") ~ " " ~ row.marks.birth_year) %}{% endif %}
+{% if row.marks.city %}{% set _x = parts.append(row.marks.city) %}{% endif %}
+{% if row.marks.guardian %}{% set _x = parts.append(_("resp.") ~ " " ~ row.marks.guardian) %}{% endif %}
+{% if parts %}{{ parts | join(" · ") }}{% elif say_none %}<span class="faint">{{ _("Aucun repère") }}</span>{% endif %}
+{%- endmacro %}
+
+{# Sélecteur de lecteur : au clavier, à la douchette (carte puis Entrée), résultats désambiguïsés. Réutilisé en L4. #}
+{% macro patron_picker(name, label, adults_only=False, help="", value="", value_label="", url="/lecteurs/choix", error="", label_field="") %}
+<div class="fld picker" x-data="patronPicker" data-picker>
+  <label for="{{ name }}-choix">{{ label }}</label>
+  <input type="hidden" name="{{ name }}" value="{{ value }}" x-ref="value">{% if label_field %}<input type="hidden" name="{{ label_field }}" value="{{ value_label }}" x-ref="labelValue">{% endif %}
+  <div class="picked" x-ref="picked"{% if not value %} hidden{% endif %}>
+    <span class="grow b" x-ref="pickedLabel">{{ value_label }}</span>
+    <button class="btn btn-g btn-sm" type="button" x-on:click="clear">{{ _("Changer") }}</button>
+  </div>
+  <div class="in-icon" x-ref="search"{% if value %} hidden{% endif %}>
+    {{ icon("search", 17) }}
+    <input class="in" id="{{ name }}-choix" type="search" name="{{ name }}_texte" autocomplete="off" x-ref="input"
+           role="combobox" aria-autocomplete="list" aria-haspopup="listbox" aria-expanded="false" aria-controls="{{ name }}-options"
+           placeholder="{{ _('Nom, numéro de lecteur ou carte…') }}"
+           hx-post="{{ url }}{% if adults_only %}?adultes=1{% endif %}" hx-params="{{ name }}_texte" hx-trigger="input changed delay:250ms, search"
+           hx-target="#{{ name }}-options" hx-swap="innerHTML" hx-sync="this:replace"
+           x-on:keydown.down.prevent="next" x-on:keydown.up.prevent="previous" x-on:keydown.enter.prevent="enter" x-on:keydown.escape="close">
+  </div>
+  <div class="picker-list" id="{{ name }}-options" role="listbox" aria-label="{{ label }}" x-ref="options" x-on:click="pick"></div>
+  {% if help %}<span class="h">{{ help }}</span>{% endif %}
+  {% if error %}<span class="err">{{ icon("alert", 14) }}<span>{{ error }}</span></span>{% endif %}
+</div>
+{%- endmacro %}
+
+{# Un numéro ambigu n'est jamais deviné : la personne choisit parmi les lectures possibles. #}
+{% macro phone_choice(name, candidates) %}
+{% if candidates %}
+<fieldset class="choice">
+  <legend>{{ _("Quel numéro est le bon ?") }}</legend>
+  {% for candidate in candidates %}<label class="check"><input type="radio" name="{{ name }}" value="{{ candidate.territory or '' }}"><span>{{ candidate.display }} <span class="faint small">{{ candidate.territory_label }}</span></span></label>{% endfor %}
+</fieldset>
+{% endif %}
+{%- endmacro %}
+
+{# Les droits d'un responsable, cochés lien par lien. `key` rend les identifiants uniques sur la page. #}
+{% macro rights_fields(key, relations, relation, can_borrow, is_contact, rank, alone=False) %}
+<div class="fld"><label for="relation-{{ key }}">{{ _("Relation") }}</label><select class="in" id="relation-{{ key }}" name="relation">{% for value, label in relations %}<option value="{{ value }}"{% if value == relation %} selected{% endif %}>{{ label }}</option>{% endfor %}</select></div>
+<fieldset class="choice">
+  <legend>{{ _("Droits accordés") }}</legend>
+  <label class="check" for="emprunte-{{ key }}"><input type="checkbox" id="emprunte-{{ key }}" name="emprunte" value="1"{% if can_borrow %} checked{% endif %}><span>{{ _("Peut emprunter pour cet enfant") }}</span></label>
+  <label class="check" for="contact-{{ key }}"><input type="checkbox" id="contact-{{ key }}" name="contact" value="1"{% if is_contact %} checked{% endif %}><span>{{ _("Peut être contacté à son sujet") }}</span></label>
+  <label class="check" for="seul-{{ key }}"><input type="checkbox" id="seul-{{ key }}" name="seul" value="1"{% if alone %} checked{% endif %}><span>{{ _("L’enfant peut emprunter seul") }} <span class="faint small block">{{ _("Sans adulte au comptoir. Ce responsable doit accepter d’être contacté et avoir une coordonnée utilisable.") }}</span></span></label>
+</fieldset>
+<div class="fld"><label for="rang-{{ key }}">{{ _("Ordre de contact") }}</label><input class="in in-sm" id="rang-{{ key }}" name="rang" type="number" min="1" max="9" value="{{ rank }}"></div>
+{%- endmacro %}

@@ -1,0 +1,16 @@
+{% extends "layouts/base.html" %}
+{% from "components/icons.html" import logo, wordmark %}
+{% block body %}
+<a class="skip" href="#contenu">{{ _("Aller au contenu") }}</a>
+<div class="auth">
+  <a class="auth-brand" href="/" aria-label="{{ _('biblyO, accueil') }}">{{ logo(40) }}{{ wordmark() }}</a>
+  <main id="contenu" class="card auth-card{% block card_class %}{% endblock %}">
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="auth-foot">
+    <a href="/a-propos">{{ _("À propos") }}</a>
+    <span>{{ _("Licence EUPL-1.2") }}</span>
+    {% if source_url %}<a href="{{ source_url }}">{{ _("Code source") }}</a>{% endif %}
+  </footer>
+</div>
+{% endblock %}

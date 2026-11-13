@@ -1,0 +1,166 @@
+{% extends "layouts/base.html" %}
+{% from "components/icons.html" import icon, logo, wordmark %}
+{% from "components/navigation.html" import nav_entry %}
+{% from "components/feedback.html" import toast %}
+{% from "components/overlays.html" import modal, sheet %}
+{% macro sheet_link(label, path, icon_name, color, planned, soon_label) %}
+<a class="sheet-it m-{{ color }}" href="{{ path }}"><span class="icw">{{ icon(icon_name, 18) }}</span><span class="grow">{{ label }}</span>{% if planned %}<span class="soon-tag">{{ soon_label }}</span>{% endif %}</a>
+{%- endmacro %}
+{% block body_attrs %} x-data="shortcuts" @keydown.window="handle"{% endblock %}
+{% block body %}
+<a class="skip" href="#contenu">{{ _("Aller au contenu") }}</a>
+<div class="shell">
+  <nav class="side" aria-label="{{ _('Navigation principale') }}">
+    <a class="brand" href="/" aria-label="{{ _('biblyO, tableau de bord') }}">{{ logo(32, "#0B1A1E") }}{{ wordmark() }}</a>
+    <div class="org" title="{{ library_name }}">
+      {% if library_logo %}<img class="lg lg-img" src="{{ library_logo }}" alt="" width="32" height="32">{% else %}<span class="lg" aria-hidden="true">{{ library_initials }}</span>{% endif %}
+      <div class="grow"><b class="ellip">{{ library_name }}</b><small>{{ _("Organisation") }}</small></div>
+    </div>
+    <div class="side-scroll">
+      {% for group in nav.groups %}
+      <div class="nav-g">
+        <div class="gl">{{ group.label }}</div>
+        {% for item in group.items %}{{ nav_entry(item, nav.soon_label) }}{% endfor %}
+      </div>
+      {% endfor %}
+    </div>
+    <div class="side-foot">
+      {% for item in nav.foot %}{{ nav_entry(item, nav.soon_label) }}{% endfor %}
+      <button type="button" class="nav-i" x-data="themeToggle" @click="toggle" title="{{ _('Changer de thème') }}">
+        <span class="icw"><span x-show="showMoon">{{ icon("moon", 16) }}</span><span x-show="showSun" x-cloak>{{ icon("sun", 16) }}</span></span>
+        <span class="lb" x-text="label">{{ _("Changer de thème") }}</span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="main">
+    <header class="top">
+      <button type="button" class="icon-btn only-m" data-open-dialog="plus" aria-label="{{ _('Menu des pages') }}">{{ icon("menu") }}</button>
+      <a class="only-m top-logo" href="/" aria-label="{{ _('biblyO, tableau de bord') }}">{{ logo(28) }}</a>
+      <button type="button" class="cmdk-btn" data-open-dialog="palette" aria-haspopup="dialog">
+        {{ icon("search", 16) }}<span>{{ _("Rechercher un livre, un lecteur, une page…") if can("patrons.view") else _("Rechercher une page, une action…") }}</span><kbd class="hide-m" aria-hidden="true">⌘ K</kbd>
+      </button>
+      {% if nav.quick_actions %}
+      <div class="qa">
+        {% for action in nav.quick_actions %}
+        {% if action.planned %}
+        <a class="btn btn-s btn-soon" href="{{ action.path }}" title="{{ action.label }} ({{ nav.soon_label }})" aria-label="{{ action.label }}, {{ nav.soon_label | lower }}">{{ icon(action.icon, 16) }}<span class="lbl">{{ action.label }}</span></a>
+        {% else %}
+        <a class="btn btn-{{ 'p' if action.primary else 's' }}" href="{{ action.path }}" title="{{ action.label }}"{% if action.primary %} data-shortcut-new{% endif %}{% if action.key %} data-shortcut-key="{{ action.key }}"{% endif %}>{{ icon(action.icon, 16) }}<span class="hide-t">{{ action.label }}</span></a>
+        {% endif %}
+        {% endfor %}
+      </div>
+      {% endif %}
+      <div class="top-end">
+        {% if nav.scanner %}<a class="icon-btn" href="{{ nav.scanner }}" aria-label="{{ _('Scanner') }}, {{ nav.soon_label | lower }}" title="{{ _('Scanner') }} ({{ nav.soon_label }})">{{ icon("scan") }}</a>{% endif %}
+        <div class="menu-wrap" x-data="dropdown" @click.outside="close" @keydown.escape.window="closeAndRefocus">
+          <button type="button" class="av" x-ref="button" aria-haspopup="true" :aria-expanded="expanded" aria-label="{{ _('Compte :') }} {{ user.display_name }}" @click="toggle">{{ user_initials }}</button>
+          <div class="menu" x-ref="panel" hidden :hidden="closed" @keydown.down.prevent="next" @keydown.up.prevent="previous">
+            <div class="who"><b>{{ user.display_name }}</b><small>{{ user.role_labels | join(", ") }} · {{ library_name }}</small></div>
+            <hr>
+            <a class="mi-i" href="/compte">{{ icon("users", 16) }}{{ _("Mon compte") }}</a>
+            {% if can("admin.users") %}<a class="mi-i" href="/admin/utilisateurs">{{ icon("key", 16) }}{{ _("Utilisateurs") }}</a>{% endif %}
+            <button type="button" class="mi-i" data-open-dialog="raccourcis">{{ icon("keyboard", 16) }}{{ _("Raccourcis clavier") }}</button>
+            <hr>
+            <form method="post" action="/deconnexion">
+              <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+              <button type="submit" class="mi-i">{{ icon("out", 16) }}{{ _("Se déconnecter") }}</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </header>
+    <main id="contenu" class="content">
+      {% block content %}{% endblock %}
+    </main>
+    <footer class="foot">
+      <span>biblyO {{ app_version }}</span>
+      <a href="/a-propos">{{ _("À propos") }}</a>
+      <span>{{ _("Licence EUPL-1.2") }}</span>
+      {% if source_url %}<a href="{{ source_url }}">{{ _("Code source") }}</a>{% endif %}
+    </footer>
+  </div>
+
+  <nav class="bnav bnav-{{ nav.phone | length + (1 if nav.scanner else 0) + 1 }}" aria-label="{{ _('Navigation mobile') }}">
+    {% set short_labels = {"dashboard": _("Accueil"), "catalogue": _("Catalogue"), "prets": _("Prêts")} %}
+    {% for item in nav.phone[:2] %}
+    <a href="{{ item.path }}"{% if item.current %} aria-current="page"{% endif %}>{{ icon(item.icon, 22) }}{{ short_labels[item.code] }}</a>
+    {% endfor %}
+    {% if nav.scanner %}<a href="{{ nav.scanner }}" aria-label="{{ _('Scanner') }}, {{ nav.soon_label | lower }}"><span class="fab">{{ icon("scan", 26) }}</span></a>{% endif %}
+    {% for item in nav.phone[2:] %}
+    <a href="{{ item.path }}"{% if item.current %} aria-current="page"{% endif %}>{{ icon(item.icon, 22) }}{{ short_labels[item.code] }}</a>
+    {% endfor %}
+    <button type="button" data-open-dialog="plus">{{ icon("menu", 22) }}{{ _("Plus") }}</button>
+  </nav>
+</div>
+
+<div id="toasts" role="status" aria-live="polite">{% if flash %}{{ toast(flash[1], flash[0]) }}{% endif %}</div>
+
+{% call sheet("plus", _("Toutes les pages")) %}
+  {% for group in nav.groups %}
+  <section class="sheet-group" aria-label="{{ group.label }}">
+    <h3 class="sheet-gl">{{ group.label }}</h3>
+    {% for item in group.items %}{{ sheet_link(item.label, item.path, item.icon, item.color, item.planned, nav.soon_label) }}{% endfor %}
+  </section>
+  {% endfor %}
+  <section class="sheet-group" aria-label="{{ _('Compte et aide') }}">
+    <h3 class="sheet-gl">{{ _("Compte et aide") }}</h3>
+    {{ sheet_link(_("Mon compte"), "/compte", "users", "rdr", False, nav.soon_label) }}
+    {% for item in nav.foot %}{{ sheet_link(item.label, item.path, item.icon, item.color, item.planned, nav.soon_label) }}{% endfor %}
+    <button type="button" class="sheet-it" x-data="themeToggle" @click="toggle"><span class="icw">{{ icon("moon", 18) }}</span><span class="grow" x-text="label">{{ _("Changer de thème") }}</span></button>
+    <form method="post" action="/deconnexion">
+      <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+      <button type="submit" class="sheet-it"><span class="icw">{{ icon("out", 18) }}</span><span class="grow">{{ _("Se déconnecter") }}</span></button>
+    </form>
+  </section>
+{% endcall %}
+
+{% call modal("raccourcis", _("Raccourcis clavier")) %}
+  <dl class="kbd-list">
+    <dt><kbd>⌘ K</kbd> {{ _("ou") }} <kbd>/</kbd></dt><dd>{{ _("Rechercher une page ou une action") }}</dd>
+    <dt><kbd>?</kbd></dt><dd>{{ _("Afficher cette aide") }}</dd>
+    {% if can("catalogue.edit") %}<dt><kbd>N</kbd></dt><dd>{{ _("Ajouter un livre") }}</dd>{% endif %}
+    {% if can("circulation.lend") %}<dt><kbd>P</kbd></dt><dd>{{ _("Comptoir de prêt") }}</dd><dt><kbd>R</kbd></dt><dd>{{ _("Retour rapide") }}</dd>{% endif %}
+    {% for item in nav.all_items if item.shortcut %}
+    <dt><kbd>G</kbd> {{ _("puis") }} <kbd>{{ item.shortcut | upper }}</kbd></dt><dd>{{ item.label }}</dd>
+    {% endfor %}
+  </dl>
+{% endcall %}
+
+<dialog class="cmdk" id="palette" aria-label="{{ _('Palette de commandes') }}" x-data="palette">
+  <input type="text" id="palette-q" name="q" autofocus autocomplete="off" x-model="query" @input="filter" @keydown.down.prevent="next" @keydown.up.prevent="previous" @keydown.enter.prevent="go" placeholder="{{ _('Rechercher une page, une notice, un lecteur…') if can('patrons.view') else _('Rechercher une page, une action, une notice…') }}" aria-label="{{ _('Rechercher une page, une notice, un lecteur') if can('patrons.view') else _('Rechercher une page, une action, une notice') }}"{% if can("catalogue.view") %} hx-post="/ui/recherche" hx-trigger="input changed delay:150ms" hx-target="#palette-notices" hx-swap="innerHTML"{% endif %}>
+  <div class="res" x-ref="results" @htmx:after-swap="filter">
+    <div data-group id="palette-notices"></div>
+    {% if can("patrons.view") %}<div data-group id="palette-lecteurs" hx-post="/ui/recherche/lecteurs" hx-trigger="input changed delay:200ms from:#palette-q" hx-include="#palette-q" hx-swap="innerHTML" hx-sync="this:replace"></div>{% endif %}
+    {% for group in nav.groups %}
+    <div data-group>
+      <div class="gl">{{ group.label }}</div>
+      {% for item in group.items %}<a class="it m-{{ item.color }}" href="{{ item.path }}"><span class="icw">{{ icon(item.icon, 16) }}</span><span class="grow">{{ item.label }}</span>{% if item.planned %}<span class="soon-tag">{{ nav.soon_label }}</span>{% endif %}</a>{% endfor %}
+    </div>
+    {% endfor %}
+    {% if can("circulation.lend") or can("circulation.history") %}
+    <div data-group>
+      <div class="gl">{{ _("Prêts") }}</div>
+      {% if can("circulation.lend") %}
+      <a class="it m-loan" href="/comptoir"><span class="icw">{{ icon("out", 16) }}</span><span class="grow">{{ _("Comptoir de prêt") }}</span></a>
+      <a class="it m-loan" href="/comptoir/retours"><span class="icw">{{ icon("ret", 16) }}</span><span class="grow">{{ _("Retour rapide") }}</span></a>
+      {% endif %}
+      {% if can("circulation.history") %}
+      <a class="it m-loan" href="/prets"><span class="icw">{{ icon("loans", 16) }}</span><span class="grow">{{ _("Tous les prêts") }}</span></a>
+      <a class="it m-loan" href="/prets?vue=retards"><span class="icw">{{ icon("alert", 16) }}</span><span class="grow">{{ _("Prêts en retard") }}</span></a>
+      <a class="it m-loan" href="/prets/a-rappeler"><span class="icw">{{ icon("bell", 16) }}</span><span class="grow">{{ _("À rappeler") }}</span></a>
+      {% endif %}
+      {% if can("circulation.settings") %}
+      <a class="it m-loan" href="/prets/regles"><span class="icw">{{ icon("gear", 16) }}</span><span class="grow">{{ _("Règles de prêt") }}</span></a>
+      {% endif %}
+    </div>
+    {% endif %}
+    <div data-group>
+      <div class="gl">{{ _("Compte et aide") }}</div>
+      <a class="it" href="/compte"><span class="icw">{{ icon("users", 16) }}</span><span class="grow">{{ _("Mon compte") }}</span></a>
+      {% for item in nav.foot %}<a class="it m-{{ item.color }}" href="{{ item.path }}"><span class="icw">{{ icon(item.icon, 16) }}</span><span class="grow">{{ item.label }}</span>{% if item.planned %}<span class="soon-tag">{{ nav.soon_label }}</span>{% endif %}</a>{% endfor %}
+    </div>
+    <p class="empty" x-cloak x-show="noResult"><b>{{ _("Aucun résultat") }}</b></p>
+  </div>
+</dialog>
+{% endblock %}

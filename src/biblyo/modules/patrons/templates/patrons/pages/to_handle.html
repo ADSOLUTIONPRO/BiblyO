@@ -1,0 +1,30 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header %}
+{% from "components/feedback.html" import empty_state, badge %}
+{% from "components/catalogue.html" import crumbs %}
+{% from "patrons/components.html" import marks %}
+{% macro group(title, rows, total, help) %}
+<section class="card" aria-label="{{ title }}">
+  <div class="card-h"><h2>{{ title }}</h2><span class="badge m-rdr">{{ total | number }}</span></div>
+  {% for row in rows %}<div class="li"><span class="grow"><a class="who-link" href="/lecteurs/{{ row.id }}">{{ row.name }}</a> <span class="mono small faint">{{ row.number }}</span><span class="faint small block">{{ marks(row) }}</span></span></div>{% else %}<div class="card-b"><p class="muted small m0">{{ _("Rien à traiter.") }}</p></div>{% endfor %}
+  {% if total > rows | length %}<div class="card-b"><p class="faint small m0">{{ rows | length }} {{ _("premières fiches sur") }} {{ total | number }}.</p></div>{% endif %}
+  <div class="card-b"><p class="faint small m0">{{ help }}</p></div>
+</section>
+{% endmacro %}
+{% block title %}{{ _("À traiter") }} — biblyO{% endblock %}
+{% block content %}
+{{ crumbs([(_("Lecteurs & familles"), "/lecteurs"), (_("À traiter"), "")]) }}
+{{ page_header(_("À traiter"), _("Ce qui attend une décision. Rien ne change sans une personne."), "rdr", "alert") }}
+<div class="handle-grid">
+  {{ group(_("Majorités à confirmer"), data.majorities, data.counts.majorities, _("D’après la naissance. La confirmation se fait sur la fiche.")) }}
+  {{ group(_("Responsable à renseigner"), data.without_guardian, data.counts.without_guardian, _("Mineurs sans adulte habilité et joignable : aucun prêt possible en L4.")) }}
+  {{ group(_("Adhésions échues"), data.expired, data.counts.expired, _("Le renouvellement se fait sur la fiche.")) }}
+  {{ group(_("Naissance incohérente"), data.incoherent, data.counts.incoherent, _("La catégorie ne correspond pas à la date de naissance.")) }}
+  {% if show_held %}{{ group(_("En conservation"), data.held, data.counts.held, _("L’anonymisation est bloquée tant qu’elle court.")) }}{% endif %}
+  <section class="card" aria-label="{{ _('Foyers vides') }}">
+    <div class="card-h"><h2>{{ _("Foyers vides") }}</h2><span class="badge m-rdr">{{ data.empty_households | length }}</span></div>
+    {% for card in data.empty_households %}<div class="li"><a class="grow who-link" href="/foyers/{{ card.id }}">{{ card.name }}</a>{{ badge(card.kind_label, "neutral", dot=False) }}</div>{% else %}<div class="card-b"><p class="muted small m0">{{ _("Rien à traiter.") }}</p></div>{% endfor %}
+    <div class="card-b"><p class="faint small m0">{{ _("Proposés à l’archivage, jamais supprimés.") }}</p></div>
+  </section>
+</div>
+{% endblock %}

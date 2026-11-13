@@ -1,0 +1,39 @@
+{% from "components/shelves.html" import location_tree %}
+{% from "components/icons.html" import icon %}
+{% from "components/buttons.html" import link_button %}
+
+{# Colonne des pages Étagères. L'arbre devient un volet dépliable sur téléphone. #}
+{% macro aside(tree, unshelved_count, on_unshelved=False) %}
+<div class="tree-list">
+  {{ location_tree(tree, _("Arborescence des emplacements")) }}
+  <a class="tn tn-loose{% if on_unshelved %} on{% endif %}" href="/emplacements/non-ranges"{% if on_unshelved %} aria-current="page"{% endif %}>{{ icon("alert", 15) }}<span class="nm">{{ _("Non rangés") }}</span><span class="c">{{ unshelved_count }}<span class="sr-only"> {{ _("exemplaires") }}</span></span></a>
+  {% if can("locations.manage") %}{{ link_button(_("Nouveau lieu"), "/emplacements/nouveau", "g", "plus", "sm") }}{% endif %}
+</div>
+{%- endmacro %}
+
+{# « Localiser un ouvrage » : un formulaire ordinaire, utilisable au clavier, à la douchette et sans JavaScript. #}
+{% macro finder(query="") %}
+<form class="card find-bar" method="get" action="/emplacements/localiser" role="search">
+  <div class="in-icon grow">{{ icon("locate", 17) }}<input class="in" type="search" name="q" value="{{ query }}" placeholder="{{ _('Localiser un ouvrage : titre, cote, n° d’inventaire…') }}" aria-label="{{ _('Localiser un ouvrage') }}"></div>
+  <button class="btn btn-p" type="submit">{{ _("Localiser") }}</button>
+</form>
+{%- endmacro %}
+
+{# Où se trouve l'ouvrage localisé, et entre quels voisins. #}
+{% macro located_note(located) %}
+<div class="callout m-she mb-s" role="status">
+  {{ icon("pin", 20) }}
+  <div class="grow min0"><b>{{ located.copy.title }}</b> — {{ located.path }}{% if located.position %} · <b>{{ _("position") }} {{ located.position }}</b>{% endif %}
+    {% if located.before or located.after %}<div class="small">{% if located.before %}{{ _("Après « %(title)s »", title=located.before.title) }}{% else %}{{ _("En début d’étagère") }}{% endif %}{% if located.after %}, {{ _("avant « %(title)s »", title=located.after.title) }}{% endif %}</div>{% endif %}
+  </div>
+  {{ link_button(_("Fiche"), "/exemplaires/" ~ located.copy.id, "s", "", "sm") }}
+</div>
+{%- endmacro %}
+
+{% macro layout(tree, unshelved_count, on_unshelved=False) %}
+<details class="tree-phone"><summary class="btn btn-s">{{ icon("list", 16) }}<span>{{ _("Emplacements") }}</span></summary>{{ aside(tree, unshelved_count, on_unshelved) }}</details>
+<div class="layout-aside">
+  <aside class="card tree-side">{{ aside(tree, unshelved_count, on_unshelved) }}</aside>
+  <section class="min0">{{ caller() }}</section>
+</div>
+{%- endmacro %}

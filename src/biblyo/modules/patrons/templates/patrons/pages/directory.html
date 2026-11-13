@@ -1,0 +1,104 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header %}
+{% from "components/buttons.html" import link_button %}
+{% from "components/feedback.html" import empty_state, badge %}
+{% from "components/icons.html" import icon %}
+{% from "patrons/components.html" import initials, states, marks %}
+{% block title %}{{ _("Lecteurs & familles") }} — biblyO{% endblock %}
+{% macro size_select(size, sizes) %}
+<span class="row gap-xs nowrap"><label class="muted small" for="rd-par-page">{{ _("Par page") }}</label><select class="in in-sm" id="rd-par-page" name="par_page">{% for value in sizes %}<option value="{{ value }}"{% if value == size %} selected{% endif %}>{{ value }}</option>{% endfor %}</select></span>
+{% endmacro %}
+{% block content %}
+<div id="zone-lecteurs">
+{% set subtitle = (totals.patrons | number) ~ " " ~ (_("lecteur") if totals.patrons == 1 else _("lecteurs")) ~ " · " ~ (totals.households | number) ~ " " ~ (_("foyer ou structure") if totals.households == 1 else _("foyers et structures")) %}
+{% call page_header(_("Lecteurs & familles"), subtitle, "rdr", "users") %}
+  {% if can("patrons.edit") %}{{ link_button(_("À traiter"), "/lecteurs/a-traiter", "g", "alert") }}{% endif %}
+  {% if can("patrons.register") %}
+  {% if view == "foyers" and can("patrons.edit") %}{{ link_button(_("Nouvelle structure"), "/foyers/structure", "s", "building") }}{% endif %}
+  {{ link_button(_("Nouvelle famille"), "/foyers/nouveau", "s", "users") }}
+  {{ link_button(_("Nouveau lecteur"), "/lecteurs/nouveau", "p", "plus") }}
+  {% endif %}
+{% endcall %}
+
+{# Le texte cherché voyage dans le corps de la requête : chaque bouton de cette zone appartient au formulaire. #}
+<form id="f-lecteurs" method="post" action="/lecteurs/recherche"
+      hx-post="/lecteurs/recherche" hx-trigger="input delay:300ms from:#rd-q, change from:#rd-par-page, submit"
+      hx-target="#zone-lecteurs" hx-select="#zone-lecteurs" hx-swap="outerHTML" hx-sync="this:replace">
+  <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+  <input type="hidden" name="vue" value="{{ view }}">
+  <div class="card cat-bar" role="search">
+  <div class="in-icon grow">
+    {{ icon("search", 17) }}
+    <input id="rd-q" class="in" type="search" name="q" value="{{ query }}" autocomplete="off" aria-label="{{ _('Rechercher un lecteur ou un foyer') }}"
+           placeholder="{% if view == 'foyers' %}{{ _('Nom du foyer ou de l’un de ses membres…') }}{% elif personal %}{{ _('Nom, numéro de lecteur, carte, courriel, téléphone…') }}{% else %}{{ _('Nom, numéro de lecteur, carte…') }}{% endif %}">
+  </div>
+  <div class="chips" role="group" aria-label="{{ _('Vues de l’annuaire') }}">
+    {% for chip in chips %}<button class="chip" type="submit" name="vue" value="{{ chip.code }}" aria-pressed="{{ 'true' if chip.current else 'false' }}">{{ chip.label }}</button>{% endfor %}
+  </div>
+  </div>
+
+{% if homes is not none %}
+  <div class="row between gap-s mb-s"><p class="muted small m0" aria-live="polite">{{ homes.total | number }} {{ _("foyer ou structure") if homes.total == 1 else _("foyers et structures") }}</p>{{ size_select(size, sizes) }}</div>
+  {% if homes.cards %}
+  <div class="hh-grid">
+    {% for card in homes.cards %}
+    <article class="card hh-card">
+      <div class="row between gap-xs">{{ badge(card.kind_label, "io" if card.kind == "structure" else "rdr", dot=False) }}<span class="faint small">{{ card.members | length }} {{ _("membre") if card.members | length == 1 else _("membres") }}</span></div>
+      <h2><a href="/foyers/{{ card.id }}">{{ card.name }}</a></h2>
+      <ul class="hh-members">
+        {% for member in card.members[:6] %}<li><a href="/lecteurs/{{ member.patron_id }}">{{ member.name }}</a> <span class="faint small">{{ member.role_label }}</span></li>{% endfor %}
+        {% if card.members | length > 6 %}<li class="faint small">{{ _("et") }} {{ card.members | length - 6 }} {{ _("autres") }}</li>{% endif %}
+      </ul>
+    </article>
+    {% endfor %}
+  </div>
+  {% elif query %}
+  <section class="card" aria-label="{{ _('Résultats') }}">{{ empty_state("search", _("Aucun résultat"), _("Aucun foyer ni aucune structure ne correspond à cette recherche.")) }}</section>
+  {% else %}
+  <section class="card" aria-label="{{ _('Foyers et structures') }}">{{ empty_state("users", _("Aucun foyer"), _("Une famille ou une structure apparaît ici dès qu’elle est créée.")) }}</section>
+  {% endif %}
+{% else %}
+  <div class="row between gap-s mb-s"><p class="muted small m0" aria-live="polite">{{ result.total | number }} {{ _("lecteur") if result.total == 1 else _("lecteurs") }}{% if result.elsewhere %} · <button class="linkish" type="submit" name="vue" value="archives">{{ result.elsewhere | number }} {{ _("fiche archivée correspond aussi") if result.elsewhere == 1 else _("fiches archivées correspondent aussi") }}</button>{% endif %}</p>{{ size_select(size, sizes) }}</div>
+  {% if result.rows %}
+  <section class="card tbl-m-cards" aria-label="{{ _('Lecteurs') }}">
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <thead><tr><th scope="col">{{ _("Lecteur") }}</th><th scope="col">{{ _("Numéros") }}</th><th scope="col">{{ _("Catégorie") }}</th><th scope="col">{{ _("Foyer") }}</th><th scope="col">{{ _("Repères") }}</th>{% if can("circulation.lend") %}<th scope="col"><span class="sr">{{ _("Actions") }}</span></th>{% endif %}</tr></thead>
+        <tbody>
+          {% for row in result.rows %}
+          <tr>
+            <td><span class="row nowrap gap-xs">{{ initials(row, small=True) }}<a class="who-link" href="/lecteurs/{{ row.id }}">{{ row.name }}</a>{% if row.homonym %}{{ badge(_("Homonyme"), "due", dot=False) }}{% endif %}</span></td>
+            <td><span class="mono small">{{ row.number }}</span>{% if row.marks.card %} <span class="mono small faint">{{ row.marks.card }}</span>{% elif row.status != "anonymized" %} <span class="faint small">{{ _("sans carte") }}</span>{% endif %}{% if row.card_note %}<span class="small block">{{ row.card_note }}</span>{% endif %}</td>
+            <td><span class="row gap-xs">{{ states(row) }}</span></td>
+            <td class="hm">{{ row.marks.household or "" }}</td>
+            <td class="small">{{ marks(row) }}</td>
+            {% if can("circulation.lend") %}<td class="ta-end">{% if row.status == "active" %}<a class="btn btn-s btn-sm" href="/comptoir?lecteur={{ row.id }}" aria-label="{{ _('Nouveau prêt pour') }} {{ row.name }}">{{ _("Prêter") }}</a>{% endif %}</td>{% endif %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+  {% elif query %}
+  <section class="card" aria-label="{{ _('Résultats') }}">{{ empty_state("search", _("Aucun résultat"), _("Aucun lecteur ne correspond à cette recherche dans cette vue.")) }}</section>
+  {% elif view == "tous" %}
+  <section class="card" aria-label="{{ _('Lecteurs') }}">{{ empty_state("users", _("Aucun lecteur"), _("Inscrivez un premier lecteur pour commencer.")) }}</section>
+  {% else %}
+  <section class="card" aria-label="{{ _('Lecteurs') }}">{{ empty_state("check", _("Rien dans cette vue"), _("Aucune fiche ne correspond à ce filtre.")) }}</section>
+  {% endif %}
+{% endif %}
+
+{% if pages > 1 %}
+<nav class="pager" aria-label="{{ _('Pagination') }}">
+  {% if page > 1 %}<button type="submit" name="page" value="{{ page - 1 }}" rel="prev" aria-label="{{ _('Page précédente') }}">‹</button>{% endif %}
+  {% for number in window %}
+    {% if number is none %}<span class="gap">…</span>
+    {% elif number == page %}<span aria-current="page">{{ number }}</span>
+    {% else %}<button type="submit" name="page" value="{{ number }}" aria-label="{{ _('Page') }} {{ number }}">{{ number }}</button>{% endif %}
+  {% endfor %}
+  {% if page < pages %}<button type="submit" name="page" value="{{ page + 1 }}" rel="next" aria-label="{{ _('Page suivante') }}">›</button>{% endif %}
+</nav>
+{% endif %}
+</form>
+</div>
+{% endblock %}

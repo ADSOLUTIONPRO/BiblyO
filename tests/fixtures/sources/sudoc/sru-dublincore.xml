@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?xml-stylesheet type="text/xsl" href="https://www.sudoc.abes.fr/cbs/sru/DB=2.1/?xsl=searchRetrieveResponse" ?>
+<srw:searchRetrieveResponse xmlns:srw="http://www.loc.gov/zing/srw/"
+			    xmlns:dc="http://purl.org/dc/elements/1.1/"
+			    xmlns:diag="http://www.loc.gov/zing/srw/diagnostic/"
+			    xmlns:xcql="http://www.loc.gov/zing/cql/xcql/">
+    <srw:version>1.1</srw:version>
+    <srw:numberOfRecords>1</srw:numberOfRecords>
+    <srw:resultSetId></srw:resultSetId>
+    <srw:records>
+    
+	
+	    <srw:record>
+	    <srw:recordSchema>info:srw/schema/1/dc-v1.1</srw:recordSchema>
+	    <srw:recordPacking>xml</srw:recordPacking>
+	    <srw:recordData>
+	    <dc:dc>
+	    
+	    <dc:title>Le Petit Prince</dc:title>
+	    
+	    <dc:creator>Saint-Exupéry, Antoine de (1900-1944)</dc:creator><dc:date>2007</dc:date><dc:identifier> (5,60 EUR)</dc:identifier>
+	    </dc:dc>
+	    </srw:recordData>
+	    <srw:recordPosition>1</srw:recordPosition>
+	    </srw:record> 
+	
+    
+</srw:records>
+    <srw:echoedSearchRetrieveRequest>
+	<srw:version>1.1</srw:version>
+	<srw:query>isb%3D9782070612758</srw:query>
+	<srw:xQuery><xcql:searchClause><xcql:index>isb</xcql:index><xcql:relation><xcql:value>=</xcql:value></xcql:relation><xcql:term>9782070612758</xcql:term></xcql:searchClause></srw:xQuery>
+	<startRecord>1</startRecord>
+	<maximumRecords>1</maximumRecords>
+	<srw:recordPacking>xml</srw:recordPacking>
+	<srw:recordSchema>info:srw/schema/1/dc-v1.1</srw:recordSchema>
+	
+	<srw:stylesheet>https://www.sudoc.abes.fr/cbs/sru/DB=2.1/?xsl=searchRetrieveResponse</srw:stylesheet>
+    </srw:echoedSearchRetrieveRequest>
+    <diag:diagnostics>
+        <diag:uri>info:srw/diagnostic/1/0</diag:uri>
+	
+	
+    </diag:diagnostics>
+    <srw:extraResponseData/>
+</srw:searchRetrieveResponse>

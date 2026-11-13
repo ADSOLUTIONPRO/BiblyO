@@ -1,0 +1,14 @@
+{# Livres sortis qui répondent à la recherche : on choisit celui qui revient. Sans l'historique, aucun emprunteur. #}
+{% from "components/feedback.html" import badge %}
+{% if rows %}
+<ul class="plain mt-xs" aria-label="{{ _('Livres sortis') }}">
+  {% for row in rows %}
+  <li class="row gap-s"><span class="grow min0"><b>{{ row.title }}</b> <span class="mono small">{{ row.barcode }}</span>
+    <span class="faint small block">{{ _("retour prévu le") }} {{ row.due_label }}{% if history and row.borrower %} · {{ row.borrower.name }}{% endif %}</span></span>
+    {% if row.late %}{{ badge(_("En retard"), "late") }}{% endif %}
+    <button type="submit" class="btn btn-s btn-sm" hx-post="/comptoir/retours/pret/{{ row.id }}" formaction="/comptoir/retours/pret/{{ row.id }}" hx-target="#retours-lignes" hx-swap="afterbegin" aria-label="{{ _('Enregistrer le retour de') }} {{ row.title }}, {{ row.barcode }}">{{ _("Rendre") }}</button></li>
+  {% endfor %}
+</ul>
+{% elif query %}
+<p class="muted small mt-xs" role="status">{{ _("Aucun livre sorti ne correspond à cette recherche.") }}</p>
+{% endif %}

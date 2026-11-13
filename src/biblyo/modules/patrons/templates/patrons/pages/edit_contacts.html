@@ -1,0 +1,34 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header %}
+{% from "components/buttons.html" import button, link_button %}
+{% from "components/feedback.html" import alert %}
+{% from "components/forms.html" import field %}
+{% from "components/catalogue.html" import crumbs %}
+{% from "patrons/components.html" import phone_choice %}
+{% block title %}{{ _("Coordonnées de") }} {{ name }} — biblyO{% endblock %}
+{% block content %}
+{{ crumbs([(_("Lecteurs & familles"), "/lecteurs"), (name, "/lecteurs/" ~ patron.id), (_("Coordonnées"), "")]) }}
+{{ page_header(_("Modifier les coordonnées"), name ~ " · " ~ patron.number, "rdr", "edit") }}
+{% if message %}{{ alert(message, "late") }}{% endif %}
+<section class="card" aria-label="{{ _('Coordonnées') }}">
+  <div class="card-b">
+    <form class="form col gap-m" method="post" action="/lecteurs/{{ patron.id }}/coordonnees" novalidate>
+      <input type="hidden" name="_csrf" value="{{ csrf_token }}"><input type="hidden" name="version" value="{{ patron.version }}">
+      <div class="grid g2">
+        {{ field("courriel", _("Courriel"), values.courriel, type="email", error=errors.get("courriel"), autocomplete="off") }}
+        <div class="col gap-s">
+          {{ field("telephone", _("Téléphone"), values.telephone, type="tel", error=errors.get("telephone"), help=_("Métropole, outre-mer ou étranger, avec son indicatif (+44…)."), autocomplete="off") }}
+          {{ phone_choice("telephone_territoire", phone_choices.get("telephone")) }}
+        </div>
+      </div>
+      {{ field("adresse_ligne1", _("Adresse"), values.adresse_ligne1, error=errors.get("adresse"), autocomplete="off") }}
+      {{ field("adresse_ligne2", _("Complément d’adresse"), values.adresse_ligne2, autocomplete="off") }}
+      <div class="grid g2">
+        {{ field("code_postal", _("Code postal"), values.code_postal, inputmode="numeric", autocomplete="off") }}
+        {{ field("ville", _("Commune"), values.ville, autocomplete="off") }}
+      </div>
+      <div class="form-actions">{{ button(_("Enregistrer"), "p", "check", type="submit") }}{{ link_button(_("Annuler"), "/lecteurs/" ~ patron.id, "g") }}</div>
+    </form>
+  </div>
+</section>
+{% endblock %}

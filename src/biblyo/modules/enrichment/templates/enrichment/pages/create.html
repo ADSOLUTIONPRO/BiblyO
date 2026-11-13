@@ -1,0 +1,57 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header %}
+{% from "components/buttons.html" import button, link_button %}
+{% from "components/feedback.html" import badge, alert %}
+{% from "components/icons.html" import icon %}
+{% block title %}{{ _("Créer une notice depuis une source") }} — biblyO{% endblock %}
+{% block content %}
+{% set c = plan.candidate %}{% set label = class_labels.get(plan.match_class, (plan.match_class, "neutral")) %}
+{% call page_header(_("Créer une notice depuis la {source}").format(source=plan.source_label), _("Vérifiez que ce résultat décrit bien le livre en main. Vous relirez et corrigerez ensuite chaque champ avant l’enregistrement."), "enr", "plus") %}
+  {{ link_button(_("Retour à la recherche"), "/sources", "g", "undo") }}
+{% endcall %}
+
+<section class="card" aria-labelledby="cr-resultat">
+  <div class="card-h"><h2 id="cr-resultat">{{ c.work.title.value }}</h2>{{ badge(label[0], label[1]) }}</div>
+  <div class="card-b">
+    <dl class="dlist">
+      <dt>{{ _("Auteurs") }}</dt><dd>{% for p in c.work.contributors %}{{ p.name }}{% if not loop.last %}, {% endif %}{% endfor %}{% if not c.work.contributors %}—{% endif %}</dd>
+      <dt>{{ _("Éditeur") }}</dt><dd>{{ c.edition.publisher.value if c.edition.publisher else "—" }}{% if c.edition.year %} · {{ c.edition.year.raw }}{% endif %}</dd>
+      <dt>{{ _("ISBN") }}</dt><dd class="mono">{{ c.edition.isbn13 | join(", ") or "—" }}</dd>
+      <dt>{{ _("Pages") }}</dt><dd>{{ c.edition.pages.raw if c.edition.pages else "—" }}</dd>
+    </dl>
+    <p class="small muted mt-s m0">{{ _("Notice {id} ({agency}).").format(id=c.external_id, agency=c.source_agency) }} <a class="plain-link" href="{{ c.url }}" rel="noopener">{{ _("Voir la notice") }} {{ icon("open", 12) }}</a></p>
+  </div>
+</section>
+
+{% if plan.duplicates %}
+{{ alert(_("Vérifiez les notices ci-dessous avant de créer une notice."), "due", _("Ce livre est peut-être déjà au catalogue.")) }}
+<section class="card" aria-labelledby="cr-doublons">
+  <div class="card-h"><h2 id="cr-doublons">{{ _("Notices proches déjà présentes") }}</h2></div>
+  <div class="card-b">
+    <ul class="plain">{% for d in plan.duplicates %}<li><a href="/catalogue/notices/{{ d.work_id }}">{{ d.title }}</a> <span class="muted small">— {{ d.reason }}</span>{% if can("enrichment.search") %} · <a class="plain-link small" href="/catalogue/notices/{{ d.work_id }}/enrichir">{{ _("enrichir cette notice plutôt") }}</a>{% endif %}</li>{% endfor %}</ul>
+    <p class="muted small m0 mt-s">{{ _("Pour un nouvel exemplaire d’un livre déjà présent, ajoutez-le depuis sa fiche : ne créez pas de notice.") }}</p>
+  </div>
+</section>
+{% endif %}
+
+<form method="get" action="/catalogue/notices/nouvelle" class="form">
+  <input type="hidden" name="depuis" value="{{ plan.proposal_id }}">
+  <section class="card" aria-labelledby="cr-verifier">
+    <div class="card-h"><h2 id="cr-verifier">{{ _("Vérifier") }}</h2></div>
+    <div class="card-b stack">
+      {% if plan.match_class in ("uncertain", "multiple") %}
+        {{ alert(_("Résultat ambigu : plusieurs éditions sont possibles. Confirmez l’édition sur le livre avant de continuer."), "due") }}
+        <label class="check" for="edition-verifiee"><input type="checkbox" id="edition-verifiee" name="edition_verifiee" value="1" required><span>{{ _("J’ai le livre en main : cette édition (éditeur, année, ISBN) est la sienne") }}</span></label>
+      {% else %}<input type="hidden" name="edition_verifiee" value="1">{% endif %}
+      {% if c.edition.isbn13 and plan.match_class != "exact" %}
+        <label class="check" for="isbn-verifie"><input type="checkbox" id="isbn-verifie" name="isbn_verifie" value="1"><span>{{ _("J’ai vérifié l’ISBN {isbn} sur le livre").format(isbn=c.edition.isbn13[0]) }}<span class="h">{{ _("Sans cette case, l’ISBN n’est pas prérempli : il reste proposé, à vérifier.") }}</span></span></label>
+      {% endif %}
+      <ul class="plain small muted">{% for h in plan.hints %}<li>{{ h }}</li>{% endfor %}</ul>
+    </div>
+  </section>
+  <div class="form-actions">
+    {{ button(_("Continuer vers le formulaire"), "p", "edit", type="submit") }}
+    {{ link_button(_("Annuler"), "/sources", "g") }}
+  </div>
+</form>
+{% endblock %}

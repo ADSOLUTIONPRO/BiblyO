@@ -1,0 +1,179 @@
+{% from "components/icons.html" import icon %}
+{#- Dessins d'étagères (plan de L2, section 3). Les vues viennent de modules/holdings/drawing.py.
+    Aucun style en ligne : largeurs, hauteurs, couleurs et places sur le plan sont des classes ; les barres sont en SVG. -#}
+
+{# Barre de remplissage. Sans libellé, elle est décorative : le texte voisin porte le sens. #}
+{% macro fill_bar(fill, label="") %}
+{%- if fill.capacity is not none -%}
+<svg class="fillbar fill-{{ fill.state }}" viewBox="0 0 100 6" preserveAspectRatio="none" focusable="false"{% if label %} role="img" aria-label="{{ label }}"{% else %} aria-hidden="true"{% endif %}><rect class="fb-track" width="100" height="6"/><rect class="fb-value" width="{{ fill.percent }}" height="6"/></svg>
+{%- endif -%}
+{%- endmacro %}
+
+{# Un dos : un lien nommé, le titre en écriture verticale, le tome en pied. L'état est doublé d'un pictogramme.
+   En mode Rangement : le lien choisit le dos ; une fois un dos choisi, chaque autre dos offre « Placer avant ». #}
+{% macro spine(s, show_position=False, arrange=none, level=none) %}
+<li class="spi{% if s.group_edge %} grp g-{{ s.group_edge }} cv-{{ s.color }}{% endif %}" id="dos-{{ s.copy_id }}"{% if arrange %} data-copy="{{ s.copy_id }}" data-version="{{ s.version }}" data-rank="{{ s.position }}"{% endif %}>
+  {% if arrange and arrange.selected and arrange.selected != s.copy_id %}<button class="ins" type="submit" form="f-ins-{{ level.id }}" name="rang" value="{{ s.position }}" aria-label="{{ _('Placer avant « %(title)s », position %(n)s', title=s.title, n=s.position) }}"><span aria-hidden="true">+</span></button>{% endif %}
+  <a class="{{ s.classes }}{% if arrange and arrange.selected == s.copy_id %} sel{% endif %}" href="{% if arrange %}{{ arrange.base }}&amp;choisi={{ s.copy_id }}#dos-{{ s.copy_id }}{% else %}{{ s.href }}{% endif %}" title="{{ s.label }}" aria-label="{% if arrange %}{{ _('Choisir pour le déplacer :') }} {% endif %}{{ s.label }}"{% if s.hit %} aria-current="location"{% elif arrange and arrange.selected == s.copy_id %} aria-current="true"{% endif %}{% if arrange %} draggable="true"{% endif %}>
+    <span class="band" aria-hidden="true">{% if show_position and s.position %}{{ s.position }}{% endif %}</span>
+    <span class="tx" aria-hidden="true">{{ s.title }}</span>
+    {% if s.state_icon %}<span class="st" aria-hidden="true">{{ icon(s.state_icon, 12) }}</span>{% endif %}
+    <span class="no" aria-hidden="true">{{ s.volume or "" }}</span>
+  </a>
+</li>
+{%- endmacro %}
+
+{# Places libres : jusqu'à six cases en pointillés, puis « +N places ». #}
+{% macro free_slots(level) %}
+{%- if level.free_slots -%}
+<span class="slots" aria-hidden="true">{% for _index in range(level.free_slots) %}<span class="slot"></span>{% endfor %}</span>
+{%- endif -%}
+{%- if level.more_free -%}
+<span class="more-free" aria-hidden="true">{{ level.more_free_text }}</span>
+{%- endif -%}
+{%- endmacro %}
+
+{# Un niveau : son étiquette, ses dos dans l'ordre réel (liste ordonnée), ses places libres, la planche. #}
+{% macro shelf_level(level, heading=3, show_positions=False, arrange=none) %}
+<section class="lvl{% if level.focus %} focus{% endif %} fill-{{ level.fill.state }}" aria-labelledby="lv-{{ level.id }}-t"{% if arrange %} data-level="{{ level.id }}" data-level-version="{{ level.version }}" data-count="{{ level.fill.count }}"{% endif %}>
+  <div class="level">
+    <h{{ heading }} class="level-lab" id="lv-{{ level.id }}-t"><a href="{{ level.href }}">{{ level.caption }}<span class="sr-only"> — {{ level.fill_text }}</span></a></h{{ heading }}>
+    {% if level.fill.state == "over" %}<span class="lvl-over" aria-hidden="true">{{ icon("alert", 12) }}{{ _("dépassée de %(n)s", n=level.fill.excess) }}</span>{% endif %}
+    {% if level.spines %}
+    <ol class="spines">
+      {% for item in level.spines %}{{ spine(item, show_positions, arrange, level) }}{% endfor %}
+    </ol>
+    {% else %}
+    <p class="sr-only">{{ _("Aucun exemplaire sur ce niveau.") }}</p>
+    {% endif %}
+    {% if level.hidden %}<a class="more-free" href="{{ level.href }}?vue=liste">{{ _("+%(n)s dans la vue Liste", n=level.hidden) }}</a>{% endif %}
+    {% if arrange and arrange.selected %}<button class="ins ins-end" type="submit" form="f-ins-{{ level.id }}" name="rang" value="{{ level.fill.count + 1 }}" aria-label="{{ _('Placer à la fin de %(name)s', name=level.name) }}"><span aria-hidden="true">+</span></button>{% endif %}
+    {{ free_slots(level) }}
+  </div>
+  <div class="board" aria-hidden="true"></div>
+  {% if arrange %}
+  <div class="lvl-tools">
+    <a class="chip" href="/emplacements/{{ level.id }}/trier?retour={{ arrange.place }}">{{ _("Trier %(name)s", name=level.name) }}</a>
+  </div>
+  {% if arrange.selected %}
+  <form id="f-ins-{{ level.id }}" method="post" action="/emplacements/ranger">
+    <input type="hidden" name="_csrf" value="{{ arrange.csrf }}"><input type="hidden" name="copie" value="{{ arrange.selected }}"><input type="hidden" name="version" value="{{ arrange.selected_version }}"><input type="hidden" name="lieu" value="{{ level.id }}"><input type="hidden" name="version_lieu" value="{{ level.version }}"><input type="hidden" name="retour" value="{{ arrange.place }}">
+  </form>
+  {% endif %}
+  {% endif %}
+</section>
+{%- endmacro %}
+
+{# Un meuble en élévation. #}
+{% macro shelf_unit(unit, heading=2, show_positions=False, arrange=none) %}
+<section class="unit" aria-labelledby="unit-{{ unit.id }}-t">
+  <div class="unit-h">
+    {{ icon("shelf", 16) }}
+    <h{{ heading }} id="unit-{{ unit.id }}-t"><a href="{{ unit.href }}">{{ unit.name }}</a></h{{ heading }}>
+    {% if unit.code %}<span class="unit-code">{{ unit.code }}</span>{% endif %}
+    {% if unit.hint %}<small>{{ unit.hint }}</small>{% endif %}
+    <small class="unit-n">{{ unit.count_text }}</small>
+  </div>
+  {% for level in unit.levels %}{{ shelf_level(level, heading + 1, show_positions, arrange) }}{% endfor %}
+</section>
+{%- endmacro %}
+
+{# Légende des dessins : chaque état a sa forme, pas seulement sa couleur. #}
+{% macro shelf_legend() %}
+<ul class="shelf-legend" aria-label="{{ _('Légende') }}">
+  <li><span class="lg lg-in" aria-hidden="true"></span>{{ _("En place") }}</li>
+  <li><span class="lg lg-prep" aria-hidden="true"></span>{{ icon("clock", 12) }}{{ _("En préparation") }}</li>
+  <li><span class="lg lg-in" aria-hidden="true"></span>{{ icon("gear", 12) }}{{ _("En réparation") }}</li>
+  <li><span class="lg lg-in" aria-hidden="true"></span>{{ icon("alert", 12) }}{{ _("Introuvable") }}</li>
+  <li><span class="lg lg-out" aria-hidden="true"></span>{{ icon("out", 12) }}{{ _("Sorti : garde sa place") }}</li>
+  <li><span class="lg lg-out lg-late" aria-hidden="true"></span>{{ icon("out", 12) }}{{ _("Sorti, en retard") }}</li>
+  <li><span class="lg lg-slot" aria-hidden="true"></span>{{ _("Place libre") }}</li>
+  <li><span class="lg lg-hit" aria-hidden="true"></span>{{ _("Ouvrage localisé") }}</li>
+</ul>
+{%- endmacro %}
+
+{# Arbre des emplacements : listes imbriquées de liens, nombre d'exemplaires et remplissage des niveaux. #}
+{% macro location_tree(nodes, label) %}
+<nav class="loc-tree" aria-label="{{ label }}">
+  <ul>{% for node in nodes %}{{ tree_node(node) }}{% endfor %}</ul>
+</nav>
+{%- endmacro %}
+
+{% macro tree_node(node) %}
+<li>
+  <a class="tn tn-{{ node.kind }}{% if node.current %} on{% endif %}{% if not node.active %} off{% endif %}" href="{{ node.href }}"{% if node.current %} aria-current="page"{% endif %}>
+    {{ icon(node.icon, 15) }}
+    <span class="nm">{{ node.name }}{% if not node.active %} <span class="tn-off">{{ _("désactivé") }}</span>{% endif %}</span>
+    {% if node.fill and node.fill.capacity is not none %}
+    <span class="c">{{ node.fill.count }}/{{ node.fill.capacity }}<span class="sr-only"> {{ _("places") }}</span></span>
+    {{ fill_bar(node.fill) }}
+    {% else %}
+    <span class="c">{{ node.count }}<span class="sr-only"> {{ _("exemplaires") }}</span></span>
+    {% endif %}
+  </a>
+  {% if node.children and node.open %}<ul>{% for child in node.children %}{{ tree_node(child) }}{% endfor %}</ul>{% endif %}
+</li>
+{%- endmacro %}
+
+{# Plan d'une salle (D5) : les meubles à leur place sur la grille. Sous 768 px, la même liste, sans la grille (D13). #}
+{% macro room_plan(plan, label) %}
+<div class="room-scroll">
+<ul class="room-plan {{ plan.grid_classes }}" aria-label="{{ label }}">
+  {% for tile in plan.placed %}{{ room_tile(tile) }}{% endfor %}
+</ul>
+</div>
+{% if plan.unplaced %}
+<p class="room-off">{{ _("Hors plan") }}</p>
+<ul class="room-plan" aria-label="{{ _('Meubles hors plan') }}">
+  {% for tile in plan.unplaced %}{{ room_tile(tile) }}{% endfor %}
+</ul>
+{% endif %}
+{%- endmacro %}
+
+{% macro room_tile(tile) %}
+<li class="{{ tile.grid_classes }}">
+  <a class="furn{% if tile.current %} on{% endif %}" href="{{ tile.href }}"{% if tile.current %} aria-current="page"{% endif %}>
+    <b>{{ tile.name }}</b>
+    <span class="furn-s">{{ tile.summary }}</span>
+    {% if tile.levels %}
+    <svg class="mini-u" viewBox="0 0 200 {{ tile.levels|length * 12 }}" preserveAspectRatio="none" focusable="false" aria-hidden="true">
+      {%- for percent in tile.levels %}<rect class="mu-back" y="{{ loop.index0 * 12 }}" width="200" height="9"/><rect class="mu-fill" y="{{ loop.index0 * 12 }}" width="{{ percent * 2 }}" height="9"/>{% endfor -%}
+    </svg>
+    {% endif %}
+  </a>
+</li>
+{%- endmacro %}
+
+{# Vue Liste : la même information que le dessin, en tableau. Équivalent accessible complet. #}
+{% macro shelf_table(unit, selectable=False) %}
+{% from "components/feedback.html" import badge %}
+{% if selectable %}<form method="get" action="/emplacements/deplacer-groupe">{% endif %}
+{% for level in unit.levels %}
+<section class="card tbl-m-cards mb-s" aria-labelledby="liste-{{ level.id }}">
+  <div class="card-h"><h2 id="liste-{{ level.id }}"><a class="plain-link" href="{{ level.href }}">{{ level.name }}</a> <small class="muted">{{ level.fill_text }}</small></h2></div>
+  {% if level.spines %}
+  <div class="tbl-wrap shelf-tbl">
+    <table class="tbl">
+      <caption class="sr">{{ _("Exemplaires de %(name)s, dans l’ordre réel", name=level.name) }}</caption>
+      <thead><tr>{% if selectable %}<th scope="col"><span class="sr">{{ _("Sélection") }}</span></th>{% endif %}<th scope="col">{{ _("Position") }}</th><th scope="col">{{ _("Titre") }}</th><th scope="col">{{ _("Cote") }}</th><th scope="col">{{ _("État") }}</th><th scope="col">{{ _("Statut") }}</th></tr></thead>
+      <tbody>
+        {% for s in level.spines %}
+        <tr{% if s.hit %} class="row-hit"{% endif %}>
+          {% if selectable %}<td><input class="pick" type="checkbox" name="exemplaire" value="{{ s.copy_id }}" aria-label="{{ _('Sélectionner %(title)s', title=s.title) }}"></td>{% endif %}
+          <td class="num">{{ s.position }}</td>
+          <td><a class="t" href="{{ s.href }}"{% if s.hit %} aria-current="location"{% endif %}>{{ s.title }}</a>{% if s.volume %} <span class="muted small">{{ _("tome") }} {{ s.volume }}</span>{% endif %}<div class="mono faint small">{{ s.barcode }}</div></td>
+          <td><span class="mono nowrap">{{ s.call_number or "—" }}</span></td>
+          <td>{{ s.condition_label or "—" }}</td>
+          <td>{{ badge(s.status_text, s.status_badge) }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="card-b"><p class="muted m0">{{ _("Aucun exemplaire sur ce niveau.") }}</p></div>
+  {% endif %}
+</section>
+{% endfor %}
+{% if selectable %}<div class="form-actions"><button class="btn btn-s" type="submit">{{ _("Déplacer la sélection") }}</button></div></form>{% endif %}
+{%- endmacro %}

@@ -1,0 +1,21 @@
+{% from "components/icons.html" import icon %}
+
+{# variant : p (principal), s (secondaire), g (discret), d (danger), dg (danger discret) ; size : sm, lg #}
+{% macro _classes(variant, size, extra) %}btn btn-{{ variant }}{% if size %} btn-{{ size }}{% endif %}{% if extra %} {{ extra }}{% endif %}{% endmacro %}
+
+{% macro button(label, variant="s", icon_name="", size="", type="button", kbd="", disabled=False, name="", value="", extra="", aria_label="") %}
+<button type="{{ type }}" class="{{ _classes(variant, size, extra) }}"{% if name %} name="{{ name }}" value="{{ value }}"{% endif %}{% if disabled %} disabled{% endif %}{% if aria_label %} aria-label="{{ aria_label }}"{% endif %}>
+  {%- if icon_name %}{{ icon(icon_name, 16) }}{% endif %}<span>{{ label }}</span>{% if kbd %} <kbd>{{ kbd }}</kbd>{% endif -%}
+</button>
+{%- endmacro %}
+
+{# Lien présenté comme un bouton : il mène à une page, il n'exécute rien. #}
+{% macro link_button(label, href, variant="s", icon_name="", size="", extra="", aria_label="", title="") %}
+<a href="{{ href }}" class="{{ _classes(variant, size, extra) }}"{% if aria_label %} aria-label="{{ aria_label }}"{% endif %}{% if title %} title="{{ title }}"{% endif %}>
+  {%- if icon_name %}{{ icon(icon_name, 16) }}{% endif %}<span class="lbl">{{ label }}</span>
+</a>
+{%- endmacro %}
+
+{% macro icon_button(label, icon_name, data_open="") %}
+<button type="button" class="icon-btn" aria-label="{{ label }}" title="{{ label }}"{% if data_open %} data-open-dialog="{{ data_open }}"{% endif %}>{{ icon(icon_name) }}</button>
+{%- endmacro %}

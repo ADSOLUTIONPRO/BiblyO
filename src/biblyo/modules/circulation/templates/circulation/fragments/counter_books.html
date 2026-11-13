@@ -1,0 +1,39 @@
+{# Le catalogue au comptoir : chaque livre dit d'emblée s'il peut sortir. Ajouter ne valide rien. #}
+{% from "components/feedback.html" import badge %}
+{% from "components/icons.html" import icon %}
+{% from "components/catalogue.html" import mini %}
+{% from "components/availability.html" import work_badge %}
+{% if books.options %}
+<ul class="desk-pick-list" aria-label="{{ _('Livres') }}">
+  {% for option in books.options %}{% set card = option.card %}
+  <li class="desk-pick-book">
+    {{ mini(card.title, card.color, card.thumbnail) }}
+    <span class="grow min0"><b>{{ card.title }}</b>
+      <span class="muted small block">{% if card.authors_text %}{{ card.authors_text }} · {% endif %}{% if card.series_title %}{{ card.series_title }}{% if card.volume_text %}, {{ _("tome") }} {{ card.volume_text }}{% endif %} · {% endif %}{{ card.type_label }}</span>
+      <span class="row gap-xs mt-xs">{{ work_badge(card.availability) }}{% if card.availability and card.availability.total > 1 %}<span class="faint small">{{ card.availability.total }} {{ _("exemplaires") }}</span>{% endif %}{% if option.in_cart %}{{ badge(_("Dans la sélection"), "neutral", dot=False) }}{% endif %}</span>
+    </span>
+    <span class="desk-pick-act">
+      {% if option.loanable | length == 1 and not option.in_cart %}
+      <button type="submit" class="btn btn-s btn-sm" name="ajouter" value="{{ option.loanable[0] }}" hx-post="/comptoir/etat" formaction="/comptoir/etat" hx-target="#comptoir-etat" aria-label="{{ _('Ajouter') }} « {{ card.title }} »">{{ icon("plus", 14) }}<span>{{ _("Ajouter") }}</span></button>
+      {% else %}
+      <button type="submit" class="btn btn-g btn-sm" hx-post="/comptoir/livres/{{ card.id }}/exemplaires" formaction="/comptoir/livres/{{ card.id }}/exemplaires" hx-target="#cp-ex-{{ card.id }}" hx-swap="innerHTML" data-focus-after="#cp-ex-{{ card.id }}" aria-expanded="false" aria-label="{{ (_('Choisir l’exemplaire de') if option.loanable else _('Voir les exemplaires de')) }} « {{ card.title }} »">{{ _("Choisir l’exemplaire") if option.loanable else _("Voir les exemplaires") }}</button>
+      {% endif %}
+    </span>
+    <div class="desk-pick-copies" id="cp-ex-{{ card.id }}" tabindex="-1"></div>
+  </li>
+  {% endfor %}
+</ul>
+{% if books.pages > 1 or books.page > 1 %}
+<div class="row gap-s between desk-pick-more">
+  <span class="faint small">{{ _("Page") }} {{ books.page }}{% if books.total >= 0 %} / {{ books.pages }} · {{ books.total }} {{ _("livres") }}{% endif %}</span>
+  <span class="row gap-xs">
+    {% if books.page > 1 %}<button type="submit" class="btn btn-g btn-sm" name="livre_page" value="{{ books.page - 1 }}" hx-post="/comptoir/livres" formaction="/comptoir/livres" hx-target="#cp-livres" hx-swap="innerHTML" data-focus-after="#cp-livre-q">{{ _("Précédents") }}</button>{% endif %}
+    {% if books.has_more %}<button type="submit" class="btn btn-s btn-sm" name="livre_page" value="{{ books.page + 1 }}" hx-post="/comptoir/livres" formaction="/comptoir/livres" hx-target="#cp-livres" hx-swap="innerHTML" data-focus-after="#cp-livre-q">{{ _("Livres suivants") }}</button>{% endif %}
+  </span>
+</div>
+{% endif %}
+{% elif books.query %}
+<p class="desk-pick-none muted" role="status">{{ _("Aucun livre ne correspond à cette recherche. Essayez le titre, l’auteur ou la série.") }}</p>
+{% else %}
+<p class="desk-pick-none muted" role="status">{{ _("Aucun livre n’a encore d’exemplaire à prêter.") }}</p>
+{% endif %}

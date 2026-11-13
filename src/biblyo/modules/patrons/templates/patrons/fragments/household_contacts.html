@@ -1,0 +1,7 @@
+{% from "components/icons.html" import icon %}
+<div class="col gap-s" id="zone-coordonnees">
+  {% if lines %}
+  <dl class="dlist">{% for line in lines %}<div><dt>{{ {"email": _("Courriel"), "phone": _("Téléphone"), "address": _("Adresse")}[line.kind] }}{% if line.label_text %} · {{ line.label_text }}{% endif %}</dt><dd>{{ line.display }}</dd></div>{% endfor %}</dl>
+  {% else %}<p class="muted small m0">{{ _("Aucune coordonnée partagée.") }}</p>{% endif %}
+  <div><button class="btn btn-g btn-sm" type="button" hx-get="/foyers/{{ household_id }}/coordonnees/masquer" hx-target="#zone-coordonnees" hx-swap="outerHTML">{{ icon("eyeoff", 15) }}<span>{{ _("Masquer") }}</span></button></div>
+</div>

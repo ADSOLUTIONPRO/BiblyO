@@ -1,0 +1,129 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header %}
+{% from "components/buttons.html" import button, link_button %}
+{% from "components/forms.html" import field, select, textarea, checkbox %}
+{% from "components/feedback.html" import badge, alert %}
+{% from "components/availability.html" import copy_badge %}
+{% block title %}{{ copy.barcode or copy.inventory_number }} — {{ record.work_title }} — biblyO{% endblock %}
+{% block content %}
+{% set code = copy.barcode or copy.inventory_number %}
+{% call page_header(record.work_title, _("Exemplaire") ~ " " ~ code, "she", "book") %}
+  {{ link_button(_("Retour à la notice"), "/catalogue/notices/" ~ record.work_id ~ "?onglet=exemplaires", "g", "undo") }}
+  {% if state and state.is_loanable_now and can("circulation.lend") and can("patrons.view") %}{{ link_button(_("Prêter cet exemplaire"), "/comptoir?exemplaire=" ~ copy.id ~ "&livre=" ~ record.work_id, "p", "out") }}{% endif %}
+  {% if loan and can("circulation.lend") and can("patrons.view") %}{{ link_button(_("Enregistrer le retour"), "/comptoir/livre/" ~ record.work_id ~ "#retour-" ~ copy.id, "p", "ret") }}{% endif %}
+  {% if can("holdings.edit") and copy.status not in ("lost", "withdrawn", "missing") %}{{ link_button(_("Déplacer"), "/exemplaires/" ~ copy.id ~ "/deplacer", "s", "shelf") }}{% endif %}
+{% endcall %}
+{% if message %}{{ alert(message, "late") }}{% endif %}
+<div class="stack">
+  <div class="notice-split">
+    <section class="card" aria-labelledby="titre-etat">
+      <div class="card-h"><h2 id="titre-etat">{{ _("Où il se trouve") }}</h2></div>
+      <div class="card-b col">
+        <div class="row gap-xs">{{ badge(status_label, status_badge) }}{{ copy_badge(state) }}{% if loan and can("circulation.history") %}<a class="small" href="/prets/{{ loan.loan_id }}">{{ _("Voir le prêt") }}</a>{% endif %}</div>
+        {% if record.where.location_id %}
+        <p class="m0"><a class="b" href="/emplacements/{{ record.where.location_id }}?localiser={{ copy.id }}#dos-{{ copy.id }}">{{ record.where.path }}</a>{% if record.where.position %} · {{ _("position") }} {{ record.where.position }}{% endif %}</p>
+        {% if record.where.before or record.where.after %}<p class="muted small m0">{% if record.where.before %}{{ _("Après « %(title)s »", title=record.where.before.title) }}{% else %}{{ _("En début d’étagère") }}{% endif %}{% if record.where.after %}, {{ _("avant « %(title)s »", title=record.where.after.title) }}{% endif %}</p>{% endif %}
+        {% if loan %}
+        <p class="muted small m0">{{ _("En prêt : il garde sa place jusqu’à son retour.") }}</p>
+        {% elif can("holdings.edit") %}
+        <form method="post" action="/exemplaires/{{ copy.id }}/sans-place"><input type="hidden" name="_csrf" value="{{ csrf_token }}"><input type="hidden" name="version" value="{{ copy.version }}">{{ button(_("Retirer de sa place"), "g", "", size="sm", type="submit") }}</form>
+        {% endif %}
+        {% elif copy.status in ("lost", "withdrawn") %}
+        <p class="muted m0">{{ _("Cet exemplaire n’a plus de place sur les étagères.") }}</p>
+        {% else %}
+        <p class="muted m0">{{ _("Non rangé : cet exemplaire attend une place.") }}</p>
+        {% endif %}
+        {% if record.where.location_id and copy.status == "in_processing" and can("holdings.edit") and not loan %}
+        <p class="small m0">{{ link_button(_("Confirmer sa présence sur l’étagère"), "/emplacements/verifier?exemplaire=" ~ copy.id, "s", "check", "sm") }}</p>
+        {% endif %}
+        {% if copy.status == "withdrawn" %}<p class="small m0">{{ _("Retiré le %(date)s : %(reason)s", date=copy.withdrawn_on, reason=copy.withdrawal_reason) }}</p>{% endif %}
+        {% if copy.status == "missing" and copy.missing_on %}<p class="small m0">{{ _("Introuvable depuis le %(date)s.", date=copy.missing_on) }}</p>{% endif %}
+      </div>
+    </section>
+    <section class="card" aria-labelledby="titre-statut">
+      <div class="card-h"><h2 id="titre-statut">{{ _("Changer le statut") }}</h2></div>
+      <div class="card-b col">
+        {% if loan %}
+        <p class="muted small m0">{{ _("En prêt : son statut ne change qu’après son retour. Enregistrez d’abord le retour.") }}</p>
+        {% else %}
+        {% for action in actions if can(action.permission) %}
+          {% if action.code in ("withdraw", "lost") %}
+          <details class="status-ask"{% if errors.get("motif") and action.code == "withdraw" %} open{% endif %}>
+            <summary class="btn btn-s btn-sm">{{ action.label }}</summary>
+            <form class="form" method="post" action="/exemplaires/{{ copy.id }}/statut">
+              <input type="hidden" name="_csrf" value="{{ csrf_token }}"><input type="hidden" name="version" value="{{ copy.version }}"><input type="hidden" name="action" value="{{ action.code }}">
+              {% if action.code == "withdraw" %}{{ field("motif", _("Motif"), required=True, error=errors.get("motif")) }}{% else %}{{ field("precision", _("Précision (facultative)")) }}{% endif %}
+              <div class="form-actions">{{ button(_("Confirmer"), "d" if action.code == "withdraw" else "s", "", size="sm", type="submit") }}</div>
+            </form>
+          </details>
+          {% else %}
+          <form method="post" action="/exemplaires/{{ copy.id }}/statut"><input type="hidden" name="_csrf" value="{{ csrf_token }}"><input type="hidden" name="version" value="{{ copy.version }}"><input type="hidden" name="action" value="{{ action.code }}">{{ button(action.label, "s", "", size="sm", type="submit") }}</form>
+          {% endif %}
+        {% else %}
+        <p class="muted small m0">{{ _("Aucun changement de statut n’est possible pour votre compte.") }}</p>
+        {% endfor %}
+        {% endif %}
+      </div>
+    </section>
+  </div>
+
+  {% if can("holdings.edit") %}
+  <section class="card" aria-labelledby="titre-fiche">
+    <div class="card-h"><h2 id="titre-fiche">{{ _("Fiche de l’exemplaire") }}</h2></div>
+    <div class="card-b">
+      <form class="form" method="post" action="/exemplaires/{{ copy.id }}">
+        <input type="hidden" name="_csrf" value="{{ csrf_token }}"><input type="hidden" name="version" value="{{ copy.version }}">
+        <div class="grid g3">
+          {% if copy.barcode %}{{ field("code_barres", _("Code-barres"), values.code_barres, required=True, error=errors.get("code_barres"), help=_("Unique, jamais réattribué.")) }}
+          {% else %}{{ field("code_barres", _("Code-barres"), values.code_barres, error=errors.get("code_barres"), help=_("Aucun pour l’instant : il sera attribué à l’étiquetage. Vide, l’exemplaire reste désigné par son inventaire.")) }}{% endif %}
+          {{ field("inventaire", _("Numéro d’inventaire"), values.inventaire, error=errors.get("inventaire"), help=_("Vide : le même que le code-barres.")) }}
+          {{ field("cote", _("Cote"), values.cote, error=errors.get("cote"), help=_("Ne dépend ni du tome ni de la place.")) }}
+          {{ select("etat", _("État"), condition_options, values.etat, error=errors.get("etat")) }}
+          {{ field("note_etat", _("Précision sur l’état"), values.note_etat, error=errors.get("note_etat")) }}
+          {{ select("mode_acquisition", _("Mode d’acquisition"), acquisition_options, values.mode_acquisition, error=errors.get("mode_acquisition")) }}
+          {{ field("date_acquisition", _("Date d’acquisition"), values.date_acquisition, error=errors.get("date_acquisition"), help=_("2026, 03/2026 ou 14/03/2026.")) }}
+          {{ field("note_acquisition", _("Note d’acquisition"), values.note_acquisition, error=errors.get("note_acquisition"), help=_("Une date floue reste ici, telle quelle.")) }}
+          {{ field("prix", _("Prix (€)"), values.prix, error=errors.get("prix"), inputmode="decimal") }}
+          {{ field("provenance", _("Provenance"), values.provenance, error=errors.get("provenance")) }}
+        </div>
+        {{ checkbox("sur_place", _("Consultation sur place seulement"), "1", not loanable, help=_("Exclu du prêt.")) }}
+        {{ textarea("notes", _("Notes"), values.notes, error=errors.get("notes")) }}
+        <div class="form-actions">{{ button(_("Enregistrer"), "p", "check", type="submit") }}</div>
+      </form>
+    </div>
+  </section>
+  {% else %}
+  <section class="card" aria-labelledby="titre-fiche">
+    <div class="card-h"><h2 id="titre-fiche">{{ _("Fiche de l’exemplaire") }}</h2></div>
+    <div class="card-b">
+      <dl class="dlist">
+        <div><dt>{{ _("Code-barres") }}</dt><dd{% if copy.barcode %} class="mono"{% endif %}>{{ copy.barcode or _("Aucun, à attribuer") }}</dd></div>
+        <div><dt>{{ _("Numéro d’inventaire") }}</dt><dd class="mono">{{ copy.inventory_number }}</dd></div>
+        <div><dt>{{ _("Cote") }}</dt><dd class="mono">{{ copy.call_number or "—" }}</dd></div>
+        <div><dt>{{ _("Édition") }}</dt><dd>{{ record.edition_label or "—" }}</dd></div>
+        <div><dt>{{ _("État") }}</dt><dd>{{ condition_label or "—" }}</dd></div>
+        <div><dt>{{ _("Précision sur l’état") }}</dt><dd>{{ copy.condition_note or "—" }}</dd></div>
+        <div><dt>{{ _("Mode d’acquisition") }}</dt><dd>{{ acquisition_label or "—" }}</dd></div>
+        <div><dt>{{ _("Date d’acquisition") }}</dt><dd>{{ copy.acquired_on or copy.acquisition_note or "—" }}</dd></div>
+        <div><dt>{{ _("Provenance") }}</dt><dd>{{ copy.provenance or "—" }}</dd></div>
+      </dl>
+    </div>
+  </section>
+  {% endif %}
+
+  {% if origin %}{% include "holdings/fragments/copy_origin.html" %}{% endif %}
+
+  <section class="card" aria-labelledby="titre-histoire">
+    <div class="card-h"><h2 id="titre-histoire">{{ _("Historique") }}</h2></div>
+    <div class="card-b">
+      {% if record.history %}
+      <ul class="plain-list">
+        {% for line in record.history %}<li><span class="faint small">{{ line.at | datetime_short }}</span> {{ line.text }}</li>{% endfor %}
+      </ul>
+      {% else %}
+      <p class="muted m0">{{ _("Cet exemplaire n’a encore été ni rangé ni déplacé.") }}</p>
+      {% endif %}
+    </div>
+  </section>
+</div>
+{% endblock %}

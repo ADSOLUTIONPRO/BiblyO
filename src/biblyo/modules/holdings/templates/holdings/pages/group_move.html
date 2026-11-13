@@ -1,0 +1,54 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header %}
+{% from "components/buttons.html" import button %}
+{% from "components/forms.html" import field, select, checkbox %}
+{% from "components/feedback.html" import alert %}
+{% import "holdings/components.html" as parts with context %}
+{% block title %}{{ _("Déplacer plusieurs exemplaires") }} — biblyO{% endblock %}
+{% block content %}
+{% call page_header(_("Déplacer plusieurs exemplaires"), _("%(n)s sélectionné(s)", n=copies | length), "she", "shelf") %}{% endcall %}
+{% if message %}{{ alert(message, "late") }}{% endif %}
+{% call parts.layout(tree, unshelved_count) %}
+<div class="stack">
+  <section class="card" aria-labelledby="titre-dest">
+    <div class="card-h"><h2 id="titre-dest">{{ _("Destination") }}</h2></div>
+    <div class="card-b">
+      <form class="form" method="get" action="/emplacements/deplacer-groupe">
+        {% for item in copy_ids %}<input type="hidden" name="exemplaire" value="{{ item }}">{% endfor %}
+        <div class="grid g2">
+          {{ select("lieu", _("Emplacement"), place_options, selected, required=True) }}
+          {{ field("rang", _("À partir du rang"), rank, inputmode="numeric", help=_("Vide : à la fin. Les exemplaires suivants se décalent.")) }}
+        </div>
+        {{ checkbox("verifie", _("Rangement vérifié sur l’étagère"), "1", verified, help=_("Coché : un exemplaire « En préparation » passe « En place » et devient prêtable. Non coché : il reçoit sa place mais reste « En préparation », à confirmer plus tard.")) }}
+        <div class="form-actions">{{ button(_("Voir ce qui va se passer"), "s", "eye", type="submit") }}</div>
+      </form>
+    </div>
+  </section>
+  {% if plan %}
+  <section class="card" aria-labelledby="titre-plan-groupe">
+    <div class="card-h"><h2 id="titre-plan-groupe">{{ _("Vers %(path)s", path=plan.path) }}</h2></div>
+    <div class="card-b col">
+      {% if plan.fill_after.state == "over" %}{{ alert(_("Cet emplacement dépassera sa capacité de %(n)s place(s). C’est permis, et sera signalé.", n=plan.fill_after.excess), "due") }}{% endif %}
+      {% if plan.shifted %}<p class="m0">{{ _("%(n)s exemplaire(s) déjà sur place se décaleront.", n=plan.shifted) }}</p>{% endif %}
+      {% if plan.refusals %}{{ alert(_("Certains exemplaires ne peuvent pas être rangés : retirez-les de la sélection. Rien ne sera déplacé tant qu’ils y sont."), "late") }}{% endif %}
+      <ul class="plain-list">
+        {% for item in plan.copies %}
+        <li><b>{{ item.brief.title }}</b> <span class="mono faint small">{{ item.brief.barcode }}</span>
+          <div class="small {% if item.refusal %}late-ink{% else %}muted{% endif %}">{% if item.refusal %}{{ item.refusal }}{% elif item.already_there %}{{ _("Déjà ici : il change de rang.") }}{% elif item.from_path %}{{ _("Quitte %(path)s", path=item.from_path) }}{% else %}{{ _("Sans place jusqu’ici") }}{% endif %}{% if item.status_after %} · {{ _("statut après : %(s)s", s=status_labels.get(item.status_after, item.status_after)) }}{% endif %}</div></li>
+        {% endfor %}
+      </ul>
+      {% if plan.unchanged %}
+      {{ alert(_("Ces exemplaires sont déjà à cette place, dans cet ordre : rien ne changera."), "info") }}
+      {% elif not plan.refusals %}
+      <form class="form-actions" method="post" action="/emplacements/deplacer-groupe">
+        <input type="hidden" name="_csrf" value="{{ csrf_token }}"><input type="hidden" name="lieu" value="{{ plan.location_id }}"><input type="hidden" name="rang" value="{{ rank }}"><input type="hidden" name="version_lieu" value="{{ plan.location_version }}">{% if verified %}<input type="hidden" name="verifie" value="1">{% endif %}
+        {% for item in plan.copies %}<input type="hidden" name="exemplaire" value="{{ item.brief.id }}"><input type="hidden" name="v_{{ item.brief.id }}" value="{{ item.version }}">{% endfor %}
+        {{ button(_("Confirmer le déplacement"), "p", "check", type="submit") }}
+      </form>
+      {% endif %}
+    </div>
+  </section>
+  {% endif %}
+</div>
+{% endcall %}
+{% endblock %}

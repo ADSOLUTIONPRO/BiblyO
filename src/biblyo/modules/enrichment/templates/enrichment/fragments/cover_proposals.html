@@ -1,0 +1,62 @@
+{% from "components/buttons.html" import button %}
+{% from "components/feedback.html" import alert, badge, empty_state %}
+{% from "components/overlays.html" import modal %}
+{% from "components/icons.html" import icon %}
+{% if limited %}
+  {{ alert(_("Trop de recherches en une minute : patientez un instant avant de relancer."), "due") }}
+{% elif outcome %}
+  <ul class="plain couv-sources" aria-label="{{ _('Sources interrogées') }}">
+  {% for line in outcome.sources %}
+    <li><b>{{ source_labels.get(line.code, line.code) }}</b>
+      <span class="muted">
+      {% if line.status == "found" %}{{ _("{images} image(s) pour {notices} notice(s) qui en annoncent").format(images=line.images, notices=line.notices) if line.code == "bnf" else _("{images} image(s)").format(images=line.images) }}
+      {% elif line.status == "none" %}{{ _("Aucune image pour cette édition ni pour cette œuvre") }}
+      {% elif line.status == "disabled" %}{{ _("Désactivée") }}{% if line.code == "openlibrary" %} — {{ _("activable par l’administrateur dans les réglages des sources") }}{% endif %}
+      {% else %}{{ _("Indisponible : réessayez plus tard") }}{% endif %}
+      </span></li>
+  {% endfor %}
+  </ul>
+  {% if outcome.failed %}{{ alert(_("Les sources n’ont pas répondu : aucune proposition n’a pu être réunie. Vous pouvez importer une image dès maintenant."), "late") }}{% endif %}
+  {% if outcome.proposals %}
+  <ul class="plain couv-props" aria-label="{{ _('Couvertures proposées') }}">
+    {% for item in outcome.proposals %}
+    {% set label = match_labels.get(item.match, (item.match, "neutral")) %}
+    {% set image = image_path ~ "?source=" ~ item.source ~ "&ref=" ~ (item.reference | urlencode) ~ "&ean=" ~ item.ean %}
+    <li class="couv-prop">
+      <button type="button" class="couv-thumb plain" data-open-dialog="couv-prop-{{ loop.index }}" aria-label="{{ _('Agrandir') }} : {{ item.title }}, {{ item.edition }}">
+        <img class="cover-img" src="{{ image }}&taille=vignette" alt="" loading="lazy">
+      </button>
+      <div class="col gap-xs min0">
+        <div class="row gap-xs">{{ badge(source_labels.get(item.source, item.source), "neutral", dot=False) }}{{ badge(label[0], label[1]) }}</div>
+        <b class="couv-prop-title">{{ item.title }}</b>
+        <span class="muted small">{{ item.edition }}</span>
+        {% if item.notice_url %}<a class="small" href="{{ item.notice_url }}" rel="noopener noreferrer">{{ _("Notice de la source") }}</a>{% endif %}
+        <form method="post" action="/catalogue/notices/{{ work_id }}/couverture/proposition">
+          <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+          <input type="hidden" name="edition_id" value="{{ edition_id }}">
+          <input type="hidden" name="source" value="{{ item.source }}">
+          <input type="hidden" name="ref" value="{{ item.reference }}">
+          <input type="hidden" name="ean" value="{{ item.ean }}">
+          <input type="hidden" name="match" value="{{ item.match }}">
+          <input type="hidden" name="notice" value="{{ item.notice_url }}">
+          <input type="hidden" name="edition_text" value="{{ item.edition }}">
+          {{ button(_("Choisir"), "s", "check", type="submit", size="sm", aria_label=_("Choisir la couverture") ~ " : " ~ item.title ~ ", " ~ item.edition) }}
+        </form>
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
+  {% for item in outcome.proposals %}
+  {% set image = image_path ~ "?source=" ~ item.source ~ "&ref=" ~ (item.reference | urlencode) ~ "&ean=" ~ item.ean %}
+  {% call modal("couv-prop-" ~ loop.index, item.title) %}
+    <div class="cover-zoom"><img class="cover-img" src="{{ image }}&taille=grande" alt="{{ _('Couverture proposée') }} : {{ item.title }}, {{ item.edition }}" loading="lazy"></div>
+    <p class="muted small m0 ta-center">{{ source_labels.get(item.source, item.source) }} · {{ item.edition }} · {{ match_labels.get(item.match, (item.match, ""))[0] }}</p>
+  {% endcall %}
+  {% endfor %}
+  {% elif not outcome.failed %}
+  {{ empty_state("book", _("Aucune proposition"), _("Aucune source activée n’a d’image pour cette édition ou cette œuvre. La BnF n’en fournit que pour des notices récentes et enrichies. Photographiez la couverture et importez-la : c’est souvent le plus sûr.")) }}
+  {% endif %}
+  {% if outcome.without_image or outcome.duplicates or outcome.other_works %}
+  <p class="faint small m0">{% if outcome.without_image %}{{ _("{n} notice(s) annonçaient une image que le service n’a pas fournie.").format(n=outcome.without_image) }} {% endif %}{% if outcome.duplicates %}{{ _("{n} image(s) en double écartée(s).").format(n=outcome.duplicates) }} {% endif %}{% if outcome.other_works %}{{ _("{n} image(s) d’un ouvrage différent (autre titre ou autre tome) écartée(s).").format(n=outcome.other_works) }}{% endif %}</p>
+  {% endif %}
+{% endif %}

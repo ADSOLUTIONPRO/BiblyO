@@ -1,0 +1,16 @@
+{% from "components/feedback.html" import badge, alert %}
+<div class="card return-line">
+  {% if line.result and line.result.loan_id %}
+  <div class="row gap-s">
+    <span class="grow"><b>{{ line.title }}</b> <span class="mono small">{{ line.barcode }}</span>{% if line.borrower %}<span class="faint small block">{{ _("Rendu par") }} {{ line.borrower }}</span>{% endif %}</span>
+    {% if line.result.days_overdue %}{{ badge(_("En retard") ~ " · " ~ line.result.days_overdue ~ " " ~ (_("jour") if line.result.days_overdue == 1 else _("jours")), "late") }}{% else %}{{ badge(_("À l’heure"), "ok") }}{% endif %}
+    <button type="submit" class="btn btn-g btn-sm" hx-post="/comptoir/retours/{{ line.result.loan_id }}/annuler" formaction="/comptoir/retours/{{ line.result.loan_id }}/annuler" hx-disabled-elt="this" hx-target="closest .return-line" hx-swap="outerHTML" aria-label="{{ _('Annuler le retour de') }} {{ line.title }}">{{ _("Annuler") }}</button>
+  </div>
+  <p class="return-where m0">{% if line.result.location_path %}{{ _("À ranger") }} : <b>{{ line.result.location_path }}</b>{% if line.result.shelf_position %} · {{ _("place") }} {{ line.result.shelf_position }}{% endif %} · <a href="/emplacements/localiser?q={{ line.barcode }}">{{ _("Localiser") }}</a>{% else %}{{ _("Cet exemplaire n’a pas de place attribuée.") }}{% endif %}</p>
+  {% elif line.choices %}
+  {{ alert(line.message.message, "late") }}
+  <div class="choice-list" data-choix>{% for code, title in line.choices %}<button type="submit" class="choice" name="choix_code" value="{{ code }}" hx-post="/comptoir/retours/scan" formaction="/comptoir/retours/scan" hx-target="closest .return-line" hx-swap="outerHTML"><span class="grow"><b>{{ title }}</b> <span class="mono small">{{ code }}</span></span></button>{% endfor %}</div>
+  {% elif line.message %}
+  {{ alert(line.message.message, "late" if line.message.nature.value == "interdiction" else "info") }}
+  {% endif %}
+</div>

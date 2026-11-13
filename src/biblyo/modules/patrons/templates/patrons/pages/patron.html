@@ -1,0 +1,245 @@
+{% extends layout %}
+{% from "components/buttons.html" import button, link_button %}
+{% from "components/feedback.html" import alert, badge, soon_tag, empty_state %}
+{% from "components/forms.html" import field, select %}
+{% from "components/catalogue.html" import crumbs, fact %}
+{% from "components/icons.html" import icon %}
+{% from "patrons/components.html" import marks, patron_picker, rights_fields %}
+{% block title %}{{ name }} — biblyO{% endblock %}
+{% block content %}
+{{ crumbs([(_("Lecteurs & familles"), "/lecteurs"), (name, "")]) }}
+{% if message %}{{ alert(message, "late") }}{% endif %}
+<section class="card patron-head" aria-labelledby="titre-page">
+  <div class="row gap-m patron-top">
+    <span class="ini lg ini-{{ patron.id % 6 }}" aria-hidden="true">{{ initials_text }}</span>
+    <div class="grow">
+      <div class="row gap-s"><h1 id="titre-page" tabindex="-1">{{ name }}</h1><span class="mono faint">{{ patron.number }}</span></div>
+      <div class="row gap-xs mt-xs">
+        {{ badge(category_label, "rdr" if patron.category == "minor" else "io", dot=False) }}
+        {% if patron.status != "active" %}{{ badge(status_label, "neutral") }}{% endif %}
+        {% if record.active_card %}<span class="badge m-neutral mono">{{ record.active_card.number }}</span>{% elif not anonymized %}{{ badge(_("Sans carte"), "due") }}{% endif %}
+        {% if record.needs_guardian %}{{ badge(_("Responsable à renseigner"), "late") }}{% endif %}
+        {% if record.active_hold and personal %}{{ badge(_("En conservation"), "due") }}{% endif %}
+        {% for home in record.households %}<a class="badge m-neutral" href="/foyers/{{ home.household_id }}">{{ home.name }}</a>{% endfor %}
+      </div>
+      <p class="faint small m0 mt-xs">{{ _("Inscription :") }} {{ registered_on }}</p>
+    </div>
+    {% if living and (can("patrons.edit") or (can("circulation.lend") and can("patrons.view"))) %}<div class="acts">
+      {% if can("circulation.lend") and can("patrons.view") %}{{ link_button(_("Nouveau prêt"), "/comptoir?lecteur=" ~ patron.id, "p", "out") }}{% endif %}
+      {% if can("patrons.edit") %}{{ link_button(_("Modifier"), "/lecteurs/" ~ patron.id ~ "/modifier", "s", "edit") }}{% endif %}
+    </div>{% endif %}
+  </div>
+  {% if patron.category == "minor" and not anonymized %}<p class="protect m0 mt-s">{{ icon("shield", 15) }}<span>{{ _("Données d’un mineur : pas de coordonnées propres, contact par ses responsables autorisés.") }}</span></p>{% endif %}
+</section>
+
+{% if anonymized %}<div class="notice-bar">{{ alert(_("Cette fiche est anonymisée : il ne reste rien qui désigne la personne. Les sauvegardes antérieures contiennent encore ses données jusqu’à leur suppression."), "info") }}</div>{% endif %}
+{% if record.majority_to_confirm %}
+<div class="callout m-due notice-bar" role="status">
+  {{ icon("alert", 18) }}
+  <div class="grow"><b>{{ _("Majorité à confirmer") }}</b>{{ _("D’après sa naissance, cette personne est majeure. Confirmez-le : ses liens avec ses responsables ne changeront pas, ils seront seulement à revoir.") }}</div>
+  {% if can("patrons.edit") %}<form method="post" action="/lecteurs/{{ patron.id }}/majorite"><input type="hidden" name="_csrf" value="{{ csrf_token }}"><input type="hidden" name="version" value="{{ patron.version }}">{{ button(_("Confirmer la majorité"), "s", "check", size="sm", type="submit") }}</form>{% endif %}
+</div>
+{% endif %}
+{% for issue in record.issues %}{{ alert(issue, "due") }}{% endfor %}
+{% if record.homonyms %}
+<div class="callout m-info notice-bar" role="status">
+  {{ icon("users", 18) }}
+  <div class="grow"><b>{{ _("Même nom qu’une autre fiche") }}</b>
+    <ul class="plain">{% for row in record.homonyms %}<li><a href="/lecteurs/{{ row.id }}">{{ row.number }}</a> <span class="small">{{ marks(row, say_none=not (row.marks.card or row.marks.household)) }}{% if row.marks.card %} · {{ row.marks.card }}{% endif %}{% if row.marks.household %} · {{ row.marks.household }}{% endif %}</span></li>{% endfor %}</ul>
+  </div>
+</div>
+{% endif %}
+
+<div class="sheet-grid">
+  <div class="col gap-m">
+    <section class="card" aria-labelledby="titre-identite">
+      <div class="card-h"><h2 id="titre-identite">{{ _("Identité") }}</h2></div>
+      <div class="card-b col gap-s">
+        <dl class="dlist">
+          {{ fact(_("Numéro de lecteur"), patron.number, mono=True) }}
+          {{ fact(_("Catégorie"), category_label) }}
+          {{ fact(_("Naissance") if personal else _("Année de naissance"), birth_text) }}
+          {{ fact(_("Statut"), status_label) }}
+          <div class="wide"><dt>{{ _("Adhésion") }}</dt><dd>{% if membership %}{{ _("jusqu’au") }} {{ membership }}{% if membership_expired %} {{ badge(_("Échue"), "late") }}{% endif %}{% else %}<span class="none">{{ _("Non renseignée") }}</span>{% endif %}</dd></div>
+        </dl>
+        {% if living and can("patrons.edit") %}
+        <details class="status-ask"{% if errors.get("adhesion") %} open{% endif %}>
+          <summary class="btn btn-s btn-sm">{{ _("Renouveler l’adhésion") }}</summary>
+          <form class="form" method="post" action="/lecteurs/{{ patron.id }}/renouveler">
+            <input type="hidden" name="_csrf" value="{{ csrf_token }}"><input type="hidden" name="version" value="{{ patron.version }}">
+            {{ field("adhesion", _("Jusqu’au"), "", error=errors.get("adhesion"), help=_("Laissez vide : un an à partir d’aujourd’hui."), inputmode="numeric") }}
+            <div class="form-actions">{{ button(_("Renouveler"), "s", "", size="sm", type="submit") }}</div>
+          </form>
+        </details>
+        {% endif %}
+      </div>
+    </section>
+
+    {% if not anonymized %}
+    <section class="card" aria-labelledby="titre-coordonnees">
+      <div class="card-h"><h2 id="titre-coordonnees">{{ _("Coordonnées") }}</h2>{% if personal and living and can("patrons.edit") and patron.category == "adult" %}<span class="push-end">{{ link_button(_("Modifier"), "/lecteurs/" ~ patron.id ~ "/coordonnees", "g", "edit", "sm", aria_label=_("Modifier les coordonnées")) }}</span>{% endif %}</div>
+      <div class="card-b">
+        {% if personal %}
+          {% with patron_id = patron.id %}{% include "patrons/fragments/contacts_masked.html" %}{% endwith %}
+        {% else %}
+          <p class="protect m0">{{ icon("shield", 15) }}<span>{{ _("Coordonnées réservées : votre compte ne permet pas de les voir.") }}</span></p>
+        {% endif %}
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="titre-foyers">
+      <div class="card-h"><h2 id="titre-foyers">{{ _("Foyers et structures") }}</h2></div>
+      {% for home in record.households %}
+      <div class="li"><a class="grow b" href="/foyers/{{ home.household_id }}">{{ home.name }}</a>{{ badge(home.kind_label, "io" if home.kind == "structure" else "rdr", dot=False) }}<span class="faint small">{{ home.role_label }}</span>{% if home.archived %}{{ badge(_("Archivé"), "neutral") }}{% endif %}{% if living and can("patrons.edit") %}<form method="post" action="/lecteurs/{{ patron.id }}/foyers/{{ home.household_id }}/retirer"><input type="hidden" name="_csrf" value="{{ csrf_token }}">{{ button(_("Retirer"), "g", "", size="sm", type="submit", aria_label=_("Retirer du foyer") ~ " " ~ home.name) }}</form>{% endif %}</div>
+      {% else %}
+      <div class="card-b"><p class="muted small m0">{{ _("Aucun foyer.") }}</p></div>
+      {% endfor %}
+      {% if living and can("patrons.edit") %}
+      <div class="card-b">
+        <details class="status-ask">
+          <summary class="btn btn-s btn-sm">{{ icon("plus", 14) }}<span>{{ _("Rattacher à un foyer") }}</span></summary>
+          <form class="form" method="post" action="/lecteurs/{{ patron.id }}/foyers">
+            <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+            {{ patron_picker("foyer_id", _("Foyer ou structure"), url="/foyers/choix", help=_("Le rattachement ne donne aucun droit.")) }}
+            <div class="form-actions">{{ button(_("Rattacher"), "s", "", size="sm", type="submit") }}</div>
+          </form>
+        </details>
+      </div>
+      {% endif %}
+    </section>
+
+    {% if patron.category == "minor" or record.guardians %}
+    <section class="card" aria-labelledby="titre-responsables">
+      <div class="card-h"><h2 id="titre-responsables">{{ _("Responsables") }}</h2></div>
+      {% for link in record.guardians %}
+      <div class="li"><span class="grow"><a class="b" href="/lecteurs/{{ link.other_id }}">{{ link.other_name }}</a> <span class="mono small faint">{{ link.other_number }}</span><span class="faint small block">{{ link.relation_label }}</span></span>
+        <span class="row gap-xs">{{ badge(_("Peut emprunter") if link.can_borrow_for else _("Ne peut pas emprunter"), "ok" if link.can_borrow_for else "neutral") }}{% if link.can_borrow_alone %}{{ badge(_("Enfant autorisé seul"), "rdr") }}{% endif %}{% if link.is_contact %}{{ badge(_("À contacter"), "info") }}{% endif %}{% if not link.reachable %}{{ badge(_("Injoignable"), "due") }}{% endif %}</span>
+        {% if living and can("patrons.edit") %}
+        <details class="status-ask link-edit">
+          <summary class="btn btn-g btn-sm" aria-label="{{ _('Modifier les droits de') }} {{ link.other_name }}">{{ _("Modifier") }}</summary>
+          <form class="form" method="post" action="/lecteurs/{{ patron.id }}/responsables/{{ link.other_id }}">
+            <input type="hidden" name="_csrf" value="{{ csrf_token }}"><input type="hidden" name="version" value="{{ link.version }}">
+            {{ rights_fields("g" ~ link.other_id, relation_options, link.relation, link.can_borrow_for, link.is_contact, link.contact_rank, link.can_borrow_alone) }}
+            <div class="form-actions">{{ button(_("Enregistrer les droits"), "s", "", size="sm", type="submit") }}</div>
+          </form>
+          <form class="mt-xs" method="post" action="/lecteurs/{{ patron.id }}/responsables/{{ link.other_id }}/retirer"><input type="hidden" name="_csrf" value="{{ csrf_token }}">{{ button(_("Retirer ce responsable"), "g", "", size="sm", type="submit") }}</form>
+        </details>
+        {% endif %}
+      </div>
+      {% else %}
+      <div class="card-b"><p class="m0 b">{{ _("Responsable à renseigner") }}</p><p class="muted small m0">{{ _("Aucun prêt ne sera possible sans un adulte habilité à emprunter pour ce mineur, et joignable.") }}</p></div>
+      {% endfor %}
+      {% if patron.category == "adult" and record.guardians %}<div class="card-b"><p class="muted small m0">{{ _("Cette personne est majeure : ces liens sont conservés et à revoir. Rien n’est retiré automatiquement.") }}</p></div>{% endif %}
+      {% if living and patron.category == "minor" and can("patrons.edit") %}
+      <div class="card-b">
+        <details class="status-ask">
+          <summary class="btn btn-s btn-sm">{{ icon("plus", 14) }}<span>{{ _("Ajouter un responsable") }}</span></summary>
+          <form class="form" method="post" action="/lecteurs/{{ patron.id }}/responsables">
+            <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+            {{ patron_picker("resp_id", _("Adulte déjà inscrit"), adults_only=True, help=_("Pas encore inscrit ? Inscrivez d’abord cet adulte, puis revenez ici.")) }}
+            {{ rights_fields("new", relation_options, "parent", False, False, record.guardians | length + 1) }}
+            <div class="form-actions">{{ button(_("Ajouter"), "s", "", size="sm", type="submit") }}</div>
+          </form>
+        </details>
+      </div>
+      {% endif %}
+    </section>
+    {% endif %}
+
+    {% if record.wards %}
+    <section class="card" aria-labelledby="titre-charge">
+      <div class="card-h"><h2 id="titre-charge">{{ _("Responsable de") }}</h2></div>
+      {% for link in record.wards %}
+      <div class="li"><span class="grow"><a class="b" href="/lecteurs/{{ link.other_id }}">{{ link.other_name }}</a> <span class="mono small faint">{{ link.other_number }}</span><span class="faint small block">{{ link.relation_label }}</span></span>{{ badge(_("Peut emprunter") if link.can_borrow_for else _("Ne peut pas emprunter"), "ok" if link.can_borrow_for else "neutral") }}</div>
+      {% endfor %}
+    </section>
+    {% endif %}
+
+    {% if personal %}
+    <section class="card" aria-labelledby="titre-observations">
+      <div class="card-h"><h2 id="titre-observations">{{ _("Observations internes") }}</h2></div>
+      <div class="card-b col gap-s">
+        {% if notes %}<p class="m0 pre">{{ notes }}</p>{% else %}<p class="muted small m0">{{ _("Aucune observation.") }}</p>{% endif %}
+        <p class="faint small m0">{{ _("Utiles au service seulement : jamais de donnée sensible (santé, religion, opinions…).") }}</p>
+      </div>
+    </section>
+    {% endif %}
+    {% endif %}
+  </div>
+
+  <div class="col gap-m">
+    <section class="card" aria-labelledby="titre-cartes">
+      <div class="card-h"><h2 id="titre-cartes">{{ _("Cartes") }}</h2></div>
+      {% for card in record.cards %}
+      <div class="li"><span class="grow mono b">{{ card.number }}</span>{% if card.ended_on %}{{ badge(card.end_label, "neutral") }}<span class="faint small">{{ _("depuis le") }} {{ fr_date(card.ended_on) }}</span>{% else %}{{ badge(_("En service"), "ok") }}<span class="faint small">{{ _("remise le") }} {{ fr_date(card.issued_on) }}</span>{% endif %}</div>
+      {% else %}
+      <div class="card-b"><p class="muted small m0">{{ _("Aucune carte.") }}</p></div>
+      {% endfor %}
+      {% if living and can("patrons.edit") %}
+      <div class="card-b">
+        <details class="status-ask"{% if errors.get("carte") %} open{% endif %}>
+          <summary class="btn btn-s btn-sm">{{ _("Remplacer ou retirer la carte") if record.active_card else _("Remettre une carte") }}</summary>
+          <form class="form" method="post" action="/lecteurs/{{ patron.id }}/carte">
+            <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+            {% if record.active_card %}{{ select("motif", _("Ce qui arrive à la carte"), card_reasons, "lost") }}{% endif %}
+            {{ field("numero", _("Numéro de la nouvelle carte (facultatif)"), "", error=errors.get("carte"), help=_("Laissez vide : un numéro sera attribué. L’ancien numéro ne sera jamais redonné."), autocomplete="off") }}
+            <div class="form-actions">
+              {{ button(_("Remplacer") if record.active_card else _("Remettre la carte"), "s", "", size="sm", type="submit", name="action", value="remplacer") }}
+              {% if record.active_card %}{{ button(_("Retirer sans remplacer"), "g", "", size="sm", type="submit", name="action", value="retirer") }}{% endif %}
+            </div>
+          </form>
+        </details>
+      </div>
+      {% endif %}
+    </section>
+
+    {% if not anonymized and (can("patrons.archive") or can("patrons.export") or can("patrons.anonymize")) %}
+    <section class="card" aria-labelledby="titre-gestion">
+      <div class="card-h"><h2 id="titre-gestion">{{ _("Gestion de la fiche") }}</h2></div>
+      <div class="card-b col gap-s">
+        {% if can("patrons.export") %}<div class="row gap-xs">{{ link_button(_("Exporter ses données"), "/lecteurs/" ~ patron.id ~ "/export", "s", "download", "sm") }}</div>{% endif %}
+        {% if can("patrons.archive") %}
+        <form class="row gap-xs" method="post" action="/lecteurs/{{ patron.id }}/statut">
+          <input type="hidden" name="_csrf" value="{{ csrf_token }}"><input type="hidden" name="version" value="{{ patron.version }}">
+          {% if patron.status == "active" %}{{ button(_("Suspendre"), "s", "", size="sm", type="submit", name="action", value="suspend") }}{% endif %}
+          {% if patron.status in ("suspended", "archived") %}{{ button(_("Réactiver"), "s", "", size="sm", type="submit", name="action", value="reactivate") }}{% endif %}
+          {% if patron.status in ("active", "suspended") %}{{ button(_("Archiver"), "s", "archive", size="sm", type="submit", name="action", value="archive") }}{% endif %}
+        </form>
+        {% endif %}
+        {% if can("patrons.anonymize") %}
+        {% for hold in record.holds %}
+        <div class="row between gap-xs"><span class="small"><b>{{ _("Conservation") }}</b> {{ hold.reason }}{% if hold.until %} · {{ _("jusqu’au") }} {{ fr_date(hold.until) }}{% endif %}{% if not hold.active %} · {{ _("levée ou échue") }}{% endif %}</span>{% if hold.active and not hold.lifted_at %}<form method="post" action="/lecteurs/{{ patron.id }}/conservation/{{ hold.id }}/lever"><input type="hidden" name="_csrf" value="{{ csrf_token }}">{{ button(_("Lever"), "g", "", size="sm", type="submit") }}</form>{% endif %}</div>
+        {% endfor %}
+        <details class="status-ask"{% if errors.get("motif") or errors.get("jusqu_au") %} open{% endif %}>
+          <summary class="btn btn-s btn-sm">{{ _("Mettre en conservation") }}</summary>
+          <form class="form" method="post" action="/lecteurs/{{ patron.id }}/conservation">
+            <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+            {{ field("motif_conservation", _("Motif, sans donnée personnelle"), "", required=True, error=errors.get("motif"), autocomplete="off") }}
+            {{ field("jusqu_au", _("Jusqu’au (facultatif)"), "", error=errors.get("jusqu_au"), help=_("31/08/2027."), inputmode="numeric") }}
+            <div class="form-actions">{{ button(_("Enregistrer"), "s", "", size="sm", type="submit") }}</div>
+          </form>
+        </details>
+        <div>{{ link_button(_("Anonymiser…"), "/lecteurs/" ~ patron.id ~ "/anonymiser", "g", "eyeoff", "sm", extra="danger-text") }}</div>
+        {% endif %}
+      </div>
+    </section>
+    {% endif %}
+
+    {% if loans_card is not none %}{% include "circulation/fragments/patron_loans.html" %}{% else %}
+    <section class="card" aria-labelledby="titre-prets">
+      <div class="card-h"><h2 id="titre-prets">{{ _("Prêts") }}</h2>{{ soon_tag(_("À venir")) }}</div>
+      <div class="card-b"><p class="muted small m0">{{ _("Les prêts de ce lecteur apparaîtront ici avec le module de prêt.") }}</p></div>
+    </section>{% endif %}
+
+    <section class="card" aria-labelledby="titre-historique">
+      <div class="card-h"><h2 id="titre-historique">{{ _("Historique") }}</h2></div>
+      {% for line in history %}
+      <div class="li"><span class="grow"><b class="small">{{ line.label }}</b>{% if line.field_labels %}<span class="faint small"> · {{ line.field_labels | join(", ") }}</span>{% endif %}{% if line.who %}<span class="faint small block">{{ _("par") }} {{ line.who }}</span>{% endif %}</span><span class="faint small">{{ fr_date(line.at) }}</span></div>
+      {% else %}
+      <div class="card-b"><p class="muted small m0">{{ _("Rien pour l’instant.") }}</p></div>
+      {% endfor %}
+      <div class="card-b"><p class="faint small m0">{{ _("Le journal dit qui a fait quoi, jamais les valeurs.") }}</p></div>
+    </section>
+  </div>
+</div>
+{% endblock %}

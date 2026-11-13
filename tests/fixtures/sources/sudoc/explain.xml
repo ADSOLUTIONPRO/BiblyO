@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?xml-stylesheet type="text/xsl" href="https://www.sudoc.abes.fr/cbs/sru/DB=2.1/?xsl=explainresponse" ?>
+<srw:explainResponse xmlns:srw="http://www.loc.gov/zing/srw/"
+		     xmlns:zr="http://explain.z3950.org/dtd/2.0/"
+		     xmlns:diag="http://www.loc.gov/zing/srw/diagnostic/">
+    <srw:version>1.1</srw:version>
+    <srw:record>
+	<srw:recordPacking></srw:recordPacking>
+	<srw:recordSchema>http://explain.z3950.org/dtd/2.0/</srw:recordSchema>
+	<srw:recordData>
+	    <zr:explain>
+		<zr:serverInfo protocol="SRU" version="1.1">
+		    <host>psi9-app-prod.v102.abes.fr</host> 
+		    <port>10100</port>
+		    <database>/sru/DB=2.1/</database> 
+		</zr:serverInfo>
+		<zr:databaseInfo>
+		    <title lang="en" primary="true">Picarta</title>
+		    <description lang="en" primary="true">OCLCPICA Picarta database</description>
+		</zr:databaseInfo>
+		<zr:metaInfo>
+		    <dataModified>17-10-2005</dataModified>
+		    <mg:supportedGroupings xmlns:mg="info:srw/extension/5/metadata-grouping-v1.0">
+		    <index>
+		    <title>(pica)none</title>
+		    <map><name indexSet="pica">none</name></map>
+		    </index>
+		    <index>
+		    <title>(pica)Année de publication</title>
+		    <map><name indexSet="pica">9000</name></map>
+		    </index>
+		    <index>
+		    <title>(pica)Type de document</title>
+		    <map><name indexSet="pica">9001</name></map>
+		    </index>
+		    <index>
+		    <title>(pica)Langue du document</title>
+		    <map><name indexSet="pica">9004</name></map>
+		    </index>
+		    <index>
+		    <title>(pica)Pays de publication</title>
+		    <map><name indexSet="pica">9005</name></map>
+		    </index>
+		    
+		    </mg:supportedGroupings>
+		</zr:metaInfo>
+		<author>OCLC</author>
+		<contact>support@oclc.org</contact>
+		<extent>Picarta</extent> 
+		<langUsage codes="du ge en fr">Records are in Dutch, German, English, French and other languages</langUsage> 
+		<restrictions></restrictions> 
+
+		<indexInfo>  
+		<indexSet name="pica"/>
+		<index> 
+                    <title>(pica)Tous les mots</title>
+		    <map><name indexSet="pica">tou</name></map>
+		</index>
+		<index> 
+                    <title>(pica)Mots du titre</title>
+		    <map><name indexSet="pica">mti</name></map>
+		</index>
+		<index> 
+                    <title>(pica)Mots sujet</title>
+		    <map><name indexSet="pica">msu</name></map>
+		</index>
+		<index> 
+                    <title>(pica)Mots auteur(s)</title>
+		    <map><name indexSet="pica">aut</name></map>
+		</index>
+		<index> 
+                    <title>(pica)Nom de personne</title>
+		    <map><name indexSet="pica">per</name></map>
+		</index>
+		<index> 
+                    <title>(pica)Organisme auteur</title>
+		    <map><name indexSet="pica">org</name></map>
+		</index>
+		<index> 
+                    <title>(pica)Titre complet</title>
+		    <map><name indexSet="pica">tco</name></map>
+		</index>
+		<index> 
+                    <title>(pica)Titre abrégé (périodiques)</title>
+		    <map><name indexSet="pica">tab</name></map>
+		</index>
+		<index> 
+                    <title>(pica)Collection</title>
+		    <map><name indexSet="pica">col</name></map>
+		</index>
+		<index> 
+                    <title>(pica)Editeur</title>
+		    <map><name indexSet="pica">edi</name></map>
+		</index>
+		<index> 
+                    <title>(pica)Note de thèse</title>
+		    <map><name indexSet="pica">nth</name></map>
+		</index>
+		<index> 
+                    <title>(pica)Note de récompense</title>
+		    <map><name indexSet="pica">rec</name></map>
+		</index>
+		<index> 
+                    <title>(pica)Résumé ; sommaire</title>
+		    <map><name indexSet="pica">res</name></map>
+		</index>
+		<index> 
+                    <title>(pica)Point d’accès sujet</title>
+		    <map><name indexSet="pica">vma</name></map>
+		</index>
+		<index> 
+                    <title>(pica)reliure ; provenance ; conservation</title>
+		    <map><name indexSet="pica">rpc</name></map>
+		</index>
+		<index> 
+                    <title>(pica)Note de livre ancien</title>
+		    <map><name indexSet="pica">lva</name></map>
+		</index>
+		<index> 
+                    <title>(pica)ISBN livres</title>
+		    <map><name indexSet="pica">isb</name></map>
+		</index>
+		<index> 
+                    <title>(pica)ISSN périodiques</title>
+		    <map><name indexSet="pica">isn</name></map>
+		</index>
+		<index> 
+                    <title>(pica)Mots sujet anglais</title>
+		    <map><name indexSet="pica">msa</name></map>
+		</index>
+		<index> 
+                    <title>(pica)Sujet MESH anglais</title>
+		    <map><name indexSet="pica">mee</name></map>
+		</index>
+		<index> 
+                    <title>(pica)Langue du document (code)</title>
+		    <map><name indexSet="pica">lai</name></map>
+		</index>
+		<index> 
+                    <title>(pica)Pays de publication (code)</title>
+		    <map><name indexSet="pica">pai</name></map>
+		</index>
+		<index> 
+                    <title>(pica)PPN</title>
+		    <map><name indexSet="pica">ppn</name></map>
+		</index>
+		<index> 
+                    <title>(pica)Cote</title>
+		    <map><name indexSet="pica">cot</name></map>
+		</index>
+		<index> 
+                    <title>(pica)Numéro RCR</title>
+		    <map><name indexSet="pica">rbc</name></map>
+		</index>
+		<index> 
+                    <title>(pica)BQT : Bouquet (publ. en ligne)</title>
+		    <map><name indexSet="pica">bqt</name></map>
+		</index>
+		<index> 
+                    <title>(pica)Numéro source (autres systèmes)</title>
+		    <map><name indexSet="pica">sou</name></map>
+		</index>
+		<index> 
+                    <title>(pica)Tous numéros</title>
+		    <map><name indexSet="pica">num</name></map>
+		</index>
+		<index> 
+                    <title>(pica)DOI</title>
+		    <map><name indexSet="pica">doi</name></map>
+		</index>
+		<index> 
+                    <title>(pica)PCP : Plan de conservation partagée</title>
+		    <map><name indexSet="pica">pcp</name></map>
+		</index>
+		<index> 
+                    <title>(pica)Numéro RCR</title>
+		    <map><name indexSet="pica">rcr</name></map>
+		</index>
+		<index> 
+                    <title>(pica)Type d'établissement (code)</title>
+		    <map><name indexSet="pica">typ</name></map>
+		</index>
+		<index> 
+                    <title>(pica)Département (code)</title>
+		    <map><name indexSet="pica">dep</name></map>
+		</index>
+		<index> 
+                    <title>(pica)Nom de l 'établissement</title>
+		    <map><name indexSet="pica">mno</name></map>
+		</index>
+		<index> 
+                    <title>(pica)Ville</title>
+		    <map><name indexSet="pica">vil</name></map>
+		</index>
+		<index> 
+                    <title>(pica)Numéro national de thèse</title>
+		    <map><name indexSet="pica">nnt</name></map>
+		</index>
+		<index> 
+                    <title>(pica)OCN : Numéro WorldCat</title>
+		    <map><name indexSet="pica">ocn</name></map>
+		</index>
+		<index> 
+                    <title>(pica)Forme ; Genre</title>
+		    <map><name indexSet="pica">fgr</name></map>
+		</index>
+		<index> 
+                    <title>(pica)Note sur le financement</title>
+		    <map><name indexSet="pica">fir</name></map>
+		</index>
+		<index> 
+                    <title>(pica)Année de publication</title>
+		    <map><name indexSet="pica">apu</name></map>
+		</index>
+		<index> 
+                    <title>(pica)Type de document</title>
+		    <map><name indexSet="pica">tdo</name></map>
+		</index>
+		<index> 
+                    <title>(pica)Langue du document</title>
+		    <map><name indexSet="pica">lan</name></map>
+		</index>
+		<index> 
+                    <title>(pica)Pays de publication</title>
+		    <map><name indexSet="pica">pay</name></map>
+		</index>
+		 
+		<indexSet name="DC"/>  
+		<index> 
+		    <title>(dc) Title </title> 
+		    <map><name indexSet="dc">title</name></map>
+		</index> 
+		<index> 
+		    <title>(dc) Author</title>  
+		    <map><name indexSet="dc">creator</name></map>            
+		</index> 
+		<index> 
+		    <title>(dc) Year of Publication</title> 
+		    <map><name indexSet="dc">date</name></map> 
+		</index> 
+		<index> 
+		<title>(dc) Material</title> 
+		    <map><name indexSet="dc">format</name></map> 
+		    </index> 
+		<index> 
+		    <title>(dc) ISSB</title> 
+		    <map><name indexSet="dc">identifier</name></map> 
+		</index>
+	    </indexInfo> 
+
+	    <schemaInfo> 
+		<schema identifier="info:srw/schema/1/dc-v1.1" uri="" sort="true" retrieve="true" name="dc"> 
+		    <title>DC:Dublin Core</title> 
+		</schema> 
+		<schema identifier="info:srw/schema/5/picaXML-v1.0" uri="" sort="true" retrieve="true" name="pica-XML">
+		    <title>pica-XML</title>
+		</schema>
+		<schema identifier="" uri="" sort="true" retrieve="true" name="pica"> 
+		    <title>Pica</title> 
+		</schema> 
+		<schema identifier="" uri="" sort="true" retrieve="true" name="ppxml">
+		    <title>Pica xml</title>
+		</schema>
+		<schema identifier="" uri="" sort="true" retrieve="true" name="unimarc"> 
+		    <title>Unimarc</title> 
+		</schema> 
+		<schema identifier="" uri="" sort="true" retrieve="true" name="uni_b"> 
+		    <title>Unimarc short</title> 
+		</schema> 
+		<schema identifier="" uri="" sort="true" retrieve="true" name="pica_b"> 
+		    <title>Pica short</title> 
+		</schema> 
+		<schema identifier="" uri="" sort="true" retrieve="true" name="picaxml_b">
+		    <title>Pica short (fcv xml)</title>
+		</schema>
+		<schema identifier="info:srw/schema/1/marcxml-v1.1" uri="" sort="true" retrieve="true" name="marcxml"> 
+		    <title>marcxml</title>
+		</schema>
+		<schema identifier="" uri="" sort="true" retrieve="true" name="marc21"> 
+		    <title>Marc21</title> 
+		</schema>
+		<schema identifier="" uri="" sort="true" retrieve="true" name="isni-b">
+		    <title>ISNI basic</title>
+		</schema>
+		<schema identifier="" uri="" sort="true" retrieve="true" name="isni-e">
+		    <title>ISNI extended</title>
+		</schema>
+	    </schemaInfo> 
+
+	    <sortkeyInfo>
+		<sortkey uri="" sort="true" retrieve="true" name="none"> 
+		    <title>none</title> 
+		</sortkey>
+		<sortkey uri="" sort="true" retrieve="true" name="RLV,pica,0,,"> 
+		    <title>Pica:pertinence</title> 
+		</sortkey>
+		<sortkey uri="" sort="true" retrieve="true" name="YOP,pica,0,,"> 
+		    <title>Pica:ann&#233;e de publication</title> 
+		</sortkey>
+		<sortkey uri="" sort="true" retrieve="true" name="LST_ay,pica,0,,"> 
+		    <title>Pica:SORTORDER_LST_ay</title> 
+		</sortkey>
+		<sortkey uri="" sort="true" retrieve="true" name="LST_ty,pica,0,,"> 
+		    <title>Pica:SORTORDER_LST_ty</title> 
+		</sortkey>
+		<sortkey uri="" sort="true" retrieve="true" name="date,dc,0,,"> 
+		    <title>DC:year of publication</title> 
+		</sortkey> 
+		<sortkey uri="" sort="true" retrieve="true" name="title,dc,1,,"> 
+		    <title>DC:title</title> 
+		</sortkey> 
+		<sortkey uri="" sort="true" retrieve="true" name="creator,dc,1,,"> 
+		    <title>DC:author</title> 
+		</sortkey> 
+	    </sortkeyInfo> 
+	    <configInfo> 
+		
+		<default type="numberOfRecords">10</default> 
+
+		
+		<default type="indexSet">pica</default> 
+
+		
+		<default type="index">all</default>
+
+		
+		<default type="relation">=</default> 
+
+		
+		<default type="sortSchema">DC</default> 
+
+		
+		<default type="retrieveSchema">pica</default> 
+
+		
+		<default type="sortCaseSensitive">false</default> 
+		
+		<default type="sortAscending">true</default> 
+		<default type="stylesearch">https://www.sudoc.abes.fr/cbs/sru/DB=2.1/?xsl=searchRetrieveResponse</default>
+		<default type="stylescan">https://www.sudoc.abes.fr/cbs/sru/DB=2.1/?xsl=scanResponse</default>
+
+		
+		<setting type="maximumRecords">1000</setting> 
+		
+		<supports type="proximity"/> 
+		<supports type="resultsets"/>
+	    </configInfo> 
+	</zr:explain>
+     </srw:recordData>
+  </srw:record>
+<diag:diagnostics>
+    <diag:uri>info:srw/diagnostic/1/0</diag:uri>
+    
+    
+</diag:diagnostics>
+</srw:explainResponse> 

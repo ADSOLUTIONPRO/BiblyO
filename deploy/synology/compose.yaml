@@ -1,0 +1,52 @@
+# biblyO pour Synology Container Manager (DSM 7.2) : Projet → Créer → coller ce fichier.
+# Guide pas à pas : INSTALLATION-SYNOLOGY.md. Mise à jour : docs/MISE-A-JOUR.md.
+#
+# Trois valeurs sont à renseigner dans le fichier .env du dossier du projet (modèle : .env.example) :
+#   BIBLYO_PORT      port libre du NAS, vérifié avant l'installation (jamais un port déjà pris)
+#   BIBLYO_DOSSIER   dossier biblyO créé dans File Station, par exemple /volume1/docker/biblyo
+#   BIBLYO_BASE_URL  adresse par laquelle on ouvre biblyO (http://<adresse-du-nas>:<port>, puis https)
+# Si une variable manque, Container Manager refuse de démarrer le projet et le dit.
+#
+# Aucune migration au démarrage : la base se crée et se met à jour par « biblyo db upgrade », à la main.
+# Aucune donnée de démonstration, aucun compte prédéfini. L'application des imports est désactivée.
+# Jamais « docker compose down -v », jamais de nettoyage global : les dossiers portent la base et les sauvegardes.
+
+services:
+  biblyo:
+    image: ghcr.io/adsolutionpro/biblyo:0.1.0
+    platform: linux/amd64
+    container_name: biblyo
+    restart: unless-stopped
+    ports:
+      - "${BIBLYO_PORT:?BIBLYO_PORT manquant : port libre du NAS}:8000"
+    environment:
+      TZ: "${TZ:-Europe/Paris}"
+      BIBLYO_ENV: production
+      BIBLYO_BASE_URL: "${BIBLYO_BASE_URL:?BIBLYO_BASE_URL manquant}"
+      BIBLYO_TRUSTED_PROXIES: "${BIBLYO_TRUSTED_PROXIES:-}"
+      BIBLYO_LOG_LEVEL: "${BIBLYO_LOG_LEVEL:-INFO}"
+    volumes:
+      # Base SQLite (biblyo.sqlite) et couvertures (sous-dossier media/) : un seul dossier, local au NAS.
+      # Jamais un partage SMB ou NFS. Propriétaire : l'utilisateur 10001 de l'image (voir le guide, étape 2).
+      - "${BIBLYO_DOSSIER:?BIBLYO_DOSSIER manquant}/data:/data"
+      # Sauvegardes de biblyO, dans un dossier à part : à copier hors du NAS (Hyper Backup).
+      - "${BIBLYO_DOSSIER:?BIBLYO_DOSSIER manquant}/sauvegardes:/backups"
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    healthcheck:
+      # Celui de l'image, rappelé ici pour qu'il soit visible : « sain » seulement quand la base est à jour.
+      test: ["CMD", "/app/.venv/bin/python", "-c", "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8000/sante', timeout=4).status == 200 else 1)"]
+      interval: 30s
+      timeout: 5s
+      start_period: 30s
+      retries: 3
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"

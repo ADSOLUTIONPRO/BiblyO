@@ -1,0 +1,156 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header %}
+{% from "components/buttons.html" import button, link_button %}
+{% from "components/feedback.html" import alert, badge %}
+{% block title %}{{ _("Correspondance des colonnes") }} — biblyO{% endblock %}
+{% macro status(key) %}{% set found = rule_status.get(key) %}{% if found %}<p class="small m0 mb-s">{% if found[0] == "validated" %}{{ badge(_("Arbitré"), "ok") }} <b>{{ found[1] }}</b> : {{ found[2] }}{% else %}{{ badge(_("Provisoire"), "due") }} {{ _("Recommandation {d}, non approuvée : changez-la ici si besoin.").format(d=found[1]) }}{% endif %}</p>{% endif %}{% endmacro %}
+{% block content %}
+{% call page_header(_("Correspondance des colonnes"), _("Vérifiez ce que devient chaque colonne, puis lancez la simulation. Rien n’est écrit dans le catalogue."), "io", "io") %}
+  {{ link_button(_("Tous les dépôts"), "/imports", "g", "list") }}
+{% endcall %}
+
+{% if message %}{{ alert(message, "late") }}{% endif %}
+{% if errors %}{{ alert(_("La correspondance est incomplète : corrigez les points signalés."), "late") }}{% endif %}
+
+<section class="card" aria-labelledby="fichiers-titre">
+  <div class="card-h"><h2 id="fichiers-titre">{{ _("Fichiers lus") }}</h2></div>
+  <div class="card-b">
+    <dl class="dlist">
+      <dt>{{ _("Fichier principal") }}</dt><dd><span class="b">{{ deposit.filename }}</span> · <span class="mono small">{{ deposit.sha256[:16] }}</span> · {{ _("feuille « {s} », en-têtes ligne {h}, {n} lignes").format(s=data_sheet.name, h=data_sheet.header_row, n=data_sheet.rows | length) }}</dd>
+      {% if other %}<dt>{{ _("Fichier complémentaire") }}</dt><dd><span class="b">{{ deposit.complement_filename }}</span> · <span class="mono small">{{ deposit.complement_sha256[:16] }}</span> · {{ _("comparé ligne à ligne par le numéro d’inventaire ; il ne fait pas foi") }}</dd>{% endif %}
+    </dl>
+    {% if main.sheets | length > 1 %}
+    <form class="row gap-xs mt-s" method="post" action="/imports/{{ deposit.token }}">
+      <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+      <label for="feuille" class="small">{{ _("Feuille à importer") }}</label>
+      <select class="in in-sm" id="feuille" name="feuille">{% for s in main.sheets %}<option value="{{ s.name }}"{% if s.name == data_sheet.name %} selected{% endif %}>{{ s.name }} ({{ s.rows | length }})</option>{% endfor %}</select>
+      {{ button(_("Changer"), "g", size="sm", type="submit") }}
+    </form>
+    {% endif %}
+    {% for origin, notice in notices %}<p class="small m0 mt-s">{{ badge(_("Signalé"), "due") }} <span class="b">{{ origin }}</span> : {{ notice.message }}{% if notice.cells %} <span class="mono">{{ notice.cells | join(", ") }}</span>{% endif %}</p>{% endfor %}
+  </div>
+</section>
+
+<form class="form" method="post" action="/imports/{{ deposit.token }}">
+<input type="hidden" name="_csrf" value="{{ csrf_token }}">
+
+<section class="card" aria-labelledby="colonnes-titre">
+  <div class="card-h"><h2 id="colonnes-titre">{{ _("Colonnes : {n}").format(n=columns | length) }}</h2>
+    <span class="muted small">{{ _("Aucune colonne n’est ignorée : sans champ, elle est conservée telle quelle, lisible et exportée.") }}</span></div>
+  {% if errors.get("colonnes") %}<div class="card-b"><p class="err m0" id="colonnes-erreur">{{ errors.get("colonnes") }}</p></div>{% endif %}
+  <div class="tbl-wrap tbl-m-cards" tabindex="0" role="region" aria-label="{{ _("Correspondance des colonnes") }}"><table class="tbl">
+    <caption class="sr">{{ _("Correspondance des colonnes") }}</caption>
+    <thead><tr><th scope="col">{{ _("Colonne") }}</th><th scope="col">{{ _("En-tête exact") }}</th><th scope="col">{{ _("Remplie") }}</th><th scope="col">{{ _("Exemples") }}</th><th scope="col">{{ _("Devient") }}</th><th scope="col">{{ _("Niveau") }}</th></tr></thead>
+    <tbody>
+      {% for c in columns %}
+      {% set control = "col-" ~ c.source ~ "-" ~ c.column.letter %}
+      <tr>
+        <td class="mono b">{{ c.column.letter }}{% if c.source == "complement" %} <span class="faint small">{{ _("compl.") }}</span>{% endif %}</td>
+        <td><span class="b">{{ c.column.label }}</span>{% if c.column.header != c.column.label %} <span class="mono small faint">« {{ c.column.header }} »</span>{% endif %}</td>
+        <td class="small">{{ c.filled }} / {{ c.rows }}<br><span class="faint">{{ _("{n} valeurs distinctes").format(n=c.distinct) }}</span></td>
+        <td class="small">{% for value, count in c.examples %}<span class="mono">{{ value }}</span> <span class="faint">({{ count }})</span>{% if not loop.last %}<br>{% endif %}{% endfor %}</td>
+        <td>
+          <label class="sr" for="{{ control }}">{{ _("Destination de la colonne {c}").format(c=c.column.label) }}</label>
+          <select class="in in-sm" id="{{ control }}" name="col::{{ c.column.label }}"{% if c.risks %} aria-describedby="{{ control }}-risque"{% endif %}>
+            {% for level, level_label in levels.items() %}
+            <optgroup label="{{ level_label }}">
+              {% for spec in fields if spec.level == level %}<option value="{{ spec.code }}"{% if spec.code == c.field %} selected{% endif %}>{{ spec.label }}</option>{% endfor %}
+            </optgroup>
+            {% endfor %}
+          </select>
+          <span class="small faint">{% if c.suggestion.confidence == "exact" %}{{ _("Reconnue") }}{% elif c.suggestion.confidence == "probable" %}{{ _("Probable") }}{% else %}{{ _("Non reconnue") }}{% endif %} : {{ c.suggestion.reason }}</span>
+          {% for risk in c.risks %}<span class="small late-ink block" id="{{ control }}-risque">{{ risk }}</span>{% endfor %}
+        </td>
+        <td>{{ badge(c.level, "neutral", dot=False) }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table></div>
+</section>
+
+<section class="card" aria-labelledby="regles-titre">
+  <div class="card-h"><h2 id="regles-titre">{{ _("Règles appliquées") }}</h2>{{ badge(_("Validées le 13 novembre 2026"), "ok") }}</div>
+  <div class="card-b"><ul class="small m0">{% for rule in rules %}<li>{{ rule }}</li>{% endfor %}</ul></div>
+</section>
+
+{% if condition_values %}
+<section class="card" aria-labelledby="etats-titre">
+  <div class="card-h"><h2 id="etats-titre">{{ _("États") }}</h2></div>
+  <div class="card-b">
+    {{ status("condition_map") }}
+    <p class="muted small m0 mb-s">{{ _("La valeur d’origine reste toujours en « Précision sur l’état ». « Non renseigné » : aucun état n’est déduit, la valeur devient une proposition à vérifier. Cette table ne dit que l’état physique : ni la disponibilité au prêt, ni la présence sur l’étagère.") }}</p>
+    <p class="muted small m0 mb-s">{{ _("Seule une valeur qui est déjà un état de biblyO (« usé ») est rangée d’office. Une valeur ambiguë reste « Non renseigné » : la recommandation est indiquée, à choisir ici si vous l’approuvez.") }}</p>
+    {% for value, count, chosen, advice in condition_values %}
+    <div class="fld"><label for="etat-{{ loop.index }}">« {{ value }} » <span class="faint">({{ count }})</span></label>
+      <select class="in" id="etat-{{ loop.index }}" name="etat::{{ value }}" aria-describedby="etat-{{ loop.index }}-aide">{% for code, label in conditions.items() %}<option value="{{ code }}"{% if code == chosen %} selected{% endif %}>{{ label }}</option>{% endfor %}</select>
+      <span class="h" id="etat-{{ loop.index }}-aide">{% if advice and advice != chosen %}{{ _("Recommandation, non appliquée : {s}").format(s=conditions[advice]) }}{% elif chosen %}{{ _("Rangé : {s} ; la valeur d’origine reste en précision.").format(s=conditions[chosen]) }}{% else %}{{ _("Aucun état déduit : proposition à vérifier.") }}{% endif %}</span></div>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+{% if collection_values %}
+<section class="card" aria-labelledby="collections-titre">
+  <div class="card-h"><h2 id="collections-titre">{{ _("Collections : {n} valeurs").format(n=collection_values | length) }}</h2></div>
+  <div class="card-b">
+    {{ status("collection_map") }}
+    <p class="muted small m0 mb-s">{{ _("Une valeur rangée en mention ou en note garde son texte d’origine, restitué à l’export.") }}</p>
+    {% for value, count, chosen, link in collection_values %}
+    <div class="fld"><label for="collection-{{ loop.index }}">« {{ value }} » <span class="faint">({{ count }})</span></label>
+      <select class="in" id="collection-{{ loop.index }}" name="collection::{{ value }}">{% for code, label in collection_kinds.items() %}<option value="{{ code }}"{% if code == chosen %} selected{% endif %}>{{ label }}</option>{% endfor %}</select></div>
+    {% if value in collection_groups %}<div class="fld"><label for="canon-{{ loop.index }}">{{ _("Forme retenue pour « {v} »").format(v=value) }}</label>
+      <select class="in" id="canon-{{ loop.index }}" name="canon::{{ value }}" aria-describedby="canon-{{ loop.index }}-aide"><option value="">{{ _("À choisir : rapprochement non établi") }}</option>{% for form in collection_groups[value] %}<option value="{{ form }}"{% if profile.collection_canonical.get(value) == form %} selected{% endif %}>{{ form }}</option>{% endfor %}</select>
+      <span class="h" id="canon-{{ loop.index }}-aide">{{ _("Ces valeurs ne diffèrent que par la casse ou les accents. Choisissez une forme seulement si c’est la même collection : chaque valeur d’origine reste dans sa ligne.") }}</span></div>{% endif %}
+    {% if existing_collections %}<div class="fld"><label for="lien-{{ loop.index }}">{{ _("Rattacher « {v} » à une collection existante").format(v=value) }}</label>
+      <select class="in" id="lien-{{ loop.index }}" name="lien::{{ value }}"><option value="">{{ _("Non : nouvelle collection, nom d’origine") }}</option>{% for item in existing_collections %}<option value="{{ item.id }}"{% if item.id == link %} selected{% endif %}>{{ item.label }}</option>{% endfor %}</select></div>{% endif %}
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+<section class="card" aria-labelledby="reglages-titre">
+  <div class="card-h"><h2 id="reglages-titre">{{ _("Contributeurs et codes-barres") }}</h2></div>
+  <div class="card-b">
+    {{ status("roles") }}
+    <div class="fld"><label for="roles">{{ _("Rôles des contributeurs") }}</label>
+      <select class="in" id="roles" name="roles" aria-describedby="roles-aide">{% for code, label in role_modes.items() %}<option value="{{ code }}"{% if code == profile.roles %} selected{% endif %}>{{ label }}</option>{% endfor %}</select>
+      <span class="h" id="roles-aide">{{ _("« Rôle à préciser pour tous » : chaque nom reçoit le rôle « autre », à préciser sur la notice ; sa colonne et sa position sont gardées. « Auteur, puis rôle à préciser » : seulement si vous établissez que la première colonne désigne l’auteur.") }}</span></div>
+    {{ status("barcode") }}
+    <div class="fld"><label for="codes_barres">{{ _("Codes-barres") }}</label>
+      <select class="in" id="codes_barres" name="codes_barres"{% if errors.get("codes_barres") %} aria-invalid="true" aria-describedby="codes_barres-erreur"{% endif %}>{% for code, label in barcode_modes.items() %}<option value="{{ code }}"{% if code == profile.barcode %} selected{% endif %}>{{ label }}</option>{% endfor %}</select>
+      <span class="h">{{ _("Mode retenu (D-L6-7) : chaque exemplaire garde son numéro d’inventaire d’origine et reçoit son identifiant biblyO ; le code-barres reste vide, attribué plus tard sans toucher à l’inventaire. « Étiquettes existantes » reprend une colonne associée à « Code-barres déjà attribué », jamais un code CSN de la reconstruction. Aucune étiquette n’est imprimée.") }}</span>
+      {% if errors.get("codes_barres") %}<span class="err" id="codes_barres-erreur">{{ errors.get("codes_barres") }}</span>{% endif %}</div>
+    <div class="fld"><label for="prefixe">{{ _("Préfixe des codes générés (mode non retenu)") }}</label>
+      <input class="in in-sm" id="prefixe" name="prefixe" value="{{ profile.barcode_prefix }}" maxlength="12"{% if errors.get("prefixe") %} aria-invalid="true" aria-describedby="prefixe-erreur"{% endif %}>
+      {% if errors.get("prefixe") %}<span class="err" id="prefixe-erreur">{{ errors.get("prefixe") }}</span>{% endif %}</div>
+  </div>
+</section>
+
+<section class="card" aria-labelledby="apercu-titre">
+  <div class="card-h"><h2 id="apercu-titre">{{ _("Aperçu : œuvre, édition, exemplaire") }}</h2><span class="muted small">{{ _("Les {n} premières lignes, selon la correspondance enregistrée.").format(n=preview | length) }}</span></div>
+  <div class="tbl-wrap tbl-m-cards" tabindex="0" role="region" aria-label="{{ _("Aperçu de la répartition") }}"><table class="tbl">
+    <caption class="sr">{{ _("Aperçu de la répartition") }}</caption>
+    <thead><tr><th scope="col">{{ _("Ligne") }}</th>{% for level, label in levels.items() %}<th scope="col">{{ label }}</th>{% endfor %}</tr></thead>
+    <tbody>
+      {% for number, split in preview %}
+      <tr><td class="mono">{{ number }}</td>
+        {% for level in levels %}<td class="small">{% for label, value in split[level] %}<span class="faint">{{ label }} :</span> {{ value }}{% if not loop.last %}<br>{% endif %}{% endfor %}</td>{% endfor %}</tr>
+      {% endfor %}
+    </tbody>
+  </table></div>
+</section>
+
+<section class="card" aria-labelledby="actions-titre">
+  <div class="card-h"><h2 id="actions-titre">{{ _("Enregistrer et simuler") }}</h2></div>
+  <div class="card-b">
+    <div class="fld"><label for="nom_profil">{{ _("Nom du profil, pour le réutiliser") }}</label>
+      <input class="in" id="nom_profil" name="nom_profil" value="{{ deposit.profile_name }}" maxlength="80"{% if errors.get("nom_profil") %} aria-invalid="true" aria-describedby="nom_profil-erreur"{% endif %}>
+      {% if errors.get("nom_profil") %}<span class="err" id="nom_profil-erreur">{{ errors.get("nom_profil") }}</span>{% endif %}</div>
+    <div class="form-actions">
+      {{ button(_("Lancer la simulation"), "p", "stats", type="submit", name="action", value="simuler") }}
+      {{ button(_("Enregistrer la correspondance"), "s", "check", type="submit", name="action", value="enregistrer") }}
+      {{ button(_("Enregistrer comme profil"), "g", "copy", type="submit", name="action", value="profil") }}
+      {{ button(_("Abandonner ce dépôt"), "g", "trash", type="submit", name="action", value="abandonner") }}
+    </div>
+  </div>
+</section>
+</form>
+{% endblock %}

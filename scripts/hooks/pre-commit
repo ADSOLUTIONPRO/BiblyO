@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# SPDX-License-Identifier: EUPL-1.2
+# Refuse le commit si `make check` échoue : la barrière ne dépend plus de la façon dont la commande est écrite.
+# Installé par `make hooks`. Local à chaque clone, comme les autres crochets du dépôt.
+set -euo pipefail
+
+# Git renseigne ces variables pour le crochet : elles détourneraient les commandes `git` lancées par les tests.
+unset GIT_DIR GIT_INDEX_FILE GIT_WORK_TREE GIT_PREFIX GIT_AUTHOR_NAME GIT_AUTHOR_EMAIL GIT_AUTHOR_DATE
+
+racine=$(git rev-parse --show-toplevel)
+cd "$racine"
+
+if ! git diff --quiet; then
+  echo "Commit refusé : des fichiers suivis ont des modifications non indexées." >&2
+  echo "La barrière contrôle le répertoire de travail : ce qui serait commité ne serait pas ce qui est testé." >&2
+  exit 1
+fi
+
+if ! "$racine/scripts/barriere.sh" check 8; then
+  echo "Commit refusé : la barrière « make check » a échoué." >&2
+  exit 1
+fi

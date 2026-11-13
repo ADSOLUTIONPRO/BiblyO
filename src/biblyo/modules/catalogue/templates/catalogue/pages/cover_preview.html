@@ -1,0 +1,77 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header %}
+{% from "components/buttons.html" import button, link_button %}
+{% from "components/feedback.html" import alert, badge %}
+{% from "components/forms.html" import checkbox %}
+{% from "components/catalogue.html" import cover, crumbs, fact %}
+{% from "components/icons.html" import icon %}
+{% set notice_url = "/catalogue/notices/" ~ notice.id %}
+{% block title %}{{ _("Aperçu de la couverture") }} : {{ notice.title }} — biblyO{% endblock %}
+{% block content %}
+{{ crumbs([(_("Catalogue"), "/catalogue"), (notice.title, notice_url ~ "?edition=" ~ edition.id), (_("Couverture"), base ~ "?edition=" ~ edition.id), (_("Aperçu"), "")]) }}
+{% call page_header(_("Aperçu de la couverture"), _("Vérifiez l’image avant de l’enregistrer. Rien n’a encore changé sur la fiche."), "cat", "eye") %}{% endcall %}
+{% if message %}{{ alert(message, "late") }}{% endif %}
+
+<form class="form" method="post" action="{{ base }}/apercu/{{ staged.token }}" novalidate>
+  <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+  <input type="hidden" name="attendue" value="{{ edition.cover.media_id if edition.cover else '' }}">
+  <div class="couv-compare">
+    <section class="card" aria-labelledby="apercu-actuelle">
+      <div class="card-h"><h2 id="apercu-actuelle">{{ _("Actuelle") }}</h2></div>
+      <div class="card-b couv-figure">
+        {{ cover(notice.title, notice.series.title if notice.series else "", notice.series.volume_text if notice.series else "", notice.authors_text, notice.color, edition.cover.path if edition.cover else "", kicker=notice.document_type.label) }}
+        {% if not edition.cover %}<p class="muted small m0">{{ _("Aucune couverture : visuel de remplacement.") }}</p>{% endif %}
+      </div>
+    </section>
+    <section class="card" aria-labelledby="apercu-nouvelle">
+      <div class="card-h"><h2 id="apercu-nouvelle">{{ _("Nouvelle") }}</h2>
+        {% if staged.match %}{% set label = match_labels.get(staged.match, (staged.match, "neutral")) %}{{ badge(label[0], label[1]) }}{% endif %}</div>
+      <div class="card-b couv-figure">
+        <img class="cover-img" src="{{ staged.path }}" alt="{{ _('Nouvelle couverture proposée pour') }} {{ notice.title }}" width="{{ staged.width }}" height="{{ staged.height }}">
+        <dl class="dlist">
+          {{ fact(_("Type d’ajout"), kind_labels.get(staged.kind, staged.kind)) }}
+          {% if staged.source_code %}{{ fact(_("Source"), source_labels.get(staged.source_code, staged.source_code)) }}{% endif %}
+          {% if staged.edition_text %}{{ fact(_("Édition représentée selon la source"), staged.edition_text, wide=True) }}{% endif %}
+          {{ fact(_("Dimensions enregistrées"), staged.width ~ " × " ~ staged.height ~ " px") }}
+          {% if staged.kind == "url" %}{{ fact(_("Adresse"), staged.reference, wide=True) }}{% endif %}
+          {% if staged.rights_note %}{{ fact(_("Origine et droit d’utilisation"), staged.rights_note, wide=True) }}{% endif %}
+          {% if staged.license_note %}{{ fact(_("Conditions de la source"), staged.license_note, wide=True) }}{% endif %}
+        </dl>
+        {% if staged.origin_url and staged.kind == "source" %}<p class="small m0"><a href="{{ staged.origin_url }}" rel="noopener noreferrer">{{ _("Voir la notice de la source") }}</a></p>{% endif %}
+      </div>
+    </section>
+  </div>
+
+  <section class="card" aria-labelledby="apercu-confirmer">
+    <div class="card-h"><h2 id="apercu-confirmer">{{ _("Confirmer") }}</h2></div>
+    <div class="card-b stack">
+      <p class="m0">{{ _("Édition concernée :") }} <b>{{ edition.publisher.label if edition.publisher else _("Éditeur non renseigné") }}{% if edition.year %}, {{ edition.year }}{% endif %}{% if edition.isbn13 %}, {{ edition.isbn13[0] }}{% endif %}</b>. {{ _("Les autres éditions ne changent pas.") }}</p>
+      {% if needs_match %}
+        {{ alert(_("Cette image ne vient pas d’une notice portant le même ISBN : sa couverture peut différer de votre livre. Comparez-la avec le livre en main avant de l’enregistrer."), "due") }}
+        {{ checkbox("correspondance", _("J’ai vérifié sur le livre : cette image correspond à mon édition"), "1", id="correspondance") }}
+        {% if errors.get("correspondance") %}<div class="fld"><span class="err" role="alert">{{ icon("alert", 14) }}<span>{{ errors.get("correspondance") }}</span></span></div>{% endif %}
+      {% endif %}
+      {% if staged.needs_rights %}
+        {{ alert(_("Open Library n’accorde aucun droit sur ses couvertures : elles restent celles des éditeurs. Indiquez sur quoi repose votre droit de l’utiliser."), "info") }}
+        <fieldset class="fld couv-rights">
+          <legend>{{ _("Droit d’utiliser cette image") }} <span aria-hidden="true">*</span></legend>
+          {% for value, label in rights.items() %}
+          <label class="check" for="apercu-droit-{{ value }}"><input type="radio" id="apercu-droit-{{ value }}" name="droit" value="{{ value }}"{% if errors.get("droit") %} aria-invalid="true"{% endif %}><span>{{ label }}</span></label>
+          {% endfor %}
+          {% if errors.get("droit") %}<span class="err" role="alert">{{ icon("alert", 14) }}<span>{{ errors.get("droit") }}</span></span>{% endif %}
+        </fieldset>
+        <div class="fld"><label for="apercu-droit-detail">{{ _("Précision (obligatoire pour « Autre »)") }}</label>
+          <input class="in" id="apercu-droit-detail" name="droit_detail" maxlength="300"{% if errors.get("droit_detail") %} aria-invalid="true"{% endif %}>
+          {% if errors.get("droit_detail") %}<span class="err" role="alert">{{ icon("alert", 14) }}<span>{{ errors.get("droit_detail") }}</span></span>{% endif %}</div>
+      {% endif %}
+      {% if edition.cover %}
+        {{ checkbox("remplacer", _("Remplacer la couverture actuelle"), "1", help=_("La couverture actuelle reste dans l’historique et se rétablit en un clic."), id="remplacer") }}
+      {% endif %}
+      <div class="form-actions">
+        {{ button(_("Enregistrer la couverture"), "p", "check", type="submit", name="action", value="enregistrer") }}
+        {{ button(_("Abandonner"), "g", "x", type="submit", name="action", value="abandonner") }}
+      </div>
+    </div>
+  </section>
+</form>
+{% endblock %}

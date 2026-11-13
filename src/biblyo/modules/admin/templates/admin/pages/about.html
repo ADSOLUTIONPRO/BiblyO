@@ -1,0 +1,13 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header, card %}
+{% block title %}{{ _("À propos") }} — biblyO{% endblock %}
+{% block card_class %} wide{% endblock %}
+{% block content %}
+{{ page_header(_("À propos de biblyO"), _("Version") ~ " " ~ app_version, "io", "info") }}
+<div class="stack narrow">
+  <p>{{ _("Logiciel original de gestion de bibliothèque. Licence EUPL-1.2 (choix provisoire, à confirmer avant toute publication).") }}</p>
+  {% if source_url %}<p><a href="{{ source_url }}">{{ _("Code source") }}</a></p>{% else %}<p>{{ _("Code source : dépôt non encore publié.") }}</p>{% endif %}
+  <p class="muted">{{ _("Données bibliographiques : Bibliothèque nationale de France (catalogue général) et Abes (Sudoc), sous Licence Ouverte de l’État, avec mention de la source et de la date de récupération, conservées pour chaque champ repris. Couvertures : service Couvertures du catalogue général de la BnF, selon les conditions de réutilisation des données de la BnF.") }}</p>
+  <p class="muted">{{ _("Polices et bibliothèques tierces : Bricolage Grotesque, Manrope, JetBrains Mono (SIL OFL 1.1), htmx (0BSD), Alpine.js (MIT). Le détail figure dans THIRD_PARTY_NOTICES.md.") }}</p>
+</div>
+{% endblock %}

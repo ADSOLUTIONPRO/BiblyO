@@ -1,0 +1,49 @@
+{% from "components/forms.html" import field, textarea, select %}
+{% from "components/catalogue.html" import contributor_rows, suggest_field %}
+
+{% macro identity_fields(values, errors, type_options, section_options, audience_options, role_options, rows) %}
+{{ field("titre", _("Titre"), values.get("titre", ""), required=True, error=errors.get("titre", "")) }}
+<div class="grid g2">
+  {{ field("sous_titre", _("Sous-titre"), values.get("sous_titre", "")) }}
+  {{ field("titre_original", _("Titre original"), values.get("titre_original", "")) }}
+  {{ select("type", _("Type de document"), type_options, values.get("type", ""), error=errors.get("type", ""), required=True) }}
+  {{ select("section", _("Section principale"), section_options, values.get("section", ""), error=errors.get("section", "")) }}
+  {{ select("public", _("Public"), audience_options, values.get("public", ""), error=errors.get("public", "")) }}
+</div>
+{{ contributor_rows("contributeur", _("Auteurs et contributeurs de l’œuvre"), role_options, rows, errors) }}
+{%- endmacro %}
+
+{% macro series_fields(values, errors) %}
+<div class="grid g2">
+  {{ suggest_field("serie", _("Série"), "series", values.get("serie", ""), errors.get("serie", "")) }}
+  {{ field("tome", _("Tome"), values.get("tome", ""), error=errors.get("tome", ""), help=_("12, 12,5 ou un libellé : HS 2, Intégrale 1.")) }}
+</div>
+{%- endmacro %}
+
+{% macro content_fields(values, errors) %}
+{{ textarea("resume", _("Résumé"), values.get("resume", ""), error=errors.get("resume", "")) }}
+<div class="grid g2">
+  {{ suggest_field("categories", _("Catégories"), "categories", values.get("categories", ""), help=_("Séparées par des virgules.")) }}
+  {{ suggest_field("genres", _("Genres"), "genres", values.get("genres", ""), help=_("Séparés par des virgules.")) }}
+</div>
+{{ suggest_field("mots_cles", _("Mots-clés"), "mots-cles", values.get("mots_cles", ""), help=_("Séparés par des virgules.")) }}
+{{ textarea("notes", _("Notes internes"), values.get("notes", ""), error=errors.get("notes", "")) }}
+{%- endmacro %}
+
+{% macro edition_fields(values, errors, language_options, role_options, rows) %}
+{{ field("isbn", _("ISBN"), values.get("isbn", ""), error=errors.get("isbn", ""), help=_("10 ou 13 chiffres, avec ou sans tirets. Plusieurs : séparez-les par une virgule. Aucun : laissez vide."), inputmode="text") }}
+<div class="grid g2">
+  {{ suggest_field("editeur", _("Éditeur"), "editeurs", values.get("editeur", ""), errors.get("editeur", "")) }}
+  {{ suggest_field("collection", _("Collection"), "collections", values.get("collection", ""), errors.get("collection", "")) }}
+  {{ field("numero_collection", _("Numéro dans la collection"), values.get("numero_collection", "")) }}
+  {{ field("mention_edition", _("Édition"), values.get("mention_edition", ""), help=_("2e édition, édition collector…")) }}
+  {{ field("annee", _("Année"), values.get("annee", ""), error=errors.get("annee", ""), inputmode="numeric") }}
+  {{ field("date_publication", _("Date précise"), values.get("date_publication", ""), help=_("AAAA-MM ou AAAA-MM-JJ, si elle est connue.")) }}
+  {{ select("langue", _("Langue"), language_options, values.get("langue", "fre"), error=errors.get("langue", "")) }}
+  {{ field("pages", _("Pages"), values.get("pages", ""), error=errors.get("pages", ""), inputmode="numeric") }}
+  {{ field("titre_edition", _("Titre de cette édition"), values.get("titre_edition", ""), help=_("Seulement s’il diffère du titre de l’œuvre.")) }}
+  {{ field("description_physique", _("Description physique"), values.get("description_physique", ""), help=_("Dimensions, illustrations, reliure.")) }}
+</div>
+{{ contributor_rows("edition_contributeur", _("Contributeurs propres à cette édition : traducteur, illustrateur…"), role_options, rows, errors) }}
+{{ textarea("notes_edition", _("Notes sur l’édition"), values.get("notes_edition", "")) }}
+{%- endmacro %}

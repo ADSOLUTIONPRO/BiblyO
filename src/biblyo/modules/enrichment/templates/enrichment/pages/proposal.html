@@ -1,0 +1,116 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header, ring, data_table %}
+{% from "components/icons.html" import icon %}
+{% from "components/buttons.html" import button, link_button %}
+{% from "components/feedback.html" import badge, alert %}
+{% block title %}{{ _("Comparer : {title}").format(title=notice.title) }} — biblyO{% endblock %}
+{% block content %}
+{% set label = class_labels.get(assessment.match_class, (assessment.match_class, "neutral")) %}
+{% call page_header(_("Comparer avec la notice {source}").format(source=source_labels.get(candidate.source, candidate.source)), _("Chaque ligne montre la valeur de la fiche et celle proposée. Seuls les champs cochés seront appliqués ; un champ déjà rempli n’est remplacé que si vous le cochez vous-même."), "enr", "enrich") %}
+  {{ link_button(_("Retour aux résultats"), base ~ "?edition=" ~ edition.id, "g", "undo") }}
+{% endcall %}
+
+<section class="card enr-head m-{{ label[1] }}">
+  <div class="card-b row gap-xs">
+    {{ ring(assessment.score, _("Score {n} sur 100").format(n=assessment.score), 56, "enr", 6, uncertain=(assessment.match_class in ("uncertain", "multiple"))) }}
+    {% if cover_offered %}<img class="enr-cover" src="{{ base }}/propositions/{{ proposal_id }}/couverture" alt="{{ _('Couverture proposée par la BnF') }}" width="103" height="150" loading="lazy">{% endif %}
+    <div class="grow min0">
+      <div class="row gap-xs">{{ badge(label[0], label[1]) }}{% if assessment.isbn_equal %}{{ badge(_("ISBN identique"), "ok") }}{% endif %}{% if not assessment.edition_usable %}{{ badge(_("édition différente : œuvre seulement"), "due") }}{% endif %}</div>
+      <h2 class="enr-title">{{ candidate.work.title.value }}</h2>
+      <p class="m0 muted">{% for person in candidate.work.contributors %}{{ person.name }}{% if not loop.last %}, {% endif %}{% endfor %}
+        {% if candidate.edition.publisher %} · {{ candidate.edition.publisher.value }}{% endif %}{% if candidate.edition.year %} · {{ candidate.edition.year.raw }}{% endif %}</p>
+      <p class="m0 small faint">{{ _("Notice {id}, {agency}, {date}. Récupérée pour cette recherche. Données : {holder}, licence ouverte.").format(id=candidate.external_id, agency=candidate.source_agency, date=candidate.source_date, holder=source_labels.get(candidate.source, candidate.source)) }} <a class="plain-link" href="{{ candidate.url }}" rel="noopener">{{ _("Voir la notice") }} {{ icon("open", 12) }}</a></p>
+      <details class="enr-why"><summary>{{ _("Pourquoi ce score") }}</summary>
+        <ul class="plain">{% for c in assessment.criteria %}<li>{{ c.note }} <span class="faint">({{ c.points }}/{{ c.possible }})</span></li>{% endfor %}
+        {% for d in assessment.demoted %}<li class="late-ink">{{ _("Déclassé : {reason}").format(reason=d) }}</li>{% endfor %}</ul></details>
+    </div>
+  </div>
+</section>
+
+{% if assessment.match_class in ("uncertain", "multiple") %}{{ alert(_("Correspondance incertaine : vérifiez chaque champ avant de le cocher. Rien n’est précoché."), "due") }}{% endif %}
+
+<form method="post" action="{{ base }}/propositions/{{ proposal_id }}" class="form">
+  <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+  {% macro diff_rows(items, caption) %}
+  {% call data_table(caption, cards_on_phone=True) %}
+    <thead><tr><th scope="col">{{ _("Appliquer") }}</th><th scope="col">{{ _("Champ") }}</th><th scope="col">{{ _("Fiche actuelle") }}</th><th scope="col">{{ _("Proposé") }}</th><th scope="col">{{ _("Action") }}</th></tr></thead>
+    <tbody>
+    {% for d in items %}
+      <tr{% if d.action == "identical" %} class="muted"{% endif %}>
+        <td data-label="{{ _('Appliquer') }}">
+          {% if d.applicable %}
+            <label class="check" for="champ-{{ d.field }}"><input type="checkbox" id="champ-{{ d.field }}" name="champ" value="{{ d.field }}"{% if d.field in checked %} checked{% endif %}><span class="sr">{{ _("Appliquer {label}").format(label=d.label) }}</span></label>
+          {% else %}<span class="faint" aria-hidden="true">—</span>{% endif %}
+        </td>
+        <th scope="row" data-label="{{ _('Champ') }}">{{ d.label }}<span class="muted small block">{{ d.origin }}</span></th>
+        <td data-label="{{ _('Fiche actuelle') }}">{% if d.local %}{{ d.local }}{% else %}<span class="faint">{{ _("vide") }}</span>{% endif %}</td>
+        <td data-label="{{ _('Proposé') }}">{{ d.proposed }}
+          {% if d.field == "contributors" and d.payload %}
+            <ul class="plain enr-people">
+            {% for person in d.payload %}
+              <li class="row gap-xs">
+                {% if person.already_present %}
+                  <span>{{ person.name }}</span>{{ badge(_("déjà présent : {role}").format(role=role_options | selectattr(0, "equalto", person.present_role) | map(attribute=1) | first or person.present_role), "neutral", dot=False) }}
+                {% else %}
+                  <label class="check" for="contributeur-{{ loop.index }}"><input type="checkbox" id="contributeur-{{ loop.index }}" name="contributeur" value="{{ person.name }}"{% if person.name in people %} checked{% endif %}><span>{{ person.name }}{% if person.dates %} <span class="faint">({{ person.dates }})</span>{% endif %}</span></label>
+                  <label class="sr" for="role-{{ loop.index }}">{{ _("Rôle de {name}").format(name=person.name) }}</label>
+                  <select class="in in-sm" id="role-{{ loop.index }}" name="role_{{ person.name }}">
+                    {% for value, text in role_options %}<option value="{{ value }}"{% if (roles.get(person.name) or person.role) == value %} selected{% endif %}>{{ text }}</option>{% endfor %}
+                  </select>
+                  <span class="faint small">{{ person.role_origin }}{% if person.uncertain %} · {{ _("rôle incertain") }}{% endif %}</span>
+                {% endif %}
+              </li>
+            {% endfor %}
+            </ul>
+          {% endif %}
+          {% if d.field == "cover" and d.action == "replace" %}
+            <label class="check mt-s" for="couverture-remplacer"><input type="checkbox" id="couverture-remplacer" name="couverture_remplacer" value="1"{% if replace_cover %} checked{% endif %}><span>{{ _("Remplacer la couverture actuelle") }}<span class="h">{{ _("Confirmation exigée en plus de la case « Appliquer » : la couverture actuelle reste dans les médias et peut être rétablie par l’annulation.") }}</span></span></label>
+          {% endif %}
+          {% if d.field == "isbn" and d.applicable %}
+            <label class="check mt-s" for="isbn-verifie"><input type="checkbox" id="isbn-verifie" name="isbn_verifie" value="1"{% if confirm_isbn %} checked{% endif %}><span>{{ _("J’ai vérifié cet ISBN sur le livre") }}<span class="h">{{ _("Sans cette case, et hors correspondance exacte, l’ISBN reste proposé : il n’entre ni dans la recherche ni dans les doublons.") }}</span></span></label>
+          {% endif %}
+        </td>
+        <td data-label="{{ _('Action') }}">
+          {% if d.action == "fill" %}{{ badge(_("Compléter"), "ok", dot=False) }}
+          {% elif d.action == "replace" %}{{ badge(_("Remplacer"), "due", dot=False) }}
+          {% elif d.action == "add" %}{{ badge(_("Ajouter"), "info", dot=False) }}
+          {% elif d.action == "identical" %}{{ badge(_("Identique"), "neutral", dot=False) }}
+          {% elif d.action == "not_copyable" %}{{ badge(_("Non copiable"), "late", dot=False) }}
+          {% else %}{{ badge(_("Information"), "neutral", dot=False) }}{% endif %}
+          {% if d.note %}<span class="muted small block">{{ d.note }}</span>{% endif %}
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  {% endcall %}
+  {% endmacro %}
+
+  <section class="card" aria-labelledby="enr-oeuvre">
+    <div class="card-h"><h2 id="enr-oeuvre">{{ _("5. Différences : l’œuvre") }}</h2></div>
+    <div class="card-b">{% if work_diffs %}{{ diff_rows(work_diffs, _("Champs de l’œuvre")) }}{% else %}<p class="muted m0">{{ _("Rien à comparer.") }}</p>{% endif %}</div>
+  </section>
+  <section class="card" aria-labelledby="enr-edition">
+    <div class="card-h"><h2 id="enr-edition">{{ _("L’édition") }}</h2></div>
+    <div class="card-b">
+      {% if not assessment.edition_usable %}{{ alert(_("Ce candidat décrit une autre édition : ses champs d’édition ne sont pas proposés. Les champs de l’œuvre restent utilisables."), "info") }}
+      {% elif edition_diffs %}{{ diff_rows(edition_diffs, _("Champs de l’édition")) }}{% else %}<p class="muted m0">{{ _("Rien à comparer.") }}</p>{% endif %}
+    </div>
+  </section>
+  {% if aside_diffs %}
+  <section class="card" aria-labelledby="enr-serie">
+    <div class="card-h"><h2 id="enr-serie">{{ _("Série et tome") }}</h2></div>
+    <div class="card-b">
+      {% for d in aside_diffs %}
+      <dl class="dlist"><dt>{{ _("Fiche actuelle") }}</dt><dd>{{ d.local or _("aucune") }}</dd><dt>{{ _("Source") }}</dt><dd>{{ d.proposed }}</dd></dl>
+      <p class="muted small m0 mt-s">{{ d.note }} <a class="plain-link" href="/catalogue/notices/{{ notice.id }}?onglet=notice&amp;modifier=serie#sec-serie">{{ _("Modifier la série depuis la fiche") }}</a></p>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+  <div class="form-actions enr-actions">
+    {{ button(_("Cocher les champs vides admissibles"), "g", "check", type="submit", name="action", value="cocher_vides") }}
+    {% if can("enrichment.review") %}{{ button(_("Prévisualiser"), "p", "eye", type="submit", name="action", value="apercu") }}
+    {% else %}<span class="muted small">{{ _("Votre compte peut comparer, pas appliquer.") }}</span>{% endif %}
+  </div>
+</form>
+{% endblock %}

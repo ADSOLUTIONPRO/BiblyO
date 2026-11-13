@@ -1,0 +1,89 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header %}
+{% from "components/feedback.html" import badge, alert %}
+{% from "components/buttons.html" import button %}
+{% from "patrons/components.html" import patron_picker %}
+{% block title %}{{ _("Prêt") }} · {{ record.title }} — biblyO{% endblock %}
+{% macro reason_fields(reasons, key) %}
+<div class="fld"><label for="motif-{{ key }}">{{ _("Motif, conservé au journal") }}</label><select class="in" id="motif-{{ key }}" name="motif"><option value="">{{ _("Choisissez un motif") }}</option>{% for code, label in reasons.items() %}<option value="{{ code }}">{{ label }}</option>{% endfor %}</select></div>
+<div class="fld"><label for="texte-{{ key }}">{{ _("Si « Autre motif » : sans nom, coordonnée ni numéro") }}</label><input class="in" id="texte-{{ key }}" name="motif_texte" maxlength="120"></div>
+{% endmacro %}
+{% block content %}
+{% set loan = record.loan %}
+{% call page_header(record.title, record.barcode, "loan", "loans") %}{% endcall %}
+{% if message %}{{ alert(message, "late") }}{% endif %}
+<div class="layout-aside">
+  <section class="card" aria-labelledby="pr-qui">
+    <div class="card-h"><h2 id="pr-qui">{{ _("Ce prêt") }}</h2>{{ badge(record.status_label, "info" if record.active else "neutral") }}</div>
+    <div class="card-b">
+      <p class="m0"><span class="faint small block">{{ _("Utilisé par") }}</span><a class="b" href="/lecteurs/{{ record.borrower.id }}">{{ record.borrower.name }}</a> <span class="mono small">{{ record.borrower.number }}</span></p>
+      {% if record.responsible %}<p class="m0 mt-xs"><span class="faint small block">{{ _("Responsable") }}</span><a class="b" href="/lecteurs/{{ record.responsible.id }}">{{ record.responsible.name }}</a> <span class="mono small">{{ record.responsible.number }}</span></p>{% endif %}
+      {% if record.household %}<p class="m0 mt-xs"><span class="faint small block">{{ _("Pour la structure") }}</span>{{ record.household }}</p>{% endif %}
+      <p class="m0 mt-xs"><span class="faint small block">{{ _("Cadre") }}</span>{{ record.mode_label }}</p>
+      <p class="m0 mt-xs"><span class="faint small block">{{ _("Échéance") }}</span>{{ record.due_label }}{% if loan.renewals %} · {{ loan.renewals }} {{ _("renouvellement") if loan.renewals == 1 else _("renouvellements") }}{% endif %}</p>
+    </div>
+  </section>
+  <section class="card" aria-labelledby="pr-hist">
+    <div class="card-h"><h2 id="pr-hist">{{ _("Historique") }}</h2></div>
+    <div class="card-b">
+      <ul class="plain">{% for event in record.events %}<li><b>{{ event_labels[event.kind] }}</b> <span class="faint small">{{ event.day }}{% if event.who %} · {{ event.who }}{% endif %}{% if event.reason_label %} · {{ event.reason_label }}{% endif %}</span></li>{% endfor %}</ul>
+    </div>
+  </section>
+</div>
+<section class="card" aria-labelledby="pr-rappels">
+  <div class="card-h"><h2 id="pr-rappels">{{ _("Rappels notés") }}</h2></div>
+  <div class="card-b">
+    {% if record.reminders %}<ul class="plain">{% for item in record.reminders %}<li>{{ item.day_label }} · {{ item.channel_label }} · <b>{{ item.result_label }}</b>{% if item.who %} <span class="faint small">· {{ item.who }}</span>{% endif %}</li>{% endfor %}</ul>{% else %}<p class="muted small m0">{{ _("Aucun rappel noté. biblyO n’envoie aucun message.") }}</p>{% endif %}
+    {% if record.active %}
+    <form class="remind-form mt-xs" method="post" action="/prets/{{ loan.id }}/rappel">
+      <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+      <div class="fld"><label for="pr-rp-date">{{ _("Date") }}</label><input class="in" id="pr-rp-date" type="date" name="date" value="{{ today }}" max="{{ today }}"></div>
+      <div class="fld"><label for="pr-rp-canal">{{ _("Canal") }}</label><select class="in" id="pr-rp-canal" name="canal">{% for code, label in channels.items() %}<option value="{{ code }}">{{ label }}</option>{% endfor %}</select></div>
+      <div class="fld"><label for="pr-rp-resultat">{{ _("Résultat") }}</label><select class="in" id="pr-rp-resultat" name="resultat">{% for code, label in results.items() %}<option value="{{ code }}">{{ label }}</option>{% endfor %}</select></div>
+      <div class="form-actions">{{ button(_("Noter le rappel"), "s", "bell", size="sm", type="submit") }}</div>
+    </form>
+    {% endif %}
+  </div>
+</section>
+{% if can_lend or can_override %}
+<section class="card" aria-labelledby="pr-actions">
+  <div class="card-h"><h2 id="pr-actions">{{ _("Corriger ou annuler") }}</h2></div>
+  <div class="card-b col gap-m">
+    {% if record.active %}
+    <form class="form" method="post" action="/prets/{{ loan.id }}/echeance">
+      <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+      <div class="fld"><label for="pr-echeance">{{ _("Nouvelle échéance") }}</label><input class="in" id="pr-echeance" type="date" name="echeance" value="{{ loan.due_on }}"></div>
+      {% if can_override %}{{ reason_fields(correction_reasons, "echeance") }}{% endif %}
+      <div class="form-actions">{{ button(_("Changer l’échéance"), "s", "", size="sm", type="submit") }}</div>
+    </form>
+    {% endif %}
+    {% if loan.returned_at and not loan.cancelled_at and can_override %}
+    <form class="form" method="post" action="/prets/{{ loan.id }}/date-retour">
+      <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+      <div class="fld"><label for="pr-retour">{{ _("Date de retour corrigée") }}</label><input class="in" id="pr-retour" type="date" name="date_retour" value="{{ loan.returned_at[:10] }}"></div>
+      {{ reason_fields(correction_reasons, "retour") }}
+      <div class="form-actions">{{ button(_("Corriger la date de retour"), "s", "", size="sm", type="submit") }}</div>
+    </form>
+    {% endif %}
+    {% if record.active and can_override %}
+    <form class="form" method="post" action="/prets/{{ loan.id }}/lecteur">
+      <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+      {{ patron_picker("nouveau", _("Le bon lecteur")) }}
+      <div class="fld"><label for="pr-cadre">{{ _("Cadre") }}</label><select class="in" id="pr-cadre" name="cadre"><option value="self">{{ _("Pour soi") }}</option><option value="with_adult">{{ _("Un adulte emprunte pour l’enfant") }}</option><option value="alone">{{ _("L’enfant emprunte seul") }}</option></select></div>
+      {{ patron_picker("nouveau_responsable", _("Adulte présent, si l’enfant est accompagné"), adults_only=True) }}
+      {{ reason_fields(correction_reasons, "lecteur") }}
+      <div class="form-actions">{{ button(_("Remplacer le lecteur"), "s", "", size="sm", type="submit") }}</div>
+    </form>
+    {% endif %}
+    {% if not loan.cancelled_at %}
+    <form class="form" method="post" action="/prets/{{ loan.id }}/annuler">
+      <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+      {% if loan.returned_at %}<input type="hidden" name="quoi" value="retour">{% elif loan.renewals %}<input type="hidden" name="quoi" value="renouvellement">{% endif %}
+      {% if can_override %}{{ reason_fields(cancel_reasons, "annuler") }}{% endif %}
+      <div class="form-actions">{{ button(_("Annuler le retour") if loan.returned_at else (_("Annuler le renouvellement") if loan.renewals else _("Annuler ce prêt")), "g", "", size="sm", type="submit") }}</div>
+    </form>
+    {% endif %}
+  </div>
+</section>
+{% endif %}
+{% endblock %}

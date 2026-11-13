@@ -1,0 +1,24 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header %}
+{% from "components/feedback.html" import empty_state %}
+{% from "components/buttons.html" import link_button %}
+{% from "components/shelves.html" import room_plan %}
+{% import "holdings/components.html" as parts with context %}
+{% block title %}{{ _("Étagères") }} — biblyO{% endblock %}
+{% block content %}
+{% call page_header(_("Étagères"), _("Le classement réel de la bibliothèque, de la salle à la position"), "she", "shelf") %}
+  {% if can("holdings.edit") %}{{ link_button(_("Ranger en scannant"), "/emplacements/scanner", "s", "scan") }}{% endif %}
+  {% if can("locations.manage") %}{{ link_button(_("Nouveau lieu"), "/emplacements/nouveau", "p", "plus") }}{% endif %}
+{% endcall %}
+{{ parts.finder() }}
+{% call parts.layout(tree, unshelved_count) %}
+  {% for plan in plans %}
+  <section class="card mb-s" aria-labelledby="salle-{{ plan.id }}">
+    <div class="card-h"><h2 id="salle-{{ plan.id }}"><a class="plain-link" href="/emplacements/{{ plan.id }}">{{ plan.name }}</a></h2></div>
+    <div class="card-b">{% if plan.tiles %}{{ room_plan(plan, _("Meubles de %(name)s", name=plan.name)) }}{% else %}<p class="muted m0">{{ _("Aucun meuble dans cette salle.") }}</p>{% endif %}</div>
+  </section>
+  {% else %}
+  <section class="card" aria-label="{{ _('Étagères') }}">{{ empty_state("shelf", _("Aucun emplacement"), _("Créez une salle, puis ses meubles et ses étagères.")) }}</section>
+  {% endfor %}
+{% endcall %}
+{% endblock %}

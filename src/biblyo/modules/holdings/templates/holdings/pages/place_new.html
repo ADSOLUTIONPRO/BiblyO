@@ -1,0 +1,39 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header %}
+{% from "components/buttons.html" import button, link_button %}
+{% from "components/forms.html" import field, select, textarea %}
+{% from "components/feedback.html" import alert %}
+{% import "holdings/components.html" as parts with context %}
+{% block title %}{{ _("Nouveau lieu") }} — biblyO{% endblock %}
+{% block content %}
+{% call page_header(_("Nouveau lieu"), kind_label, "she", "plus") %}{{ link_button(_("Annuler"), "/emplacements", "g", "x") }}{% endcall %}
+{% if message %}{{ alert(message, "late") }}{% endif %}
+{% call parts.layout(tree, unshelved_count) %}
+<section class="card" aria-labelledby="titre-lieu">
+  <div class="card-h"><h2 id="titre-lieu">{{ kind_label }}</h2></div>
+  <div class="card-b col">
+    <form class="row gap-xs" method="get" action="/emplacements/nouveau">
+      <input type="hidden" name="parent" value="{{ parent }}">
+      {{ select("type", _("Type de lieu"), kinds, kind) }}
+      <button class="btn btn-s btn-sm self-end" type="submit">{{ _("Changer") }}</button>
+    </form>
+    <form class="form" method="post" action="/emplacements/nouveau">
+      <input type="hidden" name="_csrf" value="{{ csrf_token }}"><input type="hidden" name="type" value="{{ kind }}">
+      <div class="grid g2">
+        {{ field("nom", _("Nom"), values.get("nom", ""), required=True, error=errors.get("nom"), autofocus=True) }}
+        {% if parents %}{{ select("parent", _("Dans"), parents, parent) }}{% endif %}
+        {{ field("code", _("Code court"), values.get("code", ""), error=errors.get("code"), help=_("Facultatif, imprimable sur les étiquettes.")) }}
+        {{ field("indication", _("Indication de contenu"), values.get("indication", ""), error=errors.get("indication"), help=_("Par exemple : 0–9 · A")) }}
+        {% if kind in ("shelf", "bin") %}{{ field("capacite", _("Capacité (places)"), values.get("capacite", ""), error=errors.get("capacite"), inputmode="numeric", help=_("Facultative. Un dépassement sera signalé, jamais refusé.")) }}{% endif %}
+        {% if kind == "furniture" %}
+        {{ field("niveaux", _("Nombre d’étagères à créer"), values.get("niveaux", ""), error=errors.get("niveaux"), inputmode="numeric", help=_("Facultatif, 12 au plus.")) }}
+        {{ field("capacite_niveaux", _("Capacité de chaque étagère"), values.get("capacite_niveaux", ""), error=errors.get("capacite"), inputmode="numeric") }}
+        {% endif %}
+      </div>
+      {{ textarea("notes", _("Notes"), values.get("notes", ""), error=errors.get("notes")) }}
+      <div class="form-actions">{{ button(_("Créer"), "p", "plus", type="submit") }}</div>
+    </form>
+  </div>
+</section>
+{% endcall %}
+{% endblock %}

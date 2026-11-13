@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?xml-stylesheet type="text/xsl" href="https://www.sudoc.abes.fr/cbs/sru/DB=2.1/?xsl=searchRetrieveResponse" ?>
+<srw:searchRetrieveResponse xmlns:srw="http://www.loc.gov/zing/srw/"
+			    xmlns:dc="http://purl.org/dc/elements/1.1/"
+			    xmlns:diag="http://www.loc.gov/zing/srw/diagnostic/"
+			    xmlns:xcql="http://www.loc.gov/zing/cql/xcql/">
+    <srw:version>1.1</srw:version>
+    <srw:numberOfRecords>4</srw:numberOfRecords>
+    <srw:resultSetId></srw:resultSetId>
+    <srw:records>
+    
+
+
+<srw:record>
+<srw:recordSchema>unimarc</srw:recordSchema>
+<srw:recordPacking>xml</srw:recordPacking>
+<srw:recordData>
+<record>
+<controlfield tag="005">20240612074102.000</controlfield>
+<leader>     cam0 22        450 </leader>
+<controlfield tag="001">02086941X</controlfield>
+<controlfield tag="003">http://www.sudoc.fr/02086941X</controlfield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">(OCoLC)490698311</subfield></datafield>
+<datafield tag="010" ind1=" " ind2=" "><subfield code="a">978-2-203-00101-5</subfield>
+<subfield code="b">rel.</subfield></datafield>
+<datafield tag="010" ind1=" " ind2=" "><subfield code="a">2-203-00101-1</subfield>
+<subfield code="d">54 FF</subfield></datafield>
+<datafield tag="073" ind1=" " ind2="1"><subfield code="a">9782203001015</subfield></datafield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">ocm18556041</subfield></datafield>
+<datafield tag="100" ind1=" " ind2=" "><subfield code="a">19881003h19601946a  y0frey50      ba</subfield></datafield>
+<datafield tag="101" ind1="0" ind2=" "><subfield code="a">fre</subfield>
+<subfield code="2">639-2</subfield></datafield>
+<datafield tag="105" ind1=" " ind2=" "><subfield code="a">a   t   000ay</subfield></datafield>
+<datafield tag="106" ind1=" " ind2=" "><subfield code="a">r</subfield></datafield>
+<datafield tag="181" ind1=" " ind2=" "><subfield code="6">z01</subfield>
+<subfield code="c">txt</subfield>
+<subfield code="2">rdacontent</subfield></datafield>
+<datafield tag="181" ind1=" " ind2=" "><subfield code="6">z02</subfield>
+<subfield code="c">sti</subfield>
+<subfield code="2">rdacontent</subfield></datafield>
+<datafield tag="181" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="a">i#</subfield>
+<subfield code="b">xxxe##</subfield></datafield>
+<datafield tag="181" ind1=" " ind2="1"><subfield code="6">z02</subfield>
+<subfield code="a">b#</subfield>
+<subfield code="b">xb2e##</subfield></datafield>
+<datafield tag="182" ind1=" " ind2=" "><subfield code="6">z01</subfield>
+<subfield code="c">n</subfield>
+<subfield code="2">rdamedia</subfield></datafield>
+<datafield tag="182" ind1=" " ind2=" "><subfield code="6">z02</subfield>
+<subfield code="c">n</subfield>
+<subfield code="2">rdamedia</subfield></datafield>
+<datafield tag="182" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="a">n</subfield></datafield>
+<datafield tag="182" ind1=" " ind2="1"><subfield code="6">z02</subfield>
+<subfield code="a">n</subfield></datafield>
+<datafield tag="183" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="a">nga</subfield>
+<subfield code="2">RDAfrCarrier</subfield></datafield>
+<datafield tag="102" ind1=" " ind2=" "><subfield code="a">BE</subfield></datafield>
+<datafield tag="200" ind1="1" ind2=" "><subfield code="a">Tintin au Congo</subfield>
+<subfield code="f">[par Hergé]</subfield></datafield>
+<datafield tag="700" ind1=" " ind2="0"><subfield code="3">026919915</subfield>
+<subfield code="a">Hergé</subfield>
+<subfield code="f">1907-1983</subfield>
+<subfield code="4">070</subfield></datafield>
+<datafield tag="801" ind1=" " ind2="3"><subfield code="a">FR</subfield>
+<subfield code="b">Abes</subfield>
+<subfield code="c">20240612</subfield>
+<subfield code="g">AFNOR</subfield></datafield>
+<datafield tag="214" ind1=" " ind2="0"><subfield code="a">Tournai</subfield>
+<subfield code="c">Casterman</subfield>
+<subfield code="d">DL 1960</subfield></datafield>
+<datafield tag="215" ind1=" " ind2=" "><subfield code="a">1 vol. (62 p.)</subfield>
+<subfield code="c">tout en ill. en coul., couv. ill. en coul.</subfield>
+<subfield code="d">31 cm</subfield></datafield>
+<datafield tag="225" ind1="2" ind2=" "><subfield code="a">Les aventures de Tintin</subfield>
+<subfield code="v">2</subfield></datafield>
+<datafield tag="410" ind1=" " ind2="|"><subfield code="0">039615626</subfield>
+<subfield code="t">Les Aventures de Tintin</subfield>
+<subfield code="x">0750-1110</subfield>
+<subfield code="v">2</subfield></datafield>
+<datafield tag="606" ind1=" " ind2=" "><subfield code="a">Tintin (Fictitious character)</subfield>
+<subfield code="2">lc</subfield></datafield>
+<datafield tag="606" ind1=" " ind2=" "><subfield code="3">040657906</subfield>
+<subfield code="a">Afrique</subfield>
+<subfield code="2">mesh</subfield></datafield>
+<datafield tag="607" ind1=" " ind2=" "><subfield code="3">027218546</subfield>
+<subfield code="a">Afrique</subfield>
+<subfield code="3">027220796</subfield>
+<subfield code="x">Bandes dessinées</subfield>
+<subfield code="2">rameau</subfield></datafield>
+<datafield tag="608" ind1=" " ind2=" "><subfield code="3">027220796</subfield>
+<subfield code="a">Bandes dessinées</subfield>
+<subfield code="2">rameau</subfield></datafield>
+<datafield tag="608" ind1=" " ind2=" "><subfield code="3">040657906</subfield>
+<subfield code="a">Afrique</subfield>
+<subfield code="2">rameau</subfield></datafield>
+<datafield tag="680" ind1=" " ind2=" "><subfield code="a">PN6790.B44</subfield></datafield>
+<datafield tag="676" ind1=" " ind2=" "><subfield code="a">741.5</subfield></datafield>
+<datafield tag="305" ind1=" " ind2=" "><subfield code="a">Autres tirages : 1960, 1974, 1984, 2013, 2015, 2020, 2021, 2022</subfield></datafield>
+<datafield tag="801" ind1=" " ind2="1"><subfield code="a">US</subfield>
+<subfield code="b">OCLC</subfield>
+<subfield code="g">AACR2</subfield></datafield>
+<datafield tag="801" ind1=" " ind2="2"><subfield code="a">FR</subfield>
+<subfield code="b">AUROC</subfield></datafield>
+<datafield tag="330" ind1=" " ind2=" "><subfield code="a">L&apos;histoire se déroule au Congo, alors colonie belge. Le journaliste Tintin, accompagné de son chien Milou, part en paquebot pour ce pays. Tom est un homme qui s&apos;est embarqué clandestinement sur le même bateau et qui tente à plusieurs reprises de tuer le jeune journaliste. Une succession de péripéties amène Tintin au royaume des Babaoro&apos;m, où il devient le sorcier attitré. Il découvre alors que les hommes blancs voulant sa mort (notamment Tom) sont des gangsters affiliés à Al Capone qui tentent de prendre le contrôle de la production de diamants au Congo.</subfield></datafield>
+</record></srw:recordData><srw:recordPosition>1</srw:recordPosition>
+</srw:record>
+
+<srw:record>
+<srw:recordSchema>unimarc</srw:recordSchema>
+<srw:recordPacking>xml</srw:recordPacking>
+<srw:recordData>
+<record>
+<controlfield tag="005">20231017191504.000</controlfield>
+<leader>     cam0 22        450 </leader>
+<controlfield tag="001">013211765</controlfield>
+<controlfield tag="003">http://www.sudoc.fr/013211765</controlfield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">(OCoLC)60710298</subfield></datafield>
+<datafield tag="010" ind1=" " ind2=" "><subfield code="a">2-203-00101-1</subfield></datafield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">sib0540864</subfield></datafield>
+<datafield tag="100" ind1=" " ind2=" "><subfield code="a">19940425f1974    k  |0frey50      ba</subfield></datafield>
+<datafield tag="101" ind1="0" ind2=" "><subfield code="a">fre</subfield>
+<subfield code="2">639-2</subfield></datafield>
+<datafield tag="105" ind1=" " ind2=" "><subfield code="a">y   z   000yy</subfield></datafield>
+<datafield tag="106" ind1=" " ind2=" "><subfield code="a">r</subfield></datafield>
+<datafield tag="181" ind1=" " ind2=" "><subfield code="6">z01</subfield>
+<subfield code="c">txt</subfield>
+<subfield code="2">rdacontent</subfield></datafield>
+<datafield tag="181" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="a">i#</subfield>
+<subfield code="b">xxxe##</subfield></datafield>
+<datafield tag="182" ind1=" " ind2=" "><subfield code="6">z01</subfield>
+<subfield code="c">n</subfield>
+<subfield code="2">rdamedia</subfield></datafield>
+<datafield tag="182" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="a">n</subfield></datafield>
+<datafield tag="183" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="a">nga</subfield>
+<subfield code="2">RDAfrCarrier</subfield></datafield>
+<datafield tag="102" ind1=" " ind2=" "><subfield code="a">BE</subfield>
+<subfield code="a">FR</subfield></datafield>
+<datafield tag="200" ind1="1" ind2=" "><subfield code="a">Tintin au Congo</subfield>
+<subfield code="f">Hergé</subfield></datafield>
+<datafield tag="517" ind1="|" ind2=" "><subfield code="a">Les aventures de Tintin</subfield>
+<subfield code="j">1</subfield></datafield>
+<datafield tag="700" ind1=" " ind2="0"><subfield code="3">026919915</subfield>
+<subfield code="a">Hergé</subfield>
+<subfield code="f">1907-1983</subfield>
+<subfield code="4">070</subfield></datafield>
+<datafield tag="801" ind1=" " ind2="3"><subfield code="a">FR</subfield>
+<subfield code="b">Abes</subfield>
+<subfield code="c">20231017</subfield>
+<subfield code="g">AFNOR</subfield></datafield>
+<datafield tag="205" ind1=" " ind2=" "><subfield code="a">[Nouv. tirage]</subfield></datafield>
+<datafield tag="210" ind1=" " ind2=" "><subfield code="a">[Paris]</subfield>
+<subfield code="c">Casterman</subfield>
+<subfield code="d">1974</subfield></datafield>
+<datafield tag="215" ind1=" " ind2=" "><subfield code="a">1 vol. (61 p.)</subfield>
+<subfield code="c">ill. en coul., couv. ill. en coul</subfield>
+<subfield code="d">31 cm</subfield></datafield>
+<datafield tag="461" ind1=" " ind2="|"><subfield code="t">Les aventures de Tintin</subfield>
+<subfield code="v">1</subfield></datafield>
+<datafield tag="606" ind1=" " ind2=" "><subfield code="3">027220796</subfield>
+<subfield code="a">Bandes dessinées</subfield>
+<subfield code="2">rameau</subfield></datafield>
+<datafield tag="801" ind1=" " ind2="3"><subfield code="a">FR</subfield>
+<subfield code="b">SF</subfield>
+<subfield code="c">19990209</subfield></datafield>
+<datafield tag="330" ind1=" " ind2=" "><subfield code="a">Le 10 janvier 1929, un jeune reporter fait son apparition dans Le Petit Vingtième, le supplément pour enfants du quotidien belge Le XXe siècle. Son nom ? Tintin. Accompagné de Milou, un jeune chien blanc, il part pour la &quot;Russie soviétique&quot;. Son créateur, un certain Georges Remi, signe Hergé, pseudonyme inspiré par ses initiales. Sûr de sa popularité, Tintin repart aussitôt, et pour l&apos;Afrique cette fois. Les Aventures de Tintin, reporter du Petit Vingtième au Congo (1931) est le reflet d&apos;une époque coloniale et paternaliste. Pour ces nouvelles aventures, Hergé improvise encore le récit, mais plus pour longtemps. A peine revient-il d&apos;URSS que Tintin se rend en Afrique. Devenu sorcier au royaume de Babaoro&apos;m, Tintin déjouera les pièges d&apos;une bande de gangsters qui souhaitaient contrôler la production de diamant au Congo. L&apos;Afrique, représentée de manière naïve, reflète l&apos;esprit paternaliste d&apos;une Belgique colonialiste au début des années 30.</subfield></datafield>
+</record></srw:recordData><srw:recordPosition>2</srw:recordPosition>
+</srw:record>
+
+<srw:record>
+<srw:recordSchema>unimarc</srw:recordSchema>
+<srw:recordPacking>xml</srw:recordPacking>
+<srw:recordData>
+<record>
+<controlfield tag="005">20231016200705.000</controlfield>
+<leader>     cam0 22        450 </leader>
+<controlfield tag="001">010820051</controlfield>
+<controlfield tag="003">http://www.sudoc.fr/010820051</controlfield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">(OCoLC)319730081</subfield></datafield>
+<datafield tag="010" ind1=" " ind2=" "><subfield code="a">2-203-00101-1</subfield>
+<subfield code="b">Rel.</subfield></datafield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">sib1234376</subfield></datafield>
+<datafield tag="100" ind1=" " ind2=" "><subfield code="a">19981112f1966    ||||0frey50      ba</subfield></datafield>
+<datafield tag="101" ind1="0" ind2=" "><subfield code="a">fre</subfield>
+<subfield code="2">639-2</subfield></datafield>
+<datafield tag="105" ind1=" " ind2=" "><subfield code="a">y   |||||||||</subfield></datafield>
+<datafield tag="181" ind1=" " ind2=" "><subfield code="6">z01</subfield>
+<subfield code="c">txt</subfield>
+<subfield code="2">rdacontent</subfield></datafield>
+<datafield tag="181" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="a">i#</subfield>
+<subfield code="b">xxxe##</subfield></datafield>
+<datafield tag="182" ind1=" " ind2=" "><subfield code="6">z01</subfield>
+<subfield code="c">n</subfield>
+<subfield code="2">rdamedia</subfield></datafield>
+<datafield tag="182" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="a">n</subfield></datafield>
+<datafield tag="102" ind1=" " ind2=" "><subfield code="a">BE</subfield></datafield>
+<datafield tag="200" ind1="1" ind2=" "><subfield code="a">Les cigares du pharaon</subfield>
+<subfield code="f">Hergé</subfield></datafield>
+<datafield tag="517" ind1="|" ind2=" "><subfield code="a">Les aventures de Tintin</subfield>
+<subfield code="j">3</subfield></datafield>
+<datafield tag="700" ind1=" " ind2="0"><subfield code="3">026919915</subfield>
+<subfield code="a">Hergé</subfield>
+<subfield code="f">1907-1983</subfield>
+<subfield code="4">070</subfield></datafield>
+<datafield tag="801" ind1=" " ind2="3"><subfield code="a">FR</subfield>
+<subfield code="b">Abes</subfield>
+<subfield code="c">20231016</subfield>
+<subfield code="g">AFNOR</subfield></datafield>
+<datafield tag="210" ind1=" " ind2=" "><subfield code="a">Tournai</subfield>
+<subfield code="c">Castermann</subfield>
+<subfield code="d">1966</subfield></datafield>
+<datafield tag="215" ind1=" " ind2=" "><subfield code="a">? p</subfield>
+<subfield code="c">ill. en coul., couv. ill. en coul</subfield>
+<subfield code="d">30 cm</subfield></datafield>
+<datafield tag="461" ind1=" " ind2="|"><subfield code="t">Les aventures de Tintin</subfield>
+<subfield code="v">3</subfield></datafield>
+<datafield tag="801" ind1=" " ind2="3"><subfield code="a">FR</subfield>
+<subfield code="b">SF</subfield>
+<subfield code="c">19990209</subfield></datafield>
+</record></srw:recordData><srw:recordPosition>3</srw:recordPosition>
+</srw:record>
+
+<srw:record>
+<srw:recordSchema>unimarc</srw:recordSchema>
+<srw:recordPacking>xml</srw:recordPacking>
+<srw:recordData>
+<record>
+<controlfield tag="005">20200115161706.000</controlfield>
+<leader>     cam0 22        450 </leader>
+<controlfield tag="001">010819932</controlfield>
+<controlfield tag="003">http://www.sudoc.fr/010819932</controlfield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">(OCoLC)421962141</subfield></datafield>
+<datafield tag="010" ind1=" " ind2=" "><subfield code="a">2-203-00101-1</subfield>
+<subfield code="b">rel</subfield>
+<subfield code="d">43 F</subfield></datafield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">sib1234363</subfield></datafield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">frBN007171388</subfield></datafield>
+<datafield tag="100" ind1=" " ind2=" "><subfield code="a">19981112f1970    d  y0frey50      ba</subfield></datafield>
+<datafield tag="101" ind1="0" ind2=" "><subfield code="a">fre</subfield>
+<subfield code="2">639-2</subfield></datafield>
+<datafield tag="105" ind1=" " ind2=" "><subfield code="a">a   t   000ay</subfield></datafield>
+<datafield tag="106" ind1=" " ind2=" "><subfield code="a">r</subfield></datafield>
+<datafield tag="181" ind1=" " ind2=" "><subfield code="6">z01</subfield>
+<subfield code="c">txt</subfield>
+<subfield code="2">rdacontent</subfield></datafield>
+<datafield tag="181" ind1=" " ind2=" "><subfield code="6">z02</subfield>
+<subfield code="c">sti</subfield>
+<subfield code="2">rdacontent</subfield></datafield>
+<datafield tag="181" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="a">i#</subfield>
+<subfield code="b">xxxe##</subfield></datafield>
+<datafield tag="181" ind1=" " ind2="1"><subfield code="6">z02</subfield>
+<subfield code="a">b#</subfield>
+<subfield code="b">xb2e##</subfield></datafield>
+<datafield tag="182" ind1=" " ind2=" "><subfield code="6">z01</subfield>
+<subfield code="c">n</subfield>
+<subfield code="2">rdamedia</subfield></datafield>
+<datafield tag="182" ind1=" " ind2=" "><subfield code="6">z02</subfield>
+<subfield code="c">n</subfield>
+<subfield code="2">rdamedia</subfield></datafield>
+<datafield tag="182" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="a">n</subfield></datafield>
+<datafield tag="182" ind1=" " ind2="1"><subfield code="6">z02</subfield>
+<subfield code="a">n</subfield></datafield>
+<datafield tag="183" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="a">nga</subfield>
+<subfield code="2">RDAfrCarrier</subfield></datafield>
+<datafield tag="102" ind1=" " ind2=" "><subfield code="a">BE</subfield></datafield>
+<datafield tag="200" ind1="1" ind2=" "><subfield code="a">Tintin au Congo</subfield>
+<subfield code="f">Hergé</subfield></datafield>
+<datafield tag="517" ind1="|" ind2=" "><subfield code="a">Les aventures de Tintin</subfield>
+<subfield code="j">1</subfield></datafield>
+<datafield tag="700" ind1=" " ind2="0"><subfield code="3">026919915</subfield>
+<subfield code="a">Hergé</subfield>
+<subfield code="f">1907-1983</subfield>
+<subfield code="4">070</subfield></datafield>
+<datafield tag="801" ind1=" " ind2="3"><subfield code="a">FR</subfield>
+<subfield code="b">Abes</subfield>
+<subfield code="c">20200115</subfield>
+<subfield code="g">AFNOR</subfield></datafield>
+<datafield tag="214" ind1=" " ind2="0"><subfield code="a">Tournai</subfield>
+<subfield code="c">Castermann</subfield>
+<subfield code="d">impr. 1970</subfield></datafield>
+<datafield tag="215" ind1=" " ind2=" "><subfield code="a">1 vol. (61 p.)</subfield>
+<subfield code="c">ill. en coul., couv. ill. en coul</subfield>
+<subfield code="d">30 cm</subfield></datafield>
+<datafield tag="461" ind1=" " ind2="|"><subfield code="t">Les aventures de Tintin</subfield>
+<subfield code="v">1</subfield></datafield>
+<datafield tag="225" ind1="1" ind2=" "><subfield code="a">Les aventures de Tintin</subfield>
+<subfield code="v">1</subfield></datafield>
+<datafield tag="300" ind1=" " ind2=" "><subfield code="a">Titre général : &quot;Les Aventures de Tintin&quot;</subfield></datafield>
+<datafield tag="676" ind1=" " ind2=" "><subfield code="a">800</subfield></datafield>
+<datafield tag="675" ind1=" " ind2=" "><subfield code="a">823</subfield>
+<subfield code="v">Éd. 1967</subfield></datafield>
+<datafield tag="305" ind1=" " ind2=" "><subfield code="a">Autre tirage : 1981</subfield></datafield>
+<datafield tag="801" ind1=" " ind2="3"><subfield code="a">FR</subfield>
+<subfield code="b">SF</subfield>
+<subfield code="c">19990209</subfield></datafield>
+</record></srw:recordData><srw:recordPosition>4</srw:recordPosition>
+</srw:record>
+</srw:records>
+    <srw:echoedSearchRetrieveRequest>
+	<srw:version>1.1</srw:version>
+	<srw:query>isb%3D9782203001015</srw:query>
+	<srw:xQuery><xcql:searchClause><xcql:index>isb</xcql:index><xcql:relation><xcql:value>=</xcql:value></xcql:relation><xcql:term>9782203001015</xcql:term></xcql:searchClause></srw:xQuery>
+	<startRecord>1</startRecord>
+	<maximumRecords>5</maximumRecords>
+	<srw:recordPacking>xml</srw:recordPacking>
+	<srw:recordSchema>unimarc</srw:recordSchema>
+	
+	<srw:stylesheet>https://www.sudoc.abes.fr/cbs/sru/DB=2.1/?xsl=searchRetrieveResponse</srw:stylesheet>
+    </srw:echoedSearchRetrieveRequest>
+    <diag:diagnostics>
+        <diag:uri>info:srw/diagnostic/1/0</diag:uri>
+	
+	
+    </diag:diagnostics>
+    <srw:extraResponseData/>
+</srw:searchRetrieveResponse>

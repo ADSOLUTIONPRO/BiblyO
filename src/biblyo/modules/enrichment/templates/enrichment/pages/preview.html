@@ -1,0 +1,49 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header, data_table %}
+{% from "components/buttons.html" import button, link_button %}
+{% from "components/feedback.html" import badge, alert %}
+{% block title %}{{ _("Aperçu : {title}").format(title=notice.title) }} — biblyO{% endblock %}
+{% block content %}
+{% call page_header(_("6. Aperçu avant application"), _("Voici la fiche telle qu’elle sera après confirmation. Rien n’est encore écrit."), "enr", "eye") %}
+  {{ link_button(_("Revenir aux choix"), base ~ "/propositions/" ~ proposal_id, "g", "undo") }}
+{% endcall %}
+
+<section class="card" aria-labelledby="enr-apercu">
+  <div class="card-h"><h2 id="enr-apercu">{{ _("{filled} champ(s) complété(s), {replaced} remplacé(s), {added} ajout(s)").format(filled=filled, replaced=replaced, added=added) }}</h2></div>
+  <div class="card-b">
+  {% if not changes %}
+    {{ alert(_("Aucun champ n’est coché : la confirmation n’écrirait rien."), "info") }}
+  {% else %}
+  {% call data_table(_("Changements à appliquer"), cards_on_phone=True) %}
+    <thead><tr><th scope="col">{{ _("Champ") }}</th><th scope="col">{{ _("Avant") }}</th><th scope="col">{{ _("Après") }}</th><th scope="col">{{ _("Action") }}</th></tr></thead>
+    <tbody>
+    {% for d in changes %}
+      <tr>
+        <th scope="row" data-label="{{ _('Champ') }}">{{ d.label }}</th>
+        <td data-label="{{ _('Avant') }}">{% if d.local %}{{ d.local }}{% else %}<span class="faint">{{ _("vide") }}</span>{% endif %}</td>
+        <td data-label="{{ _('Après') }}">
+          {% if d.field == "contributors" %}{{ d.local }}{% if d.local and acceptance.contributors %} ; {% endif %}{% for name, role in acceptance.contributors %}{{ name }} ({{ role }}){% if not loop.last %}, {% endif %}{% endfor %}
+          {% elif d.field == "cover" %}{{ _("Image de la BnF, récupérée à la confirmation") }}{% if d.action == "replace" %} {% if acceptance.replace_cover %}{{ badge(_("remplacement confirmé"), "due", dot=False) }}{% else %}{{ badge(_("remplacement non confirmé : ignoré"), "late", dot=False) }}{% endif %}{% endif %}
+          {% elif d.field == "isbn" %}{{ d.proposed }}{% if acceptance.confirm_isbn %} {{ badge(_("vérifié sur le livre"), "ok", dot=False) }}{% else %} {{ badge(_("confirmé seulement si l’édition est établie, sinon proposé"), "due", dot=False) }}{% endif %}
+          {% else %}{{ d.proposed }}{% endif %}
+        </td>
+        <td data-label="{{ _('Action') }}">{% if d.action == "fill" %}{{ badge(_("Compléter"), "ok", dot=False) }}{% elif d.action == "replace" %}{{ badge(_("Remplacer"), "due", dot=False) }}{% else %}{{ badge(_("Ajouter"), "info", dot=False) }}{% endif %}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  {% endcall %}
+  {% endif %}
+  <p class="muted small mt-s m0">{{ _("Les exemplaires, les cotes, le rangement, la série rattachée et les prêts ne sont pas modifiés. Chaque champ appliqué garde sa provenance : {source}, notice {id}.").format(source=source_labels.get(candidate.source, candidate.source), id=candidate.external_id) }}</p>
+  </div>
+</section>
+
+<form method="post" action="{{ base }}/propositions/{{ proposal_id }}" class="form-actions">
+  <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+  {% for name in acceptance.fields %}<input type="hidden" name="champ" value="{{ name }}">{% endfor %}
+  {% for name, role in acceptance.contributors %}<input type="hidden" name="contributeur" value="{{ name }}"><input type="hidden" name="role_{{ name }}" value="{{ role }}">{% endfor %}
+  {% if acceptance.confirm_isbn %}<input type="hidden" name="isbn_verifie" value="1">{% endif %}
+  {% if acceptance.replace_cover %}<input type="hidden" name="couverture_remplacer" value="1">{% endif %}
+  {{ button(_("7. Confirmer l’application"), "p", "check", type="submit", name="action", value="appliquer", disabled=not changes) }}
+  {{ link_button(_("Annuler"), base ~ "/propositions/" ~ proposal_id, "g") }}
+</form>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "layouts/auth.html" %}
+{% from "components/forms.html" import field %}
+{% from "components/buttons.html" import button %}
+{% block title %}{{ _("Installation") }} — biblyO{% endblock %}
+{% block card_class %} wide{% endblock %}
+{% block content %}
+<div class="col">
+  <div>
+    <h1>{{ _("Installer biblyO") }}</h1>
+    <p class="muted">{{ _("Créez le compte administrateur. Cette page se ferme définitivement ensuite.") }}</p>
+  </div>
+  <form class="form" method="post" action="/installation">
+    <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+    {{ field("jeton", _("Jeton d’installation"), autocomplete="off", required=True, autofocus=True, help=_("Il figure dans le journal du serveur. Commande : biblyo install token."), error=errors.get("token", "")) }}
+    {{ field("bibliotheque", _("Nom de la bibliothèque"), value=values.get("bibliotheque", ""), required=True, error=errors.get("library_name", "")) }}
+    <div class="grid g2">
+      {{ field("nom", _("Votre nom"), value=values.get("nom", ""), autocomplete="name", required=True, error=errors.get("display_name", "")) }}
+      {{ field("identifiant", _("Identifiant"), value=values.get("identifiant", ""), autocomplete="username", required=True, error=errors.get("username", "")) }}
+    </div>
+    <div class="grid g2">
+      {{ field("mot_de_passe", _("Mot de passe"), type="password", autocomplete="new-password", required=True, help=_("10 caractères au minimum."), error=errors.get("password", "")) }}
+      {{ field("confirmation", _("Confirmez le mot de passe"), type="password", autocomplete="new-password", required=True, error=errors.get("confirmation", "")) }}
+    </div>
+    {{ button(_("Terminer l’installation"), "p", size="lg", type="submit") }}
+  </form>
+</div>
+{% endblock %}

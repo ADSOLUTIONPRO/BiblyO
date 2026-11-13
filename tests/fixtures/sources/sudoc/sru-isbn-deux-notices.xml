@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?xml-stylesheet type="text/xsl" href="https://www.sudoc.abes.fr/cbs/sru/DB=2.1/?xsl=searchRetrieveResponse" ?>
+<srw:searchRetrieveResponse xmlns:srw="http://www.loc.gov/zing/srw/"
+			    xmlns:dc="http://purl.org/dc/elements/1.1/"
+			    xmlns:diag="http://www.loc.gov/zing/srw/diagnostic/"
+			    xmlns:xcql="http://www.loc.gov/zing/cql/xcql/">
+    <srw:version>1.1</srw:version>
+    <srw:numberOfRecords>2</srw:numberOfRecords>
+    <srw:resultSetId></srw:resultSetId>
+    <srw:records>
+    
+
+
+<srw:record>
+<srw:recordSchema>unimarc</srw:recordSchema>
+<srw:recordPacking>xml</srw:recordPacking>
+<srw:recordData>
+<record>
+<controlfield tag="005">20231126153812.000</controlfield>
+<leader>     cam0 22        450 </leader>
+<controlfield tag="001">165964073</controlfield>
+<controlfield tag="003">http://www.sudoc.fr/165964073</controlfield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">(OCoLC)835284051</subfield></datafield>
+<datafield tag="010" ind1=" " ind2=" "><subfield code="a">2-01-210133-X</subfield>
+<subfield code="b">rel.</subfield></datafield>
+<datafield tag="073" ind1=" " ind2="1"><subfield code="a">9782012101333</subfield></datafield>
+<datafield tag="021" ind1=" " ind2=" "><subfield code="a">FR</subfield>
+<subfield code="b">DLE-20061214-59642</subfield></datafield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">FRBNF409554500000003</subfield>
+<subfield code="z">FRBNF40955450</subfield></datafield>
+<datafield tag="100" ind1=" " ind2=" "><subfield code="a">20121205d2006    a  y0frey50      ba</subfield></datafield>
+<datafield tag="101" ind1="0" ind2=" "><subfield code="a">fre</subfield>
+<subfield code="2">639-2</subfield></datafield>
+<datafield tag="105" ind1=" " ind2=" "><subfield code="a">a   t   000ay</subfield></datafield>
+<datafield tag="106" ind1=" " ind2=" "><subfield code="a">r</subfield></datafield>
+<datafield tag="181" ind1=" " ind2=" "><subfield code="6">z01</subfield>
+<subfield code="c">txt</subfield>
+<subfield code="2">rdacontent</subfield></datafield>
+<datafield tag="181" ind1=" " ind2=" "><subfield code="6">z02</subfield>
+<subfield code="c">sti</subfield>
+<subfield code="2">rdacontent</subfield></datafield>
+<datafield tag="181" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="a">i#</subfield>
+<subfield code="b">xxxe##</subfield></datafield>
+<datafield tag="181" ind1=" " ind2="1"><subfield code="6">z02</subfield>
+<subfield code="a">b#</subfield>
+<subfield code="b">xb2e##</subfield></datafield>
+<datafield tag="182" ind1=" " ind2=" "><subfield code="6">z01</subfield>
+<subfield code="c">n</subfield>
+<subfield code="2">rdamedia</subfield></datafield>
+<datafield tag="182" ind1=" " ind2=" "><subfield code="6">z02</subfield>
+<subfield code="c">n</subfield>
+<subfield code="2">rdamedia</subfield></datafield>
+<datafield tag="182" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="a">n</subfield></datafield>
+<datafield tag="182" ind1=" " ind2="1"><subfield code="6">z02</subfield>
+<subfield code="a">n</subfield></datafield>
+<datafield tag="102" ind1=" " ind2=" "><subfield code="a">FR</subfield></datafield>
+<datafield tag="200" ind1="1" ind2=" "><subfield code="a">Astérix le Gaulois</subfield>
+<subfield code="f">texte de René Goscinny</subfield>
+<subfield code="g">dessins d&apos;Albert Uderzo</subfield></datafield>
+<datafield tag="700" ind1=" " ind2="1"><subfield code="3">026897717</subfield>
+<subfield code="a">Goscinny</subfield>
+<subfield code="b">René</subfield>
+<subfield code="f">1926-1977</subfield>
+<subfield code="4">070</subfield></datafield>
+<datafield tag="701" ind1=" " ind2="1"><subfield code="3">027172112</subfield>
+<subfield code="a">Uderzo</subfield>
+<subfield code="b">Albert</subfield>
+<subfield code="f">1927-2020</subfield>
+<subfield code="4">070</subfield></datafield>
+<datafield tag="801" ind1=" " ind2="3"><subfield code="a">FR</subfield>
+<subfield code="b">Abes</subfield>
+<subfield code="c">20231126</subfield>
+<subfield code="g">AFNOR</subfield></datafield>
+<datafield tag="210" ind1=" " ind2=" "><subfield code="a">Paris</subfield>
+<subfield code="c">Hachette</subfield>
+<subfield code="d">DL 2006</subfield>
+<subfield code="e">85-Luçon</subfield>
+<subfield code="g">Impr. Pollina</subfield></datafield>
+<datafield tag="215" ind1=" " ind2=" "><subfield code="a">1 vol. (48 p.)</subfield>
+<subfield code="c">tout ill. en coul.</subfield>
+<subfield code="d">30 cm</subfield></datafield>
+<datafield tag="461" ind1=" " ind2="|"><subfield code="t">Les aventures d&apos;Astérix le gaulois</subfield>
+<subfield code="v">1</subfield></datafield>
+<datafield tag="225" ind1="1" ind2=" "><subfield code="a">Les aventures d&apos;Astérix le gaulois</subfield>
+<subfield code="v">1</subfield></datafield>
+<datafield tag="676" ind1=" " ind2=" "><subfield code="a">741.5</subfield>
+<subfield code="v">21</subfield></datafield>
+<datafield tag="686" ind1=" " ind2=" "><subfield code="a">803</subfield>
+<subfield code="2">Cadre de classement de la Bibliographie nationale française</subfield></datafield>
+<datafield tag="801" ind1=" " ind2="0"><subfield code="a">FR</subfield>
+<subfield code="b">BNF</subfield>
+<subfield code="c">20061214</subfield>
+<subfield code="g">AFNOR</subfield>
+<subfield code="2">intermrc</subfield></datafield>
+</record></srw:recordData><srw:recordPosition>1</srw:recordPosition>
+</srw:record>
+
+<srw:record>
+<srw:recordSchema>unimarc</srw:recordSchema>
+<srw:recordPacking>xml</srw:recordPacking>
+<srw:recordData>
+<record>
+<controlfield tag="005">20241014155846.000</controlfield>
+<leader>     cam0 22        450 </leader>
+<controlfield tag="001">139262636</controlfield>
+<controlfield tag="003">http://www.sudoc.fr/139262636</controlfield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">(OCoLC)690491450</subfield></datafield>
+<datafield tag="010" ind1=" " ind2=" "><subfield code="a">978-2-01-210133-3</subfield>
+<subfield code="b">rel.</subfield></datafield>
+<datafield tag="073" ind1=" " ind2="1"><subfield code="a">9782012101333</subfield></datafield>
+<datafield tag="100" ind1=" " ind2=" "><subfield code="a">20091215h19991999m  y0frey50      ba</subfield></datafield>
+<datafield tag="101" ind1="0" ind2=" "><subfield code="a">fre</subfield>
+<subfield code="2">639-2</subfield></datafield>
+<datafield tag="105" ind1=" " ind2=" "><subfield code="a">a   t   000dy</subfield></datafield>
+<datafield tag="106" ind1=" " ind2=" "><subfield code="a">r</subfield></datafield>
+<datafield tag="181" ind1=" " ind2=" "><subfield code="6">z01</subfield>
+<subfield code="c">txt</subfield>
+<subfield code="2">rdacontent</subfield></datafield>
+<datafield tag="181" ind1=" " ind2=" "><subfield code="6">z02</subfield>
+<subfield code="c">sti</subfield>
+<subfield code="2">rdacontent</subfield></datafield>
+<datafield tag="181" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="a">i#</subfield>
+<subfield code="b">xxxe##</subfield></datafield>
+<datafield tag="181" ind1=" " ind2="1"><subfield code="6">z02</subfield>
+<subfield code="a">b#</subfield>
+<subfield code="b">xb2e##</subfield></datafield>
+<datafield tag="182" ind1=" " ind2=" "><subfield code="6">z01</subfield>
+<subfield code="c">n</subfield>
+<subfield code="2">rdamedia</subfield></datafield>
+<datafield tag="182" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="6">z02</subfield>
+<subfield code="a">n</subfield></datafield>
+<datafield tag="183" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="a">nga</subfield>
+<subfield code="2">RDAfrCarrier</subfield></datafield>
+<datafield tag="102" ind1=" " ind2=" "><subfield code="a">FR</subfield></datafield>
+<datafield tag="200" ind1="1" ind2=" "><subfield code="a">Astérix le gaulois</subfield>
+<subfield code="f">texte de René Goscinny</subfield>
+<subfield code="g">dessins d&apos;Albert Uderzo</subfield></datafield>
+<datafield tag="700" ind1=" " ind2="1"><subfield code="3">026897717</subfield>
+<subfield code="a">Goscinny</subfield>
+<subfield code="b">René</subfield>
+<subfield code="f">1926-1977</subfield>
+<subfield code="4">070</subfield></datafield>
+<datafield tag="701" ind1=" " ind2="1"><subfield code="3">027172112</subfield>
+<subfield code="a">Uderzo</subfield>
+<subfield code="b">Albert</subfield>
+<subfield code="f">1927-2020</subfield>
+<subfield code="4">440</subfield></datafield>
+<datafield tag="801" ind1=" " ind2="3"><subfield code="a">FR</subfield>
+<subfield code="b">Abes</subfield>
+<subfield code="c">20241014</subfield>
+<subfield code="g">AFNOR</subfield></datafield>
+<datafield tag="214" ind1=" " ind2="0"><subfield code="a">Paris</subfield>
+<subfield code="c">Hachette</subfield>
+<subfield code="d">DL 1999</subfield></datafield>
+<datafield tag="215" ind1=" " ind2=" "><subfield code="a">1 vol. (48 p.)</subfield>
+<subfield code="c">tout en ill. en coul., couv. ill. en coul</subfield>
+<subfield code="d">30 cm</subfield></datafield>
+<datafield tag="225" ind1="2" ind2=" "><subfield code="a">Une aventure d&apos;Astérix le gaulois</subfield>
+<subfield code="v">1</subfield></datafield>
+<datafield tag="410" ind1=" " ind2="|"><subfield code="0">039688631</subfield>
+<subfield code="t">Une Aventure d&apos;Astérix le Gaulois</subfield>
+<subfield code="x">0758-4520</subfield>
+<subfield code="v">1</subfield></datafield>
+<datafield tag="600" ind1=" " ind2="0"><subfield code="3">030951003</subfield>
+<subfield code="a">Astérix</subfield>
+<subfield code="c">personnage fictif</subfield>
+<subfield code="2">rameau</subfield></datafield>
+<datafield tag="600" ind1=" " ind2="0"><subfield code="3">183952251</subfield>
+<subfield code="a">Obélix</subfield>
+<subfield code="c">personnage fictif</subfield>
+<subfield code="2">rameau</subfield></datafield>
+<datafield tag="606" ind1=" " ind2=" "><subfield code="3">028235223</subfield>
+<subfield code="a">Littérature française pour la jeunesse</subfield>
+<subfield code="2">rameau</subfield></datafield>
+<datafield tag="607" ind1=" " ind2=" "><subfield code="3">027521249</subfield>
+<subfield code="a">Gaule</subfield>
+<subfield code="z">58 av. J.-C.-511</subfield>
+<subfield code="2">rameau</subfield></datafield>
+<datafield tag="608" ind1=" " ind2=" "><subfield code="3">027220796</subfield>
+<subfield code="a">Bandes dessinées</subfield>
+<subfield code="2">rameau</subfield></datafield>
+<datafield tag="305" ind1=" " ind2=" "><subfield code="a">Autres tirages : 2010, 2011, 2012, 2013, 2014, 2015, 2018, 2022, 2023</subfield></datafield>
+<datafield tag="330" ind1=" " ind2=" "><subfield code="a"> &quot; Dans le camp fortifié romain Petibonum, on se pose des questions : comment les Irréductibles Gaulois du village d’Astérix font-ils pour ridiculiser encore et toujours la puissance romaine ? Décidé à percer à jour le mystère de la force surhumaine de nos héros, le centurion Caius Bonus envoie un espion déguisé en Gaulois. C’est Caligula Minus qui s’y colle, et découvre bien vite l’existence de la potion magique préparée par Panoramix. Sans attendre, le centurion Caius Bonus fait enlever le druide pour s’emparer de la recette du fameux breuvage histoire, qui sait, de devenir César à la place de Jules ! Une première occasion pour Astérix de démontrer son courage et ses talents de stratège.&quot;</subfield></datafield>
+</record></srw:recordData><srw:recordPosition>2</srw:recordPosition>
+</srw:record>
+</srw:records>
+    <srw:echoedSearchRetrieveRequest>
+	<srw:version>1.1</srw:version>
+	<srw:query>isb%3D9782012101333</srw:query>
+	<srw:xQuery><xcql:searchClause><xcql:index>isb</xcql:index><xcql:relation><xcql:value>=</xcql:value></xcql:relation><xcql:term>9782012101333</xcql:term></xcql:searchClause></srw:xQuery>
+	<startRecord>1</startRecord>
+	<maximumRecords>5</maximumRecords>
+	<srw:recordPacking>xml</srw:recordPacking>
+	<srw:recordSchema>unimarc</srw:recordSchema>
+	
+	<srw:stylesheet>https://www.sudoc.abes.fr/cbs/sru/DB=2.1/?xsl=searchRetrieveResponse</srw:stylesheet>
+    </srw:echoedSearchRetrieveRequest>
+    <diag:diagnostics>
+        <diag:uri>info:srw/diagnostic/1/0</diag:uri>
+	
+	
+    </diag:diagnostics>
+    <srw:extraResponseData/>
+</srw:searchRetrieveResponse>

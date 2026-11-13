@@ -1,0 +1,29 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header, data_table %}
+{% from "components/buttons.html" import link_button %}
+{% from "components/feedback.html" import badge %}
+{% block title %}{{ _("Utilisateurs") }} — biblyO{% endblock %}
+{% block content %}
+{% call page_header(_("Utilisateurs"), _("Comptes et rôles de l’installation."), "io", "key") %}
+  {{ link_button(_("Créer un compte"), "/admin/utilisateurs/nouveau", "p", "plus") }}
+{% endcall %}
+<div class="card">
+  {% call data_table(_("Comptes de l’installation")) %}
+  <thead><tr><th scope="col">{{ _("Nom") }}</th><th scope="col">{{ _("Identifiant") }}</th><th scope="col">{{ _("Rôles") }}</th><th scope="col">{{ _("État") }}</th><th scope="col">{{ _("Dernière connexion") }}</th></tr></thead>
+  <tbody>
+  {% for u in users %}
+    <tr>
+      <td class="t"><a href="/admin/utilisateurs/{{ u.id }}">{{ u.display_name }}</a></td>
+      <td><span class="mono">{{ u.username }}</span></td>
+      <td>{{ u.roles | join(", ") }}</td>
+      <td>
+        {% if u.is_active %}{{ badge(_("Actif"), "ok") }}{% else %}{{ badge(_("Désactivé"), "neutral") }}{% endif %}
+        {% if u.must_change_password %}{{ badge(_("Mot de passe à changer"), "due") }}{% endif %}
+      </td>
+      <td class="hm">{% if u.last_login_at %}{{ u.last_login_at | datetime_short }}{% else %}{{ _("Jamais") }}{% endif %}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+  {% endcall %}
+</div>
+{% endblock %}

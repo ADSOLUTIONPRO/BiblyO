@@ -1,0 +1,9937 @@
+# Translations template for biblyO.
+# Copyright (C) 2026 Projet biblyO
+# This file is distributed under the same license as the biblyO project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: biblyO VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2026-11-13 14:19+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+msgid " ; adresse de contact non renseignée : Open Library reste inactive"
+msgstr ""
+
+msgid " ; foyers et structures"
+msgstr ""
+
+#, python-format
+msgid "%(browser)s sur %(system)s"
+msgstr ""
+
+#, python-format
+msgid "%(n)s %% rangés"
+msgstr ""
+
+#, python-format
+msgid "%(n)s %% vérifiés"
+msgstr ""
+
+#, python-format
+msgid "%(n)s exemplaire(s) déjà sur place se décaleront."
+msgstr ""
+
+#, python-format
+msgid "%(n)s exemplaires changeraient de position."
+msgstr ""
+
+#, python-format
+msgid "%(n)s sélectionné(s)"
+msgstr ""
+
+msgid "(vide)"
+msgstr ""
+
+#, python-format
+msgid "+%(n)s dans la vue Liste"
+msgstr ""
+
+msgid "+1 place"
+msgstr ""
+
+#, python-brace-format
+msgid "+{n} places"
+msgstr ""
+
+#, python-brace-format
+msgid ", dépassée de {n}"
+msgstr ""
+
+msgid ", ou nom du lecteur"
+msgstr ""
+
+msgid ", pleine"
+msgstr ""
+
+#, python-brace-format
+msgid ", tome {n}"
+msgstr ""
+
+msgid "1 ex."
+msgstr ""
+
+msgid "1 exemplaire"
+msgstr ""
+
+msgid "1 exemplaire changerait de position."
+msgstr ""
+
+msgid "1 numéro à vérifier"
+msgstr ""
+
+msgid "1. Critères"
+msgstr ""
+
+msgid "1. Saisir"
+msgstr ""
+
+msgid "10 caractères au minimum."
+msgstr ""
+
+msgid ""
+"10 ou 13 chiffres, avec ou sans tirets. Plusieurs : séparez-les par une "
+"virgule. Aucun : laissez vide."
+msgstr ""
+
+msgid "12, 12,5 ou un libellé : HS 2, Intégrale 1."
+msgstr ""
+
+msgid "2. Sources interrogées"
+msgstr ""
+
+msgid "2. Vérifier et corriger"
+msgstr ""
+
+msgid "2026, 03/2026 ou 14/03/2026."
+msgstr ""
+
+msgid "2e édition, édition collector…"
+msgstr ""
+
+msgid "3. Fiche créée"
+msgstr ""
+
+msgid "3. Foyer créé"
+msgstr ""
+
+msgid "3. Résultats"
+msgstr ""
+
+msgid "31/08/2027."
+msgstr ""
+
+msgid "4. Comparer les éditions"
+msgstr ""
+
+msgid "5. Différences : l’œuvre"
+msgstr ""
+
+msgid "6. Aperçu avant application"
+msgstr ""
+
+msgid "7. Confirmer l’application"
+msgstr ""
+
+#, python-brace-format
+msgid "A quitté sa place : {origin}"
+msgstr ""
+
+msgid "AAAA-MM ou AAAA-MM-JJ, si elle est connue."
+msgstr ""
+
+msgid "Abandonner"
+msgstr ""
+
+msgid "Abandonner ce dépôt"
+msgstr ""
+
+msgid "Abandonner cette préparation"
+msgstr ""
+
+msgid "Abandonné"
+msgstr ""
+
+msgid "Absent du fichier principal"
+msgstr ""
+
+msgid "Abîmé"
+msgstr ""
+
+msgid "Abîmée"
+msgstr ""
+
+msgid "Accepter métadonnées et couvertures"
+msgstr ""
+
+msgid "Accepté :"
+msgstr ""
+
+msgid "Accueil"
+msgstr ""
+
+msgid "Accès refusé"
+msgstr ""
+
+msgid "Achat"
+msgstr ""
+
+msgid "Acquisition"
+msgstr ""
+
+msgid "Acquisition modifiée dans biblyO"
+msgstr ""
+
+msgid "Actif"
+msgstr ""
+
+msgid "Action"
+msgstr ""
+
+msgid "Action inconnue."
+msgstr ""
+
+msgid "Action refusée"
+msgstr ""
+
+msgid "Actions"
+msgstr ""
+
+msgid "Activer ou désactiver des modules"
+msgstr ""
+
+msgid "Actives"
+msgstr ""
+
+msgid "Actives et archivées"
+msgstr ""
+
+msgid ""
+"Activez les sources, choisissez leur ordre et leur cadence. La BnF est "
+"interrogée en premier par défaut ; le Sudoc complète."
+msgstr ""
+
+msgid ""
+"Activez un « + » pour le placer juste avant ce dos, ou à la fin d’un "
+"niveau."
+msgstr ""
+
+msgid "Activée"
+msgstr ""
+
+msgid "Actualiser"
+msgstr ""
+
+msgid "Actuelle"
+msgstr ""
+
+msgid "Actuellement"
+msgstr ""
+
+msgid "Adaptateur"
+msgstr ""
+
+msgid "Adhésion"
+msgstr ""
+
+msgid "Adhésion jusqu’au"
+msgstr ""
+
+msgid "Adhésion renouvelée"
+msgstr ""
+
+msgid "Adhésion échue"
+msgstr ""
+
+msgid "Adhésions échues"
+msgstr ""
+
+msgid ""
+"Administrateur : consultez l’état de la base, puis lancez la mise à jour "
+"sur le serveur."
+msgstr ""
+
+msgid "Administration"
+msgstr ""
+
+msgid "Adolescents"
+msgstr ""
+
+msgid "Adresse"
+msgstr ""
+
+msgid "Adresse de contact de la bibliothèque"
+msgstr ""
+
+msgid ""
+"Adresse de contact à renseigner : tant qu’elle manque, cette source reste"
+" désactivée, quel que soit son réglage."
+msgstr ""
+
+msgid "Adresse de courriel invalide."
+msgstr ""
+
+msgid "Adresse de l’image"
+msgstr ""
+
+msgid "Adresse postale"
+msgstr ""
+
+msgid "Adresse publique"
+msgstr ""
+
+msgid "Adulte"
+msgstr ""
+
+msgid "Adulte déjà inscrit"
+msgstr ""
+
+msgid "Adulte présent, si l’enfant est accompagné"
+msgstr ""
+
+msgid "Adultes"
+msgstr ""
+
+msgid "Affichage"
+msgstr ""
+
+msgid "Afficher cette aide"
+msgstr ""
+
+msgid "Afficher les coordonnées"
+msgstr ""
+
+msgid "Agrandir"
+msgstr ""
+
+msgid "Agrandir la couverture"
+msgstr ""
+
+msgid "Agrandir la couverture actuelle"
+msgstr ""
+
+msgid "Ajouter"
+msgstr ""
+
+msgid "Ajouter : importer un fichier"
+msgstr ""
+
+msgid "Ajouter des exemplaires"
+msgstr ""
+
+msgid "Ajouter d’autres enfants"
+msgstr ""
+
+msgid "Ajouter l’exemplaire"
+msgstr ""
+
+msgid "Ajouter l’édition"
+msgstr ""
+
+msgid "Ajouter un exemplaire"
+msgstr ""
+
+msgid "Ajouter un livre"
+msgstr ""
+
+msgid "Ajouter un membre"
+msgstr ""
+
+msgid "Ajouter un responsable"
+msgstr ""
+
+msgid "Ajouter un référent ou un membre"
+msgstr ""
+
+msgid "Ajouter un second responsable"
+msgstr ""
+
+msgid "Ajouter un élément"
+msgstr ""
+
+msgid "Ajouter une couverture"
+msgstr ""
+
+msgid "Ajouter une couverture à cette édition"
+msgstr ""
+
+msgid "Ajouter une personne"
+msgstr ""
+
+msgid "Ajouter une règle pour un type de document"
+msgstr ""
+
+msgid "Ajouter une édition"
+msgstr ""
+
+msgid ""
+"Ajoutez au moins un livre : choisissez-le dans le catalogue, ou scannez-"
+"le."
+msgstr ""
+
+msgid "Ajoutez au moins une personne à cette famille."
+msgstr ""
+
+msgid "Ajoutez un exemplaire pour chaque livre physique de cette édition."
+msgstr ""
+
+msgid "Ajoutez un premier livre pour commencer."
+msgstr ""
+
+msgid "Ajouts biblyO"
+msgstr ""
+
+msgid "Ajoutés récemment"
+msgstr ""
+
+msgid "Album isolé : ni tome ni titre d'album, pas de série"
+msgstr ""
+
+msgid "Allemand"
+msgstr ""
+
+msgid "Aller au contenu"
+msgstr ""
+
+msgid ""
+"Ancien format Excel (.xls) : ouvrez-le et enregistrez-le en .xlsx, puis "
+"recommencez."
+msgstr ""
+
+msgid "Anglais"
+msgstr ""
+
+msgid "Anneau"
+msgstr ""
+
+msgid "Annulation"
+msgstr ""
+
+msgid "Annulation hors délai ou d’un autre compte : un bibliothécaire habilité."
+msgstr ""
+
+msgid ""
+"Annulation partielle : les champs modifiés depuis et non cochés gardent "
+"leur valeur actuelle."
+msgstr ""
+
+msgid "Annuler"
+msgstr ""
+
+msgid "Annuler ce prêt"
+msgstr ""
+
+msgid "Annuler cet enrichissement"
+msgstr ""
+
+#, python-format
+msgid "Annuler le rangement de %(title)s"
+msgstr ""
+
+msgid "Annuler le renouvellement"
+msgstr ""
+
+msgid "Annuler le retour"
+msgstr ""
+
+msgid "Annuler le retour de"
+msgstr ""
+
+msgid "Annuler un enrichissement"
+msgstr ""
+
+msgid "Annulé"
+msgstr ""
+
+msgid "Année"
+msgstr ""
+
+msgid "Année d'édition établie"
+msgstr ""
+
+msgid "Année de naissance"
+msgstr ""
+
+msgid "Année de parution"
+msgstr ""
+
+#, python-brace-format
+msgid "Année différente : {mine} contre {theirs}"
+msgstr ""
+
+msgid "Année illisible"
+msgstr ""
+
+msgid "Année marquée « à vérifier » : proposition."
+msgstr ""
+
+msgid "Année modifiée dans biblyO"
+msgstr ""
+
+msgid "Année non renseignée par la source"
+msgstr ""
+
+msgid "Année sans mention « à vérifier » : à confirmer."
+msgstr ""
+
+#, python-brace-format
+msgid "Année voisine : {theirs}"
+msgstr ""
+
+#, python-brace-format
+msgid "Année {v}"
+msgstr ""
+
+#, python-brace-format
+msgid "Année {year} identique"
+msgstr ""
+
+msgid "Année à vérifier"
+msgstr ""
+
+msgid "Année, jusqu’à"
+msgstr ""
+
+msgid "Année, à partir de"
+msgstr ""
+
+msgid "Années proposées"
+msgstr ""
+
+msgid "Anomalies"
+msgstr ""
+
+msgid "Anonymisation"
+msgstr ""
+
+msgid "Anonymisation impossible pour le moment"
+msgstr ""
+
+msgid "Anonymiser"
+msgstr ""
+
+msgid "Anonymiser cette fiche"
+msgstr ""
+
+msgid "Anonymiser définitivement"
+msgstr ""
+
+msgid "Anonymiser un lecteur, le mettre en conservation"
+msgstr ""
+
+msgid "Anonymiser…"
+msgstr ""
+
+msgid "Anonymisé"
+msgstr ""
+
+msgid "Aperçu"
+msgstr ""
+
+#, python-brace-format
+msgid "Aperçu : {title}"
+msgstr ""
+
+msgid "Aperçu : œuvre, édition, exemplaire"
+msgstr ""
+
+msgid "Aperçu abandonné : la couverture n’a pas changé."
+msgstr ""
+
+msgid "Aperçu de la couverture"
+msgstr ""
+
+msgid "Aperçu de la répartition"
+msgstr ""
+
+msgid ""
+"Appartenir à ce foyer ne donne aucun droit d’emprunter ni d’accès aux "
+"informations : ces droits se donnent lien par lien, sur la fiche de "
+"l’enfant."
+msgstr ""
+
+msgid "Application"
+msgstr ""
+
+msgid "Application des imports : désactivée sur cette instance."
+msgstr ""
+
+msgid "Appliquer"
+msgstr ""
+
+msgid "Appliquer ce tri"
+msgstr ""
+
+msgid "Appliquer l’import"
+msgstr ""
+
+msgid "Appliquer ou annuler un enrichissement"
+msgstr ""
+
+msgid "Appliquer un import"
+msgstr ""
+
+msgid "Appliquer un import simulé au catalogue"
+msgstr ""
+
+#, python-brace-format
+msgid "Appliquer {label}"
+msgstr ""
+
+msgid "Appliqué"
+msgstr ""
+
+msgid "Appliqué le"
+msgstr ""
+
+msgid "Après"
+msgstr ""
+
+msgid "Après le tri"
+msgstr ""
+
+msgid ""
+"Après plusieurs échecs, un compte peut être temporairement verrouillé. "
+"Mot de passe perdu : demandez à votre administrateur."
+msgstr ""
+
+#, python-format
+msgid "Après « %(title)s »"
+msgstr ""
+
+msgid "Arbitré"
+msgstr ""
+
+msgid "Arborescence des emplacements"
+msgstr ""
+
+msgid "Arbre des emplacements"
+msgstr ""
+
+msgid "Architecture"
+msgstr ""
+
+msgid "Archivage"
+msgstr ""
+
+msgid "Archiver"
+msgstr ""
+
+msgid "Archiver ou supprimer une notice sans historique"
+msgstr ""
+
+msgid "Archivé"
+msgstr ""
+
+msgid "Archivée"
+msgstr ""
+
+msgid "Archivées"
+msgstr ""
+
+msgid "Archivés"
+msgstr ""
+
+msgid "Arrêtée"
+msgstr ""
+
+msgid "Associez d'abord une colonne à « Code-barres déjà attribué »."
+msgstr ""
+
+msgid ""
+"Associez une colonne au numéro d'inventaire : c'est l'identité de chaque "
+"exemplaire."
+msgstr ""
+
+msgid "Attribuer ces codes"
+msgstr ""
+
+msgid "Attribuer des codes-barres"
+msgstr ""
+
+msgid "Attribuer des codes-barres…"
+msgstr ""
+
+#, python-brace-format
+msgid "Au moins {n} ms."
+msgstr ""
+
+#, python-brace-format
+msgid "Au moins {n} ms. Sert à l’enrichissement de toute la bibliothèque."
+msgstr ""
+
+msgid "Aucun"
+msgstr ""
+
+msgid "Aucun adulte habilité et joignable."
+msgstr ""
+
+msgid "Aucun champ n’a été appliqué."
+msgstr ""
+
+msgid "Aucun champ n’est coché : la confirmation n’écrirait rien."
+msgstr ""
+
+msgid "Aucun champ reconnu : colonne conservée telle quelle, lisible et exportée."
+msgstr ""
+
+msgid "Aucun changement consigné pour cette édition."
+msgstr ""
+
+msgid "Aucun changement de couverture à défaire."
+msgstr ""
+
+msgid "Aucun changement de statut n’est possible pour votre compte."
+msgstr ""
+
+msgid "Aucun de ceux-là"
+msgstr ""
+
+msgid "Aucun disponible"
+msgstr ""
+
+msgid "Aucun d’après le journal."
+msgstr ""
+
+msgid "Aucun emplacement"
+msgstr ""
+
+msgid "Aucun emplacement n’est encore créé."
+msgstr ""
+
+msgid "Aucun enrichissement appliqué à cette édition."
+msgstr ""
+
+msgid "Aucun exemplaire"
+msgstr ""
+
+msgid "Aucun exemplaire de ce livre n’est sorti."
+msgstr ""
+
+msgid "Aucun exemplaire ici."
+msgstr ""
+
+msgid "Aucun exemplaire ne correspond à ces critères."
+msgstr ""
+
+msgid ""
+"Aucun exemplaire ne peut sortir maintenant. La raison est indiquée pour "
+"chacun."
+msgstr ""
+
+#, python-brace-format
+msgid "Aucun exemplaire ne porte le code « {code} »."
+msgstr ""
+
+msgid "Aucun exemplaire physique : cette notice n’a pas encore d’exemplaire."
+msgstr ""
+
+msgid "Aucun exemplaire sur ce niveau."
+msgstr ""
+
+msgid "Aucun exemplaire trouvé"
+msgstr ""
+
+msgid "Aucun exemplaire à prêter."
+msgstr ""
+
+msgid "Aucun fichier complémentaire."
+msgstr ""
+
+msgid "Aucun foyer"
+msgstr ""
+
+msgid "Aucun foyer ne correspond."
+msgstr ""
+
+msgid "Aucun foyer ni aucune structure ne correspond à cette recherche."
+msgstr ""
+
+msgid "Aucun foyer."
+msgstr ""
+
+msgid "Aucun lecteur"
+msgstr ""
+
+msgid "Aucun lecteur ne correspond à cette recherche dans cette vue."
+msgstr ""
+
+msgid ""
+"Aucun lecteur ne correspond à cette recherche. Vérifiez l’orthographe, ou"
+" cherchez par numéro de lecteur ou de carte."
+msgstr ""
+
+msgid "Aucun lecteur ne correspond."
+msgstr ""
+
+msgid "Aucun lecteur ne porte ce numéro (P-000123)."
+msgstr ""
+
+msgid "Aucun lecteur n’est encore inscrit."
+msgstr ""
+
+msgid "Aucun livre choisi."
+msgstr ""
+
+msgid "Aucun livre choisi. Cherchez-le ci-dessous, ou scannez-le."
+msgstr ""
+
+msgid ""
+"Aucun livre ne correspond à cette recherche. Essayez le titre, l’auteur "
+"ou la série."
+msgstr ""
+
+msgid "Aucun livre n’a encore d’exemplaire à prêter."
+msgstr ""
+
+msgid "Aucun livre sorti ne correspond à cette recherche."
+msgstr ""
+
+msgid "Aucun logo : les initiales du nom sont affichées"
+msgstr ""
+
+msgid "Aucun logo : les initiales du nom sont affichées."
+msgstr ""
+
+msgid "Aucun membre"
+msgstr ""
+
+msgid "Aucun membre."
+msgstr ""
+
+msgid "Aucun meuble dans cette salle."
+msgstr ""
+
+msgid ""
+"Aucun pour l’instant : il sera attribué à l’étiquetage. Vide, "
+"l’exemplaire reste désigné par son inventaire."
+msgstr ""
+
+msgid "Aucun pour l’instant."
+msgstr ""
+
+msgid "Aucun prêt ne correspond à cette vue."
+msgstr ""
+
+msgid ""
+"Aucun prêt ne sera possible sans un adulte habilité à emprunter pour ce "
+"mineur, et joignable."
+msgstr ""
+
+msgid "Aucun prêt n’est en retard ni proche de son échéance."
+msgstr ""
+
+msgid "Aucun prêt terminé."
+msgstr ""
+
+msgid "Aucun prêt."
+msgstr ""
+
+msgid "Aucun rappel noté."
+msgstr ""
+
+msgid "Aucun rappel noté. biblyO n’envoie aucun message."
+msgstr ""
+
+msgid "Aucun repère"
+msgstr ""
+
+msgid "Aucun responsable n’est autorisé à être contacté."
+msgstr ""
+
+msgid "Aucun résultat"
+msgstr ""
+
+msgid ""
+"Aucun rôle n'est deviné : chaque nom garde sa colonne et sa position ; le"
+" rôle reste à préciser."
+msgstr ""
+
+msgid "Aucun scan pour l’instant."
+msgstr ""
+
+msgid "Aucun tome numéroté confirmé"
+msgstr ""
+
+msgid "Aucun tome pour l’instant."
+msgstr ""
+
+msgid "Aucun état déduit : proposition à vérifier."
+msgstr ""
+
+msgid "Aucun, à attribuer"
+msgstr ""
+
+msgid "Aucun."
+msgstr ""
+
+msgid "Aucune"
+msgstr ""
+
+msgid "Aucune anomalie"
+msgstr ""
+
+msgid "Aucune autorisation utilisable."
+msgstr ""
+
+msgid "Aucune carte."
+msgstr ""
+
+msgid "Aucune cellule remplie sans valeur brute gardée"
+msgstr ""
+
+msgid ""
+"Aucune colonne n’est ignorée : sans champ, elle est conservée telle "
+"quelle, lisible et exportée."
+msgstr ""
+
+msgid ""
+"Aucune colonne n’est ignorée : une colonne sans champ est conservée telle"
+" quelle, lisible et exportable."
+msgstr ""
+
+msgid "Aucune colonne sans destination"
+msgstr ""
+
+msgid "Aucune coordonnée partagée."
+msgstr ""
+
+msgid "Aucune coordonnée renseignée."
+msgstr ""
+
+msgid "Aucune cote partagée."
+msgstr ""
+
+msgid "Aucune couverture : visuel de remplacement."
+msgstr ""
+
+msgid "Aucune couverture annoncée."
+msgstr ""
+
+msgid "Aucune différence dans les colonnes communes."
+msgstr ""
+
+msgid "Aucune donnée reprise d’une source"
+msgstr ""
+
+msgid "Aucune fiche ne correspond à ce filtre."
+msgstr ""
+
+msgid "Aucune image enregistrée ne porte cette empreinte."
+msgstr ""
+
+msgid ""
+"Aucune image jointe : ce visuel de remplacement reprend le titre et la "
+"série."
+msgstr ""
+
+msgid "Aucune image pour cette édition ni pour cette œuvre"
+msgstr ""
+
+msgid "Aucune image trouvée pour cette notice."
+msgstr ""
+
+msgid "Aucune ligne"
+msgstr ""
+
+msgid "Aucune ligne ne correspond à ces filtres."
+msgstr ""
+
+msgid "Aucune notice active"
+msgstr ""
+
+msgid "Aucune notice correspondante"
+msgstr ""
+
+msgid "Aucune notice ne correspond à ces critères. Élargissez la recherche."
+msgstr ""
+
+msgid "Aucune observation."
+msgstr ""
+
+msgid "Aucune personne"
+msgstr ""
+
+msgid "Aucune pour l’instant"
+msgstr ""
+
+msgid "Aucune proposition"
+msgstr ""
+
+msgid "Aucune règle de prêt ne couvre ce cas : complétez les réglages."
+msgstr ""
+
+msgid "Aucune sauvegarde pour l’instant."
+msgstr ""
+
+msgid ""
+"Aucune source activée n’a d’image pour cette édition ou cette œuvre. La "
+"BnF n’en fournit que pour des notices récentes et enrichies. "
+"Photographiez la couverture et importez-la : c’est souvent le plus sûr."
+msgstr ""
+
+msgid "Aucune série"
+msgstr ""
+
+msgid "Aucune."
+msgstr ""
+
+msgid "Auteur"
+msgstr ""
+
+msgid "Auteur ou contributeur"
+msgstr ""
+
+#, python-brace-format
+msgid "Auteur retrouvé : {names}"
+msgstr ""
+
+msgid "Auteur, puis rôle à préciser"
+msgstr ""
+
+msgid "Auteurs"
+msgstr ""
+
+#, python-brace-format
+msgid "Auteurs différents : {theirs}"
+msgstr ""
+
+msgid "Auteurs et contributeurs"
+msgstr ""
+
+msgid "Auteurs et contributeurs de l’œuvre"
+msgstr ""
+
+#, python-brace-format
+msgid "Auteurs retrouvés : {names}"
+msgstr ""
+
+msgid "Autorisé par"
+msgstr ""
+
+msgid "Autre"
+msgstr ""
+
+msgid "Autre motif"
+msgstr ""
+
+msgid "Autre option : carte déjà imprimée"
+msgstr ""
+
+msgid "Autre origine, droit d’utilisation vérifié"
+msgstr ""
+
+#, python-brace-format
+msgid "Autre type de document : {kind}"
+msgstr ""
+
+msgid "Autre valeur"
+msgstr ""
+
+msgid "Autres options : carte déjà imprimée, adhésion"
+msgstr ""
+
+msgid "Avant"
+msgstr ""
+
+msgid "Avant toute application"
+msgstr ""
+
+msgid "Avec aide"
+msgstr ""
+
+msgid "Avec exemplaire"
+msgstr ""
+
+msgid "Avec icône"
+msgstr ""
+
+msgid "Avec un adulte"
+msgstr ""
+
+msgid "Avertir"
+msgstr ""
+
+msgid "Avertissement seulement : le prêt reste possible."
+msgstr ""
+
+msgid "Bac"
+msgstr ""
+
+msgid "Barre"
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"Bibliothèque nationale de France, service Couvertures, récupérée le "
+"{date}."
+msgstr ""
+
+msgid "Bibliothécaire"
+msgstr ""
+
+msgid "Bloquer, avec dérogation"
+msgstr ""
+
+msgid "BnF"
+msgstr ""
+
+msgid "BnF, catalogue général"
+msgstr ""
+
+msgid "BnF, service Couvertures"
+msgstr ""
+
+msgid "Bon"
+msgstr ""
+
+#, python-brace-format
+msgid "Bonjour, {name}"
+msgstr ""
+
+#, python-brace-format
+msgid "Bonsoir, {name}"
+msgstr ""
+
+msgid "Bouton icône"
+msgstr ""
+
+msgid "Boutons"
+msgstr ""
+
+msgid "Brutes gardées"
+msgstr ""
+
+msgid "Bénévole"
+msgstr ""
+
+msgid "Cadre"
+msgstr ""
+
+msgid "Canal"
+msgstr ""
+
+msgid "Capacité (places)"
+msgstr ""
+
+msgid "Capacité de chaque étagère"
+msgstr ""
+
+msgid "Carte"
+msgstr ""
+
+msgid "Carte changée"
+msgstr ""
+
+msgid "Carte hors service"
+msgstr ""
+
+msgid "Cartes"
+msgstr ""
+
+msgid "Cartes détachées"
+msgstr ""
+
+msgid "Cases à cocher"
+msgstr ""
+
+msgid "Catalogue"
+msgstr ""
+
+msgid "Catalogue .csv (archive)"
+msgstr ""
+
+msgid "Catalogue .xlsx"
+msgstr ""
+
+msgid ""
+"Catalogue complet en .xlsx ou en .csv ; format d’origine de chaque lot "
+"importé"
+msgstr ""
+
+msgid ""
+"Catalogue complet, emplacements et traces d'import. Ni lecteurs, ni "
+"prêts, ni comptes."
+msgstr ""
+
+msgid "Catalogue existant"
+msgstr ""
+
+msgid "Catalogue vivant du design system, en développement seulement."
+msgstr ""
+
+msgid "Catégorie"
+msgstr ""
+
+msgid "Catégories"
+msgstr ""
+
+msgid "Catégories de lecteurs"
+msgstr ""
+
+msgid ""
+"Ce candidat décrit une autre édition : ses champs d’édition ne sont pas "
+"proposés. Les champs de l’œuvre restent utilisables."
+msgstr ""
+
+msgid "Ce champ est invalide."
+msgstr ""
+
+msgid "Ce changement de statut n’existe pas."
+msgstr ""
+
+#, python-brace-format
+msgid "Ce code court est déjà celui de « {path} »."
+msgstr ""
+
+msgid ""
+"Ce code désigne plusieurs choses. Rien n’est ajouté tant que vous n’avez "
+"pas choisi."
+msgstr ""
+
+#, python-brace-format
+msgid "Ce code est déjà attribué à {holder}."
+msgstr ""
+
+msgid "Ce droit ne concerne que les structures."
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"Ce fichier a déjà été appliqué (lot n° {id}, le {at}) : rien n'est "
+"importé deux fois."
+msgstr ""
+
+msgid "Ce fichier est abîmé ou incomplet."
+msgstr ""
+
+msgid "Ce fichier est vide."
+msgstr ""
+
+msgid "Ce fichier n'est ni un classeur .xlsx ni un fichier .csv."
+msgstr ""
+
+msgid "Ce fichier n'est pas un classeur .xlsx."
+msgstr ""
+
+msgid "Ce fichier n’est pas une image JPEG, PNG ou WebP valide."
+msgstr ""
+
+msgid "Ce foyer a encore des membres : retirez-les d’abord."
+msgstr ""
+
+msgid "Ce foyer est archivé."
+msgstr ""
+
+msgid "Ce foyer n’a plus de membres : il peut être archivé."
+msgstr ""
+
+msgid "Ce foyer n’existe pas ou est archivé."
+msgstr ""
+
+msgid "Ce foyer n’existe pas."
+msgstr ""
+
+#, python-brace-format
+msgid "Ce lecteur a {n} prêt(s) en cours : l’archivage attendra leur retour."
+msgstr ""
+
+#, python-brace-format
+msgid "Ce lecteur a {n} prêt(s) en cours."
+msgstr ""
+
+msgid "Ce lecteur est anonymisé : sa fiche ne se modifie plus."
+msgstr ""
+
+msgid "Ce lecteur est déjà anonymisé."
+msgstr ""
+
+msgid "Ce lecteur est déjà inscrit comme adulte."
+msgstr ""
+
+msgid "Ce lecteur est suspendu : aucun prêt n’est possible."
+msgstr ""
+
+msgid "Ce lecteur fait déjà partie de ce foyer."
+msgstr ""
+
+msgid "Ce lecteur ne fait pas partie de ce foyer."
+msgstr ""
+
+msgid "Ce lecteur n’a pas de carte en service."
+msgstr ""
+
+msgid "Ce lecteur n’existe pas."
+msgstr ""
+
+msgid "Ce libellé est trop long."
+msgstr ""
+
+msgid "Ce libellé existe déjà : fusionnez plutôt les deux éléments."
+msgstr ""
+
+msgid "Ce lien de responsabilité n’existe plus."
+msgstr ""
+
+#, python-format
+msgid "Ce lieu contient %(n)s exemplaire(s) : il faut d’abord les déplacer."
+msgstr ""
+
+#, python-brace-format
+msgid "Ce lieu contient encore {n} exemplaire : déplacez-le d’abord."
+msgid_plural "Ce lieu contient encore {n} exemplaires : déplacez-les d’abord."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Ce lieu est désactivé : on ne peut plus y ranger."
+msgstr ""
+
+msgid "Ce lieu est désactivé : réactivez-le d’abord."
+msgstr ""
+
+msgid "Ce livre est peut-être déjà au catalogue."
+msgstr ""
+
+msgid "Ce livre n’a aucun exemplaire dans le fonds."
+msgstr ""
+
+msgid "Ce livre n’a encore aucun exemplaire physique : il n’y a rien à prêter."
+msgstr ""
+
+msgid "Ce module n’est pas encore disponible"
+msgstr ""
+
+msgid "Ce mois n’existe pas."
+msgstr ""
+
+msgid "Ce mot de passe est trop courant. Choisissez-en un autre."
+msgstr ""
+
+msgid "Ce motif est trop long."
+msgstr ""
+
+msgid "Ce nom de foyer est trop long."
+msgstr ""
+
+msgid "Ce nom de serveur est introuvable."
+msgstr ""
+
+msgid "Ce nom de serveur n’est pas valide."
+msgstr ""
+
+msgid "Ce nom est trop long."
+msgstr ""
+
+#, python-brace-format
+msgid "Ce numéro appartient à {label}, pas au territoire choisi."
+msgstr ""
+
+msgid ""
+"Ce numéro de carte est déjà pris, ou l’a été : il ne peut pas être "
+"réattribué."
+msgstr ""
+
+#, python-brace-format
+msgid "Ce numéro est déjà attribué à {holder}."
+msgstr ""
+
+msgid "Ce numéro ne suit pas le plan de La Réunion ni celui de Mayotte."
+msgstr ""
+
+#, python-brace-format
+msgid "Ce numéro ne suit pas le plan de numérotation de {label}."
+msgstr ""
+
+#, python-brace-format
+msgid "Ce numéro relève de l’outre-mer ({label}) : confirmez son indicatif."
+msgstr ""
+
+msgid ""
+"Ce numéro se lirait comme un numéro de lecteur (P-…) : choisissez-en un "
+"autre."
+msgstr ""
+
+msgid "Ce prix n’est pas plausible."
+msgstr ""
+
+msgid "Ce prêt"
+msgstr ""
+
+msgid "Ce prêt demande une dérogation : faites intervenir un bibliothécaire."
+msgstr ""
+
+msgid "Ce prêt est déjà en cours d’enregistrement : rien n’a été ajouté."
+msgstr ""
+
+msgid "Ce prêt est en retard."
+msgstr ""
+
+msgid "Ce prêt est terminé : il ne se corrige plus ainsi."
+msgstr ""
+
+msgid "Ce prêt est terminé : il ne se renouvelle plus."
+msgstr ""
+
+msgid "Ce prêt est terminé : il n’y a plus de rappel à noter."
+msgstr ""
+
+msgid "Ce prêt est terminé : son échéance ne change plus."
+msgstr ""
+
+msgid "Ce prêt n’a pas de retour à annuler."
+msgstr ""
+
+msgid "Ce prêt n’a pas de retour à corriger."
+msgstr ""
+
+msgid "Ce prêt n’existe pas."
+msgstr ""
+
+msgid "Ce prêt n’existe plus."
+msgstr ""
+
+msgid "Ce prêt était déjà enregistré : rien n’a été ajouté."
+msgstr ""
+
+msgid "Ce public n’existe pas."
+msgstr ""
+
+msgid "Ce que cet adulte peut faire : chaque droit se coche"
+msgstr ""
+
+msgid "Ce que la simulation garantit"
+msgstr ""
+
+msgid ""
+"Ce que l’import ferait, ligne par ligne. Rien n’a été écrit : ni dans le "
+"catalogue, ni dans la base."
+msgstr ""
+
+msgid "Ce qui a été créé ou rejoint"
+msgstr ""
+
+msgid "Ce qui arrive à la carte"
+msgstr ""
+
+msgid "Ce qui attend une décision. Rien ne change sans une personne."
+msgstr ""
+
+msgid "Ce qui ne sera pas effacé"
+msgstr ""
+
+msgid "Ce qui sera effacé ou retiré"
+msgstr ""
+
+msgid "Ce rangement ne peut pas être annulé."
+msgstr ""
+
+msgid "Ce rôle n’existe pas pour ce type de foyer."
+msgstr ""
+
+msgid "Ce serveur est injoignable ou refuse la connexion sécurisée."
+msgstr ""
+
+msgid "Ce texte est trop long."
+msgstr ""
+
+msgid "Ce tri n’existe pas."
+msgstr ""
+
+msgid "Ce type d’emplacement n’existe pas."
+msgstr ""
+
+#, python-brace-format
+msgid "Ce {field} est trop long."
+msgstr ""
+
+msgid "Cellule"
+msgstr ""
+
+msgid "Cellule de texte au format date dans Excel"
+msgstr ""
+
+msgid "Cellule qui commence comme une formule"
+msgstr ""
+
+#, python-brace-format
+msgid "Cellule {cell} : texte « {v} » gardé tel quel."
+msgstr ""
+
+#, python-brace-format
+msgid "Cellule {cell} gardée comme texte."
+msgstr ""
+
+msgid "Cellules au format date"
+msgstr ""
+
+msgid "Cellules fusionnées : seule la première porte la valeur."
+msgstr ""
+
+msgid "Cellules modifiées dans biblyO"
+msgstr ""
+
+msgid ""
+"Certaines valeurs ne sont pas acceptées : elles sont signalées ci-"
+"dessous. Rien n’a été enregistré."
+msgstr ""
+
+msgid ""
+"Certains champs ont été modifiés depuis cet enrichissement. Ils n’ont pas"
+" été restaurés : choisissez, champ par champ, ce qui doit l’être."
+msgstr ""
+
+msgid "Certains champs sont à corriger."
+msgstr ""
+
+msgid ""
+"Certains exemplaires ne peuvent pas être confirmés : retirez-les de la "
+"sélection. Rien ne change tant qu’ils y sont."
+msgstr ""
+
+msgid ""
+"Certains exemplaires ne peuvent pas être rangés : retirez-les de la "
+"sélection. Rien ne sera déplacé tant qu’ils y sont."
+msgstr ""
+
+msgid "Certains réglages sont refusés : corrigez les champs signalés."
+msgstr ""
+
+msgid ""
+"Ces exemplaires sont déjà à cette place, dans cet ordre : rien ne "
+"changera."
+msgstr ""
+
+msgid "Ces fichiers sont hors de biblyO."
+msgstr ""
+
+msgid ""
+"Ces valeurs ne diffèrent que par la casse ou les accents. Choisissez une "
+"forme seulement si c’est la même collection : chaque valeur d’origine "
+"reste dans sa ligne."
+msgstr ""
+
+msgid "Ces éléments se créent depuis les notices."
+msgstr ""
+
+msgid "Cet ISBN n’est plus en attente de décision."
+msgstr ""
+
+msgid "Cet adulte est déjà responsable de ce mineur."
+msgstr ""
+
+#, python-format
+msgid ""
+"Cet emplacement dépassera sa capacité de %(n)s place(s). C’est permis, et"
+" sera signalé."
+msgstr ""
+
+msgid "Cet emplacement est désactivé : on ne peut plus y ranger."
+msgstr ""
+
+msgid "Cet emplacement n’existe plus."
+msgstr ""
+
+msgid ""
+"Cet emplacement vient d’être modifié par une autre personne. Rien n’a été"
+" enregistré : rechargez la page, puis recommencez."
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"Cet essai a échoué et a été entièrement annulé : rien n’a été écrit au "
+"catalogue. Erreur : {e}."
+msgstr ""
+
+msgid ""
+"Cet exemplaire a déjà un historique : il ne peut pas être supprimé, "
+"seulement retiré du fonds."
+msgstr ""
+
+msgid "Cet exemplaire est déjà dans la liste."
+msgstr ""
+
+#, python-brace-format
+msgid "Cet exemplaire est déjà en prêt, retour prévu le {due}."
+msgstr ""
+
+msgid "Cet exemplaire est en prêt : enregistrez d’abord son retour."
+msgstr ""
+
+msgid "Cet exemplaire est en prêt : il garde sa place jusqu’à son retour."
+msgstr ""
+
+#, python-format
+msgid "Cet exemplaire est « %(status)s » : déclarez-le d’abord retrouvé."
+msgstr ""
+
+#, python-brace-format
+msgid "Cet exemplaire est « {status} » : déclarez-le d’abord retrouvé."
+msgstr ""
+
+#, python-brace-format
+msgid "Cet exemplaire est « {status} » : il ne peut pas être prêté."
+msgstr ""
+
+msgid "Cet exemplaire n’a encore été ni rangé ni déplacé."
+msgstr ""
+
+msgid "Cet exemplaire n’a pas de place attribuée."
+msgstr ""
+
+msgid "Cet exemplaire n’a pas encore de place."
+msgstr ""
+
+msgid "Cet exemplaire n’a plus de place sur les étagères."
+msgstr ""
+
+msgid "Cet exemplaire n’est pas en prêt : il n’y a rien à rendre."
+msgstr ""
+
+msgid "Cet exemplaire n’existe plus."
+msgstr ""
+
+msgid "Cet exemplaire se consulte sur place : il ne peut pas être prêté."
+msgstr ""
+
+msgid ""
+"Cet exemplaire vient d’être modifié ou déplacé par une autre personne. "
+"Rien n’a été enregistré : rechargez la page, puis recommencez."
+msgstr ""
+
+msgid "Cet export est inscrit au journal."
+msgstr ""
+
+msgid "Cet identifiant est déjà pris."
+msgstr ""
+
+msgid "Cet élément n’existe plus."
+msgstr ""
+
+msgid "Cette action n’existe pas."
+msgstr ""
+
+msgid "Cette adresse est trop longue."
+msgstr ""
+
+msgid "Cette adresse mène à un réseau privé ou local : elle est refusée."
+msgstr ""
+
+msgid ""
+"Cette adresse n’est pas acceptée : nom de serveur seul, sans identifiant "
+"ni port."
+msgstr ""
+
+msgid "Cette adresse n’est pas valide."
+msgstr ""
+
+msgid "Cette adresse électronique n’a pas une forme valide."
+msgstr ""
+
+msgid "Cette année de naissance n’est pas plausible."
+msgstr ""
+
+msgid "Cette année n’est pas plausible."
+msgstr ""
+
+msgid ""
+"Cette carte n’est plus en service. Vérifiez l’identité, puis retrouvez la"
+" fiche par le nom."
+msgstr ""
+
+msgid ""
+"Cette couverture vient d’un enrichissement : annulez-le depuis l’onglet «"
+" Enrichissement »."
+msgstr ""
+
+msgid "Cette date de naissance n’est pas plausible."
+msgstr ""
+
+msgid "Cette date de prêt n’existe pas."
+msgstr ""
+
+msgid "Cette date de retour n’est pas possible pour ce prêt."
+msgstr ""
+
+msgid "Cette date de retour n’existe pas."
+msgstr ""
+
+msgid "Cette date n’existe pas."
+msgstr ""
+
+msgid ""
+"Cette fiche a été modifiée depuis la recherche. La proposition est "
+"périmée : relancez la recherche pour comparer à nouveau."
+msgstr ""
+
+msgid ""
+"Cette fiche est anonymisée : il ne reste rien qui désigne la personne. "
+"Les sauvegardes antérieures contiennent encore ses données jusqu’à leur "
+"suppression."
+msgstr ""
+
+msgid "Cette fiche est archivée ou anonymisée : aucun prêt n’est possible."
+msgstr ""
+
+msgid ""
+"Cette fiche vient d’être modifiée par une autre personne. Rien n’a été "
+"enregistré : rechargez la page, puis recommencez."
+msgstr ""
+
+msgid ""
+"Cette fiche vient d’être modifiée par une autre personne. Vos changements"
+" n’ont pas été enregistrés : rechargez la fiche, puis recommencez."
+msgstr ""
+
+msgid "Cette image dépasse 8 Mio."
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"Cette image est la couverture actuelle de {n} édition(s) : supprimez-la "
+"d’abord depuis sa page Couverture."
+msgstr ""
+
+msgid "Cette image est trop grande : 40 millions de pixels au plus."
+msgstr ""
+
+msgid "Cette image est trop petite : 32 pixels de côté au moins."
+msgstr ""
+
+msgid ""
+"Cette image ne vient pas d’une notice portant le même ISBN : sa "
+"couverture peut différer de votre livre. Comparez-la avec le livre en "
+"main avant de l’enregistrer."
+msgstr ""
+
+msgid "Cette langue n’existe pas dans la liste."
+msgstr ""
+
+msgid "Cette liste ne se désactive pas."
+msgstr ""
+
+msgid "Cette mise en conservation est déjà levée."
+msgstr ""
+
+msgid ""
+"Cette notice a des exemplaires : elle ne peut pas être supprimée, "
+"seulement archivée."
+msgstr ""
+
+msgid ""
+"Cette notice a des exemplaires : elle ne peut pas être supprimée. Une "
+"fois ses exemplaires retirés, elle pourra être archivée."
+msgstr ""
+
+msgid "Cette notice a encore des exemplaires au fonds : retirez-les d’abord."
+msgstr ""
+
+msgid ""
+"Cette notice est archivée : elle n’apparaît plus dans le catalogue par "
+"défaut."
+msgstr ""
+
+msgid "Cette notice est archivée : réactivez-la d’abord."
+msgstr ""
+
+msgid "Cette notice n’existe plus."
+msgstr ""
+
+msgid ""
+"Cette opération demande une dérogation : faites intervenir un "
+"bibliothécaire."
+msgstr ""
+
+msgid "Cette opération est définitive. Une fiche anonymisée ne se restaure pas."
+msgstr ""
+
+msgid "Cette opération est déjà annulée."
+msgstr ""
+
+msgid "Cette opération n’est rattachée à aucune édition."
+msgstr ""
+
+msgid "Cette opération n’existe pas."
+msgstr ""
+
+msgid "Cette page n’existe pas ou plus."
+msgstr ""
+
+msgid ""
+"Cette personne est majeure : ces liens sont conservés et à revoir. Rien "
+"n’est retiré automatiquement."
+msgstr ""
+
+msgid ""
+"Cette personne ne peut pas répondre de ce prêt : elle doit être "
+"habilitée, joignable et active."
+msgstr ""
+
+msgid "Cette personne n’est pas autorisée à emprunter pour cette structure."
+msgstr ""
+
+msgid "Cette personne n’est rattachée à aucune notice active."
+msgstr ""
+
+#, python-brace-format
+msgid "Cette place est déjà occupée par « {name} »."
+msgstr ""
+
+msgid "Cette place sort de la grille de la salle."
+msgstr ""
+
+msgid "Cette plage est trop grande."
+msgstr ""
+
+msgid "Cette proposition a déjà été traitée."
+msgstr ""
+
+msgid "Cette proposition n’est rattachée à aucune édition."
+msgstr ""
+
+msgid "Cette proposition n’existe plus."
+msgstr ""
+
+msgid "Cette règle n’existe plus."
+msgstr ""
+
+msgid ""
+"Cette section ne peut pas être rangée dans une de ses propres sous-"
+"sections."
+msgstr ""
+
+msgid "Cette section n’existe pas."
+msgstr ""
+
+msgid "Cette structure n’a plus de membres : elle peut être archivée."
+msgstr ""
+
+msgid "Cette suppression est définitive."
+msgstr ""
+
+msgid "Cette série n’existe plus."
+msgstr ""
+
+msgid ""
+"Cette édition a des exemplaires : elle ne peut pas être supprimée, "
+"seulement archivée."
+msgstr ""
+
+msgid ""
+"Cette édition a déjà une couverture : cochez « Remplacer la couverture "
+"actuelle »."
+msgstr ""
+
+msgid "Cette édition a encore des exemplaires au fonds : retirez-les d’abord."
+msgstr ""
+
+msgid "Cette édition est archivée : réactivez-la d’abord."
+msgstr ""
+
+msgid "Cette édition n’a pas de couverture."
+msgstr ""
+
+msgid "Cette édition n’existe plus."
+msgstr ""
+
+msgid "Cette étagère est déjà dans cet ordre."
+msgstr ""
+
+msgid "Champ"
+msgstr ""
+
+msgid "Champ en erreur"
+msgstr ""
+
+msgid "Champ obligatoire"
+msgstr ""
+
+msgid "Champs"
+msgstr ""
+
+msgid "Champs de l’édition"
+msgstr ""
+
+msgid "Champs de l’œuvre"
+msgstr ""
+
+msgid "Champs en conflit"
+msgstr ""
+
+msgid "Champs gardés tels quels"
+msgstr ""
+
+msgid "Champs modifiés depuis"
+msgstr ""
+
+msgid "Changements à appliquer"
+msgstr ""
+
+msgid "Changer"
+msgstr ""
+
+msgid "Changer de lecteur"
+msgstr ""
+
+msgid "Changer de thème"
+msgstr ""
+
+msgid "Changer la couverture"
+msgstr ""
+
+msgid "Changer le mot de passe"
+msgstr ""
+
+msgid "Changer le rôle"
+msgstr ""
+
+msgid "Changer le statut"
+msgstr ""
+
+msgid "Changer l’échéance"
+msgstr ""
+
+msgid "Chaque affichage est journalisé."
+msgstr ""
+
+msgid ""
+"Chaque cellule remplie garde sa valeur brute, attachée à sa ligne : c’est"
+" ce que l’export restituera. « Transformées » compte les cellules dont le"
+" champ diffère de la cellule, en général un espace en trop."
+msgstr ""
+
+msgid ""
+"Chaque cellule rend la valeur d'origine tant que biblyO garde la valeur "
+"écrite par l'import ; une valeur modifiée dans biblyO est exportée et "
+"listée dans « Modifications ». Les propositions ne sont jamais dans les "
+"colonnes d'origine."
+msgstr ""
+
+msgid ""
+"Chaque compte reçoit un rôle dans « Utilisateurs ». Les rôles eux-mêmes "
+"sont fixés par l’application."
+msgstr ""
+
+msgid "Chaque exemplaire a une place sur une étagère."
+msgstr ""
+
+msgid ""
+"Chaque exemplaire prévu a son livre, son œuvre et son identifiant de "
+"source"
+msgstr ""
+
+msgid "Chaque ligne garde toutes ses colonnes"
+msgstr ""
+
+msgid ""
+"Chaque ligne garde un identifiant de source stable ; aucun exemplaire "
+"n'est supprimé, fusionné ni renuméroté."
+msgstr ""
+
+msgid ""
+"Chaque ligne montre la valeur de la fiche et celle proposée. Seuls les "
+"champs cochés seront appliqués ; un champ déjà rempli n’est remplacé que "
+"si vous le cochez vous-même."
+msgstr ""
+
+msgid ""
+"Chaque personne recevra un numéro de lecteur et une carte. Les droits "
+"cochés valent pour chaque enfant ; ils se règlent ensuite lien par lien."
+msgstr ""
+
+msgid "Chaque scan prend la place suivante sur l’étagère choisie."
+msgstr ""
+
+msgid "Chaque scan rend le livre aussitôt, et dit où le ranger."
+msgstr ""
+
+msgid ""
+"Chaque valeur reste distincte, même entre noms proches ; rapprochement "
+"manuel avec une collection existante possible. Table à relire."
+msgstr ""
+
+msgid "Chercher"
+msgstr ""
+
+msgid "Chercher dans les sources bibliographiques et comparer"
+msgstr ""
+
+msgid "Chercher un lecteur"
+msgstr ""
+
+msgid "Chercher un livre"
+msgstr ""
+
+msgid "Chercher un prêt"
+msgstr ""
+
+msgid "Chercher une ligne"
+msgstr ""
+
+msgid "Chercher une personne"
+msgstr ""
+
+msgid "Chercher une personne…"
+msgstr ""
+
+msgid "Chercher une série"
+msgstr ""
+
+msgid "Chercher une série…"
+msgstr ""
+
+msgid ""
+"Cherchez un livre à la BnF et au Sudoc, par ISBN, titre, auteur ou série."
+" Un résultat peut servir à créer une notice, que vous relisez avant de "
+"l’enregistrer."
+msgstr ""
+
+msgid "Cherché sous ses deux formes. Jamais inventé."
+msgstr ""
+
+msgid "Cherché sous ses deux formes. Une douchette peut le saisir."
+msgstr ""
+
+msgid "Chiffres clés"
+msgstr ""
+
+msgid "Choisir"
+msgstr ""
+
+msgid "Choisir ce meuble"
+msgstr ""
+
+msgid "Choisir la couverture"
+msgstr ""
+
+msgid "Choisir l’exemplaire"
+msgstr ""
+
+msgid "Choisir l’exemplaire de"
+msgstr ""
+
+msgid "Choisir pour le déplacer :"
+msgstr ""
+
+msgid "Choisir un autre lecteur"
+msgstr ""
+
+msgid "Choisir un lecteur"
+msgstr ""
+
+msgid "Choisir un motif…"
+msgstr ""
+
+msgid "Choisir une image"
+msgstr ""
+
+msgid "Choisir une personne…"
+msgstr ""
+
+msgid "Choisir…"
+msgstr ""
+
+msgid "Choisissez adulte ou mineur."
+msgstr ""
+
+msgid "Choisissez au moins un exemplaire."
+msgstr ""
+
+msgid "Choisissez au moins un rôle."
+msgstr ""
+
+msgid "Choisissez d’abord dans la liste."
+msgstr ""
+
+msgid "Choisissez d’abord le lecteur dans la liste, ou scannez sa carte."
+msgstr ""
+
+msgid "Choisissez d’abord l’étagère à remplir."
+msgstr ""
+
+msgid "Choisissez d’abord une autre édition principale."
+msgstr ""
+
+msgid "Choisissez famille ou structure."
+msgstr ""
+
+msgid "Choisissez la relation."
+msgstr ""
+
+msgid "Choisissez le bon lecteur."
+msgstr ""
+
+msgid "Choisissez le cadre de l’emprunt."
+msgstr ""
+
+msgid "Choisissez le canal du rappel."
+msgstr ""
+
+msgid "Choisissez le fichier à simuler, en .xlsx ou en .csv."
+msgstr ""
+
+msgid "Choisissez le résultat du rappel."
+msgstr ""
+
+msgid ""
+"Choisissez les exemplaires à prêter, ou enregistrez un retour. Rien n’est"
+" enregistré sans votre confirmation."
+msgstr ""
+
+msgid "Choisissez l’adulte qui répond de ce prêt."
+msgstr ""
+
+msgid "Choisissez l’élément dans lequel fusionner."
+msgstr ""
+
+msgid "Choisissez ou déposez un fichier image."
+msgstr ""
+
+msgid "Choisissez pourquoi la carte n’est plus en service."
+msgstr ""
+
+msgid "Choisissez un autre élément pour la fusion."
+msgstr ""
+
+msgid ""
+"Choisissez un dos au clavier ou à la souris, ou glissez-le directement. "
+"Sur téléphone, ouvrez l’exemplaire et utilisez « Déplacer »."
+msgstr ""
+
+msgid "Choisissez un emplacement."
+msgstr ""
+
+msgid "Choisissez un fichier image."
+msgstr ""
+
+msgid "Choisissez un jour."
+msgstr ""
+
+msgid ""
+"Choisissez un lecteur et des livres dans les listes, puis confirmez. La "
+"douchette reste utilisable à tout moment."
+msgstr ""
+
+msgid ""
+"Choisissez un meuble, puis la case où le poser. Une case déjà occupée est"
+" refusée."
+msgstr ""
+
+msgid "Choisissez un mode d’acquisition dans la liste."
+msgstr ""
+
+msgid "Choisissez un mode."
+msgstr ""
+
+msgid "Choisissez un motif"
+msgstr ""
+
+msgid "Choisissez un motif."
+msgstr ""
+
+msgid "Choisissez un nouveau mot de passe pour continuer."
+msgstr ""
+
+msgid "Choisissez un rôle."
+msgstr ""
+
+msgid "Choisissez un type actif comme cible de la fusion."
+msgstr ""
+
+msgid "Choisissez un type de document."
+msgstr ""
+
+msgid "Choisissez un état dans la liste."
+msgstr ""
+
+msgid "Choisissez un état."
+msgstr ""
+
+msgid "Choisissez une catégorie."
+msgstr ""
+
+msgid "Choisissez une image (PNG, JPEG ou WebP)."
+msgstr ""
+
+msgid "Choisissez à nouveau la personne : elle ne correspond plus au nom saisi."
+msgstr ""
+
+msgid "Choisissez…"
+msgstr ""
+
+msgid "Circulation"
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"Classeur .xlsx ou fichier .csv, {n} Mio au plus. Les macros et l’ancien "
+"format .xls sont refusés."
+msgstr ""
+
+msgid "Cocher les champs vides admissibles"
+msgstr ""
+
+msgid "Cocher toute la page"
+msgstr ""
+
+msgid "Cochez la case de confirmation pour appliquer ce plan."
+msgstr ""
+
+msgid ""
+"Coché : un exemplaire « En préparation » passe « En place » et devient "
+"prêtable. Non coché : il reçoit sa place mais reste « En préparation », à"
+" confirmer plus tard."
+msgstr ""
+
+msgid "Cochée"
+msgstr ""
+
+msgid ""
+"Code artificiel de la reconstruction de l’ancienne application : jamais "
+"repris"
+msgstr ""
+
+msgid "Code court"
+msgstr ""
+
+msgid "Code de l’exemplaire"
+msgstr ""
+
+msgid ""
+"Code inconnu. Cherchez plutôt le lecteur par son nom, ou l’ouvrage au "
+"catalogue."
+msgstr ""
+
+msgid "Code postal"
+msgstr ""
+
+msgid "Code source"
+msgstr ""
+
+msgid "Code source : dépôt non encore publié."
+msgstr ""
+
+msgid "Code-barres"
+msgstr ""
+
+msgid "Code-barres déjà attribué"
+msgstr ""
+
+msgid "Code-barres déjà présent dans biblyO"
+msgstr ""
+
+msgid "Code-barres en double dans le fichier"
+msgstr ""
+
+msgid "Code-barres modifié dans biblyO"
+msgstr ""
+
+msgid "Code-barres ou numéro d’inventaire"
+msgstr ""
+
+msgid "Codes"
+msgstr ""
+
+msgid "Codes générés (non retenu)"
+msgstr ""
+
+msgid "Codes-barres"
+msgstr ""
+
+msgid ""
+"Codes-barres attribués. Aucun inventaire n’a changé, aucune étiquette "
+"imprimée."
+msgstr ""
+
+msgid "Collection"
+msgstr ""
+
+msgid "Collection comprise"
+msgstr ""
+
+#, python-brace-format
+msgid "Collection différente : {theirs}"
+msgstr ""
+
+msgid "Collection modifiée dans biblyO"
+msgstr ""
+
+msgid "Collection rangée en mention ou en note (table du profil)"
+msgstr ""
+
+msgid ""
+"Collection rapprochée sous la forme retenue dans le profil : forme "
+"d'origine gardée dans la ligne"
+msgstr ""
+
+msgid "Collection rattachée à une collection existante (choix manuel)"
+msgstr ""
+
+msgid ""
+"Collection renseignée autrement selon les exemplaires d'un même livre : "
+"la première est retenue pour l'édition, chaque valeur reste dans sa ligne"
+msgstr ""
+
+#, python-brace-format
+msgid "Collection « {v} »"
+msgstr ""
+
+msgid "Collections"
+msgstr ""
+
+msgid "Collections (valeurs)"
+msgstr ""
+
+#, python-brace-format
+msgid "Collections : {n} valeurs"
+msgstr ""
+
+msgid ""
+"Collections écrites autrement, confondues par la comparaison : choisir la"
+" forme retenue"
+msgstr ""
+
+msgid "Colonne"
+msgstr ""
+
+msgid "Colonne ou valeur"
+msgstr ""
+
+msgid "Colonne vide."
+msgstr ""
+
+#, python-brace-format
+msgid "Colonne {letter}"
+msgstr ""
+
+#, python-brace-format
+msgid "Colonne {letter} sans en-tête."
+msgstr ""
+
+msgid "Colonnes"
+msgstr ""
+
+#, python-brace-format
+msgid "Colonnes : {n}"
+msgstr ""
+
+msgid "Coloriste"
+msgstr ""
+
+msgid "Comment cet enfant emprunte-t-il ?"
+msgstr ""
+
+msgid "Commit de l’image"
+msgstr ""
+
+msgid "Commune"
+msgstr ""
+
+msgid "Comparaison des éditions proposées"
+msgstr ""
+
+#, python-brace-format
+msgid "Comparer : {title}"
+msgstr ""
+
+#, python-brace-format
+msgid "Comparer avec la notice {source}"
+msgstr ""
+
+msgid "Comparer et choisir"
+msgstr ""
+
+msgid "Complète"
+msgstr ""
+
+#, python-brace-format
+msgid "Complète jusqu’au t. {number}"
+msgstr ""
+
+msgid "Complètes"
+msgstr ""
+
+msgid "Complément d’adresse"
+msgstr ""
+
+msgid "Complémentaire"
+msgstr ""
+
+msgid "Compléments et propositions"
+msgstr ""
+
+msgid "Compléter"
+msgstr ""
+
+msgid "Complétude"
+msgstr ""
+
+msgid "Complétude < 50 %"
+msgstr ""
+
+msgid "Complétude croissante"
+msgstr ""
+
+msgid "Complétude moyenne des notices"
+msgstr ""
+
+msgid "Composants"
+msgstr ""
+
+msgid "Compris"
+msgstr ""
+
+msgid "Compte :"
+msgstr ""
+
+msgid "Compte actif"
+msgstr ""
+
+msgid "Compte et aide"
+msgstr ""
+
+msgid "Compte introuvable."
+msgstr ""
+
+msgid "Comptes actifs"
+msgstr ""
+
+msgid "Comptes de l’installation"
+msgstr ""
+
+msgid "Comptes et rôles de l’installation."
+msgstr ""
+
+msgid "Comptoir"
+msgstr ""
+
+msgid "Comptoir de prêt"
+msgstr ""
+
+#, python-brace-format
+msgid "Concorde : {list}"
+msgstr ""
+
+msgid "Conditions de la source"
+msgstr ""
+
+msgid "Conditions et droit d’utilisation"
+msgstr ""
+
+msgid "Configurer les sources bibliographiques"
+msgstr ""
+
+msgid ""
+"Confirmation exigée en plus de la case « Appliquer » : la couverture "
+"actuelle reste dans les médias et peut être rétablie par l’annulation."
+msgstr ""
+
+msgid "Confirmer"
+msgstr ""
+
+msgid "Confirmer des tomes parus"
+msgstr ""
+
+msgid "Confirmer la majorité"
+msgstr ""
+
+msgid "Confirmer la présence"
+msgstr ""
+
+msgid "Confirmer la présence…"
+msgstr ""
+
+msgid "Confirmer la suppression"
+msgstr ""
+
+msgid "Confirmer le déplacement"
+msgstr ""
+
+msgid "Confirmer le prêt"
+msgstr ""
+
+#, python-brace-format
+msgid "Confirmer le prêt de {count} livres"
+msgstr ""
+
+msgid "Confirmer le prêt du livre"
+msgstr ""
+
+msgid "Confirmer le retour"
+msgstr ""
+
+msgid "Confirmer le retour de"
+msgstr ""
+
+msgid "Confirmer sa présence sur l’étagère"
+msgstr ""
+
+msgid "Confirmez le mot de passe"
+msgstr ""
+
+msgid "Confirmez le nouveau mot de passe"
+msgstr ""
+
+msgid "Confirmez que cette image correspond bien à votre édition."
+msgstr ""
+
+msgid "Connexion"
+msgstr ""
+
+msgid "Conservation"
+msgstr ""
+
+msgid "Conservation de l’historique"
+msgstr ""
+
+msgid "Conservation levée"
+msgstr ""
+
+msgid "Conservée telle quelle"
+msgstr ""
+
+msgid "Consultation"
+msgstr ""
+
+msgid "Consultation sur place"
+msgstr ""
+
+msgid "Consultation sur place seulement"
+msgstr ""
+
+msgid "Consulter le catalogue"
+msgstr ""
+
+msgid "Consulter le journal"
+msgstr ""
+
+msgid "Contenu"
+msgstr ""
+
+msgid "Continuer vers le formulaire"
+msgstr ""
+
+#, python-brace-format
+msgid "Contredit : {list}"
+msgstr ""
+
+msgid "Contributeur"
+msgstr ""
+
+msgid "Contributeur modifié ou retiré dans biblyO"
+msgstr ""
+
+msgid "Contributeur supplémentaire, dans l'ordre des colonnes."
+msgstr ""
+
+msgid "Contributeurs"
+msgstr ""
+
+msgid "Contributeurs :"
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"Contributeurs : {w} formes écrites, {k} après normalisation. Éditeurs : "
+"{p}. Collections : {c} valeurs. Différences de version : {d}."
+msgstr ""
+
+#, python-brace-format
+msgid "Contributeurs : {w} formes, {k} après normalisation"
+msgstr ""
+
+msgid "Contributeurs compris"
+msgstr ""
+
+msgid "Contributeurs créés"
+msgstr ""
+
+msgid "Contributeurs de cette édition"
+msgstr ""
+
+msgid "Contributeurs et codes-barres"
+msgstr ""
+
+msgid "Contributeurs et éditeurs"
+msgstr ""
+
+msgid "Contributeurs propres à cette édition : traducteur, illustrateur…"
+msgstr ""
+
+msgid "Contributeurs, formes normalisées"
+msgstr ""
+
+msgid "Contributeurs, formes écrites"
+msgstr ""
+
+msgid "Contrôle"
+msgstr ""
+
+msgid "Contrôle des réglages"
+msgstr ""
+
+msgid "Coordonnée erronée"
+msgstr ""
+
+msgid "Coordonnées"
+msgstr ""
+
+msgid "Coordonnées (facultatif)"
+msgstr ""
+
+msgid "Coordonnées affichées"
+msgstr ""
+
+msgid "Coordonnées de"
+msgstr ""
+
+msgid "Coordonnées de la bibliothèque"
+msgstr ""
+
+msgid "Coordonnées modifiées"
+msgstr ""
+
+msgid "Coordonnées partagées"
+msgstr ""
+
+msgid "Coordonnées partagées (facultatif)"
+msgstr ""
+
+msgid "Coordonnées propres"
+msgstr ""
+
+msgid "Coordonnées réservées : votre compte ne permet pas de les voir."
+msgstr ""
+
+msgid "Correct"
+msgstr ""
+
+msgid "Correction"
+msgstr ""
+
+msgid "Correspondance"
+msgstr ""
+
+msgid "Correspondance des colonnes"
+msgstr ""
+
+msgid "Correspondance exacte"
+msgstr ""
+
+msgid "Correspondance forte"
+msgstr ""
+
+msgid "Correspondance incertaine"
+msgstr ""
+
+msgid ""
+"Correspondance incertaine : vérifiez chaque champ avant de le cocher. "
+"Rien n’est précoché."
+msgstr ""
+
+msgid "Correspondance probable avec une notice existante"
+msgstr ""
+
+msgid "Corriger"
+msgstr ""
+
+msgid "Corriger la date de retour"
+msgstr ""
+
+msgid "Corriger ou annuler"
+msgstr ""
+
+msgid "Cote"
+msgstr ""
+
+msgid "Cote modifiée dans biblyO"
+msgstr ""
+
+msgid "Cote portée par plusieurs livres différents"
+msgstr ""
+
+#, python-brace-format
+msgid "Cote {c}, tome {t}."
+msgstr ""
+
+msgid "Cotes"
+msgstr ""
+
+msgid "Cotes lues comme des nombres : le texte affiché est gardé."
+msgstr ""
+
+msgid "Cotes partagées"
+msgstr ""
+
+msgid "Cotes portées par plusieurs livres"
+msgstr ""
+
+msgid "Couches"
+msgstr ""
+
+msgid "Couleurs de module"
+msgstr ""
+
+msgid "Courriel"
+msgstr ""
+
+msgid "Courriel de la bibliothèque"
+msgstr ""
+
+msgid "Courriel envoyé hors de biblyO"
+msgstr ""
+
+msgid "Courriel à renseigner"
+msgstr ""
+
+msgid "Courrier"
+msgstr ""
+
+msgid "Couverture"
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"Couverture : Bibliothèque nationale de France, service Couvertures, "
+"récupérée le {date}."
+msgstr ""
+
+#, python-brace-format
+msgid "Couverture : {title}"
+msgstr ""
+
+msgid "Couverture actuelle"
+msgstr ""
+
+msgid "Couverture de"
+msgstr ""
+
+msgid "Couverture de cette édition"
+msgstr ""
+
+msgid "Couverture de cette édition : voir, ajouter, rechercher"
+msgstr ""
+
+#, python-brace-format
+msgid "Couverture de « {title} »"
+msgstr ""
+
+msgid "Couverture des colonnes"
+msgstr ""
+
+msgid "Couverture proposée"
+msgstr ""
+
+msgid "Couverture proposée par la BnF"
+msgstr ""
+
+msgid "Couverture précédente rétablie"
+msgstr ""
+
+msgid "Couverture récupérée"
+msgstr ""
+
+msgid "Couverture supprimée"
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"Couverture trouvée par Open Library (Internet Archive), récupérée le "
+"{date}. Droits de l’éditeur ; utilisation confirmée par le Club."
+msgstr ""
+
+msgid "Couvertures"
+msgstr ""
+
+msgid "Couvertures proposées"
+msgstr ""
+
+msgid ""
+"Couvertures seulement : cette source n’est jamais interrogée pour les "
+"notices."
+msgstr ""
+
+msgid "Critères"
+msgstr ""
+
+msgid "Créer"
+msgstr ""
+
+msgid "Créer et modifier des exemplaires, cotes, codes-barres, et les ranger"
+msgstr ""
+
+msgid "Créer et modifier des notices, séries, contributeurs"
+msgstr ""
+
+msgid "Créer la notice"
+msgstr ""
+
+msgid "Créer la série"
+msgstr ""
+
+msgid "Créer un compte"
+msgstr ""
+
+msgid "Créer une notice"
+msgstr ""
+
+#, python-brace-format
+msgid "Créer une notice depuis la {source}"
+msgstr ""
+
+msgid "Créer une notice depuis une source"
+msgstr ""
+
+msgid "Créer une sauvegarde maintenant"
+msgstr ""
+
+msgid "Créer une série"
+msgstr ""
+
+msgid ""
+"Créez le compte administrateur. Cette page se ferme définitivement "
+"ensuite."
+msgstr ""
+
+msgid "Créez une salle, puis ses meubles et ses étagères."
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"Créés : {a} contributeurs, {p} éditeurs, {c} collections, {i} ISBN "
+"proposés."
+msgstr ""
+
+msgid "C’est désormais l’édition principale."
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"C’est un numéro de carte : retapez le numéro de lecteur permanent, "
+"{number}."
+msgstr ""
+
+msgid "Danger"
+msgstr ""
+
+msgid "Danger discret"
+msgstr ""
+
+msgid "Dans"
+msgstr ""
+
+msgid "Dans biblyO"
+msgstr ""
+
+msgid "Dans l'ordre des colonnes ; nom gardé tel qu'écrit."
+msgstr ""
+
+msgid "Dans la sélection"
+msgstr ""
+
+msgid "Date"
+msgstr ""
+
+msgid "Date de prêt"
+msgstr ""
+
+msgid "Date de prêt antérieure à aujourd’hui."
+msgstr ""
+
+#, python-brace-format
+msgid "Date de retour au-delà de la durée prévue ({due})."
+msgstr ""
+
+msgid "Date de retour corrigée"
+msgstr ""
+
+msgid "Date de retour de"
+msgstr ""
+
+msgid "Date de retour erronée"
+msgstr ""
+
+msgid "Date d’acquisition"
+msgstr ""
+
+msgid "Date ou note d'acquisition"
+msgstr ""
+
+msgid "Date précise"
+msgstr ""
+
+msgid "Dates, facultatif"
+msgstr ""
+
+msgid "Dates, pour distinguer les homonymes"
+msgstr ""
+
+msgid "De 1 000 à 60 000 ms."
+msgstr ""
+
+msgid "Demande de la personne"
+msgstr ""
+
+msgid "Depuis une adresse web"
+msgstr ""
+
+msgid "Dernier rappel"
+msgstr ""
+
+msgid "Dernier tome (facultatif)"
+msgstr ""
+
+msgid "Derniers prêts terminés"
+msgstr ""
+
+msgid "Derniers scans"
+msgstr ""
+
+msgid "Dernière :"
+msgstr ""
+
+msgid "Dernière activité :"
+msgstr ""
+
+msgid "Dernière connexion"
+msgstr ""
+
+msgid "Dernières entrées au catalogue"
+msgstr ""
+
+msgid "Des notices appartiennent à cette série : elle ne peut pas être supprimée."
+msgstr ""
+
+msgid "Des personnes portent déjà l’un de ces noms"
+msgstr ""
+
+msgid "Descendre"
+msgstr ""
+
+#, python-format
+msgid "Descendre %(name)s"
+msgstr ""
+
+msgid "Description matérielle"
+msgstr ""
+
+msgid "Description physique"
+msgstr ""
+
+msgid "Dessinateur"
+msgstr ""
+
+msgid "Destination"
+msgstr ""
+
+#, python-brace-format
+msgid "Destination de la colonne {c}"
+msgstr ""
+
+msgid "Devient"
+msgstr ""
+
+msgid "Différences"
+msgstr ""
+
+msgid "Différences de version"
+msgstr ""
+
+msgid "Différences entre fichiers"
+msgstr ""
+
+#, python-brace-format
+msgid "Différences entre fichiers : {d} ; cotes partagées : {s}."
+msgstr ""
+
+msgid "Différences entre le fichier principal et le fichier complémentaire"
+msgstr ""
+
+msgid "Dimanche"
+msgstr ""
+
+msgid "Dimensions"
+msgstr ""
+
+msgid "Dimensions enregistrées"
+msgstr ""
+
+msgid "Dimensions, illustrations, reliure."
+msgstr ""
+
+msgid "Directeur de publication"
+msgstr ""
+
+msgid "Discret"
+msgstr ""
+
+msgid "Disponibilité"
+msgstr ""
+
+msgid "Disponible"
+msgstr ""
+
+msgid "Disponible, vérifié"
+msgstr ""
+
+msgid "Domicile"
+msgstr ""
+
+msgid "Don"
+msgstr ""
+
+msgid "Donnez un nom au profil."
+msgstr ""
+
+msgid ""
+"Données : Bibliothèque nationale de France, Abes (Sudoc) — Licence "
+"Ouverte de l’État. La source et la date de récupération sont conservées "
+"pour chaque champ."
+msgstr ""
+
+msgid ""
+"Données bibliographiques : Bibliothèque nationale de France (catalogue "
+"général) et Abes (Sudoc), sous Licence Ouverte de l’État, avec mention de"
+" la source et de la date de récupération, conservées pour chaque champ "
+"repris. Couvertures : service Couvertures du catalogue général de la BnF,"
+" selon les conditions de réutilisation des données de la BnF."
+msgstr ""
+
+msgid "Données du lecteur"
+msgstr ""
+
+msgid ""
+"Données d’un mineur : pas de coordonnées propres, contact par ses "
+"responsables autorisés."
+msgstr ""
+
+msgid "Données impossibles à interpréter automatiquement"
+msgstr ""
+
+msgid "Dossier des données"
+msgstr ""
+
+msgid "Dossier des sauvegardes"
+msgstr ""
+
+msgid "Doublon de tome"
+msgstr ""
+
+msgid "Doublon probable."
+msgstr ""
+
+msgid "Doublons et éditions"
+msgstr ""
+
+msgid "Doublons ou éditions"
+msgstr ""
+
+msgid "Douchette ou clavier : carte, numéro de lecteur, code d’exemplaire, ISBN."
+msgstr ""
+
+msgid "Droit"
+msgstr ""
+
+msgid "Droit d’emprunter pour une structure modifié"
+msgstr ""
+
+msgid "Droit d’utiliser cette image"
+msgstr ""
+
+msgid "Droits accordés"
+msgstr ""
+
+msgid "Droits d’un responsable modifiés"
+msgstr ""
+
+msgid "Droits par rôle"
+msgstr ""
+
+msgid "Dupliquer"
+msgstr ""
+
+msgid "Durée (jours)"
+msgstr ""
+
+msgid "Durée de conservation dépassée"
+msgstr ""
+
+msgid "Durée en jours"
+msgstr ""
+
+msgid "Durée envisagée, en mois après le retour"
+msgstr ""
+
+msgid "Durée exceptionnelle"
+msgstr ""
+
+msgid "Durées et plafonds"
+msgstr ""
+
+msgid ""
+"Durées, renouvellements, plafonds et seuils. Chaque changement est "
+"journalisé."
+msgstr ""
+
+msgid "Décision du bibliothécaire"
+msgstr ""
+
+msgid "Déclarer introuvable"
+msgstr ""
+
+msgid "Déclarer perdu"
+msgstr ""
+
+msgid "Déclarer retrouvé"
+msgstr ""
+
+msgid "Déclarer réparé"
+msgstr ""
+
+#, python-brace-format
+msgid "Déclassé : {reason}"
+msgstr ""
+
+msgid "Défaire : revenir à aucune couverture"
+msgstr ""
+
+msgid "Définir comme principale"
+msgstr ""
+
+msgid "Déjà choisi :"
+msgstr ""
+
+msgid "Déjà ici : il change de rang."
+msgstr ""
+
+#, python-brace-format
+msgid "Déjà rétablis, car inchangés depuis : {list}."
+msgstr ""
+
+msgid "Déjà sur cette étagère : rien n’a bougé."
+msgstr ""
+
+#, python-brace-format
+msgid "Déjà « {s} » : rien à confirmer."
+msgstr ""
+
+msgid "Délai d’attente (ms)"
+msgstr ""
+
+msgid "Départ d’un foyer"
+msgstr ""
+
+msgid "Dépasser un plafond de prêts bloquant, avec motif"
+msgstr ""
+
+msgid "Déplacer"
+msgstr ""
+
+msgid "Déplacer dans"
+msgstr ""
+
+msgid "Déplacer la sélection"
+msgstr ""
+
+msgid "Déplacer plusieurs exemplaires"
+msgstr ""
+
+msgid "Déplacer un exemplaire"
+msgstr ""
+
+msgid "Déplacez au plus 200 exemplaires à la fois."
+msgstr ""
+
+#, python-brace-format
+msgid "Déplacé de {origin} vers {place}"
+msgstr ""
+
+msgid ""
+"Déposez un fichier, vérifiez la correspondance de ses colonnes, simulez "
+"son import, puis appliquez le plan relu. Exportez le catalogue."
+msgstr ""
+
+msgid "Déposé"
+msgstr ""
+
+msgid "Dérogation"
+msgstr ""
+
+msgid "Déroger avec motif, annuler au-delà du délai, corriger un prêt"
+msgstr ""
+
+msgid "Désactiver"
+msgstr ""
+
+msgid "Désactivé"
+msgstr ""
+
+msgid "Désactivée"
+msgstr ""
+
+msgid "Détail"
+msgstr ""
+
+msgid "Détail par tome"
+msgstr ""
+
+msgid "D’après la naissance. La confirmation se fait sur la fiche."
+msgstr ""
+
+msgid ""
+"D’après sa naissance, cette personne est majeure. Confirmez-le : ses "
+"liens avec ses responsables ne changeront pas, ils seront seulement à "
+"revoir."
+msgstr ""
+
+msgid "D’autres fiches portent ce nom :"
+msgstr ""
+
+msgid "D’autres lecteurs correspondent : précisez le nom, ou tapez un numéro."
+msgstr ""
+
+msgid "Effacer"
+msgstr ""
+
+msgid "Effacer les filtres"
+msgstr ""
+
+msgid ""
+"Elles contiennent encore ces données jusqu’à leur suppression. biblyO ne "
+"les modifie pas."
+msgstr ""
+
+msgid "Emplacement"
+msgstr ""
+
+msgid "Emplacement indiqué"
+msgstr ""
+
+msgid "Emplacement indiqué (non vérifié)"
+msgstr ""
+
+msgid "Emplacements"
+msgstr ""
+
+msgid "Emplacements de démonstration"
+msgstr ""
+
+msgid "Empreinte"
+msgstr ""
+
+msgid "Empreinte SHA-256"
+msgstr ""
+
+#, python-brace-format
+msgid "Empreinte actuelle : {b}"
+msgstr ""
+
+#, python-brace-format
+msgid "Empreinte confirmée : {a}"
+msgstr ""
+
+msgid "Empreinte du complémentaire"
+msgstr ""
+
+msgid "Empreinte du fichier"
+msgstr ""
+
+msgid "Empreinte du plan"
+msgstr ""
+
+#, python-brace-format
+msgid "Emprunte pour la structure {name}"
+msgstr ""
+
+msgid "Emprunte pour les enfants"
+msgstr ""
+
+#, python-brace-format
+msgid "Emprunte seul, autorisé par {name}"
+msgstr ""
+
+msgid "Emprunte seul, avec l’autorisation d’un responsable."
+msgstr ""
+
+msgid "Emprunté"
+msgstr ""
+
+#, python-brace-format
+msgid "Emprunté · retour le {day}"
+msgstr ""
+
+msgid "En conservation"
+msgstr ""
+
+msgid "En cours"
+msgstr ""
+
+msgid "En début d’étagère"
+msgstr ""
+
+msgid ""
+"En mode bloquant, seul un compte habilité peut dépasser le plafond, avec "
+"un motif journalisé. Un bénévole est arrêté."
+msgstr ""
+
+msgid "En personne"
+msgstr ""
+
+msgid "En place"
+msgstr ""
+
+msgid "En préparation"
+msgstr ""
+
+msgid "En préparation (à vérifier)"
+msgstr ""
+
+msgid "En prêt"
+msgstr ""
+
+msgid "En prêt : il garde sa place jusqu’à son retour."
+msgstr ""
+
+msgid ""
+"En prêt : son statut ne change qu’après son retour. Enregistrez d’abord "
+"le retour."
+msgstr ""
+
+msgid "En retard"
+msgstr ""
+
+#, python-brace-format
+msgid "En retard · {count} {unit}"
+msgstr ""
+
+msgid "En réparation"
+msgstr ""
+
+msgid "En service"
+msgstr ""
+
+msgid "En-tête"
+msgstr ""
+
+msgid "En-tête exact"
+msgstr ""
+
+msgid "En-tête proche."
+msgstr ""
+
+msgid "En-tête reconnu."
+msgstr ""
+
+msgid "En-tête vide : colonne conservée telle quelle."
+msgstr ""
+
+#, python-brace-format
+msgid "En-tête « {h} » en double (colonnes {a} et {b})."
+msgstr ""
+
+msgid "Encodage du fichier CSV non reconnu : enregistrez-le en UTF-8."
+msgstr ""
+
+msgid "Enfant"
+msgstr ""
+
+msgid "Enfant autorisé seul"
+msgstr ""
+
+msgid "Enfants"
+msgstr ""
+
+msgid "Enregistrer"
+msgstr ""
+
+msgid "Enregistrer comme profil"
+msgstr ""
+
+msgid "Enregistrer et simuler"
+msgstr ""
+
+msgid "Enregistrer la correspondance"
+msgstr ""
+
+msgid "Enregistrer la couverture"
+msgstr ""
+
+msgid "Enregistrer le logo"
+msgstr ""
+
+msgid "Enregistrer le retour"
+msgstr ""
+
+msgid "Enregistrer le retour ?"
+msgstr ""
+
+msgid "Enregistrer le retour de"
+msgstr ""
+
+msgid "Enregistrer les droits"
+msgstr ""
+
+msgid "Enregistrer les règles"
+msgstr ""
+
+msgid "Enrichir"
+msgstr ""
+
+#, python-brace-format
+msgid "Enrichir : {title}"
+msgstr ""
+
+msgid "Enrichir toute la bibliothèque"
+msgstr ""
+
+msgid ""
+"Enrichir toute la bibliothèque d’un coup : conçu, il sera développé après"
+" la reprise du catalogue (lot L6). Chaque fiche s’enrichit dès maintenant"
+" depuis son bouton « Enrichir »."
+msgstr ""
+
+#, python-brace-format
+msgid "Enrichir « {title} »"
+msgstr ""
+
+msgid "Enrichissement"
+msgstr ""
+
+msgid "Enrichissement annulé"
+msgstr ""
+
+msgid "Enrichissement indisponible"
+msgstr ""
+
+msgid "Enseignant"
+msgstr ""
+
+msgid ""
+"Entre parenthèses : places occupées et capacité. Une étagère pleine reste"
+" possible, le dépassement sera signalé."
+msgstr ""
+
+msgid "Environnement"
+msgstr ""
+
+msgid "Envoyer en réparation"
+msgstr ""
+
+msgid "Erreur de scan"
+msgstr ""
+
+msgid "Erreur à corriger."
+msgstr ""
+
+msgid "Espaces en trop : retirés pour comparer, valeur brute gardée"
+msgstr ""
+
+msgid "Espagnol"
+msgstr ""
+
+msgid "Essayez un titre, une cote ou un numéro d’inventaire."
+msgstr ""
+
+msgid "Exclu du prêt."
+msgstr ""
+
+msgid "Exempl."
+msgstr ""
+
+msgid "Exemplaire"
+msgstr ""
+
+msgid "Exemplaire rangé à la fin de l’étagère."
+msgstr ""
+
+msgid "Exemplaire rangé, mais cet emplacement dépasse maintenant sa capacité."
+msgstr ""
+
+msgid "Exemplaire supprimé de biblyO : valeur d'origine gardée"
+msgstr ""
+
+msgid "Exemplaires"
+msgstr ""
+
+msgid "Exemplaires = somme des exemplaires de chaque livre"
+msgstr ""
+
+msgid "Exemplaires ajoutés ensuite"
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"Exemplaires créés « En préparation », sans place : ils deviennent « En "
+"place » à leur premier rangement. Codes-barres : {m}."
+msgstr ""
+
+msgid "Exemplaires créés, un par ligne"
+msgstr ""
+
+msgid "Exemplaires de"
+msgstr ""
+
+#, python-format
+msgid "Exemplaires de %(name)s, dans l’ordre réel"
+msgstr ""
+
+msgid "Exemplaires de cette notice"
+msgstr ""
+
+msgid "Exemplaires et emplacements"
+msgstr ""
+
+msgid "Exemplaires par livre, conformes au plan"
+msgstr ""
+
+msgid "Exemplaires présents"
+msgstr ""
+
+msgid "Exemplaires prévus"
+msgstr ""
+
+msgid "Exemplaires rangés, mais cet emplacement dépasse maintenant sa capacité."
+msgstr ""
+
+msgid "Exemplaires sans place, ou rangés mais pas encore vérifiés sur l’étagère"
+msgstr ""
+
+msgid "Exemplaires supplémentaires"
+msgstr ""
+
+msgid "Exemple de tableau"
+msgstr ""
+
+msgid "Exemple d’onglets"
+msgstr ""
+
+msgid "Exemples"
+msgstr ""
+
+msgid "Exemples de transformation"
+msgstr ""
+
+msgid "Export"
+msgstr ""
+
+msgid "Export des données"
+msgstr ""
+
+msgid "Exporter"
+msgstr ""
+
+msgid "Exporter le catalogue"
+msgstr ""
+
+msgid "Exporter les données d’un lecteur"
+msgstr ""
+
+msgid "Exporter ses données"
+msgstr ""
+
+msgid "Exports"
+msgstr ""
+
+msgid "Exports déjà remis."
+msgstr ""
+
+msgid "Exporté le"
+msgstr ""
+
+msgid "Facultatif, 12 au plus."
+msgstr ""
+
+msgid "Facultatif, imprimable sur les étiquettes."
+msgstr ""
+
+msgid "Facultative. Un dépassement sera signalé, jamais refusé."
+msgstr ""
+
+msgid "Famille"
+msgstr ""
+
+msgid "Fenêtre modale"
+msgstr ""
+
+msgid "Fermer"
+msgstr ""
+
+msgid "Fermer le catalogue"
+msgstr ""
+
+msgid "Feuille"
+msgstr ""
+
+msgid "Feuille des sources"
+msgstr ""
+
+msgid "Feuille des sources incohérente avec la ligne"
+msgstr ""
+
+msgid "Feuille latérale"
+msgstr ""
+
+msgid "Feuille masquée dans Excel."
+msgstr ""
+
+#, python-brace-format
+msgid "Feuille {name}"
+msgstr ""
+
+msgid "Feuille à importer"
+msgstr ""
+
+msgid "Fiche"
+msgstr ""
+
+msgid "Fiche actuelle"
+msgstr ""
+
+msgid "Fiche de l’exemplaire"
+msgstr ""
+
+msgid "Fiche du lecteur"
+msgstr ""
+
+msgid "Fiche fermée"
+msgstr ""
+
+msgid "Fiche introuvable"
+msgstr ""
+
+msgid "Fiche modifiée"
+msgstr ""
+
+msgid "Fichier"
+msgstr ""
+
+msgid "Fichier complémentaire"
+msgstr ""
+
+msgid "Fichier complémentaire (facultatif)"
+msgstr ""
+
+#, python-brace-format
+msgid "Fichier complémentaire lu en comparaison : {c}."
+msgstr ""
+
+msgid "Fichier d'origine"
+msgstr ""
+
+msgid "Fichier importé"
+msgstr ""
+
+msgid ""
+"Fichier lu. Vérifiez la correspondance des colonnes, puis lancez la "
+"simulation."
+msgstr ""
+
+msgid "Fichier principal"
+msgstr ""
+
+msgid "Fichiers lus"
+msgstr ""
+
+msgid "Fil d’Ariane"
+msgstr ""
+
+msgid "Filtre"
+msgstr ""
+
+msgid "Filtre actif"
+msgstr ""
+
+msgid "Filtrer"
+msgstr ""
+
+msgid "Filtrer la liste"
+msgstr ""
+
+msgid "Filtrer la liste…"
+msgstr ""
+
+msgid "Fin"
+msgstr ""
+
+msgid "Fin :"
+msgstr ""
+
+msgid "Fonds existant"
+msgstr ""
+
+msgid "Format d’origine .xlsx"
+msgstr ""
+
+msgid "Forme d'usage proposée"
+msgstr ""
+
+msgid "Forme de recherche"
+msgstr ""
+
+msgid "Forme des cellules"
+msgstr ""
+
+msgid "Forme du nom"
+msgstr ""
+
+msgid "Forme d’usage proposée"
+msgstr ""
+
+msgid "Forme normalisée"
+msgstr ""
+
+#, python-brace-format
+msgid "Forme retenue pour « {v} »"
+msgstr ""
+
+msgid "Forme écrite"
+msgstr ""
+
+msgid "Formes écrites"
+msgstr ""
+
+msgid "Foyer"
+msgstr ""
+
+msgid "Foyer (facultatif)"
+msgstr ""
+
+msgid "Foyer anonymisé"
+msgstr ""
+
+msgid "Foyer ou structure"
+msgstr ""
+
+msgid "Foyers"
+msgstr ""
+
+msgid "Foyers et structures"
+msgstr ""
+
+msgid "Foyers vides"
+msgstr ""
+
+msgid "France métropolitaine"
+msgstr ""
+
+msgid "Français"
+msgstr ""
+
+msgid "Fusionner"
+msgstr ""
+
+msgid "Fusionner dans"
+msgstr ""
+
+msgid "Garder les valeurs actuelles"
+msgstr ""
+
+msgid "Gardée au caractère près ; jamais une clé."
+msgstr ""
+
+msgid "Gardée, lisible et exportée."
+msgstr ""
+
+msgid "Gardées à l'identique"
+msgstr ""
+
+msgid "Genre"
+msgstr ""
+
+msgid "Genres"
+msgstr ""
+
+msgid "Gestion de la fiche"
+msgstr ""
+
+msgid "Grand"
+msgstr ""
+
+msgid "Gravité"
+msgstr ""
+
+msgid "Grille"
+msgstr ""
+
+msgid "Guadeloupe, Saint-Martin, Saint-Barthélemy"
+msgstr ""
+
+msgid "Guyane"
+msgstr ""
+
+msgid ""
+"Génère un mot de passe provisoire, ferme les sessions du compte et lève "
+"un éventuel verrouillage."
+msgstr ""
+
+msgid "Gérer les comptes"
+msgstr ""
+
+msgid "Gérer les emplacements"
+msgstr ""
+
+msgid "Gérer les emplacements et le rangement"
+msgstr ""
+
+msgid "Gérer les rôles"
+msgstr ""
+
+msgid "Gérer les sauvegardes"
+msgstr ""
+
+msgid "Gérer les utilisateurs"
+msgstr ""
+
+msgid "Hauteur (cases)"
+msgstr ""
+
+msgid "Historique"
+msgstr ""
+
+msgid "Historique des enrichissements"
+msgstr ""
+
+msgid "Homonyme"
+msgstr ""
+
+msgid "Homonymes : ce n’est pas la même personne."
+msgstr ""
+
+msgid "Hors fonds"
+msgstr ""
+
+msgid "Hors plan"
+msgstr ""
+
+msgid ""
+"Huit chiffres : un numéro de Polynésie française ? Pour l’étranger, "
+"écrivez l’indicatif (+44 …)."
+msgstr ""
+
+msgid "Hypothèse, sans effet"
+msgstr ""
+
+msgid "ISBN"
+msgstr ""
+
+msgid "ISBN identique"
+msgstr ""
+
+msgid ""
+"ISBN lus comme des nombres : un zéro initial a pu être perdu par le "
+"tableur."
+msgstr ""
+
+msgid "ISBN marqué « à vérifier » : proposition."
+msgstr ""
+
+msgid "ISBN modifié dans biblyO"
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"ISBN proposé par la source : {isbn}. Il n’est pas prérempli : saisissez-"
+"le après l’avoir vérifié sur le livre."
+msgstr ""
+
+#, python-brace-format
+msgid "ISBN proposé {v} déjà porté par l'édition n° {id}."
+msgstr ""
+
+msgid "ISBN proposés"
+msgstr ""
+
+msgid "ISBN proposés et rejetés"
+msgstr ""
+
+msgid "ISBN sans mention « à vérifier » : à confirmer."
+msgstr ""
+
+#, python-brace-format
+msgid "ISBN {isbn}"
+msgstr ""
+
+#, python-brace-format
+msgid "ISBN {v}"
+msgstr ""
+
+#, python-brace-format
+msgid "ISBN {v} absent de la ligne"
+msgstr ""
+
+#, python-brace-format
+msgid "ISBN {v} déjà porté par l'édition n° {id}."
+msgstr ""
+
+msgid "ISBN à la clé de contrôle fausse"
+msgstr ""
+
+msgid "ISBN à vérifier"
+msgstr ""
+
+msgid "ISBN établi (sur le livre)"
+msgstr ""
+
+msgid "ISBN, éditeur, année, résumé, couverture…"
+msgstr ""
+
+msgid "ISBN-10"
+msgstr ""
+
+msgid "ISBN-13"
+msgstr ""
+
+msgid "Identifiant"
+msgstr ""
+
+msgid "Identifiant biblyO"
+msgstr ""
+
+msgid "Identifiant biblyO de l'exemplaire"
+msgstr ""
+
+msgid "Identifiant d'origine de l'exemplaire."
+msgstr ""
+
+msgid "Identifiant de l’opération"
+msgstr ""
+
+msgid "Identifiant de source"
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"Identifiant de source : {id}. Les valeurs ci-dessous sont celles du "
+"fichier, telles que lues ; l’export au format d’origine les restitue."
+msgstr ""
+
+msgid "Identifiant ou mot de passe incorrect."
+msgstr ""
+
+msgid "Identifiant permanent"
+msgstr ""
+
+msgid ""
+"Identifiants source conservés, étiquettes reportées : aucun code inventé,"
+" aucun code de la reconstruction de l’ancienne application, aucun code "
+"existant écrasé."
+msgstr ""
+
+msgid "Identification"
+msgstr ""
+
+msgid "Identification auprès des sources"
+msgstr ""
+
+msgid "Identique"
+msgstr ""
+
+msgid "Identité"
+msgstr ""
+
+msgid "Identité de la bibliothèque"
+msgstr ""
+
+msgid ""
+"Identité de la bibliothèque, sauvegardes, et l’état réel de chaque "
+"réglage nécessaire à l’exploitation"
+msgstr ""
+
+msgid "Identité des exemplaires"
+msgstr ""
+
+msgid "Ignorer les réponses gardées en cache"
+msgstr ""
+
+msgid "Il doit rester au moins un administrateur actif."
+msgstr ""
+
+msgid "Il faut garder au moins un type de document actif."
+msgstr ""
+
+msgid "Il figure dans le journal du serveur. Commande : biblyo install token."
+msgstr ""
+
+msgid ""
+"Il manque peut-être le 0 initial : confirmez le numéro, ou écrivez-le "
+"avec son indicatif."
+msgstr ""
+
+msgid ""
+"Il sera livré dans un prochain lot. Rien n’est enregistré ni simulé sur "
+"cette page."
+msgstr ""
+
+msgid "Illustrateur"
+msgstr ""
+
+msgid "Image"
+msgstr ""
+
+msgid "Image de la BnF, récupérée à la confirmation"
+msgstr ""
+
+msgid "Image d’une adresse web"
+msgstr ""
+
+msgid "Image fournie ou autorisée par l’éditeur ou l’auteur"
+msgstr ""
+
+msgid "Import"
+msgstr ""
+
+msgid "Import & export"
+msgstr ""
+
+msgid ""
+"Import appliqué : tout le plan est écrit, en une transaction, après "
+"sauvegarde."
+msgstr ""
+
+msgid "Import et export"
+msgstr ""
+
+msgid "Importés d’un classeur"
+msgstr ""
+
+#, python-brace-format
+msgid "Impossible depuis le statut « {status} »."
+msgstr ""
+
+msgid "Imprimer"
+msgstr ""
+
+msgid "Incomplètes"
+msgstr ""
+
+msgid "Inconnu"
+msgstr ""
+
+msgid "Indicateur"
+msgstr ""
+
+msgid "Indication de contenu"
+msgstr ""
+
+msgid "Indiquez au moins un ISBN, un titre, un auteur ou une série."
+msgstr ""
+
+msgid "Indiquez comment l’enfant emprunte : avec un adulte, ou seul."
+msgstr ""
+
+msgid "Indiquez d’abord le lecteur et le cadre de l’emprunt."
+msgstr ""
+
+msgid "Indiquez entre 1 et 12 niveaux."
+msgstr ""
+
+msgid "Indiquez la série de ce tome."
+msgstr ""
+
+msgid "Indiquez le motif de cette annulation."
+msgstr ""
+
+msgid "Indiquez le motif de cette correction."
+msgstr ""
+
+msgid "Indiquez le motif du retrait."
+msgstr ""
+
+msgid "Indiquez le nom d’un site public, pas une adresse IP ni un nom local."
+msgstr ""
+
+msgid "Indiquez le titre de la série."
+msgstr ""
+
+#, python-brace-format
+msgid "Indiquez le {field}."
+msgstr ""
+
+msgid "Indiquez l’adresse de l’image, en https://."
+msgstr ""
+
+msgid "Indiquez l’origine de l’image et votre droit de l’utiliser."
+msgstr ""
+
+msgid "Indiquez un libellé."
+msgstr ""
+
+msgid "Indiquez un motif court, sans donnée personnelle."
+msgstr ""
+
+msgid "Indiquez un nom de famille (80 caractères au plus)."
+msgstr ""
+
+msgid "Indiquez un nom pour cette recherche."
+msgstr ""
+
+msgid "Indiquez un nom, sans adresse (80 caractères au plus)."
+msgstr ""
+
+msgid "Indiquez un nom."
+msgstr ""
+
+#, python-brace-format
+msgid "Indiquez un nombre de millisecondes entre {floor} et {ceiling}."
+msgstr ""
+
+msgid "Indiquez un nombre de pages."
+msgstr ""
+
+msgid "Indiquez un nombre de places entre 0 et 2000."
+msgstr ""
+
+msgid "Indiquez un nombre d’exemplaires entre 1 et 50."
+msgstr ""
+
+#, python-brace-format
+msgid "Indiquez un nombre entre {low} et {high}."
+msgstr ""
+
+msgid "Indiquez un numéro de tome."
+msgstr ""
+
+msgid "Indiquez un numéro d’inventaire : cet exemplaire n’a pas de code-barres."
+msgstr ""
+
+msgid "Indiquez un rang à partir de 1, ou laissez vide pour ranger à la fin."
+msgstr ""
+
+msgid "Indiquez un titre."
+msgstr ""
+
+msgid ""
+"Indiquez une adresse électronique valide, par exemple "
+"bibliotheque@exemple.fr."
+msgstr ""
+
+msgid "Indiquez une année sur quatre chiffres."
+msgstr ""
+
+msgid "Indiquez une valeur."
+msgstr ""
+
+msgid "Indisponible"
+msgstr ""
+
+msgid "Indisponible : réessayez plus tard"
+msgstr ""
+
+#, python-brace-format
+msgid "Indisponible · {reason}"
+msgstr ""
+
+msgid "Information"
+msgstr ""
+
+msgid "Informations"
+msgstr ""
+
+msgid "Informations techniques"
+msgstr ""
+
+msgid "Injoignable"
+msgstr ""
+
+msgid "Inscription"
+msgstr ""
+
+msgid "Inscription :"
+msgstr ""
+
+msgid "Inscrire un lecteur"
+msgstr ""
+
+msgid "Inscrire un lecteur ou une famille, et corriger pendant l’inscription"
+msgstr ""
+
+msgid "Inscrire un nouveau lecteur"
+msgstr ""
+
+msgid "Inscrire un premier lecteur"
+msgstr ""
+
+msgid "Inscrire une famille"
+msgstr ""
+
+msgid "Inscrit comme adulte, mais a moins de 18 ans d’après sa naissance."
+msgstr ""
+
+msgid "Inscrivez un premier lecteur pour commencer."
+msgstr ""
+
+msgid "Installation"
+msgstr ""
+
+msgid "Installation terminée. Bienvenue dans biblyO."
+msgstr ""
+
+msgid "Installer biblyO"
+msgstr ""
+
+msgid "Intervalle en lot (ms)"
+msgstr ""
+
+msgid "Intervalle entre deux appels (ms)"
+msgstr ""
+
+msgid "Introuvable"
+msgstr ""
+
+#, python-format
+msgid "Introuvable depuis le %(date)s."
+msgstr ""
+
+msgid "Inv."
+msgstr ""
+
+msgid "Inventaire"
+msgstr ""
+
+msgid "Inventaire gardé, code-barres plus tard"
+msgstr ""
+
+msgid ""
+"Inventaires, codes-barres, cotes et ISBN en texte : aucun zéro initial "
+"perdu."
+msgstr ""
+
+msgid "Italien"
+msgstr ""
+
+msgid ""
+"JPEG, PNG ou WebP, 8 Mio au plus. L’orientation de la photo est corrigée,"
+" ses métadonnées retirées."
+msgstr ""
+
+msgid "Jamais"
+msgstr ""
+
+msgid ""
+"Jamais précochée ; remplacer une couverture demande une confirmation "
+"dédiée."
+msgstr ""
+
+msgid "Jamais un fait : proposition."
+msgstr ""
+
+msgid "Japonais"
+msgstr ""
+
+msgid "Je confirme les avoir vus sur l’étagère"
+msgstr ""
+
+msgid "Je confirme qu’il s’agit d’autres personnes"
+msgstr ""
+
+msgid "Je confirme qu’il s’agit d’une autre personne"
+msgstr ""
+
+msgid "Jeton d’installation"
+msgstr ""
+
+msgid "Jeton incorrect."
+msgstr ""
+
+msgid ""
+"Jeu fictif : une série regroupée, une étagère pleine, une étagère "
+"dépassée, un bac vide, et chaque état d’un exemplaire. L’Étagère 2 est "
+"encadrée, un de ses dos est localisé."
+msgstr ""
+
+msgid "Jeudi"
+msgstr ""
+
+msgid "Joint"
+msgstr ""
+
+msgid ""
+"Jointe à chaque requête, dans l’en-tête d’identification, pour qu’une "
+"source puisse prévenir la bibliothèque. Open Library la demande : sans "
+"elle, cette source reste désactivée."
+msgstr ""
+
+msgid "Jour de fermeture hebdomadaire"
+msgstr ""
+
+msgid "Jusqu’au"
+msgstr ""
+
+msgid "Jusqu’au (facultatif)"
+msgstr ""
+
+msgid "J’ai le livre en main : cette édition (éditeur, année, ISBN) est la sienne"
+msgstr ""
+
+#, python-brace-format
+msgid "J’ai relu cette simulation et j’applique ce plan (empreinte {p})."
+msgstr ""
+
+msgid "J’ai vérifié cet ISBN sur le livre"
+msgstr ""
+
+#, python-brace-format
+msgid "J’ai vérifié l’ISBN {isbn} sur le livre"
+msgstr ""
+
+msgid "J’ai vérifié sur le livre : cette image correspond à mon édition"
+msgstr ""
+
+msgid ""
+"L'application des imports est désactivée sur cette instance. Un "
+"administrateur l'active sur le serveur (biblyo import application "
+"--activer), seulement là où l'import est décidé."
+msgstr ""
+
+msgid ""
+"L'enrichissement ne rattache aucune œuvre à une série et ne change ni "
+"numéro interne ni cote."
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"L'import a échoué et a été entièrement annulé : rien n'a été écrit au "
+"catalogue ({e})."
+msgstr ""
+
+msgid "L'import ne peut pas être appliqué en l'état."
+msgstr ""
+
+msgid "La Réunion"
+msgstr ""
+
+msgid "La capacité se donne pour une étagère ou un bac."
+msgstr ""
+
+msgid "La carte n’est plus en service. Son numéro ne sera jamais redonné."
+msgstr ""
+
+msgid "La catégorie ne correspond pas à la date de naissance."
+msgstr ""
+
+#, python-brace-format
+msgid "La collection n° {id}, choisie pour « {v} », n'existe plus."
+msgstr ""
+
+msgid ""
+"La correction est enregistrée. La trace de l’erreur reste dans "
+"l’historique."
+msgstr ""
+
+msgid "La correspondance a été enregistrée pour ce dépôt."
+msgstr ""
+
+msgid "La correspondance est incomplète : corrigez les points signalés."
+msgstr ""
+
+#, python-format
+msgid "La cote %(call)s ne change pas."
+msgstr ""
+
+msgid "La cote est trop longue."
+msgstr ""
+
+msgid ""
+"La couverture a changé depuis ce changement : elle n’est pas remplacée "
+"sans votre choix."
+msgstr ""
+
+msgid "La couverture a été enregistrée."
+msgstr ""
+
+msgid "La couverture a été retirée."
+msgstr ""
+
+msgid "La couverture actuelle reste dans l’historique et se rétablit en un clic."
+msgstr ""
+
+msgid ""
+"La couverture de cette édition a changé depuis l’aperçu : rien n’a été "
+"enregistré. Recommencez."
+msgstr ""
+
+msgid "La couverture précédente est rétablie."
+msgstr ""
+
+msgid "La date de retour doit être postérieure à la date de prêt."
+msgstr ""
+
+msgid "La douchette se comporte comme un clavier : le code est validé tout seul."
+msgstr ""
+
+msgid "La famille a été inscrite."
+msgstr ""
+
+#, python-brace-format
+msgid "La feuille « {name} » dépasse {n} colonnes."
+msgstr ""
+
+#, python-brace-format
+msgid "La feuille « {name} » dépasse {n} lignes."
+msgstr ""
+
+msgid ""
+"La fiche a changé depuis la recherche : la proposition est périmée. "
+"Relancez la recherche."
+msgstr ""
+
+msgid ""
+"La fiche a été complétée. La provenance de chaque champ est affichée dans"
+" l’onglet Enrichissement."
+msgstr ""
+
+msgid "La fiche de l’exemplaire a été mise à jour."
+msgstr ""
+
+msgid "La fiche du lecteur a été mise à jour."
+msgstr ""
+
+msgid ""
+"La forme d’usage n’est qu’une proposition (D-L6-14, non approuvée) : le "
+"libellé d’origine est gardé."
+msgstr ""
+
+msgid "La fusion a été effectuée. Aucune association n’a été perdue."
+msgstr ""
+
+msgid "La hiérarchie est trop profonde."
+msgstr ""
+
+msgid "La liste a été mise à jour."
+msgstr ""
+
+msgid "La liste est pleine : validez d’abord ce prêt."
+msgstr ""
+
+msgid ""
+"La majorité est confirmée. Les liens de responsabilité restent à revoir "
+"sur la fiche."
+msgstr ""
+
+msgid ""
+"La mise en conservation est enregistrée : l’anonymisation est bloquée "
+"tant qu’elle court."
+msgstr ""
+
+msgid "La mise en conservation est levée."
+msgstr ""
+
+msgid "La notice a été archivée."
+msgstr ""
+
+msgid "La notice a été créée."
+msgstr ""
+
+msgid "La notice a été mise à jour."
+msgstr ""
+
+msgid "La notice a été réactivée."
+msgstr ""
+
+msgid "La notice a été supprimée."
+msgstr ""
+
+msgid "La notice annonce une couverture, mais le service ne la fournit pas."
+msgstr ""
+
+msgid "La nouvelle carte est en service. L’ancien numéro ne sera jamais redonné."
+msgstr ""
+
+msgid "La personne"
+msgstr ""
+
+msgid "La recherche a été enregistrée."
+msgstr ""
+
+msgid "La recherche a été retirée."
+msgstr ""
+
+msgid "La recherche n’a pas pu être lancée : cette édition n’existe plus."
+msgstr ""
+
+msgid ""
+"La réponse du service n’est pas une image valide : rien n’a été "
+"enregistré."
+msgstr ""
+
+msgid "La session a été fermée."
+msgstr ""
+
+msgid ""
+"La simulation n’écrit rien dans la base : ni notice, ni exemplaire, ni "
+"trace d’import."
+msgstr ""
+
+msgid ""
+"La situation vient de changer : rien n’a été enregistré. Vérifiez la "
+"liste, puis validez à nouveau."
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"La source indique la série « {series} »{volume}. Elle n’est pas "
+"préremplie : la saisir rattache le livre à une série et lui attribue un "
+"numéro de cote."
+msgstr ""
+
+msgid "La structure a été créée. Ajoutez-lui ses référents."
+msgstr ""
+
+msgid "La série a été créée."
+msgstr ""
+
+msgid "La série a été mise à jour."
+msgstr ""
+
+msgid "La série a été supprimée."
+msgstr ""
+
+msgid "La valeur actuelle serait remplacée."
+msgstr ""
+
+msgid "La valeur d'origine reste en précision sur l'état."
+msgstr ""
+
+msgid ""
+"La valeur d’origine reste toujours en « Précision sur l’état ». « Non "
+"renseigné » : aucun état n’est déduit, la valeur devient une proposition "
+"à vérifier. Cette table ne dit que l’état physique : ni la disponibilité "
+"au prêt, ni la présence sur l’étagère."
+msgstr ""
+
+msgid "Laissez vide : un an à partir d’aujourd’hui."
+msgstr ""
+
+msgid ""
+"Laissez vide : un numéro sera attribué. L’ancien numéro ne sera jamais "
+"redonné."
+msgstr ""
+
+msgid ""
+"Laissez vide : un numéro sera attribué. Un numéro déjà pris, même "
+"autrefois, est refusé."
+msgstr ""
+
+msgid "Lancer la simulation"
+msgstr ""
+
+msgid "Langue"
+msgstr ""
+
+#, python-brace-format
+msgid "Langue différente : {theirs}"
+msgstr ""
+
+msgid "Largeur (cases)"
+msgstr ""
+
+msgid "Latin"
+msgstr ""
+
+msgid "Le bon lecteur"
+msgstr ""
+
+msgid "Le cache de cette source est vidé."
+msgstr ""
+
+msgid ""
+"Le catalogue est encore vide. Les lecteurs et les prêts arriveront avec "
+"les prochains lots."
+msgstr ""
+
+msgid "Le catalogue est vide"
+msgstr ""
+
+msgid "Le classement réel de la bibliothèque, de la salle à la position"
+msgstr ""
+
+msgid ""
+"Le classeur contient des macros : enregistrez-le en .xlsx sans macros, "
+"puis recommencez."
+msgstr ""
+
+msgid "Le classeur contient trop d'éléments pour être un catalogue."
+msgstr ""
+
+msgid "Le classeur contient trop de cellules pour être importé en une fois."
+msgstr ""
+
+msgid ""
+"Le classeur d’un lot importé, au format d’origine, se télécharge depuis "
+"la page du lot."
+msgstr ""
+
+msgid "Le classeur est abîmé : il ne s'ouvre pas."
+msgstr ""
+
+msgid "Le classeur est abîmé ou d'un format inattendu : il ne se lit pas."
+msgstr ""
+
+msgid "Le classeur est anormalement compressé : il est refusé par précaution."
+msgstr ""
+
+msgid ""
+"Le classeur est protégé par un mot de passe : enregistrez-le sans "
+"protection."
+msgstr ""
+
+msgid "Le classeur est trop volumineux une fois décompressé."
+msgstr ""
+
+msgid "Le classeur ne contient aucune feuille."
+msgstr ""
+
+msgid ""
+"Le code court ne contient que des lettres, des chiffres et des tirets (16"
+" au plus)."
+msgstr ""
+
+msgid "Le code-barres compte de 3 à 32 caractères : lettres, chiffres et tirets."
+msgstr ""
+
+msgid "Le compte a été mis à jour."
+msgstr ""
+
+msgid ""
+"Le comptoir s’ouvre avec ces livres : vous choisirez le lecteur dans la "
+"liste, puis vous confirmerez."
+msgstr ""
+
+msgid "Le dernier tome doit suivre le premier."
+msgstr ""
+
+msgid "Le dépôt a été abandonné : ses fichiers sont supprimés."
+msgstr ""
+
+msgid "Le fichier complémentaire a changé : déposez-le de nouveau."
+msgstr ""
+
+msgid "Le fichier complémentaire diffère du fichier principal"
+msgstr ""
+
+msgid ""
+"Le fichier complémentaire ne fait pas foi : chaque différence est gardée "
+"comme proposition, la valeur du fichier principal reste."
+msgstr ""
+
+msgid ""
+"Le fichier complémentaire ne fait pas foi : ses écarts sont des "
+"différences de version, ses valeurs ajoutées des propositions."
+msgstr ""
+
+msgid "Le fichier contient trop de cellules pour être importé en une fois."
+msgstr ""
+
+#, python-brace-format
+msgid "Le fichier dépasse {n} Mio."
+msgstr ""
+
+#, python-brace-format
+msgid "Le fichier dépasse {n} colonnes."
+msgstr ""
+
+#, python-brace-format
+msgid "Le fichier dépasse {n} lignes."
+msgstr ""
+
+msgid "Le fichier déposé a changé : déposez-le de nouveau."
+msgstr ""
+
+msgid "Le fichier est vide."
+msgstr ""
+
+msgid "Le fichier ne contient aucune ligne."
+msgstr ""
+
+msgid ""
+"Le formulaire a expiré. Revenez en arrière, actualisez la page, puis "
+"recommencez."
+msgstr ""
+
+msgid "Le foyer"
+msgstr ""
+
+msgid "Le foyer a été archivé."
+msgstr ""
+
+msgid "Le foyer a été mis à jour."
+msgstr ""
+
+msgid "Le foyer a été réactivé."
+msgstr ""
+
+msgid "Le journal dit qui a fait quoi, jamais les valeurs."
+msgstr ""
+
+msgid "Le lecteur a renoncé"
+msgstr ""
+
+msgid "Le lecteur a été inscrit."
+msgstr ""
+
+msgid "Le lecteur a été rattaché au foyer. Aucun droit n’en découle."
+msgstr ""
+
+msgid "Le lecteur est archivé. Sa fiche et ses liens sont conservés."
+msgstr ""
+
+msgid "Le lecteur est de nouveau actif."
+msgstr ""
+
+msgid "Le lecteur est suspendu."
+msgstr ""
+
+msgid "Le lien avec le foyer a été retiré. La fiche du lecteur reste intacte."
+msgstr ""
+
+msgid "Le lien de responsabilité a été retiré."
+msgstr ""
+
+msgid "Le lieu parent est désactivé : réactivez-le d’abord."
+msgstr ""
+
+msgid "Le lieu parent n’existe pas."
+msgstr ""
+
+msgid "Le livre"
+msgstr ""
+
+msgid "Le logo a été enregistré."
+msgstr ""
+
+msgid "Le logo a été retiré : les initiales du nom sont affichées."
+msgstr ""
+
+msgid ""
+"Le module d’enrichissement est désactivé sur cette installation. Aucune "
+"donnée n’est simulée ici."
+msgstr ""
+
+msgid "Le mot de passe actuel est incorrect."
+msgstr ""
+
+msgid "Le mot de passe doit compter au moins 10 caractères."
+msgstr ""
+
+msgid "Le mot de passe est trop long (128 caractères au maximum)."
+msgstr ""
+
+msgid "Le mot de passe ne peut pas être votre identifiant."
+msgstr ""
+
+msgid "Le motif reste au journal : n’y écrivez ni nom, ni coordonnée, ni numéro."
+msgstr ""
+
+msgid "Le même ISBN figure sur :"
+msgstr ""
+
+msgid "Le navigateur gère le focus, la touche Échap et le fond."
+msgstr ""
+
+msgid "Le nom"
+msgstr ""
+
+msgid "Le nom de la bibliothèque"
+msgstr ""
+
+msgid "Le nom de la bibliothèque compte de 2 à 120 caractères."
+msgstr ""
+
+msgid "Le nouveau mot de passe doit différer de l’actuel."
+msgstr ""
+
+msgid "Le numéro compte 40 caractères au plus."
+msgstr ""
+
+msgid "Le numéro de la cote contredit le tome"
+msgstr ""
+
+msgid "Le numéro de tome est trop long."
+msgstr ""
+
+msgid "Le numéro de tome ne peut pas être négatif."
+msgstr ""
+
+msgid ""
+"Le numéro d’inventaire compte de 3 à 32 caractères : lettres, chiffres et"
+" tirets."
+msgstr ""
+
+msgid "Le numéro retapé ne correspond pas au numéro de lecteur permanent."
+msgstr ""
+
+msgid ""
+"Le plan a changé depuis la simulation que vous avez lue : relancez la "
+"simulation et relisez-la."
+msgstr ""
+
+msgid "Le plan de cette salle est plein : déplacez d’abord un meuble."
+msgstr ""
+
+msgid "Le profil de correspondance a été enregistré."
+msgstr ""
+
+msgid "Le profil de correspondance a été supprimé."
+msgstr ""
+
+msgid "Le prêt est annulé. Sa trace reste dans l’historique."
+msgstr ""
+
+msgid "Le prêt est renouvelé : la nouvelle échéance est affichée."
+msgstr ""
+
+msgid "Le prêt sera clos aujourd’hui. Son historique est conservé."
+msgstr ""
+
+msgid "Le rangement a été annulé."
+msgstr ""
+
+msgid "Le rappel est noté. biblyO n’a rien envoyé."
+msgstr ""
+
+msgid "Le rattachement ne donne aucun droit."
+msgstr ""
+
+msgid "Le renouvellement se fait sur la fiche."
+msgstr ""
+
+msgid "Le responsable a été ajouté, avec les droits cochés."
+msgstr ""
+
+msgid "Le responsable n’est pas encore inscrit"
+msgstr ""
+
+msgid "Le retour est enregistré. L’historique du prêt est conservé."
+msgstr ""
+
+msgid "Le résumé est trop long."
+msgstr ""
+
+msgid "Le rôle dans le foyer a été mis à jour."
+msgstr ""
+
+#, python-brace-format
+msgid "Le serveur a répondu {status} : aucune image n’a été récupérée."
+msgstr ""
+
+msgid "Le serveur est trop lent : téléchargement interrompu."
+msgstr ""
+
+msgid "Le serveur renvoie ailleurs sans dire où."
+msgstr ""
+
+msgid "Le statut de l’exemplaire a été mis à jour."
+msgstr ""
+
+msgid "Le titre de la série doit contenir des lettres ou des chiffres."
+msgstr ""
+
+msgid "Le titre de la série est trop long."
+msgstr ""
+
+msgid "Le titre est trop long."
+msgstr ""
+
+msgid "Le tome n’est plus indiqué comme confirmé."
+msgstr ""
+
+msgid ""
+"Le type de document et la section ne viennent pas de la source : "
+"choisissez-les."
+msgstr ""
+
+msgid ""
+"Le visuel de remplacement reprendra sa place sur la fiche et dans les "
+"listes. La couverture se rétablit depuis l’historique."
+msgstr ""
+
+msgid "Lecteur"
+msgstr ""
+
+msgid "Lecteur anonymisé"
+msgstr ""
+
+msgid ""
+"Lecteur anonymisé. Les sauvegardes antérieures contiennent encore ces "
+"données jusqu’à leur suppression."
+msgstr ""
+
+msgid "Lecteur déjà inscrit"
+msgstr ""
+
+msgid "Lecteurs"
+msgstr ""
+
+msgid "Lecteurs & familles"
+msgstr ""
+
+msgid "Lecteurs et familles"
+msgstr ""
+
+msgid "Lecteurs suivants"
+msgstr ""
+
+msgid "Lecture de codes-barres à la caméra ou à la douchette."
+msgstr ""
+
+msgid "Lecture des classeurs indisponible : composant de sécurité absent."
+msgstr ""
+
+msgid ""
+"Les autres champs cochés ont été appliqués ; la couverture n’a pas pu "
+"être récupérée. Voir l’historique."
+msgstr ""
+
+msgid "Les autres éditions ne changent pas."
+msgstr ""
+
+msgid "Les champs cochés ont été appliqués ; les autres sont restés tels quels."
+msgstr ""
+
+msgid "Les champs de cette édition ont été saisis à la main ou importés."
+msgstr ""
+
+msgid ""
+"Les codes prévus sont les prochains libres : si un autre code est pris "
+"entre-temps, le suivant sera donné. Le numéro d’inventaire ne change pas "
+"; aucun code existant n’est remplacé ; les étiquettes s’impriment à part,"
+" quand vous le déciderez."
+msgstr ""
+
+msgid "Les coordonnées ont été mises à jour."
+msgstr ""
+
+msgid "Les coordonnées partagées ont été mises à jour."
+msgstr ""
+
+msgid ""
+"Les coordonnées partagées restent masquées tant que vous ne demandez pas "
+"à les voir. Chaque affichage est journalisé."
+msgstr ""
+
+msgid ""
+"Les coordonnées restent masquées tant que vous ne demandez pas à les "
+"voir. Chaque affichage est journalisé."
+msgstr ""
+
+msgid "Les couvertures sont désactivées pour cette source."
+msgstr ""
+
+msgid "Les deux saisies diffèrent."
+msgstr ""
+
+msgid "Les droits du responsable ont été mis à jour."
+msgstr ""
+
+msgid ""
+"Les emprunteurs et l’historique ne sont visibles qu’avec le droit sur "
+"l’historique des prêts."
+msgstr ""
+
+msgid "Les exemplaires ont été ajoutés."
+msgstr ""
+
+msgid "Les exemplaires ont été rangés. Leurs cotes ne changent pas."
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"Les exemplaires, les cotes, le rangement, la série rattachée et les prêts"
+" ne sont pas modifiés. Chaque champ appliqué garde sa provenance : "
+"{source}, notice {id}."
+msgstr ""
+
+msgid ""
+"Les fichiers sont lus en mémoire, sans être exécutés ; ils restent 24 "
+"heures, visibles de vous seul, puis sont supprimés."
+msgstr ""
+
+msgid "Les notes sont trop longues."
+msgstr ""
+
+msgid ""
+"Les notices de la BnF et du Sudoc sont sous Licence Ouverte de l’État. "
+"Aucune limite de débit n’est publiée : les planchers ci-dessus sont une "
+"précaution du projet."
+msgstr ""
+
+msgid "Les prêts de ce lecteur apparaîtront ici avec le module de prêt."
+msgstr ""
+
+msgid "Les prêts en cours se consultent au comptoir, avec le droit de prêter."
+msgstr ""
+
+msgid "Les règles de prêt sont enregistrées."
+msgstr ""
+
+msgid "Les règles par catégorie restent : modifiez-les plutôt."
+msgstr ""
+
+msgid "Les réglages des sources sont enregistrés."
+msgstr ""
+
+msgid ""
+"Les rôles des contributeurs sont proposés d’après la notice : vérifiez-"
+"les."
+msgstr ""
+
+msgid ""
+"Les rôles sont à valider un par un ; une personne déjà présente garde son"
+" rôle."
+msgstr ""
+
+msgid ""
+"Les sources activées sont interrogées avec l’ISBN, le titre et l’auteur "
+"de cette édition. Chaque image dit à quelle édition elle se rapporte ; "
+"rien n’est enregistré avant votre confirmation."
+msgstr ""
+
+msgid ""
+"Les sources n’ont pas répondu : aucune proposition n’a pu être réunie. "
+"Vous pouvez importer une image dès maintenant."
+msgstr ""
+
+msgid ""
+"Les sources sont interrogées, les éditions comparées, puis vous "
+"choisissez champ par champ ce que la fiche reprend. Rien n’est écrit sans"
+" votre accord."
+msgstr ""
+
+msgid "Les tomes ont été confirmés."
+msgstr ""
+
+#, python-brace-format
+msgid "Les {n} premières lignes, selon la correspondance enregistrée."
+msgstr ""
+
+msgid "Lesquels"
+msgstr ""
+
+msgid "Lever"
+msgstr ""
+
+msgid "Libellé"
+msgstr ""
+
+msgid "Libellé d'origine gardé ; comparaison sans casse."
+msgstr ""
+
+msgid ""
+"Libellé d'origine toujours gardé en précision sur l'état ; une valeur non"
+" rangée reste sans état et devient une proposition à vérifier. Table à "
+"relire."
+msgstr ""
+
+msgid "Libellé d'éditeur qui ressemble à une mention d'édition"
+msgstr ""
+
+msgid "Libellé d’origine"
+msgstr ""
+
+msgid "Licence EUPL-1.2"
+msgstr ""
+
+msgid "Lien"
+msgstr ""
+
+msgid "Lien-bouton"
+msgstr ""
+
+msgid "Liens avec un foyer"
+msgstr ""
+
+msgid "Liens de responsabilité"
+msgstr ""
+
+msgid "Lieu virtuel"
+msgstr ""
+
+msgid "Ligne"
+msgstr ""
+
+msgid "Ligne absente du fichier complémentaire"
+msgstr ""
+
+msgid "Ligne complémentaire"
+msgstr ""
+
+msgid "Ligne du complémentaire"
+msgstr ""
+
+msgid "Ligne du fichier complémentaire"
+msgstr ""
+
+msgid "Ligne incomplète"
+msgstr ""
+
+#, python-brace-format
+msgid "Ligne {n} du classeur {f}, feuille « {s} », importée le {d}."
+msgstr ""
+
+msgid "Ligne, inventaire, cote ou texte"
+msgstr ""
+
+msgid "Lignes"
+msgstr ""
+
+msgid "Lignes .csv"
+msgstr ""
+
+msgid "Lignes du fichier gardées"
+msgstr ""
+
+msgid "Lignes lues"
+msgstr ""
+
+msgid "Lignes lues = exemplaires prévus + lignes refusées"
+msgstr ""
+
+msgid "Lignes refusées"
+msgstr ""
+
+msgid "Lignes restituées"
+msgstr ""
+
+msgid "Lire le fichier"
+msgstr ""
+
+msgid "Lire un fichier et simuler son import, sans rien écrire"
+msgstr ""
+
+msgid "Lisez-moi"
+msgstr ""
+
+msgid "Liste"
+msgstr ""
+
+msgid "Liste déroulante"
+msgstr ""
+
+msgid "Liste vide"
+msgstr ""
+
+msgid "Listes"
+msgstr ""
+
+msgid "Listes du catalogue"
+msgstr ""
+
+msgid "Livre"
+msgstr ""
+
+msgid "Livre (édition)"
+msgstr ""
+
+msgid "Livre en plusieurs exemplaires"
+msgstr ""
+
+msgid "Livres"
+msgstr ""
+
+msgid "Livres (éditions)"
+msgstr ""
+
+msgid "Livres (éditions) créés"
+msgstr ""
+
+msgid "Livres = exemplaires − exemplaires supplémentaires"
+msgstr ""
+
+msgid "Livres prévus"
+msgstr ""
+
+msgid "Livres sortis"
+msgstr ""
+
+msgid "Livres suivants"
+msgstr ""
+
+msgid "Livres à prêter"
+msgstr ""
+
+#, python-brace-format
+msgid "Livres à {n} exemplaire(s)"
+msgstr ""
+
+msgid "Localiser"
+msgstr ""
+
+msgid "Localiser l’emplacement"
+msgstr ""
+
+msgid "Localiser un ouvrage"
+msgstr ""
+
+msgid "Localiser un ouvrage : titre, cote, n° d’inventaire…"
+msgstr ""
+
+msgid ""
+"Logiciel original de gestion de bibliothèque. Licence EUPL-1.2 (choix "
+"provisoire, à confirmer avant toute publication)."
+msgstr ""
+
+msgid "Logo"
+msgstr ""
+
+msgid "Logo actuel"
+msgstr ""
+
+msgid "Logo enregistré"
+msgstr ""
+
+msgid "Logo et identité visuelle"
+msgstr ""
+
+msgid "Lot"
+msgstr ""
+
+msgid "Lot d'import"
+msgstr ""
+
+msgid "Lot d’import"
+msgstr ""
+
+#, python-brace-format
+msgid "Lot d’import n° {n}"
+msgstr ""
+
+#, python-brace-format
+msgid "Lot n° {n}"
+msgstr ""
+
+msgid "Lots d’import"
+msgstr ""
+
+msgid "Lundi"
+msgstr ""
+
+msgid "Légende"
+msgstr ""
+
+msgid ""
+"L’ISBN est confirmé : il entre dans la recherche et le contrôle des "
+"doublons."
+msgstr ""
+
+msgid "L’ISBN est rejeté : il ne sera plus proposé pour cette édition."
+msgstr ""
+
+msgid "L’adhésion a été renouvelée."
+msgstr ""
+
+msgid "L’adhésion de ce lecteur est échue."
+msgstr ""
+
+msgid "L’adresse compte 300 caractères au plus."
+msgstr ""
+
+msgid "L’année suffit : 2014."
+msgstr ""
+
+msgid "L’année suffit : 2014. Elle aide à distinguer deux personnes de même nom."
+msgstr ""
+
+msgid "L’année suffit."
+msgstr ""
+
+msgid "L’anonymisation est bloquée tant qu’elle court."
+msgstr ""
+
+msgid ""
+"L’application des imports est désactivée sur cette instance : un "
+"administrateur l’active sur le serveur, seulement là où l’import est "
+"décidé."
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"L’application écrit exactement ce plan : {c} exemplaires, {b} livres, {w}"
+" œuvres, {s} séries. Une sauvegarde vérifiée de l’instance est prise "
+"avant ; tout est écrit en une seule transaction, ou rien. Les "
+"propositions restent des propositions. Ce fichier ne pourra pas être "
+"appliqué une seconde fois."
+msgstr ""
+
+msgid ""
+"L’archivage la masque du catalogue et se défait. La suppression efface la"
+" notice et ses éditions, définitivement."
+msgstr ""
+
+msgid "L’emplacement a été créé."
+msgstr ""
+
+msgid "L’emplacement a été mis à jour."
+msgstr ""
+
+msgid "L’emplacement a été supprimé."
+msgstr ""
+
+msgid ""
+"L’emprunteur d’un exemplaire n’est visible qu’avec le droit sur "
+"l’historique."
+msgstr ""
+
+msgid "L’enfant emprunte seul"
+msgstr ""
+
+msgid "L’enfant peut emprunter seul"
+msgstr ""
+
+msgid "L’enrichissement est annulé : les valeurs d’avant sont rétablies."
+msgstr ""
+
+msgid ""
+"L’exemplaire a été rangé, mais cet emplacement dépasse maintenant sa "
+"capacité."
+msgstr ""
+
+msgid "L’exemplaire a été rangé. Sa cote ne change pas."
+msgstr ""
+
+msgid "L’exemplaire a été supprimé. Ses codes ne seront jamais réattribués."
+msgstr ""
+
+msgid "L’exemplaire n’a plus de place : il figure dans les « Non rangés »."
+msgstr ""
+
+msgid ""
+"L’identifiant compte de 2 à 64 caractères : lettres, chiffres, point, "
+"tiret, arobase."
+msgstr ""
+
+msgid "L’identité de la bibliothèque a été enregistrée."
+msgstr ""
+
+msgid "L’image retirée n’est plus conservée : elle ne peut pas être rétablie."
+msgstr ""
+
+msgid "L’opération est annulée. Sa trace reste dans l’historique du prêt."
+msgstr ""
+
+msgid ""
+"L’opération n’a pas abouti. Réessayez dans un instant ; si le problème "
+"persiste, prévenez votre administrateur."
+msgstr ""
+
+msgid "L’ordre de contact va de 1 à 9."
+msgstr ""
+
+msgid "L’ordre doit citer chaque source une fois."
+msgstr ""
+
+msgid "L’échéance a été modifiée."
+msgstr ""
+
+msgid "L’échéance de chaque livre est à indiquer au lecteur."
+msgstr ""
+
+msgid "L’échéance tombe un jour de fermeture."
+msgstr ""
+
+msgid "L’édition"
+msgstr ""
+
+msgid "L’édition a été ajoutée."
+msgstr ""
+
+msgid "L’édition a été archivée."
+msgstr ""
+
+msgid "L’édition a été réactivée."
+msgstr ""
+
+msgid "L’édition a été supprimée."
+msgstr ""
+
+msgid ""
+"L’étagère a changé depuis son affichage. Rien n’a été enregistré : "
+"rechargez la page, puis recommencez."
+msgstr ""
+
+msgid "L’étagère a été triée."
+msgstr ""
+
+msgid "Maintenance"
+msgstr ""
+
+msgid "Majorité confirmée"
+msgstr ""
+
+msgid "Majorité à confirmer"
+msgstr ""
+
+msgid ""
+"Majorité à confirmer : ce lecteur reste mineur tant qu’elle n’est pas "
+"confirmée."
+msgstr ""
+
+msgid "Majorités à confirmer"
+msgstr ""
+
+msgid "Manquant confirmé"
+msgstr ""
+
+msgid "Manque :"
+msgstr ""
+
+msgid "Mardi"
+msgstr ""
+
+msgid "Martinique"
+msgstr ""
+
+msgid "Masquer"
+msgstr ""
+
+msgid "Mauvais lecteur"
+msgstr ""
+
+msgid "Mauvais responsable"
+msgstr ""
+
+msgid "Mayotte"
+msgstr ""
+
+msgid "Membre"
+msgstr ""
+
+msgid "Membres"
+msgstr ""
+
+msgid "Mention d'édition"
+msgstr ""
+
+msgid "Mention d’édition"
+msgstr ""
+
+msgid "Menu des pages"
+msgstr ""
+
+msgid "Menu déroulant"
+msgstr ""
+
+msgid "Mercredi"
+msgstr ""
+
+msgid "Message d’information."
+msgstr ""
+
+msgid "Message laissé"
+msgstr ""
+
+msgid "Mettre en conservation"
+msgstr ""
+
+msgid "Meuble"
+msgstr ""
+
+#, python-format
+msgid "Meubles de %(name)s"
+msgstr ""
+
+msgid "Meubles de la salle de démonstration"
+msgstr ""
+
+msgid "Meubles hors plan"
+msgstr ""
+
+msgid "Mineur"
+msgstr ""
+
+msgid "Mineurs"
+msgstr ""
+
+msgid "Mineurs sans adulte habilité et joignable : aucun prêt possible en L4."
+msgstr ""
+
+msgid "Mise en conservation"
+msgstr ""
+
+msgid "Mise en rayon"
+msgstr ""
+
+msgid "Mode"
+msgstr ""
+
+msgid "Mode Rangement."
+msgstr ""
+
+msgid "Mode d’acquisition"
+msgstr ""
+
+msgid ""
+"Mode retenu (D-L6-7) : chaque exemplaire garde son numéro d’inventaire "
+"d’origine et reçoit son identifiant biblyO ; le code-barres reste vide, "
+"attribué plus tard sans toucher à l’inventaire. « Étiquettes existantes »"
+" reprend une colonne associée à « Code-barres déjà attribué », jamais un "
+"code CSN de la reconstruction. Aucune étiquette n’est imprimée."
+msgstr ""
+
+msgid "Mode édition"
+msgstr ""
+
+msgid "Modifications"
+msgstr ""
+
+msgid "Modifier"
+msgstr ""
+
+msgid "Modifier la fiche"
+msgstr ""
+
+msgid "Modifier la série"
+msgstr ""
+
+msgid "Modifier la série depuis la fiche"
+msgstr ""
+
+msgid "Modifier le lien de"
+msgstr ""
+
+msgid "Modifier le plan"
+msgstr ""
+
+msgid "Modifier les coordonnées"
+msgstr ""
+
+msgid "Modifier les coordonnées partagées"
+msgstr ""
+
+msgid "Modifier les droits de"
+msgstr ""
+
+msgid ""
+"Modifier les lecteurs, foyers, responsables et cartes ; renouveler "
+"l’adhésion"
+msgstr ""
+
+msgid "Modifier les notices"
+msgstr ""
+
+msgid "Modifier les réglages"
+msgstr ""
+
+msgid "Modifier l’identité de la bibliothèque"
+msgstr ""
+
+msgid ""
+"Modifiez les critères : moins de mots dans le titre, ou le nom de la "
+"série seul."
+msgstr ""
+
+msgid "Modifiez votre recherche ou vos filtres."
+msgstr ""
+
+msgid "Modifié le"
+msgstr ""
+
+msgid "Mon compte"
+msgstr ""
+
+msgid "Monter"
+msgstr ""
+
+#, python-format
+msgid "Monter %(name)s"
+msgstr ""
+
+msgid "Mot de passe"
+msgstr ""
+
+msgid "Mot de passe actuel"
+msgstr ""
+
+msgid "Mot de passe incorrect."
+msgstr ""
+
+msgid "Mot de passe provisoire"
+msgstr ""
+
+msgid "Mot de passe à changer"
+msgstr ""
+
+msgid "Mot-clé"
+msgstr ""
+
+msgid "Motif"
+msgstr ""
+
+msgid "Motif, conservé au journal"
+msgstr ""
+
+msgid "Motif, sans donnée personnelle"
+msgstr ""
+
+msgid "Mots-clés"
+msgstr ""
+
+msgid "Moyen"
+msgstr ""
+
+msgid "Métadonnées"
+msgstr ""
+
+#, python-format
+msgid "Métadonnées incomplètes (< 50 %%)"
+msgstr ""
+
+msgid "Métropole, outre-mer ou étranger, avec son indicatif (+44…)."
+msgstr ""
+
+msgid "Même collection"
+msgstr ""
+
+msgid "Même mécanique, en panneau."
+msgstr ""
+
+msgid "Même nom qu’une autre fiche"
+msgstr ""
+
+msgid "Même nom écrit de plusieurs façons : jamais fusionné d'office"
+msgstr ""
+
+msgid "Même nombre de pages"
+msgstr ""
+
+msgid "Même série écrite de plusieurs façons"
+msgstr ""
+
+msgid "Même tome d'une série porté par des titres différents"
+msgstr ""
+
+msgid "Même éditeur"
+msgstr ""
+
+msgid "Même éditeur écrit de plusieurs façons"
+msgstr ""
+
+msgid "Même édition établie : ISBN identique"
+msgstr ""
+
+msgid "Naissance"
+msgstr ""
+
+msgid "Naissance (facultatif)"
+msgstr ""
+
+msgid "Naissance incohérente"
+msgstr ""
+
+msgid "Navigateur inconnu"
+msgstr ""
+
+msgid "Navigation"
+msgstr ""
+
+msgid "Navigation mobile"
+msgstr ""
+
+msgid "Navigation principale"
+msgstr ""
+
+msgid "Ne dépend ni du tome ni de la place."
+msgstr ""
+
+msgid "Ne peut pas emprunter"
+msgstr ""
+
+msgid "Neuf"
+msgstr ""
+
+msgid "Neutre"
+msgstr ""
+
+msgid "Niveau"
+msgstr ""
+
+msgid ""
+"Niveaux de recherche : ISBN exact, puis titre et auteur, titre et "
+"éditeur, série et tome, recherche élargie. Chaque niveau n’est tenté qu’à"
+" défaut d’une correspondance exacte ou forte."
+msgstr ""
+
+msgid "Nom"
+msgstr ""
+
+msgid "Nom d'organisation probable"
+msgstr ""
+
+msgid "Nom de la bibliothèque"
+msgstr ""
+
+msgid "Nom de la recherche"
+msgstr ""
+
+msgid "Nom de la structure"
+msgstr ""
+
+msgid "Nom du foyer"
+msgstr ""
+
+msgid "Nom du foyer ou de l’un de ses membres…"
+msgstr ""
+
+msgid "Nom du profil, pour le réutiliser"
+msgstr ""
+
+msgid "Nom inversé (« Nom, Prénom ») : forme à l'endroit proposée"
+msgstr ""
+
+msgid "Nom, numéro de lecteur ou carte…"
+msgstr ""
+
+msgid "Nom, numéro de lecteur, carte, courriel, téléphone…"
+msgstr ""
+
+msgid "Nom, numéro de lecteur, carte…"
+msgstr ""
+
+msgid "Nom, prénom, naissance, observations, adhésion"
+msgstr ""
+
+msgid "Nom, prénom, numéro de lecteur ou carte"
+msgstr ""
+
+msgid "Nombre"
+msgstr ""
+
+msgid "Nombre d’étagères à créer"
+msgstr ""
+
+#, python-brace-format
+msgid "Nombre maximal de renouvellements atteint ({maximum})."
+msgstr ""
+
+msgid ""
+"Noms gardés tels qu'écrits ; nom inversé, noms multiples ou organisation "
+": propositions à vérifier."
+msgstr ""
+
+msgid "Non"
+msgstr ""
+
+msgid "Non : nouvelle collection, nom d’origine"
+msgstr ""
+
+msgid ""
+"Non annoncée par cette notice : la BnF sera interrogée, sans garantie "
+"d’image."
+msgstr ""
+
+msgid "Non cochée"
+msgstr ""
+
+msgid "Non copiable"
+msgstr ""
+
+msgid "Non déterminée"
+msgstr ""
+
+msgid "Non interrogée : la source prioritaire a tranché"
+msgstr ""
+
+msgid "Non rangé"
+msgstr ""
+
+msgid "Non rangé : cet exemplaire attend une place."
+msgstr ""
+
+msgid "Non rangés"
+msgstr ""
+
+msgid "Non reconnue"
+msgstr ""
+
+msgid "Non renseigné"
+msgstr ""
+
+msgid "Non renseignée"
+msgstr ""
+
+msgid "Non restitué"
+msgstr ""
+
+msgid "Note"
+msgstr ""
+
+msgid "Note de l'exemplaire modifiée dans biblyO"
+msgstr ""
+
+msgid "Note d’acquisition"
+msgstr ""
+
+msgid "Note sur l'exemplaire"
+msgstr ""
+
+msgid "Note sur l'édition"
+msgstr ""
+
+msgid "Noter le rappel"
+msgstr ""
+
+msgid "Notes"
+msgstr ""
+
+msgid "Notes internes"
+msgstr ""
+
+msgid "Notes sur l’édition"
+msgstr ""
+
+msgid "Notice"
+msgstr ""
+
+msgid "Notice complète"
+msgstr ""
+
+msgid "Notice complète à"
+msgstr ""
+
+msgid "Notice d'ensemble : décrit la série entière, pas une édition"
+msgstr ""
+
+msgid "Notice de la source"
+msgstr ""
+
+msgid "Notice de référence"
+msgstr ""
+
+#, python-brace-format
+msgid "Notice n° {id} : même série, même tome, même titre."
+msgstr ""
+
+msgid "Notice très incomplète"
+msgstr ""
+
+#, python-brace-format
+msgid "Notice {id}"
+msgstr ""
+
+#, python-brace-format
+msgid "Notice {id} ({agency})."
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"Notice {id}, {agency}, {date}. Récupérée pour cette recherche. Données : "
+"{holder}, licence ouverte."
+msgstr ""
+
+#, python-brace-format
+msgid "Notice {source}"
+msgstr ""
+
+msgid "Notice à compléter"
+msgstr ""
+
+msgid "Notice élémentaire insuffisante"
+msgstr ""
+
+msgid "Notices"
+msgstr ""
+
+msgid "Notices proches déjà au catalogue :"
+msgstr ""
+
+msgid "Notices proches déjà présentes"
+msgstr ""
+
+msgid "Notification de réussite"
+msgstr ""
+
+msgid "Notification d’erreur"
+msgstr ""
+
+msgid "Nouveau lecteur"
+msgstr ""
+
+msgid "Nouveau lieu"
+msgstr ""
+
+msgid "Nouveau mot de passe"
+msgstr ""
+
+msgid "Nouveau prêt"
+msgstr ""
+
+msgid "Nouveau prêt pour"
+msgstr ""
+
+msgid "Nouvelle"
+msgstr ""
+
+msgid "Nouvelle couverture proposée pour"
+msgstr ""
+
+msgid "Nouvelle famille"
+msgstr ""
+
+msgid "Nouvelle personne, homonyme"
+msgstr ""
+
+msgid "Nouvelle place"
+msgstr ""
+
+msgid "Nouvelle structure"
+msgstr ""
+
+msgid "Nouvelle échéance"
+msgstr ""
+
+msgid "Nouvelle édition"
+msgstr ""
+
+msgid "Nouvelle-Calédonie"
+msgstr ""
+
+msgid "Numéro"
+msgstr ""
+
+msgid "Numéro absent, parution non confirmée"
+msgstr ""
+
+msgid "Numéro d'inventaire"
+msgstr ""
+
+msgid "Numéro d'inventaire absent"
+msgstr ""
+
+msgid "Numéro d'inventaire déjà présent dans biblyO"
+msgstr ""
+
+msgid "Numéro d'inventaire en double dans le fichier"
+msgstr ""
+
+msgid "Numéro d'inventaire modifié dans biblyO"
+msgstr ""
+
+msgid "Numéro d'inventaire non numérique, gardé tel quel"
+msgstr ""
+
+msgid "Numéro dans la collection"
+msgstr ""
+
+msgid "Numéro de carte"
+msgstr ""
+
+msgid "Numéro de la nouvelle carte (facultatif)"
+msgstr ""
+
+msgid "Numéro de lecteur"
+msgstr ""
+
+msgid "Numéro de tome différent"
+msgstr ""
+
+msgid "Numéro d’inventaire"
+msgstr ""
+
+msgid "Numéro interne de cote"
+msgstr ""
+
+msgid ""
+"Numéro non reconnu : écrivez-le à dix chiffres (06 12 34 56 78), ou avec "
+"son indicatif (+44 …)."
+msgstr ""
+
+msgid "Numéro à établir livre en main."
+msgstr ""
+
+msgid "Numéros"
+msgstr ""
+
+msgid "Numéros d'inventaire, à l'identique"
+msgstr ""
+
+msgid "Numéros de ligne"
+msgstr ""
+
+msgid "Néerlandais"
+msgstr ""
+
+msgid "N’emprunte pas pour les enfants"
+msgstr ""
+
+msgid ""
+"Obligatoire pour « Autre motif ». Elle reste au journal : ni nom, ni "
+"coordonnée, ni numéro."
+msgstr ""
+
+msgid "Observations"
+msgstr ""
+
+msgid "Observations internes"
+msgstr ""
+
+msgid "Open Library"
+msgstr ""
+
+msgid "Open Library (Internet Archive)"
+msgstr ""
+
+msgid ""
+"Open Library ne revendique et n’accorde aucun droit sur ses couvertures :"
+" elles restent celles des éditeurs. Activée, elle propose des images ; "
+"chaque image retenue demande que vous confirmiez votre droit de "
+"l’utiliser. Son API sert à l’affichage, pas au téléchargement en masse : "
+"une requête toutes les 1,5 s au moins."
+msgstr ""
+
+msgid ""
+"Open Library n’accorde aucun droit sur ses couvertures : elles restent "
+"celles des éditeurs. Indiquez sur quoi repose votre droit de l’utiliser."
+msgstr ""
+
+msgid "Opération"
+msgstr ""
+
+msgid "Opération réussie."
+msgstr ""
+
+msgid "Ordre actuel"
+msgstr ""
+
+msgid "Ordre de contact"
+msgstr ""
+
+msgid "Ordre sur l’étagère"
+msgstr ""
+
+msgid "Ordre, de haut en bas"
+msgstr ""
+
+msgid "Organisation"
+msgstr ""
+
+msgid "Origine"
+msgstr ""
+
+msgid "Origine de l’image et droit de l’utiliser"
+msgstr ""
+
+msgid "Origine et droit d’utilisation"
+msgstr ""
+
+msgid "Oui"
+msgstr ""
+
+msgid "Ouvrage"
+msgstr ""
+
+msgid "Ouvrage localisé"
+msgstr ""
+
+msgid "Ouvrir"
+msgstr ""
+
+msgid "Ouvrir une fenêtre"
+msgstr ""
+
+msgid "Ouvrir une feuille"
+msgstr ""
+
+msgid "Où il se trouve"
+msgstr ""
+
+msgid "Où le trouver"
+msgstr ""
+
+msgid ""
+"PNG, JPEG ou WebP. Réencodée, sans métadonnées, gardée dans la base : "
+"elle part avec les sauvegardes."
+msgstr ""
+
+msgid "Page"
+msgstr ""
+
+msgid "Page introuvable"
+msgstr ""
+
+msgid "Page précédente"
+msgstr ""
+
+msgid "Page suivante"
+msgstr ""
+
+#, python-brace-format
+msgid "Page {p} sur {n}"
+msgstr ""
+
+msgid "Pages"
+msgstr ""
+
+#, python-brace-format
+msgid "Pages différentes : {mine} contre {theirs}"
+msgstr ""
+
+msgid "Pages non renseignées par la source"
+msgstr ""
+
+msgid "Pagination"
+msgstr ""
+
+msgid "Palette de commandes"
+msgstr ""
+
+msgid "Par exemple : 0–9 · A"
+msgstr ""
+
+msgid "Par exemple : Famille Martin."
+msgstr ""
+
+msgid "Par page"
+msgstr ""
+
+msgid "Paramètres"
+msgstr ""
+
+msgid "Parent"
+msgstr ""
+
+msgid "Parties de la fiche"
+msgstr ""
+
+msgid "Pas de code-barres : à attribuer à l'étiquetage (D-L6-7)"
+msgstr ""
+
+msgid "Pas de réponse"
+msgstr ""
+
+msgid "Pas de résumé."
+msgstr ""
+
+msgid "Pas de titre d'album : titre construit, à remplacer"
+msgstr ""
+
+msgid "Pas encore inscrit ? Inscrivez d’abord cet adulte, puis revenez ici."
+msgstr ""
+
+msgid "Pas à contacter"
+msgstr ""
+
+msgid "Perdu"
+msgstr ""
+
+msgid "Perdue"
+msgstr ""
+
+msgid "Personne à rappeler"
+msgstr ""
+
+msgid "Pertinence"
+msgstr ""
+
+msgid "Petit"
+msgstr ""
+
+msgid "Peut emprunter"
+msgstr ""
+
+msgid "Peut emprunter pour ces enfants"
+msgstr ""
+
+msgid "Peut emprunter pour cet enfant"
+msgstr ""
+
+msgid "Peut emprunter pour la structure"
+msgstr ""
+
+msgid "Peut emprunter pour lui"
+msgstr ""
+
+msgid "Peut être contacté à leur sujet"
+msgstr ""
+
+msgid "Peut être contacté à son sujet"
+msgstr ""
+
+msgid "Photo prise pour le Club"
+msgstr ""
+
+msgid "Pilotage"
+msgstr ""
+
+msgid ""
+"Place indiquée par le fichier, non vérifiée : l'exemplaire reste non "
+"rangé."
+msgstr ""
+
+msgid "Place libre"
+msgstr ""
+
+#, python-format
+msgid "Placer avant « %(title)s », position %(n)s"
+msgstr ""
+
+#, python-format
+msgid "Placer à la fin de %(name)s"
+msgstr ""
+
+msgid "Plafond"
+msgstr ""
+
+#, python-brace-format
+msgid "Plafond bientôt atteint : {count} prêts sur {maximum}."
+msgstr ""
+
+#, python-brace-format
+msgid "Plafond dépassé : {count} prêts pour un plafond de {maximum}."
+msgstr ""
+
+msgid ""
+"Plafond vide : aucun plafond. Une règle propre à un type de document "
+"l’emporte sur celle de la catégorie."
+msgstr ""
+
+msgid "Plafonds et retards"
+msgstr ""
+
+msgid "Plan de la salle"
+msgstr ""
+
+#, python-format
+msgid "Plan modifiable de %(name)s"
+msgstr ""
+
+msgid "Plus"
+msgstr ""
+
+msgid "Plusieurs candidats"
+msgstr ""
+
+msgid "Plusieurs langues"
+msgstr ""
+
+msgid "Plusieurs lignes"
+msgstr ""
+
+msgid "Plusieurs noms dans une cellule : séparation proposée"
+msgstr ""
+
+msgid ""
+"Plusieurs personnes portent ce nom : indiquez laquelle, ou créez-en une "
+"nouvelle."
+msgstr ""
+
+msgid "Plusieurs résultats : choisissez explicitement avant de continuer."
+msgstr ""
+
+msgid "Point d’attention."
+msgstr ""
+
+msgid ""
+"Polices et bibliothèques tierces : Bricolage Grotesque, Manrope, "
+"JetBrains Mono (SIL OFL 1.1), htmx (0BSD), Alpine.js (MIT). Le détail "
+"figure dans THIRD_PARTY_NOTICES.md."
+msgstr ""
+
+msgid ""
+"Polices, largeurs, couleurs et formats de nombre : seuls valeurs et types"
+" le sont."
+msgstr ""
+
+msgid "Polynésie française"
+msgstr ""
+
+msgid "Portable"
+msgstr ""
+
+msgid "Portugais"
+msgstr ""
+
+msgid "Portée"
+msgstr ""
+
+#, python-format
+msgid "Poser à la ligne %(r)s, colonne %(c)s"
+msgstr ""
+
+msgid "Position"
+msgstr ""
+
+#, python-brace-format
+msgid "Position {n} : {text}"
+msgstr ""
+
+msgid "Pour la structure"
+msgstr ""
+
+msgid ""
+"Pour les lecteurs. L’adresse jointe aux requêtes d’Open Library se règle "
+"dans les sources."
+msgstr ""
+
+msgid "Pour lui-même"
+msgstr ""
+
+msgid "Pour qui ?"
+msgstr ""
+
+msgid "Pour soi"
+msgstr ""
+
+msgid ""
+"Pour un nouvel exemplaire d’un livre déjà présent, ajoutez-le depuis sa "
+"fiche : ne créez pas de notice."
+msgstr ""
+
+msgid "Pour une structure"
+msgstr ""
+
+msgid "Pourquoi ce score"
+msgstr ""
+
+msgid "Premier"
+msgstr ""
+
+msgid "Premier responsable"
+msgstr ""
+
+msgid "Premier tome"
+msgstr ""
+
+msgid "Principal"
+msgstr ""
+
+msgid "Priorité"
+msgstr ""
+
+msgid "Prix (€)"
+msgstr ""
+
+msgid "Probable"
+msgstr ""
+
+msgid "Prochain retour prévu le"
+msgstr ""
+
+msgid "Prochaine échéance :"
+msgstr ""
+
+msgid "Profil"
+msgstr ""
+
+msgid "Profil de correspondance"
+msgstr ""
+
+msgid "Profils de correspondance"
+msgstr ""
+
+msgid "Profils d’import"
+msgstr ""
+
+msgid "Prolongation (jours)"
+msgstr ""
+
+msgid "Prolongation en jours"
+msgstr ""
+
+msgid "Proposition"
+msgstr ""
+
+msgid ""
+"Proposition de rangement : l'exemplaire reste non rangé tant que sa place"
+" n'est pas vérifiée."
+msgstr ""
+
+msgid "Proposition à vérifier"
+msgstr ""
+
+msgid "Propositions"
+msgstr ""
+
+msgid "Propositions :"
+msgstr ""
+
+#, python-brace-format
+msgid "Propositions : {k}"
+msgstr ""
+
+msgid "Propositions contradictoires : éditions gardées distinctes"
+msgstr ""
+
+msgid "Propositions de cette ligne, jamais appliquées d’office"
+msgstr ""
+
+msgid "Propositions gardées, aucune appliquée"
+msgstr ""
+
+msgid "Propositions à vérifier"
+msgstr ""
+
+msgid "Proposé"
+msgstr ""
+
+msgid "Proposés à l’archivage, jamais supprimés."
+msgstr ""
+
+msgid "Provenance"
+msgstr ""
+
+msgid "Provenance de chaque champ repris d’une source"
+msgstr ""
+
+msgid "Provenance des données"
+msgstr ""
+
+msgid "Provisoire"
+msgstr ""
+
+msgid "Précisez le motif, sans donnée personnelle."
+msgstr ""
+
+msgid "Précisez l’origine de l’image et le droit d’utilisation."
+msgstr ""
+
+msgid "Précision"
+msgstr ""
+
+msgid "Précision (facultative)"
+msgstr ""
+
+msgid "Précision (obligatoire pour « Autre »)"
+msgstr ""
+
+msgid "Précision sur l'état"
+msgstr ""
+
+msgid "Précision sur l’état"
+msgstr ""
+
+msgid "Précédente"
+msgstr ""
+
+msgid "Précédents"
+msgstr ""
+
+msgid "Préfixe de 12 caractères au plus : lettres, chiffres et tirets."
+msgstr ""
+
+msgid "Préfixe des codes générés (mode non retenu)"
+msgstr ""
+
+msgid "Préfixes de cote"
+msgstr ""
+
+msgid "Prénom"
+msgstr ""
+
+#, python-brace-format
+msgid "Prérempli depuis la {source}"
+msgstr ""
+
+msgid "Présence vérifiée : ces exemplaires sont « En place »."
+msgstr ""
+
+msgid "Présence vérifiée : en place"
+msgstr ""
+
+msgid "Présent"
+msgstr ""
+
+msgid "Prévisualiser"
+msgstr ""
+
+msgid "Prévu"
+msgstr ""
+
+msgid "Prêt"
+msgstr ""
+
+msgid "Prêt enregistré"
+msgstr ""
+
+msgid "Prêter"
+msgstr ""
+
+msgid "Prêter cet exemplaire"
+msgstr ""
+
+msgid "Prêter et rendre"
+msgstr ""
+
+msgid "Prêter les exemplaires cochés"
+msgstr ""
+
+msgid "Prêter l’exemplaire"
+msgstr ""
+
+msgid "Prêter ou rendre"
+msgstr ""
+
+#, python-format
+msgid "Prêter ou rendre « %(title)s »"
+msgstr ""
+
+msgid "Prêter, rendre, annuler sa propre opération dans les 15 minutes"
+msgstr ""
+
+msgid "Prêts"
+msgstr ""
+
+msgid "Prêts & retours"
+msgstr ""
+
+msgid "Prêts de"
+msgstr ""
+
+msgid "Prêts dont la personne a répondu"
+msgstr ""
+
+msgid "Prêts en cours"
+msgstr ""
+
+msgid "Prêts en cours de ce lecteur"
+msgstr ""
+
+msgid "Prêts en retard"
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"Prêts en retard : {own} pour ce lecteur, {responsible} pour son "
+"responsable."
+msgstr ""
+
+msgid "Prêts et retours"
+msgstr ""
+
+msgid "Prêts, fréquentation et état du fonds."
+msgstr ""
+
+msgid "Public"
+msgstr ""
+
+msgid "Publication"
+msgstr ""
+
+msgid "Python"
+msgstr ""
+
+msgid "Qualité de la notice"
+msgstr ""
+
+msgid "Qualité du catalogue"
+msgstr ""
+
+msgid "Quand un plafond est dépassé"
+msgstr ""
+
+msgid "Que cherchez-vous ?"
+msgstr ""
+
+msgid "Quel adulte répond de ce prêt ?"
+msgstr ""
+
+msgid "Quel numéro est le bon ?"
+msgstr ""
+
+msgid "Quel résultat ?"
+msgstr ""
+
+msgid "Quelle personne ?"
+msgstr ""
+
+msgid "Quelques points sont à corriger ci-dessous. Rien n’a été enregistré."
+msgstr ""
+
+#, python-format
+msgid "Quitte %(path)s"
+msgstr ""
+
+msgid "Raccourci"
+msgstr ""
+
+msgid "Raccourcis clavier"
+msgstr ""
+
+msgid "Raison"
+msgstr ""
+
+msgid "Rang sur l’étagère"
+msgstr ""
+
+msgid "Rangement"
+msgstr ""
+
+msgid "Rangement annulé"
+msgstr ""
+
+msgid "Rangement vérifié sur l’étagère"
+msgstr ""
+
+msgid "Ranger"
+msgstr ""
+
+msgid "Ranger en scannant"
+msgstr ""
+
+msgid "Ranger ici"
+msgstr ""
+
+msgid "Ranger la sélection…"
+msgstr ""
+
+msgid "Ranger, modifier les exemplaires"
+msgstr ""
+
+msgid "Ranger…"
+msgstr ""
+
+#, python-brace-format
+msgid "Rangé : {place}"
+msgstr ""
+
+#, python-brace-format
+msgid "Rangé : {s} ; la valeur d’origine reste en précision."
+msgstr ""
+
+msgid "Rappels notés"
+msgstr ""
+
+msgid "Rapport .xlsx"
+msgstr ""
+
+msgid "Rattachement à un foyer"
+msgstr ""
+
+msgid "Rattacher"
+msgstr ""
+
+#, python-brace-format
+msgid "Rattacher « {v} » à une collection existante"
+msgstr ""
+
+msgid "Rattacher à un foyer"
+msgstr ""
+
+msgid "Rattacher à un foyer ?"
+msgstr ""
+
+msgid "Recherche avancée"
+msgstr ""
+
+msgid "Recherche bibliographique"
+msgstr ""
+
+msgid "Recherche de couverture"
+msgstr ""
+
+msgid ""
+"Recherche en cours : quelques secondes, les sources sont interrogées une "
+"à une…"
+msgstr ""
+
+msgid "Recherche incomplète"
+msgstr ""
+
+msgid "Rechercher"
+msgstr ""
+
+msgid "Rechercher dans le catalogue"
+msgstr ""
+
+msgid "Rechercher un lecteur ou un foyer"
+msgstr ""
+
+msgid "Rechercher un livre, un lecteur, une page…"
+msgstr ""
+
+msgid "Rechercher une couverture"
+msgstr ""
+
+msgid "Rechercher une page ou une action"
+msgstr ""
+
+msgid "Rechercher une page, une action, une notice"
+msgstr ""
+
+msgid "Rechercher une page, une action, une notice…"
+msgstr ""
+
+msgid "Rechercher une page, une action…"
+msgstr ""
+
+msgid "Rechercher une page, une notice, un lecteur"
+msgstr ""
+
+msgid "Rechercher une page, une notice, un lecteur…"
+msgstr ""
+
+msgid "Recherches enregistrées"
+msgstr ""
+
+#, python-brace-format
+msgid "Recommandation {d}, non approuvée : changez-la ici si besoin."
+msgstr ""
+
+#, python-brace-format
+msgid "Recommandation, non appliquée : {s}"
+msgstr ""
+
+msgid "Reconnaître les colonnes automatiquement"
+msgstr ""
+
+msgid "Reconnue"
+msgstr ""
+
+msgid "Refusé :"
+msgstr ""
+
+msgid "Refusée"
+msgstr ""
+
+msgid "Regroupement en livres"
+msgstr ""
+
+msgid "Regrouper par série"
+msgstr ""
+
+msgid "Rejeter"
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"Rejoints sans être modifiés : {a} contributeurs, {p} éditeurs, {c} "
+"collections, {s} séries."
+msgstr ""
+
+msgid "Relation"
+msgstr ""
+
+msgid "Relation avec les enfants"
+msgstr ""
+
+msgid "Relation avec l’enfant"
+msgstr ""
+
+msgid ""
+"Relisez et corrigez chaque champ : rien n’est enregistré avant « Créer la"
+" notice ». Les champs gardés tels quels garderont leur provenance."
+msgstr ""
+
+msgid "Remarque"
+msgstr ""
+
+msgid "Remettre la carte"
+msgstr ""
+
+msgid "Remettre une carte"
+msgstr ""
+
+msgid "Remplacer"
+msgstr ""
+
+msgid "Remplacer : importer un fichier"
+msgstr ""
+
+msgid "Remplacer la couverture actuelle"
+msgstr ""
+
+msgid "Remplacer le lecteur"
+msgstr ""
+
+msgid "Remplacer ou retirer la carte"
+msgstr ""
+
+msgid "Remplacée"
+msgstr ""
+
+msgid "Remplie"
+msgstr ""
+
+msgid "Remplies"
+msgstr ""
+
+msgid "Rendre"
+msgstr ""
+
+msgid "Rendu"
+msgstr ""
+
+msgid "Rendu par"
+msgstr ""
+
+msgid "Renommer"
+msgstr ""
+
+msgid "Renouveler"
+msgstr ""
+
+msgid "Renouveler l’adhésion"
+msgstr ""
+
+msgid "Renouveler un prêt"
+msgstr ""
+
+msgid "Renouvellement"
+msgstr ""
+
+msgid "Renouvellements"
+msgstr ""
+
+msgid "Renouvelé"
+msgstr ""
+
+msgid "Renouvelé à l’instant :"
+msgstr ""
+
+msgid ""
+"Renseignez d’abord l’adresse de contact : cette source demande qu’on "
+"puisse joindre la bibliothèque. Sans elle, la source reste désactivée."
+msgstr ""
+
+msgid "Reprendre ce lecteur"
+msgstr ""
+
+msgid "Repris tel quel, jamais réattribué."
+msgstr ""
+
+msgid "Représentation"
+msgstr ""
+
+msgid "Repères"
+msgstr ""
+
+msgid "Requête refusée par la source"
+msgstr ""
+
+msgid "Responsable"
+msgstr ""
+
+msgid "Responsable (facultatif)"
+msgstr ""
+
+msgid "Responsable ajouté"
+msgstr ""
+
+msgid "Responsable de"
+msgstr ""
+
+msgid "Responsable retiré"
+msgstr ""
+
+msgid "Responsable à renseigner"
+msgstr ""
+
+msgid "Responsable à renseigner : aucun prêt n’est possible pour cet enfant."
+msgstr ""
+
+msgid ""
+"Responsable à renseigner : ni adulte habilité et joignable, ni "
+"autorisation utilisable d’emprunter seul. Aucun prêt n’est possible pour "
+"cet enfant."
+msgstr ""
+
+msgid "Responsables"
+msgstr ""
+
+msgid ""
+"Restent : le numéro de lecteur sans personne derrière, la catégorie et "
+"les dates, pour les statistiques. Les numéros de carte restent réservés, "
+"sans lien avec la fiche."
+msgstr ""
+
+msgid "Retapez le numéro de lecteur permanent"
+msgstr ""
+
+msgid "Retards à suivre"
+msgstr ""
+
+msgid "Retirer"
+msgstr ""
+
+msgid "Retirer (désherber), déclarer perdu"
+msgstr ""
+
+msgid "Retirer ce filtre"
+msgstr ""
+
+msgid "Retirer ce responsable"
+msgstr ""
+
+msgid "Retirer cette notice ?"
+msgstr ""
+
+msgid "Retirer de ce foyer"
+msgstr ""
+
+msgid "Retirer de la sélection"
+msgstr ""
+
+msgid "Retirer de sa place"
+msgstr ""
+
+msgid "Retirer du fonds"
+msgstr ""
+
+msgid "Retirer du foyer"
+msgstr ""
+
+msgid "Retirer le logo"
+msgstr ""
+
+msgid "Retirer sans remplacer"
+msgstr ""
+
+msgid "Retiré"
+msgstr ""
+
+#, python-format
+msgid "Retiré le %(date)s : %(reason)s"
+msgstr ""
+
+msgid "Retour"
+msgstr ""
+
+msgid "Retour annulé : le prêt court à nouveau."
+msgstr ""
+
+msgid "Retour au tableau de bord"
+msgstr ""
+
+msgid "Retour aux résultats"
+msgstr ""
+
+msgid "Retour enregistré"
+msgstr ""
+
+#, python-brace-format
+msgid "Retour enregistré : « {title} ». À ranger : {where}."
+msgstr ""
+
+msgid "Retour promis"
+msgstr ""
+
+msgid "Retour rapide"
+msgstr ""
+
+msgid "Retour à la fiche"
+msgstr ""
+
+msgid "Retour à la liste"
+msgstr ""
+
+msgid "Retour à la notice"
+msgstr ""
+
+msgid "Retour à la recherche"
+msgstr ""
+
+msgid "Retour à l’accueil"
+msgstr ""
+
+msgid "Retours et renouvellements au comptoir"
+msgstr ""
+
+msgid "Revenir au catalogue"
+msgstr ""
+
+msgid "Revenir au livre"
+msgstr ""
+
+msgid "Revenir aux choix"
+msgstr ""
+
+#, python-format
+msgid "Revenir à « %(title)s »"
+msgstr ""
+
+#, python-format
+msgid "Revenir à « %(title)s » sans prêter"
+msgstr ""
+
+msgid "Rien dans cette vue"
+msgstr ""
+
+msgid "Rien n’a changé : ces exemplaires sont déjà à cette place."
+msgstr ""
+
+msgid "Rien n’a changé : l’exemplaire est déjà à cette place."
+msgstr ""
+
+msgid "Rien n’a changé sur cette fiche."
+msgstr ""
+
+msgid ""
+"Rien n’est effacé : biblyO ne fournit aucune commande d’effacement à ce "
+"stade. Un effacement demandera une décision écrite. Les sauvegardes déjà "
+"faites ne sont jamais modifiées. Ce n’est pas un avis juridique."
+msgstr ""
+
+msgid "Rien n’est envoyé d’ici"
+msgstr ""
+
+msgid "Rien pour l’instant."
+msgstr ""
+
+msgid "Rien à afficher ici pour l’instant."
+msgstr ""
+
+msgid "Rien à comparer."
+msgstr ""
+
+msgid "Rien à prêter pour l’instant"
+msgstr ""
+
+msgid "Rien à ranger ici"
+msgstr ""
+
+msgid "Rien à traiter."
+msgstr ""
+
+msgid "Rubrique"
+msgstr ""
+
+msgid "Règle"
+msgstr ""
+
+msgid "Règles appliquées"
+msgstr ""
+
+msgid "Règles de prêt"
+msgstr ""
+
+msgid "Règles de prêt, renouvellement et retard"
+msgstr ""
+
+msgid "Réactivation"
+msgstr ""
+
+msgid "Réactiver"
+msgstr ""
+
+msgid "Récapitulatif"
+msgstr ""
+
+msgid "Récolement du fonds, rayon par rayon."
+msgstr ""
+
+msgid "Réconciliation"
+msgstr ""
+
+msgid "Réconciliation des totaux"
+msgstr ""
+
+msgid "Réconciliation, vérifiée avant la validation"
+msgstr ""
+
+msgid "Récupéré le"
+msgstr ""
+
+msgid "Récupérée le"
+msgstr ""
+
+msgid "Référence"
+msgstr ""
+
+msgid "Référence de l’image"
+msgstr ""
+
+msgid "Référent"
+msgstr ""
+
+msgid "Référents et membres"
+msgstr ""
+
+msgid "Réglage"
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"Réglages provisoires ({d}) : recommandations non approuvées, à valider "
+"avant l'application."
+msgstr ""
+
+msgid "Régler les durées, les plafonds et les seuils"
+msgstr ""
+
+msgid "Régler les prêts"
+msgstr ""
+
+msgid "Régler l’instance"
+msgstr ""
+
+msgid "Réinitialiser le mot de passe"
+msgstr ""
+
+msgid "Réintégrer"
+msgstr ""
+
+msgid "Répartition :"
+msgstr ""
+
+msgid "Répond de"
+msgstr ""
+
+#, python-brace-format
+msgid "Répond du prêt : {name}"
+msgstr ""
+
+msgid "Réponse illisible"
+msgstr ""
+
+msgid ""
+"Réservé à un exemplaire créé par erreur. Ses codes ne seront jamais "
+"réattribués."
+msgstr ""
+
+msgid "Résultat"
+msgstr ""
+
+msgid ""
+"Résultat ambigu : plusieurs éditions sont possibles. Confirmez l’édition "
+"sur le livre avant de continuer."
+msgstr ""
+
+msgid "Résultat ligne par ligne"
+msgstr ""
+
+msgid "Résultats"
+msgstr ""
+
+msgid "Résumé"
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"Résumé fourni par {provider} : conditions de réutilisation à vérifier, "
+"texte non copié."
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"Résumé fourni par {provider} : non repris, ses conditions de "
+"réutilisation sont à vérifier."
+msgstr ""
+
+msgid "Rétablir"
+msgstr ""
+
+msgid "Rétablir la couverture précédente"
+msgstr ""
+
+msgid "Rétablir les champs cochés"
+msgstr ""
+
+#, python-brace-format
+msgid "Rétablir {label}"
+msgstr ""
+
+msgid "Révision attendue :"
+msgstr ""
+
+msgid "Révision de la base :"
+msgstr ""
+
+msgid "Révision du schéma"
+msgstr ""
+
+msgid "Révoquée"
+msgstr ""
+
+msgid "Rôle"
+msgstr ""
+
+msgid "Rôle dans ce foyer"
+msgstr ""
+
+msgid "Rôle dans un foyer modifié"
+msgstr ""
+
+#, python-brace-format
+msgid "Rôle de {name}"
+msgstr ""
+
+msgid "Rôle inconnu."
+msgstr ""
+
+msgid "Rôle à préciser pour tous"
+msgstr ""
+
+msgid "Rôles"
+msgstr ""
+
+msgid "Rôles des contributeurs"
+msgstr ""
+
+msgid "Sa place l’attend"
+msgstr ""
+
+msgid "Saint-Pierre-et-Miquelon"
+msgstr ""
+
+msgid "Saisie différée"
+msgstr ""
+
+msgid "Saisie manuelle"
+msgstr ""
+
+msgid ""
+"Saisissez, vérifiez, puis enregistrez : rien n’est écrit avant la "
+"dernière étape."
+msgstr ""
+
+msgid "Salle"
+msgstr ""
+
+msgid "Samedi"
+msgstr ""
+
+msgid "Sans ISBN"
+msgstr ""
+
+msgid ""
+"Sans adulte au comptoir. Ce responsable doit accepter d’être contacté et "
+"avoir une coordonnée utilisable."
+msgstr ""
+
+msgid "Sans auteur"
+msgstr ""
+
+msgid "Sans carte"
+msgstr ""
+
+msgid ""
+"Sans cette case, et hors correspondance exacte, l’ISBN reste proposé : il"
+" n’entre ni dans la recherche ni dans les doublons."
+msgstr ""
+
+msgid ""
+"Sans cette case, l’ISBN n’est pas prérempli : il reste proposé, à "
+"vérifier."
+msgstr ""
+
+msgid "Sans code : chercher le livre rendu"
+msgstr ""
+
+msgid "Sans couverture"
+msgstr ""
+
+msgid "Sans exemplaire"
+msgstr ""
+
+msgid "Sans image, un visuel de remplacement reprend le titre et la série."
+msgstr ""
+
+msgid "Sans lien"
+msgstr ""
+
+msgid "Sans place"
+msgstr ""
+
+msgid "Sans place : rangez-le d’abord."
+msgstr ""
+
+msgid "Sans place attribuée"
+msgstr ""
+
+msgid "Sans place jusqu’ici"
+msgstr ""
+
+msgid "Sans remarque"
+msgstr ""
+
+msgid ""
+"Sans responsable, la fiche affichera « Responsable à renseigner ». Aucun "
+"prêt ne sera possible tant qu’un adulte habilité et joignable n’y "
+"figurera pas."
+msgstr ""
+
+msgid "Sans résumé"
+msgstr ""
+
+msgid "Sans section parente"
+msgstr ""
+
+msgid "Sauvegarde créée et vérifiée."
+msgstr ""
+
+#, python-brace-format
+msgid "Sauvegarde impossible : rien n'est écrit. {e}"
+msgstr ""
+
+#, python-brace-format
+msgid "Sauvegarde invalide : {e}"
+msgstr ""
+
+msgid "Sauvegarde prise avant"
+msgstr ""
+
+msgid "Sauvegarder"
+msgstr ""
+
+msgid "Sauvegardes"
+msgstr ""
+
+msgid "Sauvegardes antérieures."
+msgstr ""
+
+msgid "Sauvegardes et restauration"
+msgstr ""
+
+msgid "Scanner"
+msgstr ""
+
+msgid "Scanner une carte ou un livre"
+msgstr ""
+
+msgid "Scannez ou saisissez un code."
+msgstr ""
+
+msgid "Scannez une carte pour choisir le lecteur."
+msgstr ""
+
+msgid "Score"
+msgstr ""
+
+#, python-brace-format
+msgid "Score {n} sur 100"
+msgstr ""
+
+#, python-brace-format
+msgid "Score {score}, base de preuve {evidence}"
+msgstr ""
+
+msgid "Scénariste"
+msgstr ""
+
+msgid "Se connecter"
+msgstr ""
+
+msgid "Se déconnecter"
+msgstr ""
+
+msgid "Second"
+msgstr ""
+
+msgid "Secondaire"
+msgstr ""
+
+msgid "Section"
+msgstr ""
+
+msgid "Section parente"
+msgstr ""
+
+msgid "Section principale"
+msgstr ""
+
+msgid "Sections"
+msgstr ""
+
+msgid ""
+"Service Couvertures du catalogue général, selon les conditions de "
+"réutilisation des données de la BnF."
+msgstr ""
+
+msgid ""
+"Service de couvertures indisponible : réessayez plus tard. Les autres "
+"champs restent applicables."
+msgstr ""
+
+msgid "Sessions ouvertes"
+msgstr ""
+
+msgid "Seuil de retards qui demande une dérogation"
+msgstr ""
+
+msgid "Seul"
+msgstr ""
+
+msgid ""
+"Seul un exemplaire rangé et « En préparation » peut être confirmé en "
+"place."
+msgstr ""
+
+msgid "Seul un meuble se place sur le plan d’une salle."
+msgstr ""
+
+msgid "Seul un mineur a des responsables."
+msgstr ""
+
+msgid ""
+"Seule une valeur qui est déjà un état de biblyO (« usé ») est rangée "
+"d’office. Une valeur ambiguë reste « Non renseigné » : la recommandation "
+"est indiquée, à choisir ici si vous l’approuvez."
+msgstr ""
+
+msgid "Seulement s’il diffère du titre de l’œuvre."
+msgstr ""
+
+msgid "Seules les adresses en https:// sont acceptées."
+msgstr ""
+
+msgid "Seuls les exemplaires d’une étagère ou d’un bac ont un ordre."
+msgstr ""
+
+msgid "Si « Autre motif » : sans nom, coordonnée ni numéro"
+msgstr ""
+
+msgid "Signalement"
+msgstr ""
+
+msgid "Signalements"
+msgstr ""
+
+msgid "Signalements et propositions"
+msgstr ""
+
+msgid "Signalé"
+msgstr ""
+
+msgid "Signalé à la lecture"
+msgstr ""
+
+msgid "Simulation"
+msgstr ""
+
+msgid "Simulation de l’import"
+msgstr ""
+
+msgid "Simuler un import"
+msgstr ""
+
+msgid "Simuler un import, exporter"
+msgstr ""
+
+msgid "Simulé"
+msgstr ""
+
+msgid "Site"
+msgstr ""
+
+msgid "Sites, salles, meubles et étagères"
+msgstr ""
+
+msgid ""
+"Six chiffres : Saint-Pierre-et-Miquelon, Wallis-et-Futuna ou Nouvelle-"
+"Calédonie ? Choisissez."
+msgstr ""
+
+msgid "Son courriel"
+msgstr ""
+
+msgid "Son nom"
+msgstr ""
+
+msgid "Son prénom"
+msgstr ""
+
+msgid "Son téléphone"
+msgstr ""
+
+msgid ""
+"Sont listés les livres en plusieurs exemplaires et ceux qui portent une "
+"proposition ; le rapport .xlsx les donne tous."
+msgstr ""
+
+msgid "Sorte"
+msgstr ""
+
+msgid "Sorti"
+msgstr ""
+
+msgid "Sorti : garde sa place"
+msgstr ""
+
+msgid "Sorti : toujours dans la collection"
+msgstr ""
+
+msgid "Sorti, en retard"
+msgstr ""
+
+#, python-brace-format
+msgid "Sorti, en retard : retour prévu le {day}"
+msgstr ""
+
+#, python-brace-format
+msgid "Sorti, retour le {day}"
+msgstr ""
+
+msgid "Source"
+msgstr ""
+
+msgid "Source et empreintes"
+msgstr ""
+
+msgid "Source et remarque"
+msgstr ""
+
+msgid "Source, facultatif"
+msgstr ""
+
+msgid "Sources"
+msgstr ""
+
+msgid "Sources bibliographiques"
+msgstr ""
+
+msgid "Sources interrogées"
+msgstr ""
+
+msgid "Sous-titre"
+msgstr ""
+
+msgid "Statistiques"
+msgstr ""
+
+msgid "Statut"
+msgstr ""
+
+#, python-brace-format
+msgid "Statut : {h}"
+msgstr ""
+
+msgid "Statut physique"
+msgstr ""
+
+msgid "Structure"
+msgstr ""
+
+msgid "Sudoc"
+msgstr ""
+
+msgid "Sudoc (Abes)"
+msgstr ""
+
+msgid "Suivante"
+msgstr ""
+
+msgid "Supprimer"
+msgstr ""
+
+msgid "Supprimer aussi ce qu’il contient (lieux vides)"
+msgstr ""
+
+msgid "Supprimer ce lieu"
+msgstr ""
+
+msgid "Supprimer cet exemplaire ?"
+msgstr ""
+
+msgid "Supprimer cette édition ?"
+msgstr ""
+
+msgid "Supprimer définitivement"
+msgstr ""
+
+msgid "Supprimer la couverture"
+msgstr ""
+
+msgid "Supprimer la couverture ?"
+msgstr ""
+
+msgid "Supprimer la recherche"
+msgstr ""
+
+msgid "Supprimer la règle"
+msgstr ""
+
+msgid "Supprimer la série"
+msgstr ""
+
+msgid "Supprimer le profil"
+msgstr ""
+
+msgid "Suspendre"
+msgstr ""
+
+msgid "Suspendre, archiver, réactiver"
+msgstr ""
+
+msgid "Suspendu"
+msgstr ""
+
+msgid "Suspension"
+msgstr ""
+
+msgid "Synthèse"
+msgstr ""
+
+msgid "Sélecteur de lecteur"
+msgstr ""
+
+msgid "Sélection"
+msgstr ""
+
+#, python-format
+msgid "Sélectionner %(title)s"
+msgstr ""
+
+msgid "Séparation des noms"
+msgstr ""
+
+msgid "Séparées par des virgules."
+msgstr ""
+
+msgid "Séparés par des virgules."
+msgstr ""
+
+msgid "Série"
+msgstr ""
+
+msgid "Série comprise"
+msgstr ""
+
+#, python-brace-format
+msgid "Série contradictoire : {theirs}"
+msgstr ""
+
+msgid "Série et tome"
+msgstr ""
+
+msgid "Série existante"
+msgstr ""
+
+msgid "Série puis tome"
+msgstr ""
+
+msgid "Série renommée ou changée dans biblyO"
+msgstr ""
+
+msgid "Série, ou titre de l'album isolé"
+msgstr ""
+
+msgid "Séries"
+msgstr ""
+
+msgid "Séries & collections"
+msgstr ""
+
+msgid "Séries créées"
+msgstr ""
+
+msgid "Séries incomplètes"
+msgstr ""
+
+msgid "Séries prévues"
+msgstr ""
+
+msgid "Tableau de bord"
+msgstr ""
+
+msgid "Taille de la base"
+msgstr ""
+
+msgid ""
+"Tapez un nom, ou scannez une carte puis Entrée. Interroge les vraies "
+"fiches."
+msgstr ""
+
+msgid "Terminer"
+msgstr ""
+
+msgid "Terminer l’installation"
+msgstr ""
+
+msgid "Terminé"
+msgstr ""
+
+msgid "Terminée"
+msgstr ""
+
+msgid "Territoire inconnu."
+msgstr ""
+
+msgid "Tester la connexion"
+msgstr ""
+
+msgid "Texte d’aide"
+msgstr ""
+
+msgid "Titre"
+msgstr ""
+
+msgid "Titre A→Z"
+msgstr ""
+
+#, python-brace-format
+msgid "Titre aussi porté par la série {ref} (« {t} ») : rattachement à vérifier."
+msgstr ""
+
+msgid "Titre compris"
+msgstr ""
+
+#, python-brace-format
+msgid "Titre construit : « {t} »."
+msgstr ""
+
+msgid "Titre de cette édition"
+msgstr ""
+
+msgid "Titre de l'album"
+msgstr ""
+
+msgid "Titre de la série"
+msgstr ""
+
+#, python-brace-format
+msgid "Titre de la série, même livre : « {series} »"
+msgstr ""
+
+#, python-brace-format
+msgid "Titre différent : « {theirs} »"
+msgstr ""
+
+msgid "Titre du livre"
+msgstr ""
+
+msgid ""
+"Titre exact conservé ; un titre à article inversé reçoit en plus une "
+"forme de recherche."
+msgstr ""
+
+msgid "Titre exact conservé."
+msgstr ""
+
+msgid "Titre gardé"
+msgstr ""
+
+msgid "Titre identique"
+msgstr ""
+
+msgid "Titre manifestement différent"
+msgstr ""
+
+msgid "Titre modifié dans biblyO"
+msgstr ""
+
+msgid "Titre original"
+msgstr ""
+
+msgid "Titre proche"
+msgstr ""
+
+msgid "Titre seulement cohérent"
+msgstr ""
+
+msgid ""
+"Titre terminé par un complément entre parenthèses : gardé tel quel, forme"
+" de recherche proposée"
+msgstr ""
+
+msgid "Titre très proche"
+msgstr ""
+
+msgid ""
+"Titre à article inversé : affiché dans l'ordre naturel, forme d'origine "
+"gardée et exportée"
+msgstr ""
+
+msgid "Titre, auteur, ISBN, éditeur, série, cote, mot-clé…"
+msgstr ""
+
+msgid "Titre, auteur, série, tome, ISBN, cote ou code"
+msgstr ""
+
+msgid "Titre, code d’exemplaire ou nom du lecteur"
+msgstr ""
+
+msgid "Titre, série, inventaire ou cote"
+msgstr ""
+
+msgid "Titres"
+msgstr ""
+
+msgid "Titres et séries"
+msgstr ""
+
+msgid "Titres à article inversé (lignes)"
+msgstr ""
+
+msgid "Tome"
+msgstr ""
+
+msgid "Tome atypique : valeur gardée, aucun numéro choisi"
+msgstr ""
+
+msgid "Tome atypique conservé tel quel : aucun numéro n'est choisi."
+msgstr ""
+
+msgid "Tome compris"
+msgstr ""
+
+#, python-brace-format
+msgid "Tome différent : {mine} contre {theirs}"
+msgstr ""
+
+msgid "Tome manquant confirmé"
+msgstr ""
+
+msgid "Tome modifié dans biblyO"
+msgstr ""
+
+msgid "Tome non renseigné par la source"
+msgstr ""
+
+#, python-brace-format
+msgid "Tome {label} : manquant confirmé"
+msgstr ""
+
+#, python-brace-format
+msgid "Tome {label} : présent"
+msgstr ""
+
+#, python-brace-format
+msgid "Tome {label} : présent, tous ses exemplaires sont sortis"
+msgstr ""
+
+#, python-brace-format
+msgid "Tome {label} : {count} notices"
+msgstr ""
+
+#, python-brace-format
+msgid "Tome {label} : à vérifier, sa parution n’est pas confirmée"
+msgstr ""
+
+#, python-brace-format
+msgid "Tome {number} identique"
+msgstr ""
+
+#, python-brace-format
+msgid "Tome « {v} » gardé tel quel."
+msgstr ""
+
+msgid "Tomes de"
+msgstr ""
+
+msgid "Tous"
+msgstr ""
+
+msgid "Tous les champs clés sont renseignés."
+msgstr ""
+
+msgid "Tous les dépôts"
+msgstr ""
+
+msgid "Tous les lecteurs"
+msgstr ""
+
+msgid "Tous les prêts"
+msgstr ""
+
+msgid "Tous les signalements"
+msgstr ""
+
+msgid "Tous sortis, en retard"
+msgstr ""
+
+msgid "Tout décocher"
+msgstr ""
+
+msgid "Tout est rangé"
+msgstr ""
+
+msgid "Tout le foyer en une saisie. Rien n’est écrit avant la dernière étape."
+msgstr ""
+
+msgid "Tout l’historique de ses prêts"
+msgstr ""
+
+msgid "Tout public"
+msgstr ""
+
+msgid "Tout voir"
+msgstr ""
+
+msgid "Toutes"
+msgstr ""
+
+msgid ""
+"Toutes les données du catalogue, avec leurs identifiants stables et leur "
+"provenance : œuvres, séries, éditions, exemplaires, cotes, emplacements, "
+"contributeurs, éditeurs, collections, propositions, lots et lignes "
+"d’import (colonnes d’origine comprises). Ni lecteurs, ni prêts, ni "
+"comptes."
+msgstr ""
+
+msgid "Toutes les gravités"
+msgstr ""
+
+msgid "Toutes les pages"
+msgstr ""
+
+msgid "Traducteur"
+msgstr ""
+
+msgid "Transformées"
+msgstr ""
+
+msgid ""
+"Transmettez-le à la personne concernée. Il ne sera plus affiché, et devra"
+" être changé à la première connexion."
+msgstr ""
+
+msgid "Travail"
+msgstr ""
+
+msgid "Trier"
+msgstr ""
+
+#, python-format
+msgid "Trier %(name)s"
+msgstr ""
+
+msgid "Trop de recherches de lecteurs en peu de temps. Patientez une minute."
+msgstr ""
+
+msgid "Trop de recherches en une minute : patientez un instant avant de relancer."
+msgstr ""
+
+msgid "Trop de recherches en une minute : patientez un instant."
+msgstr ""
+
+msgid "Trop de redirections : l’image n’a pas été récupérée."
+msgstr ""
+
+msgid "Trop de requêtes : la source demande une pause"
+msgstr ""
+
+msgid "Trop de tentatives. Réessayez dans quelques minutes."
+msgstr ""
+
+msgid "Trop lente : délai dépassé"
+msgstr ""
+
+msgid "Trouver les exemplaires"
+msgstr ""
+
+msgid "Tuteur légal"
+msgstr ""
+
+msgid "Type"
+msgstr ""
+
+msgid "Type de document"
+msgstr ""
+
+#, python-brace-format
+msgid "Type de document inconnu : {code}."
+msgstr ""
+
+msgid "Type de lieu"
+msgstr ""
+
+msgid "Type de tri"
+msgstr ""
+
+msgid "Type d’ajout"
+msgstr ""
+
+msgid "Types de document"
+msgstr ""
+
+#, python-brace-format
+msgid "Types mêlés ({kinds}) : le texte affiché est gardé."
+msgstr ""
+
+msgid "Télécharger et voir l’aperçu"
+msgstr ""
+
+msgid "Télécharger le fichier"
+msgstr ""
+
+msgid ""
+"Téléchargée par biblyO, en https seulement, depuis un site public. Une "
+"image accessible n’est pas libre pour autant."
+msgstr ""
+
+msgid "Téléphone"
+msgstr ""
+
+msgid ""
+"Un ISBN n'est confirmé que si l'édition est établie ; sinon il reste "
+"proposé."
+msgstr ""
+
+msgid ""
+"Un ISBN proposé n’entre ni dans la recherche, ni dans le contrôle des "
+"doublons, ni dans un export : il attend d’être vérifié sur le livre."
+msgstr ""
+
+msgid ""
+"Un ISBN seul n'identifie pas une édition ; deux lignes semblables ne "
+"prouvent pas un doublon physique."
+msgstr ""
+
+msgid "Un adulte emprunte pour l’enfant"
+msgstr ""
+
+msgid "Un adulte l’accompagne et emprunte pour lui"
+msgstr ""
+
+msgid "Un blocage empêche ce prêt : il est indiqué plus haut."
+msgstr ""
+
+msgid ""
+"Un code de la séquence pour chaque exemplaire qui n’en a pas ; rien n’est"
+" imprimé"
+msgstr ""
+
+msgid "Un code postal français compte cinq chiffres."
+msgstr ""
+
+msgid ""
+"Un code-barres et une cote sont attribués à chaque exemplaire. Ils "
+"restent modifiables depuis sa fiche."
+msgstr ""
+
+msgid "Un compte désactivé ne peut plus se connecter ; ses sessions sont fermées."
+msgstr ""
+
+#, python-brace-format
+msgid "Un emplacement de type « {kind} » se place sous : {allowed}."
+msgstr ""
+
+msgid ""
+"Un emplacement ne peut pas être placé à l’intérieur de lui-même ou de ses"
+" descendants."
+msgstr ""
+
+msgid "Un emplacement porte déjà ce nom à cet endroit : renommez-le d’abord."
+msgstr ""
+
+msgid "Un emplacement porte déjà ce nom à cet endroit."
+msgstr ""
+
+msgid "Un exemplaire figure deux fois dans la sélection."
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"Un exemplaire se range sur une étagère, dans un bac ou dans un lieu "
+"virtuel, pas dans « {name} »."
+msgstr ""
+
+msgid ""
+"Un foyer ne s’archive que s’il n’a plus de membres. Rien n’est jamais "
+"supprimé."
+msgstr ""
+
+msgid "Un import est déjà en cours d'application : attendez qu'il se termine."
+msgstr ""
+
+msgid "Un lecteur anonymisé ne peut pas être responsable."
+msgstr ""
+
+msgid "Un lieu virtuel n’a pas de rang : rangez sans position."
+msgstr ""
+
+msgid ""
+"Un mineur n’a pas de coordonnées propres : il se joint par ses "
+"responsables autorisés à être contactés."
+msgstr ""
+
+msgid ""
+"Un mineur n’a pas de coordonnées propres : renseignez celles de son "
+"responsable."
+msgstr ""
+
+msgid ""
+"Un mineur n’a pas de coordonnées propres : renseignez-les sur son "
+"responsable."
+msgstr ""
+
+msgid "Un mineur n’a pas de coordonnées propres. L’année de naissance suffit."
+msgstr ""
+
+msgid ""
+"Un mineur se joint par ses responsables autorisés à être contactés, eux "
+"seuls."
+msgstr ""
+
+msgid "Un mot de passe provisoire sera généré."
+msgstr ""
+
+msgid "Un même exemplaire figure deux fois dans la liste."
+msgstr ""
+
+msgid "Un numéro de carte compte de 3 à 32 lettres, chiffres ou tirets."
+msgstr ""
+
+#, python-brace-format
+msgid "Un numéro de {label} compte {n} chiffres après +{code}."
+msgstr ""
+
+#, python-brace-format
+msgid "Un numéro de {label} compte {n} chiffres."
+msgstr ""
+
+msgid "Un numéro français compte neuf chiffres après +33 : +33 6 12 34 56 78."
+msgstr ""
+
+msgid "Un numéro international compte de 8 à 15 chiffres, indicatif compris."
+msgstr ""
+
+msgid "Un numéro ne contient que des chiffres, et éventuellement + au début."
+msgstr ""
+
+msgid "Un numéro sera attribué à l’enregistrement"
+msgstr ""
+
+#, python-format
+msgid "Un prêt était en préparation pour %(name)s"
+msgstr ""
+
+msgid "Un rappel ne peut pas être daté du futur."
+msgstr ""
+
+msgid "Un responsable doit être un adulte actif."
+msgstr ""
+
+msgid "Un responsable doit être un adulte."
+msgstr ""
+
+msgid "Un référent est un adulte."
+msgstr ""
+
+msgid ""
+"Un scan était en cours : rien n’a été enregistré. Vérifiez la liste, puis"
+" recommencez."
+msgstr ""
+
+msgid "Un tome atypique est gardé tel quel, sans numéro choisi."
+msgstr ""
+
+msgid ""
+"Un tome confirmé et absent du fonds est compté comme manquant. Sans "
+"confirmation, un numéro absent reste « à vérifier »."
+msgstr ""
+
+msgid "Une adresse demande au moins la rue et la commune."
+msgstr ""
+
+msgid ""
+"Une autre version du même catalogue, par exemple enrichie. Elle ne fait "
+"pas foi : ses écarts deviennent des différences de version, ses valeurs "
+"ajoutées des propositions."
+msgstr ""
+
+msgid ""
+"Une case cochée écrase la valeur actuelle par la valeur d’avant "
+"l’enrichissement. Sans case, la valeur actuelle reste."
+msgstr ""
+
+msgid "Une cote n'est jamais une clé : deux livres peuvent la partager."
+msgstr ""
+
+msgid ""
+"Une cote n’est jamais une clé : ces livres restent distincts, avec leur "
+"cote d’origine."
+msgstr ""
+
+msgid ""
+"Une couverture appartient à une édition : elle n’est jamais posée sur les"
+" autres éditions ni sur un autre livre du même titre."
+msgstr ""
+
+msgid "Une date de prêt ne peut pas être dans le futur."
+msgstr ""
+
+msgid "Une date floue reste ici, telle quelle."
+msgstr ""
+
+msgid "Une erreur est survenue"
+msgstr ""
+
+msgid "Une famille ou une structure apparaît ici dès qu’elle est créée."
+msgstr ""
+
+msgid ""
+"Une fiche archivée porte aussi ce nom. Votre compte ne peut pas l’ouvrir "
+": demandez à un bibliothécaire de vérifier."
+msgstr ""
+
+msgid ""
+"Une image trouvée sur Internet n’est pas libre pour autant. Cette origine"
+" est conservée avec l’image et affichée dans ses crédits."
+msgstr ""
+
+msgid "Une ligne d’adresse est trop longue."
+msgstr ""
+
+msgid ""
+"Une mise en conservation est active : levez-la d’abord, si elle n’a plus "
+"lieu d’être."
+msgstr ""
+
+msgid ""
+"Une notice décrit l’œuvre et sa première édition. Vous pourrez ensuite "
+"ajouter d’autres éditions et des exemplaires."
+msgstr ""
+
+msgid ""
+"Une opération ultérieure dépend de celle-ci : elle ne s’annule plus. "
+"Demandez une correction tracée."
+msgstr ""
+
+msgid "Une personne apparaît ici dès qu’elle est rattachée à une notice."
+msgstr ""
+
+msgid "Une personne ne peut pas être son propre responsable."
+msgstr ""
+
+msgid "Une personne porte déjà ce nom"
+msgstr ""
+
+msgid ""
+"Une personne porte déjà ce nom : confirmez qu’il s’agit d’une autre "
+"personne."
+msgstr ""
+
+msgid ""
+"Une personne porte déjà l’un de ces noms : confirmez qu’il s’agit "
+"d’autres personnes."
+msgstr ""
+
+msgid ""
+"Une proposition n’est jamais un fait : elle se confirme ou se rejette "
+"livre en main, après l’import."
+msgstr ""
+
+msgid "Une règle existe déjà pour cette portée : modifiez-la dans le tableau."
+msgstr ""
+
+msgid ""
+"Une sauvegarde n’est publiée qu’après vérification (archive, empreintes, "
+"intégrité de la base). La restauration se fait sur le serveur, service "
+"arrêté : biblyo backup restore <archive>. L’état remplacé est gardé à "
+"côté, jamais effacé."
+msgstr ""
+
+msgid "Une section ne peut pas être fusionnée dans une de ses sous-sections."
+msgstr ""
+
+msgid ""
+"Une source n’a pas répondu : rien ne permet de dire qu’il n’existe aucune"
+" notice. Réessayez plus tard, ou relancez avec « Actualiser »."
+msgstr ""
+
+msgid ""
+"Une source n’a pas répondu : rien ne permet de dire qu’il n’existe aucune"
+" notice. Réessayez plus tard."
+msgstr ""
+
+msgid "Une structure emprunte par un adulte."
+msgstr ""
+
+msgid ""
+"Une structure ne s’archive que si elle n’a plus de membres. Rien n’est "
+"jamais supprimé."
+msgstr ""
+
+msgid ""
+"Une structure n’est pas une personne. Être référent ou membre ne donne "
+"aucun droit sur un mineur : ces droits se donnent lien par lien."
+msgstr ""
+
+msgid "Une série apparaît ici dès qu’une notice lui est rattachée."
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"Une série porte déjà ce titre. Distinguez-la, par exemple « {titre} (2e "
+"série) »."
+msgstr ""
+
+msgid ""
+"Une valeur rangée en mention ou en note garde son texte d’origine, "
+"restitué à l’export."
+msgstr ""
+
+msgid "Une échéance ce jour-là est signalée, sans être déplacée."
+msgstr ""
+
+msgid ""
+"Une école, un centre de loisirs, une association : elle n’est pas une "
+"personne et ses référents sont des adultes inscrits."
+msgstr ""
+
+msgid "Une édition archivée ne peut pas être l’édition principale."
+msgstr ""
+
+msgid "Unique, jamais réattribué."
+msgstr ""
+
+msgid "Usé"
+msgstr ""
+
+msgid ""
+"Utiles au service seulement : jamais de donnée sensible (santé, religion,"
+" opinions…)."
+msgstr ""
+
+msgid "Utiles au service seulement : jamais de donnée sensible."
+msgstr ""
+
+msgid "Utilisateurs"
+msgstr ""
+
+msgid "Utilisé par"
+msgstr ""
+
+msgid "Valeur"
+msgstr ""
+
+msgid "Valeur actuelle"
+msgstr ""
+
+msgid "Valeur d'origine"
+msgstr ""
+
+msgid ""
+"Valeur d'origine sans état de biblyO : gardée en précision, état à "
+"établir livre en main."
+msgstr ""
+
+msgid "Valeur différente du fichier principal"
+msgstr ""
+
+msgid "Valeur d’origine"
+msgstr ""
+
+msgid "Valeur exportée"
+msgstr ""
+
+msgid "Valeur proposée"
+msgstr ""
+
+msgid "Valeur qui serait rétablie"
+msgstr ""
+
+msgid "Valeurs brutes gardées"
+msgstr ""
+
+msgid "Valeurs d’origine"
+msgstr ""
+
+msgid "Valeurs en double : chaque doublon sera refusé à la simulation."
+msgstr ""
+
+msgid "Validées le 13 novembre 2026"
+msgstr ""
+
+msgid "Vendredi"
+msgstr ""
+
+#, python-format
+msgid "Vers %(path)s"
+msgstr ""
+
+msgid "Version"
+msgstr ""
+
+msgid "Vide : désactivé. Les retards restent toujours affichés au comptoir."
+msgstr ""
+
+msgid "Vide : le même que le code-barres."
+msgstr ""
+
+msgid "Vide : à la fin. Les exemplaires suivants se décalent, aucun n’est écrasé."
+msgstr ""
+
+msgid "Vide : à la fin. Les exemplaires suivants se décalent."
+msgstr ""
+
+msgid "Vide."
+msgstr ""
+
+msgid "Vider le cache"
+msgstr ""
+
+msgid ""
+"Voici la fiche telle qu’elle sera après confirmation. Rien n’est encore "
+"écrit."
+msgstr ""
+
+msgid "Voir"
+msgstr ""
+
+#, python-format
+msgid "Voir %(n)s autres lecteurs"
+msgstr ""
+
+msgid "Voir ce qui va se passer"
+msgstr ""
+
+msgid "Voir dans le catalogue"
+msgstr ""
+
+msgid "Voir la notice"
+msgstr ""
+
+msgid "Voir la notice de la source"
+msgstr ""
+
+msgid "Voir le prêt"
+msgstr ""
+
+msgid "Voir le prêt de"
+msgstr ""
+
+msgid "Voir les coordonnées des lecteurs"
+msgstr ""
+
+msgid "Voir les coordonnées, la date de naissance et les observations"
+msgstr ""
+
+msgid "Voir les exemplaires"
+msgstr ""
+
+msgid "Voir les exemplaires de"
+msgstr ""
+
+msgid "Voir les lecteurs : nom, numéros, foyers, sans coordonnées"
+msgstr ""
+
+msgid "Voir l’aperçu"
+msgstr ""
+
+msgid "Voir l’emprunteur, l’historique des prêts et les rappels"
+msgstr ""
+
+msgid "Vos dépôts en cours"
+msgstr ""
+
+msgid "Votre bibliothèque"
+msgstr ""
+
+msgid "Votre bibliothèque est prête"
+msgstr ""
+
+msgid "Votre compte ne donne pas accès aux prêts."
+msgstr ""
+
+msgid "Votre compte peut comparer, pas appliquer."
+msgstr ""
+
+msgid "Votre mot de passe"
+msgstr ""
+
+msgid "Votre mot de passe a été changé. Vos autres sessions ont été fermées."
+msgstr ""
+
+msgid "Votre nom"
+msgstr ""
+
+msgid "Votre profil a été mis à jour."
+msgstr ""
+
+msgid "Votre rôle ne permet pas cette opération."
+msgstr ""
+
+msgid "Votre rôle ne permet pas d’accéder à cette page."
+msgstr ""
+
+msgid "Vous avez atteint le nombre maximum de recherches enregistrées."
+msgstr ""
+
+msgid "Vous ne pouvez pas désactiver votre propre compte."
+msgstr ""
+
+msgid "Vues de la simulation"
+msgstr ""
+
+msgid "Vues de l’annuaire"
+msgstr ""
+
+msgid "Vues des prêts"
+msgstr ""
+
+msgid "Vérifier"
+msgstr ""
+
+msgid ""
+"Vérifiez ce que devient chaque colonne, puis lancez la simulation. Rien "
+"n’est écrit dans le catalogue."
+msgstr ""
+
+msgid "Vérifiez ces informations"
+msgstr ""
+
+msgid "Vérifiez les notices ci-dessous avant de créer une notice."
+msgstr ""
+
+msgid ""
+"Vérifiez l’image avant de l’enregistrer. Rien n’a encore changé sur la "
+"fiche."
+msgstr ""
+
+msgid ""
+"Vérifiez que ce résultat décrit bien le livre en main. Vous relirez et "
+"corrigerez ensuite chaque champ avant l’enregistrement."
+msgstr ""
+
+msgid ""
+"Vérifiez qu’il ne s’agit pas de la même personne. Si elle est déjà "
+"inscrite, n’enregistrez pas cette fiche : ouvrez la sienne."
+msgstr ""
+
+msgid "Vérifié sur le livre : confirmer"
+msgstr ""
+
+msgid ""
+"Vérifiés sur l’étagère, ces exemplaires passent « En place » et "
+"deviennent prêtables"
+msgstr ""
+
+msgid "Wallis-et-Futuna"
+msgstr ""
+
+msgid "Zone de texte"
+msgstr ""
+
+msgid "activable par l’administrateur dans les réglages des sources"
+msgstr ""
+
+msgid "active"
+msgstr ""
+
+msgid "activée"
+msgstr ""
+
+msgid "adhésion"
+msgstr ""
+
+msgid "adresse"
+msgstr ""
+
+msgid "affichés"
+msgstr ""
+
+msgid "annulé"
+msgstr ""
+
+msgid "annulée"
+msgstr ""
+
+#, python-brace-format
+msgid "année {v} absente de la ligne"
+msgstr ""
+
+msgid "application bloquée"
+msgstr ""
+
+msgid "appliquée"
+msgstr ""
+
+msgid "appliquée en partie"
+msgstr ""
+
+msgid "archivé"
+msgstr ""
+
+msgid "aucun"
+msgstr ""
+
+msgid "aucun contributeur retenu"
+msgstr ""
+
+msgid "aucun responsable n’accepte d’être contacté"
+msgstr ""
+
+msgid "aucune"
+msgstr ""
+
+msgid "auteur"
+msgstr ""
+
+msgid "autres"
+msgstr ""
+
+msgid "avant le"
+msgstr ""
+
+#, python-format
+msgid "avant « %(title)s »"
+msgstr ""
+
+msgid "biblyO est en maintenance"
+msgstr ""
+
+msgid ""
+"biblyO n’envoie aucun message. Appelez, parlez à la personne, écrivez "
+"depuis votre propre messagerie ou par courrier, puis notez ici ce qui a "
+"été fait."
+msgstr ""
+
+msgid "biblyO, accueil"
+msgstr ""
+
+msgid "biblyO, tableau de bord"
+msgstr ""
+
+#, python-brace-format
+msgid "carte {card}"
+msgstr ""
+
+msgid "catégorie"
+msgstr ""
+
+msgid "ce genre"
+msgstr ""
+
+msgid "ce mot-clé"
+msgstr ""
+
+msgid "ce type"
+msgstr ""
+
+msgid "cet éditeur"
+msgstr ""
+
+msgid "cette catégorie"
+msgstr ""
+
+msgid "cette collection"
+msgstr ""
+
+msgid "cette section"
+msgstr ""
+
+msgid "cette session"
+msgstr ""
+
+msgid "champ non applicable"
+msgstr ""
+
+msgid "code de fonction 070"
+msgstr ""
+
+#, python-brace-format
+msgid "code de fonction {code}"
+msgstr ""
+
+msgid "code en attente."
+msgstr ""
+
+msgid "codes en attente."
+msgstr ""
+
+msgid "col."
+msgstr ""
+
+#, python-brace-format
+msgid "colonne « {header} » ({sheet})"
+msgstr ""
+
+msgid "comparé ligne à ligne par le numéro d’inventaire ; il ne fait pas foi"
+msgstr ""
+
+msgid "compl."
+msgstr ""
+
+msgid "complémentaire"
+msgstr ""
+
+msgid "confirmé"
+msgstr ""
+
+msgid "confirmé seulement si l’édition est établie, sinon proposé"
+msgstr ""
+
+msgid "confirmée"
+msgstr ""
+
+msgid "conforme"
+msgstr ""
+
+msgid "conservé par une mise en conservation"
+msgstr ""
+
+msgid "conservé pour un exemplaire perdu"
+msgstr ""
+
+msgid "conservés par une mise en conservation"
+msgstr ""
+
+msgid "conservés pour un exemplaire perdu"
+msgstr ""
+
+msgid "consultation sur place"
+msgstr ""
+
+#, python-brace-format
+msgid "cote {call}"
+msgstr ""
+
+msgid "courriel"
+msgstr ""
+
+msgid "couverture de la notice BnF liée"
+msgstr ""
+
+msgid "couverture signalée par la source"
+msgstr ""
+
+msgid "créée"
+msgstr ""
+
+msgid "dans les 3 jours"
+msgstr ""
+
+msgid "dates inconnues"
+msgstr ""
+
+msgid "de complétude moyenne"
+msgstr ""
+
+msgid "depuis le"
+msgstr ""
+
+msgid "depuis le lendemain de l’échéance"
+msgstr ""
+
+msgid "disponible"
+msgstr ""
+
+msgid "disponibles"
+msgstr ""
+
+msgid "document non textuel"
+msgstr ""
+
+msgid "dont albums isolés"
+msgstr ""
+
+#, python-brace-format
+msgid "dont {n} albums isolés"
+msgstr ""
+
+#, python-brace-format
+msgid "du {date}"
+msgstr ""
+
+#, python-brace-format
+msgid "défait le {date}"
+msgstr ""
+
+msgid "déjà attribué, inchangé"
+msgstr ""
+
+#, python-brace-format
+msgid "déjà présent : {role}"
+msgstr ""
+
+#, python-format
+msgid "dépassée de %(n)s"
+msgstr ""
+
+msgid "désactivé"
+msgstr ""
+
+msgid "désactivé ici"
+msgstr ""
+
+msgid "désactivée"
+msgstr ""
+
+msgid "désactivée (biblyo import application)"
+msgstr ""
+
+msgid "désactivée dans les réglages"
+msgstr ""
+
+#, python-brace-format
+msgid "d’après {who}"
+msgstr ""
+
+msgid ""
+"empreinte du fichier, feuille et numéro de ligne : stable d’une "
+"simulation à l’autre"
+msgstr ""
+
+msgid "emprunté"
+msgstr ""
+
+msgid "empruntés"
+msgstr ""
+
+msgid "en attente"
+msgstr ""
+
+msgid "en retard"
+msgstr ""
+
+msgid "en retard ou à échéance proche"
+msgstr ""
+
+msgid "enrichir cette notice plutôt"
+msgstr ""
+
+msgid "et"
+msgstr ""
+
+msgid "ex."
+msgstr ""
+
+msgid "exemplaire"
+msgstr ""
+
+msgid "exemplaire(s)"
+msgstr ""
+
+msgid "exemplaires"
+msgstr ""
+
+msgid "exemplaires sortis"
+msgstr ""
+
+msgid "export d’après le journal :"
+msgstr ""
+
+msgid "exports d’après le journal :"
+msgstr ""
+
+#, python-brace-format
+msgid "feuille « {name} »"
+msgstr ""
+
+#, python-brace-format
+msgid "feuille « {s} »"
+msgstr ""
+
+#, python-brace-format
+msgid "feuille « {s} », en-têtes ligne {h}, {n} lignes"
+msgstr ""
+
+msgid "fiche archivée correspond aussi"
+msgstr ""
+
+msgid "fiches archivées correspondent aussi"
+msgstr ""
+
+msgid "fichier principal"
+msgstr ""
+
+msgid "foyer ou structure"
+msgstr ""
+
+msgid "foyers et structures"
+msgstr ""
+
+msgid "importé"
+msgstr ""
+
+msgid "inactive"
+msgstr ""
+
+msgid "incomplète"
+msgstr ""
+
+msgid "incomplètes"
+msgstr ""
+
+msgid "indisponible"
+msgstr ""
+
+msgid "indisponibles"
+msgstr ""
+
+msgid "inventaire"
+msgstr ""
+
+msgid "jour"
+msgstr ""
+
+msgid "jours"
+msgstr ""
+
+msgid "jusqu’au"
+msgstr ""
+
+msgid "la racine"
+msgstr ""
+
+msgid "le prêt reste possible"
+msgstr ""
+
+msgid "lecteur"
+msgstr ""
+
+msgid "lecteurs"
+msgstr ""
+
+msgid "levée ou échue"
+msgstr ""
+
+msgid "ligne"
+msgstr ""
+
+#, python-brace-format
+msgid "ligne source {a} au lieu de {b}"
+msgstr ""
+
+msgid "lignes"
+msgstr ""
+
+msgid "livre"
+msgstr ""
+
+msgid "livres"
+msgstr ""
+
+msgid "livres physiques"
+msgstr ""
+
+msgid "manquant confirmé"
+msgstr ""
+
+msgid "manquants confirmés"
+msgstr ""
+
+msgid "membre"
+msgstr ""
+
+msgid "membres"
+msgstr ""
+
+msgid "mention de responsabilité"
+msgstr ""
+
+#, python-brace-format
+msgid "mention « {text} »"
+msgstr ""
+
+#, python-brace-format
+msgid "mise de côté encore {s} s"
+msgstr ""
+
+msgid "modifié depuis"
+msgstr ""
+
+msgid "même ISBN"
+msgstr ""
+
+msgid "même titre"
+msgstr ""
+
+msgid "naissance"
+msgstr ""
+
+#, python-brace-format
+msgid "naissance {year}"
+msgstr ""
+
+#, python-brace-format
+msgid "niveau : {level}"
+msgstr ""
+
+msgid "nom"
+msgstr ""
+
+msgid "non"
+msgstr ""
+
+msgid "non proposé ou déjà présent"
+msgstr ""
+
+msgid "non rangé"
+msgstr ""
+
+msgid "non renseigné"
+msgstr ""
+
+msgid "non renseigné (hors conteneur)"
+msgstr ""
+
+msgid "notice"
+msgstr ""
+
+msgid "notice provisoire"
+msgstr ""
+
+msgid "notices"
+msgstr ""
+
+msgid "notices bibliographiques"
+msgstr ""
+
+msgid "observations"
+msgstr ""
+
+msgid "organisation ?"
+msgstr ""
+
+msgid "ou"
+msgstr ""
+
+msgid "ou dont il répond"
+msgstr ""
+
+msgid "ou la glisser ici"
+msgstr ""
+
+msgid "oui"
+msgstr ""
+
+msgid "pages"
+msgstr ""
+
+msgid "par"
+msgstr ""
+
+msgid "par des livres différents"
+msgstr ""
+
+#, python-brace-format
+msgid "par {name}"
+msgstr ""
+
+msgid "partagée par"
+msgstr ""
+
+msgid "personne"
+msgstr ""
+
+msgid "personnes"
+msgstr ""
+
+msgid "personnes et collectivités"
+msgstr ""
+
+msgid "place"
+msgstr ""
+
+msgid "places"
+msgstr ""
+
+msgid "plusieurs personnes portent ce nom : à choisir à la main"
+msgstr ""
+
+msgid "position"
+msgstr ""
+
+#, python-brace-format
+msgid "position {n}"
+msgstr ""
+
+msgid "premières fiches sur"
+msgstr ""
+
+msgid "principal"
+msgstr ""
+
+msgid "principale"
+msgstr ""
+
+#, python-brace-format
+msgid "priorité {n}"
+msgstr ""
+
+msgid "proposé"
+msgstr ""
+
+msgid "proposée"
+msgstr ""
+
+msgid "prénom"
+msgstr ""
+
+msgid "présente"
+msgstr ""
+
+msgid "prévu"
+msgstr ""
+
+msgid "prêt"
+msgstr ""
+
+msgid "prêt en cours"
+msgstr ""
+
+msgid "prêt terminé serait concerné"
+msgstr ""
+
+msgid "prêts"
+msgstr ""
+
+msgid "prêts en cours"
+msgstr ""
+
+msgid "prêts terminés seraient concernés"
+msgstr ""
+
+msgid "prêté le"
+msgstr ""
+
+msgid "puis"
+msgstr ""
+
+msgid "périmée"
+msgstr ""
+
+msgid "rappels notés"
+msgstr ""
+
+msgid "refusée"
+msgstr ""
+
+msgid "rejeté"
+msgstr ""
+
+msgid "rejetée"
+msgstr ""
+
+msgid "remise le"
+msgstr ""
+
+msgid "remplacement confirmé"
+msgstr ""
+
+msgid "remplacement de la couverture non confirmé"
+msgstr ""
+
+msgid "remplacement non confirmé : ignoré"
+msgstr ""
+
+msgid "rendu le"
+msgstr ""
+
+msgid "renouvellement"
+msgstr ""
+
+msgid "renouvellements"
+msgstr ""
+
+msgid "renseignée"
+msgstr ""
+
+msgid "resp."
+msgstr ""
+
+#, python-brace-format
+msgid "resp. {name}"
+msgstr ""
+
+msgid "responsable"
+msgstr ""
+
+msgid "retour le"
+msgstr ""
+
+msgid "retour prévu le"
+msgstr ""
+
+msgid "revoir"
+msgstr ""
+
+msgid "rubrique"
+msgstr ""
+
+msgid "règle de biblyO"
+msgstr ""
+
+msgid "réessayée"
+msgstr ""
+
+#, python-brace-format
+msgid "réponse gardée du {date}"
+msgstr ""
+
+msgid "résultat"
+msgstr ""
+
+msgid "résultats"
+msgstr ""
+
+msgid "rôle incertain"
+msgstr ""
+
+msgid "rôle inconnu"
+msgstr ""
+
+msgid "rôle à préciser"
+msgstr ""
+
+#, python-brace-format
+msgid "rôle écrit : {text}"
+msgstr ""
+
+msgid "sans carte"
+msgstr ""
+
+msgid "sans code de fonction"
+msgstr ""
+
+msgid "sans code-barres"
+msgstr ""
+
+msgid "sans place attribuée"
+msgstr ""
+
+msgid "sans éditeur"
+msgstr ""
+
+#, python-brace-format
+msgid "score {n}"
+msgstr ""
+
+#, python-brace-format
+msgid "score {n} sur 100 : {detail}"
+msgstr ""
+
+msgid "signalée par la source"
+msgstr ""
+
+#, python-brace-format
+msgid "sorti, en retard, retour prévu le {day}"
+msgstr ""
+
+#, python-brace-format
+msgid "sorti, retour le {day}"
+msgstr ""
+
+msgid "source"
+msgstr ""
+
+msgid "source inconnue"
+msgstr ""
+
+#, python-brace-format
+msgid "sources : {s}"
+msgstr ""
+
+#, python-format
+msgid "statut après : %(s)s"
+msgstr ""
+
+msgid "sur"
+msgstr ""
+
+msgid "série"
+msgstr ""
+
+msgid "séries"
+msgstr ""
+
+msgid "t."
+msgstr ""
+
+msgid "tel que repris"
+msgstr ""
+
+msgid "titre"
+msgstr ""
+
+msgid "titres"
+msgstr ""
+
+msgid "tome"
+msgstr ""
+
+#, python-brace-format
+msgid "tome {n}"
+msgstr ""
+
+#, python-brace-format
+msgid "tome {volume}"
+msgstr ""
+
+msgid "tomes présents"
+msgstr ""
+
+msgid "toutes catégories"
+msgstr ""
+
+msgid "traitée"
+msgstr ""
+
+msgid "trop peu de critères concordants"
+msgstr ""
+
+msgid "trouvé par une carte qui n’est plus en service"
+msgstr ""
+
+msgid "téléphone"
+msgstr ""
+
+msgid "un exemplaire supprimé (un code n’est jamais réattribué)"
+msgstr ""
+
+msgid "un par ligne du fichier"
+msgstr ""
+
+msgid "un par ligne, jamais fusionnés"
+msgstr ""
+
+msgid ""
+"une carte de lecteur (un même code ne peut pas désigner deux choses au "
+"scan)"
+msgstr ""
+
+msgid "une image (couverture)"
+msgstr ""
+
+msgid "utilisé par"
+msgstr ""
+
+msgid "valeur"
+msgstr ""
+
+msgid "variantes"
+msgstr ""
+
+#, python-format
+msgid "venait de %(path)s"
+msgstr ""
+
+msgid "vide"
+msgstr ""
+
+msgid "voir la série"
+msgstr ""
+
+msgid "vérifié sur le livre"
+msgstr ""
+
+#, python-brace-format
+msgid "{count} numéros à vérifier"
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"{file} ressemble à la reconstruction de l’ancienne application ({signs}) "
+": jamais une source d'import (D-L6-1)."
+msgstr ""
+
+#, python-brace-format
+msgid "{filled} champ(s) complété(s), {replaced} remplacé(s), {added} ajout(s)"
+msgstr ""
+
+#, python-brace-format
+msgid "{images} image(s)"
+msgstr ""
+
+#, python-brace-format
+msgid "{images} image(s) pour {notices} notice(s) qui en annoncent"
+msgstr ""
+
+#, python-brace-format
+msgid "{label} est obligatoire."
+msgstr ""
+
+#, python-brace-format
+msgid "{label} est trop long."
+msgstr ""
+
+#, python-brace-format
+msgid "{label} · retour le {day}"
+msgstr ""
+
+#, python-brace-format
+msgid "{ms} ms"
+msgstr ""
+
+#, python-brace-format
+msgid "{n} / {cap} places"
+msgstr ""
+
+#, python-brace-format
+msgid "{n} Mio"
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"{n} cellule(s) commencent par =, +, - ou @ : lues comme du texte, jamais "
+"calculées ; neutralisées dans les rapports exportés."
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"{n} cellule(s) de texte au format date : Excel pourrait les convertir si "
+"elles sont ressaisies."
+msgstr ""
+
+#, python-brace-format
+msgid "{n} code(s) « CSN-… » ({sheet})"
+msgstr ""
+
+#, python-brace-format
+msgid "{n} code(s) à attribuer"
+msgstr ""
+
+#, python-brace-format
+msgid "{n} ex."
+msgstr ""
+
+#, python-brace-format
+msgid "{n} exemplaire(s)"
+msgstr ""
+
+#, python-brace-format
+msgid "{n} exemplaires"
+msgstr ""
+
+#, python-brace-format
+msgid "{n} exemplaires ; autres lignes : {rows}."
+msgstr ""
+
+#, python-brace-format
+msgid "{n} exemplaires supplémentaires"
+msgstr ""
+
+#, python-brace-format
+msgid "{n} formes écrites"
+msgstr ""
+
+#, python-brace-format
+msgid "{n} formule(s) : la valeur calculée enregistrée dans le fichier est lue."
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"{n} image(s) d’un ouvrage différent (autre titre ou autre tome) "
+"écartée(s)."
+msgstr ""
+
+#, python-brace-format
+msgid "{n} image(s) en double écartée(s)."
+msgstr ""
+
+#, python-brace-format
+msgid "{n} ligne(s)"
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"{n} ligne(s) correspondent probablement à des notices existantes : à "
+"confirmer."
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"{n} ligne(s) portent des collections écrites autrement que la base "
+"confondrait : choisissez la forme retenue, ou rangez une valeur "
+"autrement, dans la correspondance (D-L6-5)."
+msgstr ""
+
+#, python-brace-format
+msgid "{n} ligne(s) refusée(s) : à corriger dans le fichier."
+msgstr ""
+
+#, python-brace-format
+msgid "{n} ligne(s) sans valeur."
+msgstr ""
+
+#, python-brace-format
+msgid "{n} ligne(s) vide(s) en fin de feuille, ignorée(s)."
+msgstr ""
+
+#, python-brace-format
+msgid "{n} ligne(s) vide(s) en fin de fichier, ignorée(s)."
+msgstr ""
+
+#, python-brace-format
+msgid "{n} lignes du même livre, {k} éditions distinctes."
+msgstr ""
+
+#, python-brace-format
+msgid "{n} livre(s) à {k} exemplaire(s)"
+msgstr ""
+
+#, python-brace-format
+msgid "{n} notice(s) annonçaient une image que le service n’a pas fournie."
+msgstr ""
+
+#, python-brace-format
+msgid "{n} notice(s) écartée(s)"
+msgstr ""
+
+#, python-brace-format
+msgid "{n} profil(s) enregistré(s) ; application des imports : {s}"
+msgstr ""
+
+#, python-brace-format
+msgid "{n} propositions"
+msgstr ""
+
+#, python-brace-format
+msgid "{n} recherche(s)"
+msgstr ""
+
+#, python-brace-format
+msgid "{n} refusée(s)"
+msgstr ""
+
+#, python-brace-format
+msgid "{n} rejointe(s)"
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"{n} règle(s) : durée, renouvellements, plafond par catégorie ; blocage "
+"pour retard réglable"
+msgstr ""
+
+#, python-brace-format
+msgid "{n} réponse(s) en cache"
+msgstr ""
+
+#, python-brace-format
+msgid "{n} résultat(s)"
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"{n} sauvegarde(s) dans {d} ; restauration : biblyo backup restore, "
+"service arrêté"
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"{n} tome(s) non entier(s) ou en texte (« {ex} ») : gardés tels quels, "
+"sans numéro choisi."
+msgstr ""
+
+#, python-brace-format
+msgid "{n} valeur(s) qui ne sont pas une année."
+msgstr ""
+
+#, python-brace-format
+msgid "{n} valeurs distinctes"
+msgstr ""
+
+#, python-brace-format
+msgid "{n} à confirmer sur {t}"
+msgstr ""
+
+#, python-brace-format
+msgid "{n} édition(s) proposée(s)"
+msgstr ""
+
+#, python-brace-format
+msgid "{n} œuvres"
+msgstr ""
+
+#, python-brace-format, python-format
+msgid "{percent} % des tomes attendus"
+msgstr ""
+
+#, python-brace-format, python-format
+msgid "{percent} % des tomes confirmés · 1 numéro à vérifier, non compté"
+msgstr ""
+
+#, python-brace-format, python-format
+msgid "{percent} % des tomes confirmés · {count} numéros à vérifier, non comptés"
+msgstr ""
+
+#, python-brace-format
+msgid "{r} salle(s), {f} meuble(s), {s} étagère(s) ou bac(s)"
+msgstr ""
+
+#, python-brace-format
+msgid "{source} ne répond pas correctement : {status}."
+msgstr ""
+
+#, python-brace-format
+msgid "{source} répond : {status}, {ms} ms."
+msgstr ""
+
+#, python-format
+msgid "« %(title)s » est choisi."
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"« En place » seulement après un rangement vérifié (scan sur l’étagère, "
+"case cochée, ou présence confirmée) ; {n} exemplaire(s) en préparation"
+msgstr ""
+
+msgid ""
+"« Ranger la sélection » donne une place ; l’exemplaire ne passe « En "
+"place » que si vous cochez « rangement vérifié ». « Confirmer la présence"
+" » le fait pour des exemplaires déjà rangés. Numéros d’inventaire, cotes "
+"et valeurs d’origine ne changent jamais."
+msgstr ""
+
+msgid ""
+"« Rôle à préciser pour tous » : chaque nom reçoit le rôle « autre », à "
+"préciser sur la notice ; sa colonne et sa position sont gardées. « "
+"Auteur, puis rôle à préciser » : seulement si vous établissez que la "
+"première colonne désigne l’auteur."
+msgstr ""
+
+msgid "« Titre » avec un tome ou un sous-titre : titre de la série."
+msgstr ""
+
+msgid "« Titre » seul : titre du livre."
+msgstr ""
+
+#, python-brace-format
+msgid "« {field} » ne peut recevoir qu'une colonne ; ici : {cols}."
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"« {file} » ressemble à la reconstruction de l’ancienne application "
+"({signs}). Elle ne peut servir ni de source, ni de fichier complémentaire"
+" : déposez le classeur original du Club (décision D-L6-1)."
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"« {name} » contient encore {n} emplacement : supprimez-le d’abord, ou "
+"confirmez la suppression de l’ensemble."
+msgid_plural ""
+"« {name} » contient encore {n} emplacements : supprimez-les d’abord, ou "
+"confirmez la suppression de l’ensemble."
+msgstr[0] ""
+msgstr[1] ""
+
+#, python-brace-format
+msgid ""
+"« {name} » contient encore {n} exemplaire : déplacez-le ou retirez-le "
+"d’abord."
+msgid_plural ""
+"« {name} » contient encore {n} exemplaires : déplacez-les ou retirez-les "
+"d’abord."
+msgstr[0] ""
+msgstr[1] ""
+
+#, python-brace-format
+msgid "« {n} » vérifiée : archive intacte, base saine, révision {r}."
+msgstr ""
+
+#, python-brace-format
+msgid "« {title} » ({code})"
+msgstr ""
+
+#, python-brace-format
+msgid "« {title} » renouvelé : retour le {before}, désormais le {after}."
+msgstr ""
+
+#, python-brace-format
+msgid "« {title} » vient d’être renouvelé : rien n’a été refait."
+msgstr ""
+
+#, python-brace-format
+msgid "« {t} » ; recherche aussi sous « {n} »."
+msgstr ""
+
+#, python-brace-format
+msgid "« {valeur} » n’est pas un ISBN valide (longueur ou clé de contrôle)."
+msgstr ""
+
+#, python-brace-format
+msgid "« {v} » → collection n° {id}"
+msgstr ""
+
+msgid "À choisir"
+msgstr ""
+
+msgid "À choisir : rapprochement non établi"
+msgstr ""
+
+msgid "À contacter"
+msgstr ""
+
+msgid "À joindre"
+msgstr ""
+
+msgid "À la racine"
+msgstr ""
+
+msgid "À l’heure"
+msgstr ""
+
+msgid "À l’identique"
+msgstr ""
+
+msgid "À partir du rang"
+msgstr ""
+
+msgid "À propos"
+msgstr ""
+
+msgid "À propos de biblyO"
+msgstr ""
+
+msgid "À ranger"
+msgstr ""
+
+msgid "À rappeler"
+msgstr ""
+
+msgid "À renseigner"
+msgstr ""
+
+msgid "À traiter"
+msgstr ""
+
+msgid "À un foyer existant"
+msgstr ""
+
+msgid "À un nouveau foyer"
+msgstr ""
+
+msgid "À venir"
+msgstr ""
+
+msgid "À vérifier"
+msgstr ""
+
+msgid "À échéance"
+msgstr ""
+
+msgid "ÉCART"
+msgstr ""
+
+msgid "Écarté"
+msgstr ""
+
+msgid "Échange"
+msgstr ""
+
+msgid "Échoué, rien écrit"
+msgstr ""
+
+msgid "Échue"
+msgstr ""
+
+msgid "Échéance"
+msgstr ""
+
+msgid "Échéance :"
+msgstr ""
+
+msgid "Échéance erronée"
+msgstr ""
+
+msgid "Échéance le"
+msgstr ""
+
+msgid "Échéance modifiée"
+msgstr ""
+
+msgid "Échéance proche"
+msgstr ""
+
+msgid "Écrit"
+msgstr ""
+
+msgid "Écrit par l’enrichissement"
+msgstr ""
+
+msgid "Écrivez la date sous la forme 2026, 03/2026 ou 14/03/2026."
+msgstr ""
+
+msgid "Écrivez le numéro à dix chiffres : 06 12 34 56 78."
+msgstr ""
+
+msgid "Écrivez le prix en euros, par exemple 12,50."
+msgstr ""
+
+msgid "Écrivez l’année (2014) ou la date complète (03/05/2014)."
+msgstr ""
+
+msgid "Écrivez une date complète : 31/08/2027."
+msgstr ""
+
+msgid "Éditeur"
+msgstr ""
+
+#, python-brace-format
+msgid "Éditeur apparenté : {theirs}"
+msgstr ""
+
+msgid "Éditeur compris"
+msgstr ""
+
+#, python-brace-format
+msgid "Éditeur différent : {mine} contre {theirs}"
+msgstr ""
+
+msgid "Éditeur existant"
+msgstr ""
+
+msgid "Éditeur modifié dans biblyO"
+msgstr ""
+
+msgid "Éditeur non renseigné"
+msgstr ""
+
+msgid "Éditeurs"
+msgstr ""
+
+#, python-brace-format
+msgid "Éditeurs : {n}"
+msgstr ""
+
+msgid "Éditeurs aux libellés voisins : peut-être le même"
+msgstr ""
+
+msgid ""
+"Éditeurs comparés sans casse ni accents ; libellés d'origine jamais "
+"modifiés ; éditions contradictoires gardées distinctes."
+msgstr ""
+
+msgid "Édition"
+msgstr ""
+
+#, python-brace-format
+msgid "Édition : {label}"
+msgstr ""
+
+msgid "Édition affichée"
+msgstr ""
+
+msgid "Édition concernée"
+msgstr ""
+
+msgid "Édition concernée :"
+msgstr ""
+
+msgid "Édition différente : la couverture peut différer"
+msgstr ""
+
+msgid "Édition incompatible : autre éditeur"
+msgstr ""
+
+msgid "Édition incompatible : un autre ISBN"
+msgstr ""
+
+msgid "Édition incompatible : éditeur et année différents"
+msgstr ""
+
+msgid "Édition indéterminée : image de l’œuvre"
+msgstr ""
+
+msgid "Édition indéterminée : la fiche n’a pas d’ISBN"
+msgstr ""
+
+msgid "Édition indéterminée : titre, auteur et éditeur concordent"
+msgstr ""
+
+msgid "Édition principale"
+msgstr ""
+
+msgid "Édition représentée selon la source"
+msgstr ""
+
+msgid "Édition sans détail"
+msgstr ""
+
+msgid "Éditions"
+msgstr ""
+
+msgid "Éditions de cette œuvre"
+msgstr ""
+
+msgid "Éditions ou exemplaires multiples"
+msgstr ""
+
+msgid "Étagère"
+msgstr ""
+
+msgid "Étagère à remplir"
+msgstr ""
+
+msgid "Étagères"
+msgstr ""
+
+msgid "Étapes de l’inscription"
+msgstr ""
+
+msgid "État"
+msgstr ""
+
+msgid "État compris"
+msgstr ""
+
+msgid "État de la parution"
+msgstr ""
+
+#, python-brace-format
+msgid "État du catalogue : {f}"
+msgstr ""
+
+msgid "État modifié dans biblyO"
+msgstr ""
+
+msgid "État non rangé dans l'échelle de biblyO"
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"État signalé sur cet exemplaire : {condition}. Vérifiez-le avant la "
+"sortie."
+msgstr ""
+
+msgid "État vide"
+msgstr ""
+
+#, python-brace-format
+msgid "État « {v} »"
+msgstr ""
+
+msgid "État à vérifier"
+msgstr ""
+
+msgid "États"
+msgstr ""
+
+msgid "Étiquettes existantes"
+msgstr ""
+
+msgid "Étranger"
+msgstr ""
+
+msgid "à attribuer plus tard"
+msgstr ""
+
+msgid "à attribuer plus tard (D-L6-7)"
+msgstr ""
+
+msgid "à faire"
+msgstr ""
+
+msgid "à renseigner"
+msgstr ""
+
+msgid "à savoir"
+msgstr ""
+
+msgid "à vérifier"
+msgstr ""
+
+msgid "écart"
+msgstr ""
+
+msgid "échéance"
+msgstr ""
+
+msgid "édition différente : œuvre seulement"
+msgstr ""
+
+msgid "édition non précisée"
+msgstr ""
+
+msgid "édition non établie : l'ISBN reste proposé, non confirmé"
+msgstr ""
+
+msgid "éditions"
+msgstr ""
+
+msgid "élément"
+msgstr ""
+
+msgid "éléments"
+msgstr ""
+
+msgid "Œuvre"
+msgstr ""
+
+msgid "Œuvres"
+msgstr ""
+
+msgid "Œuvres créées"
+msgstr ""
+

@@ -1,0 +1,10 @@
+{% extends layout %}
+{% from "components/feedback.html" import empty_state %}
+{% from "components/buttons.html" import link_button %}
+{% block title %}{{ _("Une erreur est survenue") }} — biblyO{% endblock %}
+{% block content %}
+<h1 class="sr">{{ _("Une erreur est survenue") }}</h1>
+{% call empty_state("alert", _("Une erreur est survenue"), _("L’opération n’a pas abouti. Réessayez dans un instant ; si le problème persiste, prévenez votre administrateur.")) %}
+  {{ link_button(_("Retour à l’accueil"), "/", "p") }}
+{% endcall %}
+{% endblock %}

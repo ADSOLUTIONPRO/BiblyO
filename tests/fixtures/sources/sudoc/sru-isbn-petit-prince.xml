@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?xml-stylesheet type="text/xsl" href="https://www.sudoc.abes.fr/cbs/sru/DB=2.1/?xsl=searchRetrieveResponse" ?>
+<srw:searchRetrieveResponse xmlns:srw="http://www.loc.gov/zing/srw/"
+			    xmlns:dc="http://purl.org/dc/elements/1.1/"
+			    xmlns:diag="http://www.loc.gov/zing/srw/diagnostic/"
+			    xmlns:xcql="http://www.loc.gov/zing/cql/xcql/">
+    <srw:version>1.1</srw:version>
+    <srw:numberOfRecords>1</srw:numberOfRecords>
+    <srw:resultSetId></srw:resultSetId>
+    <srw:records>
+    
+
+
+<srw:record>
+<srw:recordSchema>unimarc</srw:recordSchema>
+<srw:recordPacking>xml</srw:recordPacking>
+<srw:recordData>
+<record>
+<controlfield tag="005">20260701161635.000</controlfield>
+<leader>     cam0 22        450 </leader>
+<controlfield tag="001">117074047</controlfield>
+<controlfield tag="003">http://www.sudoc.fr/117074047</controlfield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">(OCoLC)300273626</subfield></datafield>
+<datafield tag="010" ind1=" " ind2=" "><subfield code="a">978-2-07-061275-8</subfield>
+<subfield code="b">br.</subfield>
+<subfield code="d">5,60 EUR</subfield></datafield>
+<datafield tag="073" ind1=" " ind2="1"><subfield code="a">9782070612758</subfield></datafield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">FRBNF410234390000003</subfield>
+<subfield code="z">FRBNF41023439</subfield></datafield>
+<datafield tag="033" ind1=" " ind2=" "><subfield code="a">http://catalogue.bnf.fr/ark:/12148/cb41023439w</subfield></datafield>
+<datafield tag="100" ind1=" " ind2=" "><subfield code="a">20070830h20072007m  y0frey50      ba</subfield></datafield>
+<datafield tag="101" ind1="0" ind2=" "><subfield code="a">fre</subfield>
+<subfield code="2">639-2</subfield></datafield>
+<datafield tag="105" ind1=" " ind2=" "><subfield code="a">a   ||||000ay</subfield></datafield>
+<datafield tag="106" ind1=" " ind2=" "><subfield code="a">r</subfield></datafield>
+<datafield tag="181" ind1=" " ind2=" "><subfield code="6">z01</subfield>
+<subfield code="c">txt</subfield>
+<subfield code="2">rdacontent</subfield></datafield>
+<datafield tag="181" ind1=" " ind2=" "><subfield code="6">z02</subfield>
+<subfield code="c">sti</subfield>
+<subfield code="2">rdacontent</subfield></datafield>
+<datafield tag="181" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="a">i#</subfield>
+<subfield code="b">xxxe##</subfield></datafield>
+<datafield tag="181" ind1=" " ind2="1"><subfield code="6">z02</subfield>
+<subfield code="a">b#</subfield>
+<subfield code="b">xb2e##</subfield></datafield>
+<datafield tag="182" ind1=" " ind2=" "><subfield code="6">z01</subfield>
+<subfield code="c">n</subfield>
+<subfield code="2">rdamedia</subfield></datafield>
+<datafield tag="182" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="6">z02</subfield>
+<subfield code="a">n</subfield></datafield>
+<datafield tag="183" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="a">nga</subfield>
+<subfield code="2">RDAfrCarrier</subfield></datafield>
+<datafield tag="102" ind1=" " ind2=" "><subfield code="a">FR</subfield></datafield>
+<datafield tag="200" ind1="1" ind2=" "><subfield code="a">Le Petit Prince</subfield>
+<subfield code="f">Antoine de Saint-Exupéry</subfield>
+<subfield code="g">avec des aquarelles de l&apos;auteur</subfield></datafield>
+<datafield tag="700" ind1=" " ind2="1"><subfield code="3">027118266</subfield>
+<subfield code="a">Saint-Exupéry</subfield>
+<subfield code="b">Antoine de</subfield>
+<subfield code="f">1900-1944</subfield>
+<subfield code="4">070</subfield></datafield>
+<datafield tag="801" ind1=" " ind2="3"><subfield code="a">FR</subfield>
+<subfield code="b">Abes</subfield>
+<subfield code="c">20260701</subfield>
+<subfield code="g">AFNOR</subfield></datafield>
+<datafield tag="214" ind1=" " ind2="0"><subfield code="a">Paris</subfield>
+<subfield code="c">Gallimard</subfield>
+<subfield code="d">DL 2007</subfield></datafield>
+<datafield tag="215" ind1=" " ind2=" "><subfield code="a">1 volume (113 pages)</subfield>
+<subfield code="c">illustrations en couleurs, couverture illustrée en couleurs</subfield>
+<subfield code="d">18 cm</subfield></datafield>
+<datafield tag="225" ind1="0" ind2=" "><subfield code="a">Folio junior</subfield>
+<subfield code="v">100</subfield></datafield>
+<datafield tag="410" ind1=" " ind2="|"><subfield code="0">013403559</subfield>
+<subfield code="t">Collection Folio junior</subfield>
+<subfield code="x">0153-0593</subfield>
+<subfield code="v">100</subfield></datafield>
+<datafield tag="604" ind1=" " ind2=" "><subfield code="3">027626857</subfield>
+<subfield code="a">Saint-Exupéry, Antoine de (1900-1944)</subfield>
+<subfield code="t">Le Petit prince</subfield>
+<subfield code="2">rameau</subfield></datafield>
+<datafield tag="300" ind1=" " ind2=" "><subfield code="a">Fait partie de la liste officielle cycle 3, 2013, 2018</subfield></datafield>
+<datafield tag="606" ind1=" " ind2=" "><subfield code="3">02743902X</subfield>
+<subfield code="a">Écoles</subfield>
+<subfield code="2">rameau</subfield></datafield>
+<datafield tag="606" ind1=" " ind2=" "><subfield code="3">027262308</subfield>
+<subfield code="a">Jeunesse</subfield>
+<subfield code="2">rameau</subfield></datafield>
+<datafield tag="606" ind1=" " ind2=" "><subfield code="3">176052186</subfield>
+<subfield code="a">Bêtises d&apos;enfants</subfield>
+<subfield code="2">rameau</subfield></datafield>
+<datafield tag="606" ind1=" " ind2=" "><subfield code="3">027301524</subfield>
+<subfield code="a">Amitié</subfield>
+<subfield code="2">rameau</subfield></datafield>
+<datafield tag="606" ind1=" " ind2=" "><subfield code="3">029918251</subfield>
+<subfield code="a">Humour</subfield>
+<subfield code="2">rameau</subfield></datafield>
+<datafield tag="606" ind1=" " ind2=" "><subfield code="3">034259619</subfield>
+<subfield code="a">Récréation</subfield>
+<subfield code="2">rameau</subfield></datafield>
+<datafield tag="606" ind1=" " ind2=" "><subfield code="3">027728277</subfield>
+<subfield code="a">Maîtresses</subfield>
+<subfield code="2">rameau</subfield></datafield>
+<datafield tag="606" ind1=" " ind2=" "><subfield code="3">027433382</subfield>
+<subfield code="a">Famille et école</subfield>
+<subfield code="2">rameau</subfield></datafield>
+<datafield tag="606" ind1=" " ind2=" "><subfield code="3">027876764</subfield>
+<subfield code="a">Innocence (théologie)</subfield>
+<subfield code="2">rameau</subfield></datafield>
+<datafield tag="606" ind1=" " ind2=" "><subfield code="3">050547402</subfield>
+<subfield code="a">Aventures</subfield>
+<subfield code="2">rameau</subfield></datafield>
+<datafield tag="606" ind1=" " ind2=" "><subfield code="3">02892102X</subfield>
+<subfield code="a">Amis et relations</subfield>
+<subfield code="2">rameau</subfield></datafield>
+<datafield tag="606" ind1=" " ind2=" "><subfield code="3">234745878</subfield>
+<subfield code="a">Activités de la vie quotidienne</subfield>
+<subfield code="2">rameau</subfield></datafield>
+<datafield tag="608" ind1=" " ind2=" "><subfield code="3">027286460</subfield>
+<subfield code="a">Contes</subfield>
+<subfield code="2">rameau</subfield></datafield>
+<datafield tag="608" ind1=" " ind2=" "><subfield code="3">077072774</subfield>
+<subfield code="a">Roman pour la jeunesse</subfield>
+<subfield code="2">rameau</subfield></datafield>
+<datafield tag="608" ind1=" " ind2=" "><subfield code="3">028626931</subfield>
+<subfield code="a">Ouvrages pour la jeunesse</subfield>
+<subfield code="2">rameau</subfield></datafield>
+<datafield tag="608" ind1=" " ind2=" "><subfield code="3">027321142</subfield>
+<subfield code="a">Livres illustrés pour enfants</subfield>
+<subfield code="2">rameau</subfield></datafield>
+<datafield tag="686" ind1=" " ind2=" "><subfield code="a">809</subfield>
+<subfield code="2">Cadre de classement de la Bibliographie nationale française</subfield></datafield>
+<datafield tag="305" ind1=" " ind2=" "><subfield code="a">Autres tirages : 2008, 2010, 2013, 2014, 2015, 2021, 2022, 2023</subfield></datafield>
+<datafield tag="801" ind1=" " ind2="0"><subfield code="a">FR</subfield>
+<subfield code="b">BNF</subfield>
+<subfield code="c">20070503</subfield>
+<subfield code="g">AFNOR</subfield>
+<subfield code="2">intermrc</subfield></datafield>
+<datafield tag="330" ind1=" " ind2=" "><subfield code="a">4ème de couverture : &quot;Le premier soir je me suis donc endormi sur le sable à mille milles de toute terre habitée. J&apos;étais bien plus isolé qu&apos;un naufragé sur un radeau au milieu de l&apos;océan. Alors vous imaginez ma surprise, au lever du jour, quand une drôle de petite voix m&apos;a réveillé. Elle disait : S&apos;il vous plaît... dessine-moi un mouton ! Hein ! - Dessine-moi un mouton... J&apos;ai sauté sur mes pieds comme si j&apos;avais été frappé par la foudre. Le chef-d&apos;œuvre universel de poésie, d&apos;humanité et d&apos;émotion...&quot;</subfield></datafield>
+</record></srw:recordData><srw:recordPosition>1</srw:recordPosition>
+</srw:record>
+</srw:records>
+    <srw:echoedSearchRetrieveRequest>
+	<srw:version>1.1</srw:version>
+	<srw:query>isb%3D9782070612758</srw:query>
+	<srw:xQuery><xcql:searchClause><xcql:index>isb</xcql:index><xcql:relation><xcql:value>=</xcql:value></xcql:relation><xcql:term>9782070612758</xcql:term></xcql:searchClause></srw:xQuery>
+	<startRecord>1</startRecord>
+	<maximumRecords>3</maximumRecords>
+	<srw:recordPacking>xml</srw:recordPacking>
+	<srw:recordSchema>unimarc</srw:recordSchema>
+	
+	<srw:stylesheet>https://www.sudoc.abes.fr/cbs/sru/DB=2.1/?xsl=searchRetrieveResponse</srw:stylesheet>
+    </srw:echoedSearchRetrieveRequest>
+    <diag:diagnostics>
+        <diag:uri>info:srw/diagnostic/1/0</diag:uri>
+	
+	
+    </diag:diagnostics>
+    <srw:extraResponseData/>
+</srw:searchRetrieveResponse>

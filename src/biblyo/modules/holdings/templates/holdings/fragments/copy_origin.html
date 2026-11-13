@@ -1,0 +1,20 @@
+<section class="card" aria-labelledby="titre-origine">
+  <div class="card-h"><h2 id="titre-origine">{{ _("Origine") }}</h2>{% if can("imports.simulate") %}<a class="small" href="/imports/lots/{{ origin.batch_id }}">{{ _("Lot n° {n}").format(n=origin.batch_id) }}</a>{% endif %}</div>
+  <div class="card-b">
+    <p class="m0">{{ _("Ligne {n} du classeur {f}, feuille « {s} », importée le {d}.").format(n=origin.row_number, f=origin.filename, s=origin.sheet, d=origin.applied_at | datetime_short) }}{% if origin.complement %} {{ _("Fichier complémentaire lu en comparaison : {c}.").format(c=origin.complement) }}{% endif %}</p>
+    <p class="muted small m0">{{ _("Identifiant de source : {id}. Les valeurs ci-dessous sont celles du fichier, telles que lues ; l’export au format d’origine les restitue.").format(id=origin.source_id) }}</p>
+  </div>
+  <div class="tbl-wrap tbl-m-cards" tabindex="0" role="region" aria-label="{{ _("Valeurs d’origine") }}"><table class="tbl">
+    <caption class="sr">{{ _("Valeurs d’origine") }}</caption>
+    <thead><tr><th scope="col">{{ _("Colonne") }}</th><th scope="col">{{ _("Valeur d’origine") }}</th><th scope="col">{{ _("Dans biblyO") }}</th></tr></thead>
+    <tbody>
+      {% for cell in origin.cells %}<tr><td><span class="mono faint small">{{ cell.letter }}</span> {{ cell.header }}</td><td>{% if cell.value %}<span class="mono small">{{ cell.value }}</span>{% else %}<span class="faint">—</span>{% endif %}</td><td class="small">{{ cell.destination }}</td></tr>{% endfor %}
+    </tbody>
+  </table></div>
+  {% if origin.proposals %}
+  <div class="card-b">
+    <h3 class="small b m0">{{ _("Propositions de cette ligne, jamais appliquées d’office") }}</h3>
+    <ul class="small m0">{% for item in origin.proposals %}<li><b>{{ item.field }}</b> : <span class="mono">{{ item.value }}</span> · {{ item.status }}{% if item.source_url and (item.source_url.startswith("https://") or item.source_url.startswith("http://")) %} · <a class="plain-link" href="{{ item.source_url }}" rel="noopener noreferrer">{{ _("source") }}</a>{% endif %}{% if item.note %} <span class="faint">({{ item.note }})</span>{% endif %}</li>{% endfor %}</ul>
+  </div>
+  {% endif %}
+</section>

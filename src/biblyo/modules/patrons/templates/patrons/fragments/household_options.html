@@ -1,0 +1,11 @@
+{% from "components/feedback.html" import badge %}
+{% for card in cards %}
+<div class="picker-opt" id="foyer-{{ card.id }}" role="option" aria-selected="false" data-id="{{ card.id }}" data-label="{{ card.name }}">
+  <span class="grow"><b>{{ card.name }}</b>
+    <span class="faint small block">{% for member in card.members[:4] %}{{ member.name }}{% if not loop.last %}, {% endif %}{% else %}{{ _("Aucun membre") }}{% endfor %}</span>
+  </span>
+  {{ badge(card.kind_label, "io" if card.kind == "structure" else "rdr", dot=False) }}
+</div>
+{% else %}
+{% if query %}<p class="picker-none muted small" role="status">{{ _("Aucun foyer ne correspond.") }}</p>{% endif %}
+{% endfor %}

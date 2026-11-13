@@ -1,0 +1,22 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header, card %}
+{% from "components/buttons.html" import button, link_button %}
+{% from "components/feedback.html" import alert %}
+{% from "components/catalogue.html" import crumbs %}
+{% from "catalogue/fragments/fields.html" import edition_fields %}
+{% block title %}{{ _("Nouvelle édition") }} — {{ notice.title }} — biblyO{% endblock %}
+{% block content %}
+{{ crumbs([(_("Catalogue"), "/catalogue"), (notice.title, "/catalogue/notices/" ~ notice.id ~ "?onglet=editions"), (_("Nouvelle édition"), "")]) }}
+{{ page_header(_("Nouvelle édition"), notice.title, "cat", "book") }}
+{% if errors %}{{ alert(_("Certains champs sont à corriger."), "late") }}{% endif %}
+<form class="stack" method="post" action="/catalogue/notices/{{ notice.id }}/editions/nouvelle" novalidate>
+  <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+  {% call card(_("Publication"), "carte-publication") %}
+    <div class="form">{{ edition_fields(values, errors, language_options, role_options, rows.get("edition", [])) }}</div>
+  {% endcall %}
+  <div class="form-actions">
+    {{ button(_("Ajouter l’édition"), "p", "check", type="submit") }}
+    {{ link_button(_("Annuler"), "/catalogue/notices/" ~ notice.id ~ "?onglet=editions", "g") }}
+  </div>
+</form>
+{% endblock %}

@@ -1,0 +1,215 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header, kpi_tile, tabs, pagination %}
+{% from "components/buttons.html" import button, link_button %}
+{% from "components/feedback.html" import alert, badge, empty_state %}
+{% from "components/icons.html" import icon %}
+{% block title %}{{ _("Simulation de l’import") }} — biblyO{% endblock %}
+{% set sev_kind = {"ok": "ok", "info": "neutral", "warning": "due", "error": "late"} %}
+{% set t = sim.totals %}
+{% block content %}
+{% call page_header(_("Simulation de l’import"), _("Ce que l’import ferait, ligne par ligne. Rien n’a été écrit : ni dans le catalogue, ni dans la base."), "io", "stats") %}
+  {{ link_button(_("Correspondance"), base, "g", "edit") }}
+  <a href="{{ base }}/rapport.xlsx" class="btn btn-s" download>{{ icon("download", 16) }}<span class="lbl">{{ _("Rapport .xlsx") }}</span></a>
+  <a href="{{ base }}/lignes.csv" class="btn btn-g" download>{{ icon("download", 16) }}<span class="lbl">{{ _("Lignes .csv") }}</span></a>
+{% endcall %}
+
+<section class="card" aria-labelledby="source-titre">
+  <div class="card-h"><h2 id="source-titre">{{ _("Source et empreintes") }}</h2></div>
+  <div class="card-b">
+    <dl class="dlist">
+      <dt>{{ _("Fichier") }}</dt><dd><span class="b">{{ sim.filename }}</span>, {{ _("feuille « {s} »").format(s=sim.sheet) }} · <span class="mono small">{{ sim.file_sha256[:16] }}</span></dd>
+      {% if sim.complement_filename %}<dt>{{ _("Complémentaire") }}</dt><dd><span class="b">{{ sim.complement_filename }}</span>, {{ _("feuille « {s} »").format(s=sim.complement_sheet) }} · <span class="mono small">{{ sim.complement_sha256[:16] }}</span>{% if sim.sources_sheet %} · {{ _("sources : {s}").format(s=sim.sources_sheet) }}{% endif %}</dd>{% endif %}
+      <dt>{{ _("Empreinte du plan") }}</dt><dd class="mono small">{{ sim.plan_sha256 }}</dd>
+      <dt>{{ _("Identifiant de source") }}</dt><dd class="small">{{ _("empreinte du fichier, feuille et numéro de ligne : stable d’une simulation à l’autre") }}</dd>
+    </dl>
+  </div>
+</section>
+
+<div class="grid g3">
+  {{ kpi_tile(_("Lignes lues"), t.rows_read, _("{n} refusée(s)").format(n=t.rows_rejected), "io", "list") }}
+  {{ kpi_tile(_("Exemplaires"), t.copies, _("un par ligne, jamais fusionnés"), "io", "copy") }}
+  {{ kpi_tile(_("Livres (éditions)"), t.books, _("{n} exemplaires supplémentaires").format(n=t.extra_copies), "io", "book") }}
+  {{ kpi_tile(_("Œuvres"), t.works, _("dont {n} albums isolés").format(n=t.standalone_works), "io", "book") }}
+  {{ kpi_tile(_("Séries"), t.series, _("{n} formes écrites").format(n=t.series_forms), "io", "series") }}
+  {{ kpi_tile(_("Cotes partagées"), t.shared_call_numbers, _("par des livres différents"), "io", "tag") }}
+</div>
+
+<section class="card" aria-labelledby="reconciliation-titre">
+  <div class="card-h"><h2 id="reconciliation-titre">{{ _("Réconciliation des totaux") }}</h2></div>
+  <div class="card-b">
+    <ul class="small m0">
+      {% for label, ok, detail in sim.checks %}<li>{% if ok %}{{ badge(_("conforme"), "ok") }}{% else %}{{ badge(_("écart"), "late") }}{% endif %} {{ label }}{% if detail %} : <span class="mono">{{ detail }}</span>{% endif %}</li>{% endfor %}
+    </ul>
+    <p class="small m0 mt-s">{{ _("Répartition :") }} {% for k, n in t.distribution.items() %}{{ _("{n} livre(s) à {k} exemplaire(s)").format(n=n, k=k) }}{% if not loop.last %} · {% endif %}{% endfor %}</p>
+    <p class="small m0">{{ _("Contributeurs : {w} formes écrites, {k} après normalisation. Éditeurs : {p}. Collections : {c} valeurs. Différences de version : {d}.").format(w=t.agents_written, k=t.agents_keys, p=t.publishers, c=t.collections, d=t.differences) }}</p>
+    <p class="small m0">{{ _("Propositions :") }} {% for kind, n in t.proposals.items() %}{{ proposal_kinds.get(kind, kind) }} {{ n }}{% if not loop.last %} · {% endif %}{% else %}{{ _("aucune") }}{% endfor %}</p>
+  </div>
+</section>
+
+{% if sim.blockers %}
+<section class="card" aria-labelledby="avant-titre">
+  <div class="card-h"><h2 id="avant-titre">{{ _("Avant toute application") }}</h2>{{ badge(_("application bloquée"), "due") }}</div>
+  <div class="card-b"><ul class="small m0">{% for item in sim.blockers %}<li>{{ item }}</li>{% endfor %}</ul></div>
+</section>
+{% elif may_apply %}
+<section class="card" aria-labelledby="appliquer-titre" id="appliquer">
+  <div class="card-h"><h2 id="appliquer-titre">{{ _("Appliquer l’import") }}</h2>{% if not apply_enabled %}{{ badge(_("désactivé ici"), "neutral") }}{% endif %}</div>
+  <div class="card-b">
+    {% if apply_error %}{{ alert(apply_error, "late") }}{% if apply_details %}<ul class="small">{% for item in apply_details %}<li>{{ item }}</li>{% endfor %}</ul>{% endif %}{% endif %}
+    <p class="small m0">{{ _("L’application écrit exactement ce plan : {c} exemplaires, {b} livres, {w} œuvres, {s} séries. Une sauvegarde vérifiée de l’instance est prise avant ; tout est écrit en une seule transaction, ou rien. Les propositions restent des propositions. Ce fichier ne pourra pas être appliqué une seconde fois.").format(c=t.copies, b=t.books, w=t.works, s=t.series) }}</p>
+    {% if apply_enabled %}
+    <form class="form mt-s" method="post" action="{{ base }}/appliquer">
+      <input type="hidden" name="_csrf" value="{{ csrf_token }}"><input type="hidden" name="plan" value="{{ sim.plan_sha256 }}">
+      <label class="check" for="confirmer"><input type="checkbox" id="confirmer" name="confirmer" value="1" required> <span>{{ _("J’ai relu cette simulation et j’applique ce plan (empreinte {p}).").format(p=sim.plan_sha256[:12]) }}</span></label>
+      <div class="form-actions">{{ button(_("Appliquer l’import"), "p", "check", type="submit") }}</div>
+    </form>
+    {% else %}
+    <p class="small muted m0 mt-s">{{ _("L’application des imports est désactivée sur cette instance : un administrateur l’active sur le serveur, seulement là où l’import est décidé.") }}</p>
+    {% endif %}
+  </div>
+</section>
+{% endif %}
+
+{% set items = [] %}
+{% for key, label in views.items() %}{% set ignored = items.append({"label": label, "href": base ~ "/simulation?vue=" ~ key, "current": key == view}) %}{% endfor %}
+{{ tabs(items, _("Vues de la simulation"), "io") }}
+
+{% if view == "lignes" %}
+<form class="row gap-xs mb-s" method="get" action="{{ base }}/simulation">
+  <input type="hidden" name="vue" value="lignes">
+  <label class="sr" for="q">{{ _("Chercher une ligne") }}</label>
+  <div class="in-icon">{{ icon("search", 17) }}<input class="in" type="search" id="q" name="q" value="{{ q }}" placeholder="{{ _('Ligne, inventaire, cote ou texte') }}"></div>
+  <label class="sr" for="gravite">{{ _("Gravité") }}</label>
+  <select class="in in-sm" id="gravite" name="gravite"><option value="">{{ _("Toutes les gravités") }}</option>{% for key, label in severity_labels.items() %}<option value="{{ key }}"{% if key == severity %} selected{% endif %}>{{ label }} ({{ t.severities.get(key, 0) }})</option>{% endfor %}</select>
+  <label class="sr" for="code">{{ _("Signalement") }}</label>
+  <select class="in in-sm" id="code" name="code"><option value="">{{ _("Tous les signalements") }}</option>{% for key, n in t.anomaly_rows.items() %}<option value="{{ key }}"{% if key == code %} selected{% endif %}>{{ codes[key][1] }} ({{ n }})</option>{% endfor %}</select>
+  {{ button(_("Filtrer"), "s", type="submit") }}
+  {% if q or severity or code %}<a class="btn btn-g" href="{{ base }}/simulation">{{ _("Effacer") }}</a>{% endif %}
+  <span class="muted small">{{ _("{n} ligne(s)").format(n=row_total) }}</span>
+</form>
+{% if rows %}
+<section class="card" aria-label="{{ _('Lignes') }}">
+  <div class="tbl-wrap tbl-m-cards" tabindex="0" role="region" aria-label="{{ _("Résultat ligne par ligne") }}"><table class="tbl">
+    <caption class="sr">{{ _("Résultat ligne par ligne") }}</caption>
+    <thead><tr><th scope="col">{{ _("Ligne") }}</th><th scope="col">{{ _("Inventaire") }}</th><th scope="col">{{ _("Compris") }}</th><th scope="col">{{ _("Exemplaire") }}</th><th scope="col">{{ _("Signalements et propositions") }}</th></tr></thead>
+    <tbody>
+      {% for r in rows %}
+      {% set f = r.fields %}
+      <tr id="ligne-{{ r.number }}">
+        <td class="mono b">{{ r.number }}<br>{{ badge(severity_labels[r.severity], sev_kind[r.severity]) }}</td>
+        <td class="mono">{{ r.inventory or "—" }}<br><span class="faint small">{{ r.copy or _("refusée") }}</span></td>
+        <td class="small">
+          {% if f.series %}<span class="faint">{{ _("Série") }} {{ r.series }} :</span> {{ f.series }}{% if f.volume %} · {{ _("t.") }} {{ f.volume }}{% endif %}<br>{% endif %}
+          <span class="faint">{{ _("Œuvre") }} {{ r.work }} :</span> <span class="b">{{ sim.works[r.work].title if r.work else f.title }}</span><br>
+          {% if f.contributors %}<span class="faint">{{ _("Contributeurs :") }}</span> {% for c in f.contributors %}{{ c.written }}{% if c.to_specify %} <span class="faint">({{ _("rôle à préciser") }})</span>{% endif %}{% if not loop.last %} · {% endif %}{% endfor %}<br>{% endif %}
+          <span class="faint">{{ _("Livre") }} {{ r.book }} :</span> {{ f.publisher or "—" }}{% if f.collection %} · {{ f.collection }} <span class="faint">({{ collection_kinds.get(f.collection_kind, "") }})</span>{% endif %}
+        </td>
+        <td class="small"><span class="faint">{{ _("Cote") }}</span> <span class="mono">{{ f.call_number or "—" }}</span><br>
+          <span class="faint">{{ _("État") }}</span> {{ conditions.get(f.condition, "") or "—" }}{% if f.condition_note %} <span class="faint">(« {{ f.condition_note }} »)</span>{% endif %}<br>
+          {% if f.acquisition %}<span class="faint">{{ _("Acquisition") }}</span> {{ f.acquisition }}<br>{% endif %}
+          <span class="faint">{{ _("Code-barres") }}</span> {{ f.barcode or _("à attribuer plus tard") }}</td>
+        <td class="small">
+          {% for m in r.messages %}{{ badge(m.label, sev_kind[m.severity], dot=False) }}{% if m.text %} {{ m.text }}{% endif %}{% if m.column %} <span class="faint">({{ _("col.") }} {{ m.column }})</span>{% endif %}<br>{% endfor %}
+          {% for p in r.proposals %}<span class="faint">{{ _("Proposition") }} · {{ proposal_kinds.get(p.kind, p.kind) }} :</span> <span class="mono">{{ p.value }}</span>{% if p.origin %} <span class="faint">({{ p.origin }})</span>{% endif %}{% if p.url %} <span class="faint mono">{{ p.url }}</span>{% endif %}<br>{% endfor %}
+          {% if not r.messages and not r.proposals %}<span class="faint">{{ _("Sans remarque") }}</span>{% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table></div>
+</section>
+{{ pagination(page, range(1, pages + 1) | list, page_href) }}
+{% else %}
+<section class="card" aria-label="{{ _('Lignes') }}">{{ empty_state("check", _("Aucune ligne"), _("Aucune ligne ne correspond à ces filtres.")) }}</section>
+{% endif %}
+
+{% elif view == "anomalies" %}
+{% for family, items in families.items() %}
+<section class="card" aria-labelledby="famille-{{ family }}">
+  <div class="card-h"><h2 id="famille-{{ family }}">{{ family_labels[family] }}</h2></div>
+  <div class="card-b"><ul class="small m0">
+    {% for found, label, sev, n in items %}<li>{{ badge(severity_labels[sev], sev_kind[sev], dot=False) }} <a class="plain-link" href="{{ base }}/simulation?vue=lignes&amp;code={{ found }}">{{ label }}</a> : {{ _("{n} ligne(s)").format(n=n) }}</li>{% endfor %}
+  </ul></div>
+</section>
+{% else %}<section class="card" aria-label="{{ _('Anomalies') }}">{{ empty_state("check", _("Aucune anomalie")) }}</section>{% endfor %}
+{% if sim.sheet_notices %}
+<section class="card" aria-labelledby="feuille-titre"><div class="card-h"><h2 id="feuille-titre">{{ _("Signalé à la lecture") }}</h2></div>
+  <div class="card-b"><ul class="small m0">{% for code, message, cells in sim.sheet_notices %}<li>{{ message }}{% if cells %} <span class="mono">{{ cells | join(", ") }}</span>{% endif %}</li>{% endfor %}</ul></div></section>
+{% endif %}
+
+{% elif view == "livres" %}
+<section class="card" aria-label="{{ _('Livres') }}"><div class="tbl-wrap tbl-m-cards" tabindex="0" role="region" aria-label="{{ _("Livres prévus") }}"><table class="tbl">
+  <caption class="sr">{{ _("Livres prévus") }}</caption>
+  <thead><tr><th scope="col">{{ _("Livre") }}</th><th scope="col">{{ _("Titre") }}</th><th scope="col">{{ _("Éditeur") }}</th><th scope="col">{{ _("Exemplaires") }}</th><th scope="col">{{ _("Cotes") }}</th><th scope="col">{{ _("Propositions") }}</th></tr></thead>
+  <tbody>{% for b in sim.books.values() if b.rows | length > 1 or b.isbn_proposed %}{% set w = sim.works[b.work] %}
+    <tr><td class="mono">{{ b.ref }}</td><td>{% if w.series %}{{ sim.series[w.series].title }}{% if w.volume %} · {{ _("t.") }} {{ w.volume }}{% endif %} — {% endif %}<span class="b">{{ w.title }}</span></td><td>{{ b.publisher or "—" }}</td>
+      <td class="small">{{ b.rows | length }} : {% for n in b.rows %}<a class="plain-link mono" href="{{ base }}/simulation?vue=lignes&amp;q={{ n }}">{{ n }}</a>{% if not loop.last %}, {% endif %}{% endfor %}</td>
+      <td class="mono small">{{ b.call_numbers | unique | join(", ") }}</td><td class="mono small">{{ b.isbn_proposed | join(", ") }}{% if b.year_proposed %} · {{ b.year_proposed | join(", ") }}{% endif %}</td></tr>
+  {% endfor %}</tbody>
+</table></div>
+<div class="card-b"><p class="muted small m0">{{ _("Sont listés les livres en plusieurs exemplaires et ceux qui portent une proposition ; le rapport .xlsx les donne tous.") }}</p></div></section>
+
+{% elif view == "series" %}
+<section class="card" aria-label="{{ _('Séries') }}"><div class="tbl-wrap tbl-m-cards" tabindex="0" role="region" aria-label="{{ _("Séries prévues") }}"><table class="tbl">
+  <caption class="sr">{{ _("Séries prévues") }}</caption>
+  <thead><tr><th scope="col">{{ _("Série") }}</th><th scope="col">{{ _("Titre gardé") }}</th><th scope="col">{{ _("Forme de recherche") }}</th><th scope="col">{{ _("Formes écrites") }}</th><th scope="col">{{ _("Œuvres") }}</th><th scope="col">{{ _("Préfixes de cote") }}</th></tr></thead>
+  <tbody>{% for s in sim.series.values() %}
+    <tr><td class="mono">{{ s.ref }}</td><td class="b">{{ s.title }}</td><td>{{ s.search_form or "—" }}</td><td class="small">{% if s.forms | length > 1 %}{{ badge(_("variantes"), "due", dot=False) }} {% endif %}{{ s.forms.keys() | sort | join(" / ") }}</td><td>{{ s.works | length }}</td><td class="mono small">{% for k, n in s.call_prefixes | dictsort %}{{ k }} ({{ n }}){% if not loop.last %}, {% endif %}{% endfor %}</td></tr>
+  {% endfor %}</tbody>
+</table></div></section>
+
+{% elif view == "cotes" %}
+<section class="card" aria-label="{{ _('Cotes partagées') }}"><div class="tbl-wrap tbl-m-cards" tabindex="0" role="region" aria-label="{{ _("Cotes portées par plusieurs livres") }}"><table class="tbl">
+  <caption class="sr">{{ _("Cotes portées par plusieurs livres") }}</caption>
+  <thead><tr><th scope="col">{{ _("Cote") }}</th><th scope="col">{{ _("Livres") }}</th></tr></thead>
+  <tbody>{% for call, refs in sim.shared_call_numbers | dictsort %}
+    <tr><td class="mono b">{{ call }}</td><td class="small">{% for ref in refs %}{% set b = sim.books[ref] %}{{ sim.works[b.work].title }} <span class="faint">({{ _("lignes") }} {% for n in b.rows %}<a class="plain-link mono" href="{{ base }}/simulation?vue=lignes&amp;q={{ n }}">{{ n }}</a>{% if not loop.last %}, {% endif %}{% endfor %})</span>{% if not loop.last %}<br>{% endif %}{% endfor %}</td></tr>
+  {% else %}<tr><td colspan="2">{{ _("Aucune cote partagée.") }}</td></tr>{% endfor %}</tbody>
+</table></div>
+<div class="card-b"><p class="muted small m0">{{ _("Une cote n’est jamais une clé : ces livres restent distincts, avec leur cote d’origine.") }}</p></div></section>
+
+{% elif view == "propositions" %}
+<section class="card" aria-label="{{ _('Propositions') }}"><div class="tbl-wrap tbl-m-cards" tabindex="0" role="region" aria-label="{{ _("Propositions à vérifier") }}"><table class="tbl">
+  <caption class="sr">{{ _("Propositions à vérifier") }}</caption>
+  <thead><tr><th scope="col">{{ _("Ligne") }}</th><th scope="col">{{ _("Inventaire") }}</th><th scope="col">{{ _("Sorte") }}</th><th scope="col">{{ _("Valeur proposée") }}</th><th scope="col">{{ _("Origine") }}</th><th scope="col">{{ _("Source et remarque") }}</th></tr></thead>
+  <tbody>{% for r in sim.rows %}{% for p in r.proposals %}
+    <tr><td class="mono"><a class="plain-link" href="{{ base }}/simulation?vue=lignes&amp;q={{ r.number }}">{{ r.number }}</a></td><td class="mono">{{ r.inventory }}</td><td>{{ proposal_kinds.get(p.kind, p.kind) }}</td><td class="mono">{{ p.value }}</td><td class="small">{{ p.origin }}{% if p.column %} · {{ _("col.") }} {{ p.column }}{% endif %}</td><td class="small">{% if p.url %}<span class="mono">{{ p.url }}</span><br>{% endif %}{{ p.note }}</td></tr>
+  {% endfor %}{% endfor %}</tbody>
+</table></div>
+<div class="card-b"><p class="muted small m0">{{ _("Une proposition n’est jamais un fait : elle se confirme ou se rejette livre en main, après l’import.") }}</p></div></section>
+
+{% elif view == "differences" %}
+<section class="card" aria-label="{{ _('Différences') }}"><div class="tbl-wrap tbl-m-cards" tabindex="0" role="region" aria-label="{{ _("Différences entre le fichier principal et le fichier complémentaire") }}"><table class="tbl">
+  <caption class="sr">{{ _("Différences entre le fichier principal et le fichier complémentaire") }}</caption>
+  <thead><tr><th scope="col">{{ _("Ligne") }}</th><th scope="col">{{ _("Inventaire") }}</th><th scope="col">{{ _("Colonne") }}</th><th scope="col">{{ _("Fichier principal") }}</th><th scope="col">{{ _("Fichier complémentaire") }}</th><th scope="col">{{ _("Provenance") }}</th></tr></thead>
+  <tbody>{% for d in sim.differences %}
+    <tr><td class="mono">{{ d.row }}</td><td class="mono">{{ d.inventory }}</td><td>{{ d.letter }} · {{ d.column }}</td><td>{{ d.main or _("(vide)") }}</td><td class="b">{{ d.complement or _("(vide)") }}</td><td class="small">{{ d.origin }}, {{ _("ligne") }} {{ d.complement_row }}</td></tr>
+  {% else %}<tr><td colspan="6">{{ sim.complement_filename and _("Aucune différence dans les colonnes communes.") or _("Aucun fichier complémentaire.") }}</td></tr>{% endfor %}</tbody>
+</table></div>
+<div class="card-b"><p class="muted small m0">{{ _("Le fichier complémentaire ne fait pas foi : chaque différence est gardée comme proposition, la valeur du fichier principal reste.") }}</p></div></section>
+
+{% elif view == "colonnes" %}
+<section class="card" aria-label="{{ _('Colonnes') }}"><div class="tbl-wrap tbl-m-cards" tabindex="0" role="region" aria-label="{{ _("Couverture des colonnes") }}"><table class="tbl">
+  <caption class="sr">{{ _("Couverture des colonnes") }}</caption>
+  <thead><tr><th scope="col">{{ _("Colonne") }}</th><th scope="col">{{ _("Destination") }}</th><th scope="col">{{ _("Remplies") }}</th><th scope="col">{{ _("Brutes gardées") }}</th><th scope="col">{{ _("À l’identique") }}</th><th scope="col">{{ _("Transformées") }}</th><th scope="col">{{ _("Exemples") }}</th></tr></thead>
+  <tbody>{% for c in sim.columns %}
+    <tr><td><span class="mono b">{{ c.letter }}</span> {{ c.header }}{% if c.source != "main" %} <span class="faint small">({{ _("complémentaire") }})</span>{% endif %}</td><td>{{ c.field_label }} <span class="faint small">· {{ c.level }}</span></td><td>{{ c.filled }}</td><td>{{ c.kept_raw }}</td><td>{{ c.stored_as_is }}</td><td>{{ c.transformed }}{% if c.proposals %} · {{ _("{n} propositions").format(n=c.proposals) }}{% endif %}</td>
+      <td class="small">{% for n, a, b in c.examples_transformed %}<span class="mono">{{ n }}</span> : « {{ a }} » → « {{ b }} »{% if not loop.last %}<br>{% endif %}{% endfor %}</td></tr>
+  {% endfor %}</tbody>
+</table></div>
+<div class="card-b"><p class="muted small m0">{{ _("Chaque cellule remplie garde sa valeur brute, attachée à sa ligne : c’est ce que l’export restituera. « Transformées » compte les cellules dont le champ diffère de la cellule, en général un espace en trop.") }}</p></div></section>
+
+{% elif view == "noms" %}
+<div class="grid g2">
+<section class="card" aria-labelledby="noms-titre"><div class="card-h"><h2 id="noms-titre">{{ _("Contributeurs : {w} formes, {k} après normalisation").format(w=t.agents_written, k=t.agents_keys) }}</h2></div>
+  <div class="tbl-wrap" tabindex="0" role="region" aria-label="{{ _("Contributeurs") }}"><table class="tbl"><caption class="sr">{{ _("Contributeurs") }}</caption>
+  <thead><tr><th scope="col">{{ _("Forme écrite") }}</th><th scope="col">{{ _("Lignes") }}</th></tr></thead>
+  <tbody>{% for a in sim.agents.values() | sort(attribute="key") %}<tr><td>{{ a.written }}{% if a.kind != "person" %} {{ badge(_("organisation ?"), "due", dot=False) }}{% endif %}</td><td>{{ a.rows | length }}</td></tr>{% endfor %}</tbody></table></div></section>
+<section class="card" aria-labelledby="editeurs-titre"><div class="card-h"><h2 id="editeurs-titre">{{ _("Éditeurs : {n}").format(n=t.publishers) }}</h2></div>
+  <div class="tbl-wrap" tabindex="0" role="region" aria-label="{{ _("Éditeurs") }}"><table class="tbl"><caption class="sr">{{ _("Éditeurs") }}</caption>
+  <thead><tr><th scope="col">{{ _("Libellé d’origine") }}</th><th scope="col">{{ _("Forme d’usage proposée") }}</th><th scope="col">{{ _("Lignes") }}</th></tr></thead>
+  <tbody>{% for p in sim.publishers.values() | sort(attribute="key") %}<tr><td>{{ p.forms.keys() | sort | join(" / ") }}</td><td class="faint">{{ p.usage_form }}</td><td>{{ p.rows | length }}</td></tr>{% endfor %}</tbody></table></div>
+  <div class="card-b"><p class="muted small m0">{{ _("La forme d’usage n’est qu’une proposition (D-L6-14, non approuvée) : le libellé d’origine est gardé.") }}</p></div></section>
+</div>
+{% endif %}
+{% endblock %}
