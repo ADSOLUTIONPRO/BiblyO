@@ -143,7 +143,9 @@ def phase_parcours() -> None:
 
     # Paramètres
     settings = admin.get("/parametres")
-    check("Paramètres accessibles", settings.status_code == 200 and "Contrôle des réglages" in settings.text)
+    advanced = admin.get("/parametres/avance")  # 1.1.0 : rubriques ; 1.0.0 : une seule page
+    controls = advanced if advanced.status_code == 200 else settings
+    check("Paramètres accessibles", settings.status_code == 200 and "Contrôle des réglages" in controls.text)
     saved = post(admin, "/parametres/identite", {"nom": LIBRARY, "courriel": "recette@exemple.invalid",
                  "telephone": "00 00 00 00 00", "adresse": "Adresse de recette"}, page="/parametres")  # fmt: skip
     check("Identité enregistrée", saved.status_code == 303, saved.status_code)
@@ -151,8 +153,12 @@ def phase_parcours() -> None:
     check(
         "Logo enregistré et servi", logo.status_code == 303 and anonymous.get("/identite/logo.webp").status_code == 200
     )
-    sources = admin.get("/admin/sources").text
-    check("Open Library inactive sans adresse de contact", "Open Library" in sources)
+    rubric = admin.get("/parametres/enrichissement")  # 1.1.0 ; 1.0.0 : /admin/sources
+    sources = (rubric if rubric.status_code == 200 else admin.get("/admin/sources")).text
+    check(
+        "Open Library inactive sans adresse de contact",
+        "Open Library" in sources and ("éteinte" in sources or "désactivée" in sources),
+    )
 
     # Comptes
     for username, role in (
