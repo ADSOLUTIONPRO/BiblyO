@@ -1,0 +1,11 @@
+{# Paramètres (L7) : navigation entre les rubriques visibles du compte (`rubrics`, calculées par le serveur). #}
+{% from "components/icons.html" import icon %}
+
+{% macro settings_nav(rubrics, current="") %}
+<nav class="set-nav" aria-label="{{ _('Rubriques des paramètres') }}">
+  <a href="/parametres"{% if not current %} aria-current="page"{% endif %}>{{ icon("grid", 16) }}<span>{{ _("Toutes les rubriques") }}</span></a>
+  {% for rubric in rubrics %}
+  <a href="{{ rubric.href }}"{% if rubric.key == current %} aria-current="page"{% endif %}>{{ icon(rubric.icon, 16) }}<span>{{ rubric.label }}</span></a>
+  {% endfor %}
+</nav>
+{%- endmacro %}

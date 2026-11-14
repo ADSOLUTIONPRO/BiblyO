@@ -1,0 +1,25 @@
+{% extends "admin/pages/settings_base.html" %}
+{% from "components/buttons.html" import link_button %}
+{% set heading = _("Utilisateurs et permissions") %}{% set intro = _("Qui peut se connecter, et ce que chaque rôle peut faire.") %}{% set icon_name = "users" %}
+{% block title %}{{ heading }} — {{ _("Paramètres") }} — biblyO{% endblock %}
+{% block rubric %}
+<section class="card" aria-labelledby="titre-comptes">
+  <div class="card-h"><h2 id="titre-comptes">{{ _("Comptes") }}</h2></div>
+  <div class="card-b stack">
+    <p class="m0">{{ _("Créez un compte par personne, avec le rôle qui lui convient. Un compte peut être suspendu sans être supprimé.") }}</p>
+    {% if can("admin.users") %}<div>{{ link_button(_("Gérer les comptes"), "/admin/utilisateurs", "p", "users") }}</div>{% endif %}
+  </div>
+</section>
+<section class="card" aria-labelledby="titre-roles">
+  <div class="card-h"><h2 id="titre-roles">{{ _("Ce que chaque rôle peut faire") }}</h2></div>
+  <div class="card-b">
+    <ul class="plain set-rights">
+      {% for permission, label in overview.rights %}{% set row = loop.index0 %}
+      <li><span class="set-right">{{ label }}</span>
+        <span class="set-roles">{% for role, granted in overview.roles %}<span class="set-role{% if granted[row] %} is-yes{% endif %}">{{ role }} : {% if granted[row] %}{{ _("oui") }}{% else %}{{ _("non") }}{% endif %}</span>{% endfor %}</span></li>
+      {% endfor %}
+    </ul>
+    <p class="small muted m0 mt-s">{{ _("Les rôles sont fixés par l’application ; chaque compte reçoit l’un d’eux.") }}</p>
+  </div>
+</section>
+{% endblock %}

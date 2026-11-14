@@ -1,47 +1,83 @@
-{% extends layout %}
-{% from "components/layout.html" import page_header %}
+{% extends "admin/pages/settings_base.html" %}
 {% from "components/buttons.html" import button, link_button %}
 {% from "components/forms.html" import checkbox %}
 {% from "components/feedback.html" import badge, alert %}
-{% block title %}{{ _("Sources bibliographiques") }} — biblyO{% endblock %}
-{% block content %}
-{% call page_header(_("Sources bibliographiques"), _("Activez les sources, choisissez leur ordre et leur cadence. La BnF est interrogée en premier par défaut ; le Sudoc complète."), "enr", "gear") %}
-  {{ link_button(_("Recherche bibliographique"), "/sources", "g", "search") }}
-{% endcall %}
-
+{% set heading = _("Enrichissement et couvertures") %}
+{% set intro = _("Où biblyO cherche les informations et les couvertures de vos livres, et dans quel ordre.") %}
+{% set icon_name = "enrich" %}
+{% set about = {
+  "bnf": (_("La Bibliothèque nationale de France : la source la plus complète pour les livres publiés en France. Fournit aussi des couvertures, surtout pour les livres récents."), _("Notices sous Licence Ouverte de l’État. Couvertures réutilisables selon les conditions de la BnF, avec mention de la source et de la date.")),
+  "sudoc": (_("Le catalogue des bibliothèques universitaires (Abes) : complète la BnF, notamment pour les éditions anciennes. Pas de couvertures."), _("Notices sous Licence Ouverte de l’État, avec mention de la source et de la date.")),
+  "openlibrary": (_("Une base mondiale tenue par l’Internet Archive : utile pour les couvertures que la BnF n’a pas. Jamais utilisée pour toute la bibliothèque d’un coup."), _("Open Library n’accorde aucun droit sur les couvertures : elles restent celles des éditeurs. Chaque image retenue demande que vous confirmiez votre droit de l’utiliser. Son service sert à afficher des couvertures, pas à les télécharger en masse.")),
+} %}
+{% set probe_text = {
+  "found": _("répond normalement."),
+  "not_found": _("répond normalement."),
+  "timeout": _("met trop de temps à répondre. Réessayez plus tard ; si cela dure, augmentez le délai d’attente dans les réglages avancés."),
+  "throttled": _("demande de ralentir : biblyO attend avant de l’interroger de nouveau."),
+  "unavailable": _("ne répond pas pour le moment. Réessayez plus tard."),
+  "refused": _("refuse la requête de test."),
+  "invalid_response": _("répond de façon illisible."),
+  "disabled": _("est désactivée."),
+} %}
+{% block title %}{{ heading }} — {{ _("Paramètres") }} — biblyO{% endblock %}
+{% block rubric %}
 {% if probe %}
-  {% if probe.status in ("found", "not_found") %}{{ alert(_("{source} répond : {status}, {ms} ms.").format(source=labels.get(probe.code, probe.code), status=state_labels.get(probe.status, probe.status).format(n=probe.total), ms=probe.elapsed_ms), "ok") }}
-  {% else %}{{ alert(_("{source} ne répond pas correctement : {status}.").format(source=labels.get(probe.code, probe.code), status=state_labels.get(probe.status, probe.status).format(n=probe.total)), "late") }}{% endif %}
+  {% set ok = probe.status in ("found", "not_found") %}
+  {{ alert(labels.get(probe.code, probe.code) ~ " " ~ probe_text.get(probe.status, _("ne répond pas correctement.")) ~ (" " ~ _("Temps de réponse : {s} s.").format(s=(probe.elapsed_ms / 1000) | round(1)) if ok else ""), "ok" if ok else "late") }}
 {% endif %}
 {% if errors %}{{ alert(_("Certains réglages sont refusés : corrigez les champs signalés."), "late") }}{% endif %}
 
-<form method="post" action="/admin/sources" class="form">
+<form method="post" action="{{ action }}" class="form stack">
   <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+
   <section class="card" aria-labelledby="contact-titre">
-    <div class="card-h"><h2 id="contact-titre">{{ _("Identification auprès des sources") }}</h2>
+    <div class="card-h"><h2 id="contact-titre">{{ _("Adresse de contact") }}</h2>
       {% if contact %}{{ badge(_("renseignée"), "ok") }}{% else %}{{ badge(_("à renseigner"), "due") }}{% endif %}</div>
     <div class="card-b">
-      <div class="fld"><label for="contact">{{ _("Adresse de contact de la bibliothèque") }}</label>
+      <div class="fld"><label for="contact">{{ _("Courriel de la bibliothèque") }}</label>
         <input class="in" id="contact" name="contact" type="email" value="{{ form.get('contact', contact) }}" maxlength="120" autocomplete="email"{% if errors.get("contact") %} aria-invalid="true"{% endif %} aria-describedby="contact-aide{% if errors.get('contact') %} contact-erreur{% endif %}">
-        <span class="h" id="contact-aide">{{ _("Jointe à chaque requête, dans l’en-tête d’identification, pour qu’une source puisse prévenir la bibliothèque. Open Library la demande : sans elle, cette source reste désactivée.") }}</span>
+        <span class="h" id="contact-aide">{{ _("Transmise aux sources pour qu’elles puissent joindre la bibliothèque en cas de problème. Open Library l’exige : sans elle, cette source reste éteinte.") }}</span>
         {% if errors.get("contact") %}<span class="err" id="contact-erreur">{{ errors.get("contact") }}</span>{% endif %}</div>
     </div>
   </section>
+
+  <p class="m0"><b>{{ _("Ordre de recherche :") }}</b> {% for config in configs if config.enabled %}{{ labels.get(config.code, config.label) }}{% if not loop.last %} → {% endif %}{% else %}{{ _("aucune source active") }}{% endfor %}</p>
+
+  <ul class="plain set-sources">
   {% for config in configs %}
-  <section class="card" aria-labelledby="source-{{ config.code }}">
+  <li class="card set-source" aria-labelledby="source-{{ config.code }}">
     <div class="card-h"><h2 id="source-{{ config.code }}">{{ labels.get(config.code, config.label) }}</h2>
-      {% if config.enabled %}{{ badge(_("activée"), "ok") }}{% else %}{{ badge(_("désactivée"), "neutral") }}{% endif %}
-      <span class="muted small">{{ _("{n} réponse(s) en cache").format(n=cached.get(config.code, 0)) }}</span></div>
-    <div class="card-b">
-      {% if config.code in cover_only %}<p class="muted small m0 mb-s">{{ _("Couvertures seulement : cette source n’est jamais interrogée pour les notices.") }}</p>{% endif %}
-      {% if config.code in contact_required and not contact %}{{ alert(_("Adresse de contact à renseigner : tant qu’elle manque, cette source reste désactivée, quel que soit son réglage."), "due") }}{% endif %}
-      {% if errors.get(config.code ~ "_active") %}<p class="err m0 mb-s" id="{{ config.code }}-active-erreur">{{ errors.get(config.code ~ "_active") }}</p>{% endif %}
-      {% if config.code == "openlibrary" %}{{ alert(_("Open Library ne revendique et n’accorde aucun droit sur ses couvertures : elles restent celles des éditeurs. Activée, elle propose des images ; chaque image retenue demande que vous confirmiez votre droit de l’utiliser. Son API sert à l’affichage, pas au téléchargement en masse : une requête toutes les 1,5 s au moins."), "info") }}{% endif %}
+      {% if config.enabled %}{{ badge(_("activée"), "ok") }}{% else %}{{ badge(_("éteinte"), "neutral") }}{% endif %}</div>
+    <div class="card-b stack">
+      <p class="m0">{{ about.get(config.code, ("", ""))[0] }}</p>
+      {% if config.code in contact_required and not contact %}{{ alert(_("Renseignez d’abord l’adresse de contact ci-dessus : sans elle, Open Library reste éteinte."), "due") }}{% endif %}
+      {% if errors.get(config.code ~ "_active") %}<p class="err m0" id="{{ config.code }}-active-erreur">{{ errors.get(config.code ~ "_active") }}</p>{% endif %}
       <input type="hidden" name="source" value="{{ config.code }}">
-      <div class="enr-fields">
-        {{ checkbox(config.code ~ "_active", _("Activée"), "1", checked=config.enabled, id=config.code ~ "-active") }}
-        <div class="fld"><label for="{{ config.code }}-ordre">{{ _("Priorité") }}</label>
-          <select class="in" id="{{ config.code }}-ordre" name="{{ config.code }}_ordre">{% for n in range(1, configs | length + 1) %}<option value="{{ n }}"{% if n == config.priority %} selected{% endif %}>{{ n }}</option>{% endfor %}</select></div>
+      <div class="set-toggles">
+        {{ checkbox(config.code ~ "_active", _("Utiliser cette source") if config.code not in cover_only else _("Utiliser pour les couvertures"), "1", checked=config.enabled, id=config.code ~ "-active") }}
+        {% if config.code == "bnf" %}{{ checkbox("bnf_couvertures", _("Proposer ses couvertures"), "1", checked=config.covers_enabled, id="bnf-couvertures") }}
+        {% elif config.code in cover_sources %}{{ checkbox(config.code ~ "_couvertures", _("Proposer ses couvertures"), "1", checked=config.covers_enabled, id=config.code ~ "-couvertures") }}{% endif %}
+      </div>
+      {% if config.code not in cover_only %}
+      <div class="fld set-order"><label for="{{ config.code }}-ordre">{{ _("Rang dans l’ordre de recherche") }}</label>
+        <select class="in" id="{{ config.code }}-ordre" name="{{ config.code }}_ordre">{% for n in range(1, configs | length + 1) %}<option value="{{ n }}"{% if n == config.priority %} selected{% endif %}>{{ n }}{% if n == 1 %} — {{ _("cherchée en premier") }}{% endif %}</option>{% endfor %}</select></div>
+      {% else %}<input type="hidden" name="{{ config.code }}_ordre" value="{{ config.priority }}">{% endif %}
+      <p class="small m0"><b>{{ _("Couvertures :") }}</b> {% if config.code in cover_sources or config.code == "bnf" %}{{ _("oui") }}{% else %}{{ _("non") }}{% endif %}</p>
+      <details class="asst-tech"><summary>{{ _("Droits et conditions de réutilisation") }}</summary><p class="m0 mt-xs">{{ about.get(config.code, ("", ""))[1] }}</p></details>
+      <div>{{ button(_("Tester"), "s", "search", size="sm", type="submit", name="tester", value=config.code) }}</div>
+    </div>
+  </li>
+  {% endfor %}
+  </ul>
+
+  <details class="card" id="reglages-avances">
+    <summary class="card-fold"><b>{{ _("Réglages avancés") }}</b> <span class="muted small">{{ _("cadences, délais d’attente, mémoire des réponses : à ne changer qu’en cas de besoin") }}</span></summary>
+    <div class="card-b stack">
+      {% for config in configs %}
+      <fieldset class="fld">
+        <legend>{{ labels.get(config.code, config.label) }} <span class="muted small">· {{ _("{n} réponse(s) en mémoire").format(n=cached.get(config.code, 0)) }}</span></legend>
+        <div class="enr-fields">
         {% for field, label, value, help in [
           ("intervalle", _("Intervalle entre deux appels (ms)"), (config.interval_s * 1000) | int, _("Au moins {n} ms.").format(n=floors.interval)),
           ("lot", _("Intervalle en lot (ms)"), (config.batch_interval_s * 1000) | int, _("Au moins {n} ms. Sert à l’enrichissement de toute la bibliothèque.").format(n=floors.batch)),
@@ -53,17 +89,15 @@
           <span class="h" id="{{ name }}-aide">{{ help }}</span>
           {% if errors.get(name) %}<span class="err">{{ errors.get(name) }}</span>{% endif %}</div>
         {% endfor %}
-        {% if config.code == "bnf" %}{{ checkbox("bnf_couvertures", _("Couvertures"), "1", checked=config.covers_enabled, help=_("Service Couvertures du catalogue général, selon les conditions de réutilisation des données de la BnF."), id="bnf-couvertures") }}
-        {% elif config.code in cover_sources %}{{ checkbox(config.code ~ "_couvertures", _("Couvertures"), "1", checked=config.covers_enabled, id=config.code ~ "-couvertures") }}{% endif %}
-      </div>
-      <div class="form-actions mt-s">
-        {{ button(_("Tester la connexion"), "g", "search", size="sm", type="submit", name="tester", value=config.code) }}
-        {{ button(_("Vider le cache"), "g", "trash", size="sm", type="submit", name="vider", value=config.code) }}
-      </div>
+        </div>
+        <div>{{ button(_("Vider la mémoire de cette source"), "g", "trash", size="sm", type="submit", name="vider", value=config.code) }}</div>
+      </fieldset>
+      {% endfor %}
+      <p class="muted small m0">{{ _("Aucune limite de débit n’est publiée par la BnF et le Sudoc : les planchers sont une précaution du projet.") }}</p>
     </div>
-  </section>
-  {% endfor %}
+  </details>
+
   <div class="form-actions">{{ button(_("Enregistrer"), "p", "check", type="submit", name="enregistrer", value="1") }}</div>
 </form>
-<p class="muted small">{{ _("Les notices de la BnF et du Sudoc sont sous Licence Ouverte de l’État. Aucune limite de débit n’est publiée : les planchers ci-dessus sont une précaution du projet.") }}</p>
+<p class="small muted">{{ link_button(_("Chercher un livre dans les sources"), "/sources", "g", "search") }}</p>
 {% endblock %}

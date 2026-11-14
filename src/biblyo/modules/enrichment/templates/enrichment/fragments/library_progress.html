@@ -1,0 +1,25 @@
+{# Progression de la recherche de toute la bibliothèque ; se rafraîchit seule tant qu'elle est en cours. #}
+{% from "components/layout.html" import progress_bar %}
+{% from "components/buttons.html" import button %}
+{% from "components/feedback.html" import alert %}
+<div id="lib-progress"{% if job and job.status == "running" %} hx-get="/enrichissement/progression" hx-trigger="every 4s" hx-swap="outerHTML"{% endif %}>
+  {% if job and job.status in ("running", "paused", "interrupted") %}
+    {% set percent = ((job.processed * 100) // job.total) if job.total else 100 %}
+    <p class="m0"><b>{{ job_labels[job.status] }}</b> · {{ _("{done} livre(s) sur {total}").format(done=job.processed, total=job.total) }}</p>
+    <div class="mt-xs">{{ progress_bar(percent, _("Progression : {n} pour cent").format(n=percent), "enr") }}</div>
+    <p class="small muted m0 mt-xs">{{ _("Correspondances fiables : {a} · À vérifier : {b} · Sans proposition : {c}").format(a=counts.reliable, b=counts.plausible, c=counts.insufficient) }}{% if counts.errors %} · {{ _("En erreur : {n}").format(n=counts.errors) }}{% endif %}</p>
+    {% if job.last_error and job.status != "running" %}{{ alert(_("Dernier incident : {e}").format(e=job.last_error), "due") }}{% endif %}
+    {% if can("enrichment.batch") %}
+    <div class="row gap-xs mt-s">
+      {% if job.status == "running" %}
+        <form method="post" action="/enrichissement/{{ job.id }}/pause"><input type="hidden" name="_csrf" value="{{ csrf_token }}">{{ button(_("Mettre en pause"), "s", "clock", type="submit") }}</form>
+      {% else %}
+        <form method="post" action="/enrichissement/{{ job.id }}/reprendre"><input type="hidden" name="_csrf" value="{{ csrf_token }}">{{ button(_("Reprendre"), "p", "undo", type="submit") }}</form>
+      {% endif %}
+      <form method="post" action="/enrichissement/{{ job.id }}/annuler"><input type="hidden" name="_csrf" value="{{ csrf_token }}">{{ button(_("Annuler la recherche"), "g", "x", type="submit") }}</form>
+    </div>
+    {% endif %}
+  {% elif job %}
+    <p class="m0"><b>{{ job_labels[job.status] }}</b> · {{ _("{done} livre(s) examiné(s)").format(done=job.processed) }}{% if job.finished_at %} · {{ job.finished_at[:10] }}{% endif %}</p>
+  {% endif %}
+</div>

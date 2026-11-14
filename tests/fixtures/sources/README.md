@@ -58,3 +58,14 @@ lui-même à une notice, sans dépendre de ces fichiers.
 | `sudoc/sru-isbn-tome-titre-propre.xml` | Relevé le 12 novembre 2026, pendant la recette sur DEV : One Piece, tome 72, titré par le tome (`200$a` la série, `$h` « Tome [72] », `$i` « Les oubliés de Dressrosa ») ; 11 zones `$5` retirées |
 | `sudoc/sru-titre-auteur.xml` | Recherche par titre et auteur : recueils et livres audio mêlés |
 | `sudoc/sru-dublincore.xml` | Dublin Core du Sudoc : quatre éléments seulement |
+
+## Relevé du 14 novembre 2026 (lot L7)
+
+Cas réels de la production, pour l'assistant d'enrichissement : « Cerveau-choc » (Achille Talon, Greg, Dargaud) et
+« Du scénario à la réalisation » (Duc, Glénat). Fichiers `bnf/l7-*.xml` et `sudoc/l7-*.xml` : réponses aux requêtes
+exactes que fait le service pour chaque niveau de recherche (mêmes adresses, même nombre de notices demandées),
+nettoyées par les mêmes règles que ci-dessus (zones `$5` du Sudoc retirées, jeton de session vidé). `l7/manifeste.json`
+fait correspondre chaque adresse à son fichier.
+
+`l7/*.json` : réponses d'Open Library (recherche d'œuvres, notices d'ISBN), métadonnées seulement, que l'Internet
+Archive publie sans restriction ; **aucune image n'est conservée**, les tests les remplacent par des images générées.

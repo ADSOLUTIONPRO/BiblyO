@@ -1,100 +1,22 @@
 {% extends layout %}
 {% from "components/layout.html" import page_header %}
-{% from "components/buttons.html" import button, link_button %}
-{% from "components/forms.html" import field, textarea %}
-{% from "components/feedback.html" import alert, badge %}
+{% from "components/icons.html" import icon %}
+{% from "components/feedback.html" import alert %}
 {% block title %}{{ _("Paramètres") }} — biblyO{% endblock %}
-{% set kinds = {"ok": ("ok", _("prêt")), "todo": ("due", _("à faire")), "info": ("neutral", _("à savoir"))} %}
 {% block content %}
-{% call page_header(_("Paramètres"), _("Identité de la bibliothèque, sauvegardes, et l’état réel de chaque réglage nécessaire à l’exploitation"), "io", "gear") %}{% endcall %}
+{% call page_header(_("Paramètres"), _("Choisissez une rubrique. Chacune explique ses réglages en quelques mots."), "io", "gear") %}{% endcall %}
 {% if message %}{{ alert(message, "late") }}{% endif %}
 {% if notice %}{{ alert(notice, "ok") }}{% endif %}
-
-<section class="card" aria-labelledby="titre-controle">
-  <div class="card-h"><h2 id="titre-controle">{{ _("Contrôle des réglages") }}</h2></div>
-  <div class="tbl-wrap tbl-m-cards" tabindex="0" role="region" aria-label="{{ _('Contrôle des réglages') }}"><table class="tbl">
-    <caption class="sr">{{ _("Contrôle des réglages") }}</caption>
-    <thead><tr><th scope="col">{{ _("Réglage") }}</th><th scope="col">{{ _("État") }}</th><th scope="col">{{ _("Détail") }}</th><th scope="col"><span class="sr">{{ _("Lien") }}</span></th></tr></thead>
-    <tbody>
-      {% for check in overview.checks %}
-      <tr><td class="b">{{ check.label }}</td><td>{{ badge(kinds[check.state][1], kinds[check.state][0]) }}</td><td class="small">{{ check.detail }}</td>
-        <td class="ta-end">{% if check.href %}<a class="small" href="{{ check.href }}">{{ _("Ouvrir") }}<span class="sr"> : {{ check.label }}</span></a>{% endif %}</td></tr>
-      {% endfor %}
-    </tbody>
-  </table></div>
-</section>
-
-<div class="stack">
-<section class="card" aria-labelledby="titre-identite">
-  <div class="card-h"><h2 id="titre-identite">{{ _("Identité de la bibliothèque") }}</h2></div>
-  <div class="card-b">
-    {% if can("admin.identity") %}
-    <form class="form" method="post" action="/parametres/identite">
-      <input type="hidden" name="_csrf" value="{{ csrf_token }}">
-      {{ field("nom", _("Nom"), values.nom, required=True, error=errors.get("nom")) }}
-      {{ field("courriel", _("Courriel de la bibliothèque"), values.courriel, type="email", error=errors.get("courriel"), help=_("Pour les lecteurs. L’adresse jointe aux requêtes d’Open Library se règle dans les sources.")) }}
-      {{ field("telephone", _("Téléphone"), values.telephone, error=errors.get("telephone")) }}
-      {{ textarea("adresse", _("Adresse postale"), values.adresse, error=errors.get("adresse")) }}
-      <div class="form-actions">{{ button(_("Enregistrer"), "p", "check", type="submit") }}</div>
-    </form>
-    {% else %}
-    <p class="m0">{{ identity.name }}</p>
-    {% endif %}
-  </div>
-</section>
-
-<section class="card" aria-labelledby="titre-logo">
-  <div class="card-h"><h2 id="titre-logo">{{ _("Logo") }}</h2></div>
-  <div class="card-b stack">
-    {% if identity.logo_sha %}<img class="settings-logo" src="/identite/logo.webp?v={{ identity.logo_sha[:12] }}" alt="{{ _('Logo actuel') }}" width="96" height="96">{% else %}<p class="muted small m0">{{ _("Aucun logo : les initiales du nom sont affichées.") }}</p>{% endif %}
-    {% if can("admin.identity") %}
-    <form class="form" method="post" action="/parametres/logo" enctype="multipart/form-data">
-      <input type="hidden" name="_csrf" value="{{ csrf_token }}">
-      <div class="fld"><label for="logo">{{ _("Image") }}</label><input class="in" id="logo" type="file" name="logo" accept="image/png,image/jpeg,image/webp" aria-describedby="logo-aide"><span class="h" id="logo-aide">{{ _("PNG, JPEG ou WebP. Réencodée, sans métadonnées, gardée dans la base : elle part avec les sauvegardes.") }}</span></div>
-      <div class="form-actions">{{ button(_("Enregistrer le logo"), "s", "upload", type="submit") }}</div>
-    </form>
-    {% if identity.logo_sha %}<form method="post" action="/parametres/logo/retirer"><input type="hidden" name="_csrf" value="{{ csrf_token }}">{{ button(_("Retirer le logo"), "g", "trash", size="sm", type="submit") }}</form>{% endif %}
-    {% endif %}
-  </div>
-</section>
-</div>
-
-<section class="card" aria-labelledby="titre-droits">
-  <div class="card-h"><h2 id="titre-droits">{{ _("Droits par rôle") }}</h2></div>
-  <div class="tbl-wrap" tabindex="0" role="region" aria-label="{{ _('Droits par rôle') }}"><table class="tbl">
-    <caption class="sr">{{ _("Droits par rôle") }}</caption>
-    <thead><tr><th scope="col">{{ _("Droit") }}</th>{% for role, _granted in overview.roles %}<th scope="col">{{ role }}</th>{% endfor %}</tr></thead>
-    <tbody>
-      {% for permission, label in overview.rights %}{% set row = loop.index0 %}
-      <tr><td>{{ label }}</td>{% for _role, granted in overview.roles %}<td>{% if granted[row] %}{{ _("oui") }}{% else %}<span class="faint">{{ _("non") }}</span>{% endif %}</td>{% endfor %}</tr>
-      {% endfor %}
-    </tbody>
-  </table></div>
-  <div class="card-b"><p class="small muted m0">{{ _("Chaque compte reçoit un rôle dans « Utilisateurs ». Les rôles eux-mêmes sont fixés par l’application.") }}</p></div>
-</section>
-
-<div class="stack">
-<section class="card" aria-labelledby="titre-sauvegardes">
-  <div class="card-h"><h2 id="titre-sauvegardes">{{ _("Sauvegardes") }}</h2></div>
-  <div class="card-b col">
-    {% if overview.backups %}
-    <ul class="plain-list small">
-      {% for item in overview.backups %}
-      <li class="row gap-xs"><span class="mono grow min0 ellip">{{ item.name }}</span><span class="faint">{{ (item.bytes / 1048576) | round(1) }} Mio</span>
-        {% if can("admin.backups") %}<form method="post" action="/parametres/sauvegardes/verifier"><input type="hidden" name="_csrf" value="{{ csrf_token }}"><input type="hidden" name="archive" value="{{ item.name }}">{{ button(_("Vérifier"), "g", "", size="sm", type="submit", aria_label=_("Vérifier") ~ " " ~ item.name) }}</form>{% endif %}</li>
-      {% endfor %}
-    </ul>
-    {% else %}<p class="muted small m0">{{ _("Aucune sauvegarde pour l’instant.") }}</p>{% endif %}
-    {% if can("admin.backups") %}<form method="post" action="/parametres/sauvegardes"><input type="hidden" name="_csrf" value="{{ csrf_token }}">{{ button(_("Créer une sauvegarde maintenant"), "p", "download", type="submit") }}</form>{% endif %}
-    <p class="small muted m0">{{ _("Une sauvegarde n’est publiée qu’après vérification (archive, empreintes, intégrité de la base). La restauration se fait sur le serveur, service arrêté : biblyo backup restore <archive>. L’état remplacé est gardé à côté, jamais effacé.") }}</p>
-  </div>
-</section>
-
-<section class="card" aria-labelledby="titre-technique">
-  <div class="card-h"><h2 id="titre-technique">{{ _("Informations techniques") }}</h2></div>
-  <div class="card-b"><dl class="dlist">
-    {% for label, value in overview.technical %}<div><dt>{{ label }}</dt><dd class="mono small">{{ value }}</dd></div>{% endfor %}
-  </dl></div>
-</section>
-</div>
+<ul class="plain set-cards">
+  {% for rubric in settings_rubrics %}
+  <li>
+    <a class="set-card" href="{{ rubric.href }}">
+      <span class="set-card-ic">{{ icon(rubric.icon, 22) }}</span>
+      <span class="set-card-t">{{ rubric.label }}</span>
+      <span class="set-card-d">{{ rubric.description }}</span>
+      {% if summaries.get(rubric.key) %}<span class="set-card-s">{{ summaries.get(rubric.key) }}</span>{% endif %}
+    </a>
+  </li>
+  {% endfor %}
+</ul>
 {% endblock %}

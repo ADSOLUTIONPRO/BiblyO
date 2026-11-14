@@ -135,15 +135,26 @@ def search(
     sources: tuple[str, ...] | None = None,
     user_id: int | None,
     refresh: bool = False,
+    batch: bool = False,
 ) -> SearchOutcome:
-    """Interroge les sources niveau par niveau, note, classe, enregistre la recherche et ses propositions."""
+    """Interroge les sources niveau par niveau, note, classe, enregistre la recherche et ses propositions.
+    `batch` : cadence « lot » de chaque source et pauses plus longues (enrichissement de toute la bibliothèque)."""
     with database.session() as session:
         target = repo.load_target(session, edition_id)
     if target is None:
         raise BusinessError(_("Cette édition n’existe plus."))
     criteria = criteria or Criteria.from_fiche(target.fiche)
     return _run_search(
-        database, hub, target.fiche, criteria, sources, edition_id, target.fingerprint, user_id=user_id, refresh=refresh
+        database,
+        hub,
+        target.fiche,
+        criteria,
+        sources,
+        edition_id,
+        target.fingerprint,
+        user_id=user_id,
+        refresh=refresh,
+        batch=batch,
     )
 
 
@@ -182,6 +193,7 @@ def _run_search(
     *,
     user_id: int | None,
     refresh: bool,
+    batch: bool = False,
 ) -> SearchOutcome:
     configs = hub.metadata_configs()
     # Une source désactivée est toujours dite « désactivée » ; une source active non cochée n'est pas montrée
@@ -199,7 +211,7 @@ def _run_search(
         for index, config in enumerate(enabled):
             if level > 1 and index > 0 and decided:
                 break  # D3 : la source suivante n'est appelée que si la première n'a pas tranché
-            result, state = hub.search(config, query, limit=MAX_LEVEL_CANDIDATES, refresh=refresh)
+            result, state = hub.search(config, query, limit=MAX_LEVEL_CANDIDATES, refresh=refresh, batch=batch)
             states[config.code] = _merge_state(states.get(config.code), state)
             for candidate in result.candidates:
                 found.setdefault((candidate.source, candidate.external_id), (candidate, level))
@@ -985,3 +997,33 @@ def operation_edition(database: Database, operation_id: str) -> int | None:
         proposal = session.get(EnrichmentProposal, decision.proposal_id)
         search_row = session.get(EnrichmentSearch, proposal.search_id) if proposal else None
         return search_row.edition_id if search_row else None
+
+
+def dismiss(database: Database, *, proposal_id: int, user_id: int | None) -> int:
+    """« Ce n'est pas mon livre » : écarte la proposition et celles de la même édition (même groupe) de cette
+    recherche. Aucune fiche n'est touchée ; la décision est journalisée. Rend l'édition visée."""
+    with database.session(write=True) as session:
+        proposal = session.get(EnrichmentProposal, proposal_id)
+        if proposal is None:
+            raise BusinessError(_("Cette proposition n’existe plus."))
+        search = session.get(EnrichmentSearch, proposal.search_id)
+        if search is None or search.edition_id is None:
+            raise BusinessError(_("Cette proposition n’existe plus."))
+        same_group = session.scalars(
+            select(EnrichmentProposal).where(
+                EnrichmentProposal.search_id == proposal.search_id,
+                EnrichmentProposal.group_key == proposal.group_key,
+                EnrichmentProposal.status == "pending",
+            )
+        ).all()
+        for row in same_group:
+            row.status = "rejected"
+        audit.record(
+            session,
+            "enrichment.dismissed",
+            "edition",
+            search.edition_id,
+            user_id=user_id,
+            details={"recherche": search.id, "propositions": [row.id for row in same_group]},
+        )
+        return search.edition_id

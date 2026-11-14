@@ -64,6 +64,8 @@ def test_upgrade_keeps_every_copy_and_the_objects_that_read_copies(at_0011):
     assert len(dependents) == 2
     objects = _all(at_0011, "SELECT type, name FROM sqlite_master WHERE tbl_name = 'copies' OR sql LIKE '%copies%'")
     command.upgrade(alembic_config(at_0011), "0012")
+    assert _all(at_0011, "SELECT * FROM copies ORDER BY id") == before
+    command.upgrade(alembic_config(at_0011), "head")  # 0013 n'ajoute que deux tables, rien ne change pour copies
     assert schema_differences(at_0011) == [] and verify_schema(at_0011) == []
     assert _all(at_0011, "SELECT * FROM copies ORDER BY id") == before
     after = _all(at_0011, "SELECT type, name FROM sqlite_master WHERE tbl_name = 'copies' OR sql LIKE '%copies%'")

@@ -7,7 +7,7 @@
 {% block title %}{{ _("Enrichir : {title}").format(title=notice.title) }} — biblyO{% endblock %}
 {% block content %}
 {% call page_header(_("Enrichir « {title} »").format(title=notice.title), _("Les sources sont interrogées, les éditions comparées, puis vous choisissez champ par champ ce que la fiche reprend. Rien n’est écrit sans votre accord."), "enr", "enrich") %}
-  {% if can("admin.sources") %}{{ link_button(_("Sources"), "/admin/sources", "g", "gear") }}{% endif %}
+  {% if can("admin.sources") %}{{ link_button(_("Sources"), "/parametres/enrichissement", "g", "gear") }}{% endif %}
   {{ link_button(_("Retour à la fiche"), "/catalogue/notices/" ~ notice.id, "g", "undo") }}
 {% endcall %}
 

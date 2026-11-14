@@ -1,0 +1,19 @@
+{% extends "admin/pages/settings_base.html" %}
+{% from "components/buttons.html" import link_button %}
+{% set heading = _("Catalogue et affichage") %}{% set intro = _("Les listes qui servent à classer, décrire et retrouver les livres.") %}{% set icon_name = "book" %}
+{% block title %}{{ heading }} — {{ _("Paramètres") }} — biblyO{% endblock %}
+{% block rubric %}
+<section class="card" aria-labelledby="titre-listes">
+  <div class="card-h"><h2 id="titre-listes">{{ _("Listes du catalogue") }}</h2></div>
+  <div class="card-b stack">
+    <p class="m0">{{ _("Genres, catégories, types de document, sections, éditeurs et collections : ajoutez, renommez ou regroupez les valeurs proposées dans les fiches.") }}</p>
+    {% if can("catalogue.edit") %}<div>{{ link_button(_("Gérer les listes"), "/admin/catalogue", "p", "tag") }}</div>{% endif %}
+  </div>
+</section>
+<section class="card" aria-labelledby="titre-affichage">
+  <div class="card-h"><h2 id="titre-affichage">{{ _("Affichage") }}</h2></div>
+  <div class="card-b stack">
+    <p class="m0">{{ _("Le thème clair ou sombre se choisit par chaque personne, depuis le menu de l’application. Les couvertures de remplacement reprennent le titre, la série et le tome, dans une couleur propre à chaque livre.") }}</p>
+  </div>
+</section>
+{% endblock %}

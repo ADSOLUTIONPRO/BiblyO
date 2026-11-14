@@ -13,7 +13,7 @@
 
 services:
   biblyo:
-    image: ghcr.io/adsolutionpro/biblyo:1.0.0
+    image: ghcr.io/adsolutionpro/biblyo:1.1.0
     platform: linux/amd64
     container_name: biblyo
     restart: unless-stopped

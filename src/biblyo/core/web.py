@@ -10,7 +10,7 @@ from fastapi import Request
 from fastapi.responses import HTMLResponse
 from sqlalchemy.exc import SQLAlchemyError
 
-from biblyo.core import flash
+from biblyo.core import flash, rubrics
 from biblyo.core.htmx import is_htmx
 from biblyo.core.navigation import navigation_for
 from biblyo.core.security import csrf, sessions
@@ -67,6 +67,7 @@ def page_context(request: Request) -> dict[str, Any]:
         "theme": theme if theme in THEMES else None,
         "source_url": settings.source_url,
         "cookie_secure": settings.cookie_secure,
+        "settings_rubrics": rubrics.visible(auth) if auth is not None else [],
     }
 
 

@@ -14,7 +14,7 @@ exports complets.
 ## Image Docker
 
 ```sh
-docker pull ghcr.io/adsolutionpro/biblyo:1.0.0
+docker pull ghcr.io/adsolutionpro/biblyo:1.1.0
 ```
 
 Image `linux/amd64`, construite par GitHub Actions depuis l'étiquette de version, après les tests et une recette

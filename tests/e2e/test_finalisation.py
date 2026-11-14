@@ -80,7 +80,7 @@ def _check(page: Page, name: str) -> None:
 def test_settings_and_bulk_shelving_screens(page: Page, ready_server: Server) -> None:
     problems = watch(page)
     base = ready_server.base_url
-    page.goto(f"{base}/parametres")
+    page.goto(f"{base}/parametres/avance")
     expect(page.get_by_role("heading", name="Contrôle des réglages")).to_be_visible()
     _check(page, "10-parametres")
     page.goto(f"{base}/emplacements/non-ranges?origine=importes")

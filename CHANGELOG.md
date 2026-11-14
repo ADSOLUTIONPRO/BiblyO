@@ -1,5 +1,52 @@
 # Notes de version
 
+## 1.1.0
+
+**Enrichissement assisté, couvertures visibles, paramètres repensés.** Pour un bénévole : ouvrir un livre, cliquer sur
+« Enrichir », voir les couvertures proposées, reconnaître son livre et compléter sa fiche en quelques clics, sans
+risque de confondre une édition ou un tome.
+
+Révision du schéma : **0013** (deux tables nouvelles pour l'enrichissement de la bibliothèque ; aucune table existante
+modifiée). La mise à jour se fait à la main (`biblyo db upgrade`), après une sauvegarde vérifiée prise automatiquement.
+
+### Enrichir un livre
+
+- Un seul bouton, « Rechercher la couverture et les informations » : une seule recherche, à la BnF puis au Sudoc, tous
+  niveaux compris (ISBN confirmé, titre et auteur, série et tome, titre et éditeur).
+- Des cartes visuelles : la vraie couverture quand la source en a une, sinon « Pas d'image », jamais une illustration
+  générique ni une vignette cassée ; une indication claire : « Même édition » (ISBN identique seulement), « Édition
+  probable », « À vérifier », « Autre édition ». Le score reste dans « Détails techniques ».
+- « Choisir cette proposition » : votre fiche et la proposition, information par information ; « Ajouter les
+  informations manquantes » remplit seulement ce qui est vide, et demande « J'ai vérifié : c'est bien mon livre » hors
+  même édition établie. L'ISBN, les auteurs, le résumé et la couverture ne sont jamais ajoutés d'office.
+- « Ajouter seulement la couverture », « Ce n'est pas mon livre », « Voir les autres résultats ».
+- Une couverture d'une autre édition est signalée « Autre édition — couverture à vérifier », jamais choisie seule ;
+  jamais une intégrale ni un autre tome.
+- Titres abrégés de bande dessinée reconnus (« Cerveau-choc » pour « Les Idées d'Achille Talon, cerveau-choc »),
+  éditions concurrentes présentées côte à côte (« Du scénario à la réalisation », 1981 et 1990).
+- Open Library, si une adresse de contact est renseignée : couvertures proposées une à une, jamais en lot.
+
+### Enrichir la bibliothèque
+
+- Bouton « Enrichir la bibliothèque » dans le catalogue : une recherche par édition (jamais par exemplaire), en
+  arrière-plan, au rythme permis par chaque source ; pause, reprise, et reprise après un redémarrage.
+- Tableau de travail : livres sans couverture, fiches incomplètes, correspondances fiables, couvertures annoncées, cas à
+  vérifier, livres sans proposition.
+- Validation par petits lots (25 au plus) des seules correspondances fiables ; rien n'est modifié sans validation, et
+  chaque ajout s'annule depuis la fiche.
+
+### Paramètres
+
+- Sept rubriques : Ma bibliothèque, Catalogue et affichage, Enrichissement et couvertures, Prêts et lecteurs,
+  Sauvegardes, Utilisateurs et permissions, Paramètres avancés ; chacune visible selon les droits du compte.
+- Sources bibliographiques en cartes, avec « Tester » et un résultat en français courant ; cadences, délais et mémoire
+  des réponses rangés dans « Réglages avancés ».
+
+### Points d'attention
+
+- Après la mise à jour, lancer `biblyo db upgrade` : le service reste « non sain » tant que la base n'est pas migrée.
+- Retour à la 1.0.0 possible en restaurant la sauvegarde « pré-migration » prise par `biblyo db upgrade`.
+
 ## 1.0.0
 
 **Première version stable de biblyO**, logiciel libre de gestion de bibliothèque auto-hébergé, en français, conçu pour

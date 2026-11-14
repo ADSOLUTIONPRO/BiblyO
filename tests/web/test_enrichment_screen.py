@@ -193,7 +193,7 @@ def test_search_shows_sources_results_and_comparison(client_as, settings, networ
     assert _rows(settings, "SELECT COUNT(*) FROM enrichment_searches") == [(1,)]
     # Un rechargement de la page des résultats n'appelle aucune source
     calls = len(network.calls)
-    assert browser.get(f"/catalogue/notices/{work}/enrichir?recherche={search_id}").status_code == 200
+    assert browser.get(f"/catalogue/notices/{work}/enrichir/avance?recherche={search_id}").status_code == 200
     assert len(network.calls) == calls
 
 
@@ -263,7 +263,7 @@ def test_proposal_page_shows_both_values_with_prechecked_empty_fields_only(clien
     browser = client_as("librarian")
     _, html = _search(browser, work)
     page = browser.get(f"/catalogue/notices/{work}/enrichir/propositions/{_proposal_id(html)}").text
-    assert "5. Différences" in page and "Galimard" in page and "Gallimard" in page
+    assert "Choisir précisément les changements" in page and "Galimard" in page and "Gallimard" in page
     assert re.search(r'id="champ-year"[^>]*checked', page)  # vide, exact : précoché
     assert not re.search(r'id="champ-publisher"[^>]*checked', page)  # rempli : jamais précoché
     assert "Remplacer" in page and "Non copiable" in page and "Electre" in page
@@ -379,7 +379,8 @@ def test_the_proposed_cover_is_served_by_biblyo_as_webp(client_as, settings, net
     proposal = _proposal_id(html)
     page = browser.get(f"/catalogue/notices/{work}/enrichir/propositions/{proposal}").text
     path = f"/catalogue/notices/{work}/enrichir/propositions/{proposal}/couverture"
-    assert f'src="{path}"' in page and "openapi.bnf.fr" not in page
+    # La comparaison montre l'image servie par biblyO, jamais l'adresse de la source
+    assert "/catalogue/couvertures/image?source=bnf&amp;ref=ark%3A" in page and "openapi.bnf.fr" not in page
     image = browser.get(path)
     assert image.status_code == 200 and image.headers["content-type"] == "image/webp"
     assert image.content[:4] == b"RIFF" and image.headers["cache-control"].startswith("private")

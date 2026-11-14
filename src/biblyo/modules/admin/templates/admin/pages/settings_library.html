@@ -1,0 +1,36 @@
+{% extends "admin/pages/settings_base.html" %}
+{% from "components/buttons.html" import button %}
+{% from "components/forms.html" import field, textarea %}
+{% set heading = _("Ma bibliothèque") %}{% set intro = _("Le nom, le logo et les coordonnées affichés dans biblyO.") %}{% set icon_name = "building" %}
+{% block title %}{{ heading }} — {{ _("Paramètres") }} — biblyO{% endblock %}
+{% block rubric %}
+<section class="card" aria-labelledby="titre-identite">
+  <div class="card-h"><h2 id="titre-identite">{{ _("Identité") }}</h2></div>
+  <div class="card-b">
+    {% if can("admin.identity") %}
+    <form class="form" method="post" action="/parametres/identite">
+      <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+      {{ field("nom", _("Nom de la bibliothèque"), values.nom, required=True, error=errors.get("nom")) }}
+      {{ field("courriel", _("Courriel"), values.courriel, type="email", error=errors.get("courriel"), help=_("Affiché aux lecteurs. L’adresse de contact pour les sources bibliographiques se règle dans « Enrichissement et couvertures ».")) }}
+      {{ field("telephone", _("Téléphone"), values.telephone, error=errors.get("telephone")) }}
+      {{ textarea("adresse", _("Adresse postale"), values.adresse, error=errors.get("adresse")) }}
+      <div class="form-actions">{{ button(_("Enregistrer"), "p", "check", type="submit") }}</div>
+    </form>
+    {% else %}<p class="m0">{{ identity.name }}</p>{% endif %}
+  </div>
+</section>
+<section class="card" aria-labelledby="titre-logo">
+  <div class="card-h"><h2 id="titre-logo">{{ _("Logo") }}</h2></div>
+  <div class="card-b stack">
+    {% if identity.logo_sha %}<img class="settings-logo" src="/identite/logo.webp?v={{ identity.logo_sha[:12] }}" alt="{{ _('Logo actuel') }}" width="96" height="96">{% else %}<p class="muted m0">{{ _("Aucun logo : les initiales du nom sont affichées.") }}</p>{% endif %}
+    {% if can("admin.identity") %}
+    <form class="form" method="post" action="/parametres/logo" enctype="multipart/form-data">
+      <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+      <div class="fld"><label for="logo">{{ _("Choisir une image") }}</label><input class="in" id="logo" type="file" name="logo" accept="image/png,image/jpeg,image/webp" aria-describedby="logo-aide"><span class="h" id="logo-aide">{{ _("PNG, JPEG ou WebP. Gardée dans la base : elle part avec les sauvegardes.") }}</span></div>
+      <div class="form-actions">{{ button(_("Enregistrer le logo"), "s", "upload", type="submit") }}</div>
+    </form>
+    {% if identity.logo_sha %}<form method="post" action="/parametres/logo/retirer"><input type="hidden" name="_csrf" value="{{ csrf_token }}">{{ button(_("Retirer le logo"), "g", "trash", size="sm", type="submit") }}</form>{% endif %}
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

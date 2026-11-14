@@ -51,3 +51,35 @@ intégrité et schéma. Sur un échec, la base n'est pas modifiée.
   données de biblyO, et celles des autres applications du NAS.
 - Supprimer les dossiers `data` ou `sauvegardes`.
 - Utiliser l'étiquette `latest` : chaque installation désigne une version précise.
+
+## De la version 1.0.0 à la version 1.1.0
+
+Ce qui change pour la base : la révision **0013** ajoute deux tables (recherche de toute la bibliothèque) ; aucune
+table existante n'est modifiée, aucune donnée n'est réécrite.
+
+1. **Sauvegarder** (étape 2) et vérifier la sauvegarde : « révision 0012 ». Noter le nombre de livres et de prêts en
+   cours.
+2. **Changer de version** (étape 3) : `ghcr.io/adsolutionpro/biblyo:1.0.0` → `ghcr.io/adsolutionpro/biblyo:1.1.0`.
+   Le conteneur 1.1.0 démarre « non sain » : il ne migre jamais la base de lui-même.
+3. **Migrer** (étape 4) : `biblyo db upgrade` crée d'abord une sauvegarde **pré-migration** vérifiée (nom en
+   `…-pre-migration.tar.gz`, à noter), puis applique 0013 ; `biblyo db status` affiche « Révision courante : 0013 ».
+4. **Vérifier** : état sain ; même nombre de livres et de prêts ; une fiche garde son numéro d'inventaire, sa cote et
+   son emplacement ; « Enrichir » ouvre la page « Enrichir un livre » ; **Paramètres** affiche ses sept rubriques.
+5. Lancer « Enrichir la bibliothèque » d'abord sur un petit choix de livres (par exemple « Les éditions sans
+   couverture ») : pour toute la bibliothèque, la recherche prend quelques heures, au rythme permis par les sources.
+
+### Retour à la version 1.0.0
+
+1. YAML : remettre `ghcr.io/adsolutionpro/biblyo:1.0.0`, **Construire**. Le conteneur 1.0.0 refuse la base 0013
+   (« non sain ») sans rien y écrire : c'est attendu.
+2. Terminal du conteneur :
+
+   ```sh
+   biblyo backup restore <archive pré-migration> --confirmer <archive pré-migration>
+   ```
+
+3. **Redémarrer** le conteneur ; vérifier : sain, `biblyo db status` en révision 0012, même nombre de livres et de
+   prêts qu'avant la mise à jour. L'état remplacé est gardé dans `data/avant-restauration-<date>/`.
+
+Cette suite complète (1.0.0 publiée → 1.1.0 → migration → redémarrage → retour arrière) a été éprouvée avant la
+publication : voir [`rapports/RECETTE-1.1.0.md`](rapports/RECETTE-1.1.0.md).

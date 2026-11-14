@@ -229,7 +229,7 @@ def overview(session: Session, settings: Settings) -> Overview:
             _("Sources bibliographiques"),
             "ok" if sources.get("bnf") else "todo",
             source_text + ("" if contact else _(" ; adresse de contact non renseignée : Open Library reste inactive")),
-            "/admin/sources",
+            "/parametres/enrichissement",
         )
     )
     places = dict(session.execute(text("SELECT kind, COUNT(*) FROM locations WHERE is_active = 1 GROUP BY kind")).all())

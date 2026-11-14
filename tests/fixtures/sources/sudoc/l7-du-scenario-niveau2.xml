@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?xml-stylesheet type="text/xsl" href="https://www.sudoc.abes.fr/cbs/sru/DB=2.1/?xsl=searchRetrieveResponse" ?>
+<srw:searchRetrieveResponse xmlns:srw="http://www.loc.gov/zing/srw/"
+			    xmlns:dc="http://purl.org/dc/elements/1.1/"
+			    xmlns:diag="http://www.loc.gov/zing/srw/diagnostic/"
+			    xmlns:xcql="http://www.loc.gov/zing/cql/xcql/">
+    <srw:version>1.1</srw:version>
+    <srw:numberOfRecords>3</srw:numberOfRecords>
+    
+    <srw:records>
+    
+
+
+<srw:record>
+<srw:recordSchema>unimarc</srw:recordSchema>
+<srw:recordPacking>xml</srw:recordPacking>
+<srw:recordData>
+<record>
+<controlfield tag="005">20211227223649.000</controlfield>
+<leader>     cam0 22        450 </leader>
+<controlfield tag="001">005280613</controlfield>
+<controlfield tag="003">http://www.sudoc.fr/005280613</controlfield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">053152239</subfield>
+<subfield code="9">sudoc</subfield></datafield>
+<datafield tag="801" ind1=" " ind2="3"><subfield code="a">FR</subfield>
+<subfield code="b">Abes</subfield>
+<subfield code="c">20211227</subfield>
+<subfield code="g">AFNOR</subfield>
+<subfield code="h">053152239</subfield></datafield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">(OCoLC)300129677</subfield></datafield>
+<datafield tag="010" ind1=" " ind2=" "><subfield code="a">2-7234-0252-5</subfield>
+<subfield code="b">Vol.1</subfield></datafield>
+<datafield tag="010" ind1=" " ind2=" "><subfield code="a">2-7234-0390-4</subfield>
+<subfield code="b">Vol.2</subfield></datafield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">sib0735866</subfield></datafield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">ocm18978537</subfield></datafield>
+<datafield tag="100" ind1=" " ind2=" "><subfield code="a">19960723g19811983m  y0frey50      ba</subfield></datafield>
+<datafield tag="101" ind1="0" ind2=" "><subfield code="a">fre</subfield>
+<subfield code="2">639-2</subfield></datafield>
+<datafield tag="105" ind1=" " ind2=" "><subfield code="a">a   ||||000yy</subfield></datafield>
+<datafield tag="106" ind1=" " ind2=" "><subfield code="a">r</subfield></datafield>
+<datafield tag="181" ind1=" " ind2=" "><subfield code="6">z01</subfield>
+<subfield code="c">txt</subfield>
+<subfield code="2">rdacontent</subfield></datafield>
+<datafield tag="181" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="a">i#</subfield>
+<subfield code="b">xxxe##</subfield></datafield>
+<datafield tag="182" ind1=" " ind2=" "><subfield code="6">z01</subfield>
+<subfield code="c">n</subfield>
+<subfield code="2">rdamedia</subfield></datafield>
+<datafield tag="182" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="a">n</subfield></datafield>
+<datafield tag="183" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="a">nga</subfield>
+<subfield code="2">RDAfrCarrier</subfield></datafield>
+<datafield tag="102" ind1=" " ind2=" "><subfield code="a">FR</subfield></datafield>
+<datafield tag="200" ind1="1" ind2=" "><subfield code="a">L&apos;art de la B.D. [Bande dessinée]</subfield>
+<subfield code="f">B. Duc</subfield></datafield>
+<datafield tag="700" ind1=" " ind2="1"><subfield code="3">02684043X</subfield>
+<subfield code="a">Duc</subfield>
+<subfield code="f">1932-1995</subfield>
+<subfield code="4">070</subfield></datafield>
+<datafield tag="712" ind1="0" ind2="2"><subfield code="3">079201369</subfield>
+<subfield code="a">Glénat</subfield>
+<subfield code="c">Grenoble, Isère, France</subfield>
+<subfield code="c">1969-....</subfield>
+<subfield code="4">650</subfield></datafield>
+<datafield tag="214" ind1=" " ind2="0"><subfield code="a">Grenoble</subfield>
+<subfield code="c">Glénat</subfield>
+<subfield code="d">1981-1983</subfield></datafield>
+<datafield tag="215" ind1=" " ind2=" "><subfield code="a">2 vol., (189, 167 p.)</subfield>
+<subfield code="c">ill.</subfield>
+<subfield code="d">32 cm</subfield></datafield>
+<datafield tag="463" ind1=" " ind2="|"><subfield code="t">Du scénario à la réalisation graphique : tout sur la création des bandes dessinées</subfield>
+<subfield code="v">1</subfield></datafield>
+<datafield tag="463" ind1=" " ind2="|"><subfield code="t">Du dessin à la couleur</subfield>
+<subfield code="v">2</subfield></datafield>
+<datafield tag="606" ind1=" " ind2=" "><subfield code="3">027220796</subfield>
+<subfield code="a">Bandes dessinées</subfield>
+<subfield code="2">rameau</subfield></datafield>
+<datafield tag="606" ind1=" " ind2=" "><subfield code="3">027936910</subfield>
+<subfield code="a">TTechnique du dessin</subfield>
+<subfield code="2">rameau</subfield></datafield>
+<datafield tag="676" ind1=" " ind2=" "><subfield code="a">741.5</subfield>
+<subfield code="v">21</subfield></datafield>
+<datafield tag="801" ind1=" " ind2="3"><subfield code="a">FR</subfield>
+<subfield code="b">SF</subfield>
+<subfield code="c">19990209</subfield></datafield>
+<datafield tag="801" ind1=" " ind2="1"><subfield code="a">US</subfield>
+<subfield code="b">OCLC</subfield>
+<subfield code="g">AACR2</subfield></datafield>
+<datafield tag="801" ind1=" " ind2="2"><subfield code="a">FR</subfield>
+<subfield code="b">AUROC</subfield></datafield>
+</record></srw:recordData><srw:recordPosition>1</srw:recordPosition>
+</srw:record>
+
+<srw:record>
+<srw:recordSchema>unimarc</srw:recordSchema>
+<srw:recordPacking>xml</srw:recordPacking>
+<srw:recordData>
+<record>
+<controlfield tag="005">20240610150558.000</controlfield>
+<leader>     cam0 22        450 </leader>
+<controlfield tag="001">000667676</controlfield>
+<controlfield tag="003">http://www.sudoc.fr/000667676</controlfield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">053341694</subfield>
+<subfield code="9">sudoc</subfield></datafield>
+<datafield tag="801" ind1=" " ind2="3"><subfield code="a">FR</subfield>
+<subfield code="b">Abes</subfield>
+<subfield code="c">20240610</subfield>
+<subfield code="g">AFNOR</subfield>
+<subfield code="h">053341694</subfield></datafield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">00075420X</subfield>
+<subfield code="9">sudoc</subfield></datafield>
+<datafield tag="801" ind1=" " ind2="3"><subfield code="a">FR</subfield>
+<subfield code="b">Abes</subfield>
+<subfield code="c">20240610</subfield>
+<subfield code="g">AFNOR</subfield>
+<subfield code="h">00075420X</subfield></datafield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">(OCoLC)489581751</subfield></datafield>
+<datafield tag="010" ind1=" " ind2=" "><subfield code="a">2-7234-0252-5</subfield>
+<subfield code="b">rel.</subfield>
+<subfield code="d">100 FRF</subfield></datafield>
+<datafield tag="073" ind1=" " ind2="0"><subfield code="a">9782723402521</subfield></datafield>
+<datafield tag="020" ind1=" " ind2=" "><subfield code="a">FR</subfield>
+<subfield code="b">08403724</subfield></datafield>
+<datafield tag="021" ind1=" " ind2=" "><subfield code="a">FR</subfield>
+<subfield code="b">D.L. 82-13587</subfield></datafield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">CAEND010040634001</subfield></datafield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">frBN002018940</subfield></datafield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">FRBNF347258560000009</subfield>
+<subfield code="z">FRBNF34725856</subfield></datafield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">frBN002300683</subfield></datafield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">FRBNF343020300000007</subfield>
+<subfield code="z">FRBNF34302030</subfield></datafield>
+<datafield tag="033" ind1=" " ind2=" "><subfield code="a">http://catalogue.bnf.fr/ark:/12148/cb34725856k</subfield></datafield>
+<datafield tag="100" ind1=" " ind2=" "><subfield code="a">19840109d1981    m  y0frey50      ba</subfield></datafield>
+<datafield tag="101" ind1="0" ind2=" "><subfield code="a">fre</subfield>
+<subfield code="2">639-2</subfield></datafield>
+<datafield tag="105" ind1=" " ind2=" "><subfield code="a">a   az  000zy</subfield></datafield>
+<datafield tag="106" ind1=" " ind2=" "><subfield code="a">r</subfield></datafield>
+<datafield tag="181" ind1=" " ind2=" "><subfield code="6">z01</subfield>
+<subfield code="c">txt</subfield>
+<subfield code="2">rdacontent</subfield></datafield>
+<datafield tag="181" ind1=" " ind2=" "><subfield code="6">z02</subfield>
+<subfield code="c">sti</subfield>
+<subfield code="2">rdacontent</subfield></datafield>
+<datafield tag="181" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="a">i#</subfield>
+<subfield code="b">xxxe##</subfield></datafield>
+<datafield tag="181" ind1=" " ind2="1"><subfield code="6">z02</subfield>
+<subfield code="a">b#</subfield>
+<subfield code="b">xb2e##</subfield></datafield>
+<datafield tag="182" ind1=" " ind2=" "><subfield code="6">z01</subfield>
+<subfield code="c">n</subfield>
+<subfield code="2">rdamedia</subfield></datafield>
+<datafield tag="182" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="6">z02</subfield>
+<subfield code="a">n</subfield></datafield>
+<datafield tag="183" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="a">nga</subfield>
+<subfield code="2">RDAfrCarrier</subfield></datafield>
+<datafield tag="102" ind1=" " ind2=" "><subfield code="a">FR</subfield></datafield>
+<datafield tag="200" ind1="1" ind2=" "><subfield code="a">L&apos;art de la B.D.</subfield>
+<subfield code="h">[T.1]</subfield>
+<subfield code="i">Du scénario à la réalisation graphique, tout sur la création des bandes dessinées</subfield>
+<subfield code="f">B. Duc</subfield></datafield>
+<datafield tag="517" ind1="|" ind2=" "><subfield code="a">L&apos;art de la bande dessinée</subfield></datafield>
+<datafield tag="700" ind1=" " ind2="1"><subfield code="3">02684043X</subfield>
+<subfield code="a">Duc</subfield>
+<subfield code="f">1932-1995</subfield>
+<subfield code="4">070</subfield></datafield>
+<datafield tag="712" ind1="0" ind2="2"><subfield code="3">079201369</subfield>
+<subfield code="a">Glénat</subfield>
+<subfield code="c">Grenoble, Isère, France</subfield>
+<subfield code="c">1969-....</subfield>
+<subfield code="4">650</subfield></datafield>
+<datafield tag="214" ind1=" " ind2="0"><subfield code="a">Grenoble</subfield>
+<subfield code="c">Glénat</subfield>
+<subfield code="d">DL 1981</subfield></datafield>
+<datafield tag="215" ind1=" " ind2=" "><subfield code="a">1 vol. (191 p.)</subfield>
+<subfield code="c">ill. en noir et en coul., couv. ill. en coul.</subfield>
+<subfield code="d">32 cm</subfield></datafield>
+<datafield tag="225" ind1="2" ind2=" "><subfield code="a">Collection Bibliographies</subfield>
+<subfield code="x">0246-5647</subfield></datafield>
+<datafield tag="410" ind1=" " ind2="|"><subfield code="0">039391884</subfield>
+<subfield code="t">Collection Bibliographies</subfield>
+<subfield code="x">0246-5647</subfield>
+<subfield code="v">1</subfield></datafield>
+<datafield tag="606" ind1=" " ind2=" "><subfield code="3">027220796</subfield>
+<subfield code="a">Bandes dessinées</subfield>
+<subfield code="3">027796442</subfield>
+<subfield code="x">Manuels d&apos;amateurs</subfield>
+<subfield code="2">rameau</subfield></datafield>
+<datafield tag="606" ind1=" " ind2=" "><subfield code="3">027220796</subfield>
+<subfield code="a">Bandes dessinées</subfield>
+<subfield code="2">rameau</subfield></datafield>
+<datafield tag="606" ind1=" " ind2=" "><subfield code="3">027220796</subfield>
+<subfield code="a">Bandes dessinées</subfield>
+<subfield code="3">027253562</subfield>
+<subfield code="x">Technique</subfield>
+<subfield code="2">rameau</subfield></datafield>
+<datafield tag="676" ind1=" " ind2=" "><subfield code="a">700</subfield></datafield>
+<datafield tag="675" ind1=" " ind2=" "><subfield code="a">70</subfield>
+<subfield code="v">Éd. 1967</subfield></datafield>
+<datafield tag="305" ind1=" " ind2=" "><subfield code="a">Autres tirages : 1982, 1985, 1986, 1992, 2006</subfield></datafield>
+<datafield tag="801" ind1=" " ind2="3"><subfield code="a">FR</subfield>
+<subfield code="b">BN</subfield>
+<subfield code="c">19990126</subfield>
+<subfield code="g">AFNOR</subfield></datafield>
+<datafield tag="801" ind1=" " ind2="0"><subfield code="a">FR</subfield>
+<subfield code="b">141182101</subfield>
+<subfield code="c">19971124</subfield></datafield>
+</record></srw:recordData><srw:recordPosition>2</srw:recordPosition>
+</srw:record>
+
+<srw:record>
+<srw:recordSchema>unimarc</srw:recordSchema>
+<srw:recordPacking>xml</srw:recordPacking>
+<srw:recordData>
+<record>
+<controlfield tag="005">20260414090420.000</controlfield>
+<leader>     cam0 22        450 </leader>
+<controlfield tag="001">05147932X</controlfield>
+<controlfield tag="003">http://www.sudoc.fr/05147932X</controlfield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">(OCoLC)490499746</subfield></datafield>
+<datafield tag="010" ind1=" " ind2=" "><subfield code="a">2-7234-0252-5</subfield>
+<subfield code="b">rel.</subfield>
+<subfield code="d">119 FRF</subfield></datafield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">lm133126</subfield></datafield>
+<datafield tag="100" ind1=" " ind2=" "><subfield code="a">19990222d1990    m  y0frey50      ba</subfield></datafield>
+<datafield tag="101" ind1="0" ind2=" "><subfield code="a">fre</subfield>
+<subfield code="2">639-2</subfield></datafield>
+<datafield tag="105" ind1=" " ind2=" "><subfield code="a">a   f   000yy</subfield></datafield>
+<datafield tag="106" ind1=" " ind2=" "><subfield code="a">r</subfield></datafield>
+<datafield tag="181" ind1=" " ind2=" "><subfield code="6">z01</subfield>
+<subfield code="c">txt</subfield>
+<subfield code="2">rdacontent</subfield></datafield>
+<datafield tag="181" ind1=" " ind2=" "><subfield code="6">z02</subfield>
+<subfield code="c">sti</subfield>
+<subfield code="2">rdacontent</subfield></datafield>
+<datafield tag="181" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="a">i#</subfield>
+<subfield code="b">xxxe##</subfield></datafield>
+<datafield tag="181" ind1=" " ind2="1"><subfield code="6">z02</subfield>
+<subfield code="a">b#</subfield>
+<subfield code="b">xb2e##</subfield></datafield>
+<datafield tag="182" ind1=" " ind2=" "><subfield code="6">z01</subfield>
+<subfield code="c">n</subfield>
+<subfield code="2">rdamedia</subfield></datafield>
+<datafield tag="182" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="6">z02</subfield>
+<subfield code="a">n</subfield></datafield>
+<datafield tag="183" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="a">nga</subfield>
+<subfield code="2">RDAfrCarrier</subfield></datafield>
+<datafield tag="102" ind1=" " ind2=" "><subfield code="a">FR</subfield></datafield>
+<datafield tag="200" ind1="1" ind2=" "><subfield code="a">L&apos;Art de la BD</subfield>
+<subfield code="h">T. 1</subfield>
+<subfield code="i">du scénario à la réalisation graphique, tout sur la création des bandes dessinées</subfield>
+<subfield code="f">Duc</subfield></datafield>
+<datafield tag="700" ind1=" " ind2="1"><subfield code="3">02684043X</subfield>
+<subfield code="a">Duc</subfield>
+<subfield code="f">1932-1995</subfield>
+<subfield code="4">070</subfield></datafield>
+<datafield tag="712" ind1="0" ind2="2"><subfield code="3">079201369</subfield>
+<subfield code="a">Glénat</subfield>
+<subfield code="c">Grenoble, Isère, France</subfield>
+<subfield code="c">1969-....</subfield>
+<subfield code="4">650</subfield></datafield>
+<datafield tag="801" ind1=" " ind2="3"><subfield code="a">FR</subfield>
+<subfield code="b">Abes</subfield>
+<subfield code="c">20260414</subfield>
+<subfield code="g">AFNOR</subfield></datafield>
+<datafield tag="214" ind1=" " ind2="0"><subfield code="a">Paris</subfield>
+<subfield code="c">Glénat</subfield>
+<subfield code="d">1990</subfield></datafield>
+<datafield tag="215" ind1=" " ind2=" "><subfield code="a">1 volume (191 pages)</subfield>
+<subfield code="c">illustrations en noir et en couleurs, couverture illustrée en couleurs</subfield>
+<subfield code="d">32 cm</subfield></datafield>
+<datafield tag="225" ind1="2" ind2=" "><subfield code="a">Collection Bibliographies</subfield>
+<subfield code="x">0246-5647</subfield></datafield>
+<datafield tag="410" ind1=" " ind2="|"><subfield code="0">039391884</subfield>
+<subfield code="t">Collection Bibliographies</subfield>
+<subfield code="x">0246-5647</subfield>
+<subfield code="v">1</subfield></datafield>
+<datafield tag="606" ind1=" " ind2=" "><subfield code="3">027220796</subfield>
+<subfield code="a">Bandes dessinées</subfield>
+<subfield code="3">027796442</subfield>
+<subfield code="x">Manuels d&apos;amateurs</subfield>
+<subfield code="2">rameau</subfield></datafield>
+<datafield tag="606" ind1=" " ind2=" "><subfield code="3">027220796</subfield>
+<subfield code="a">Bandes dessinées</subfield>
+<subfield code="3">027253562</subfield>
+<subfield code="x">Technique</subfield>
+<subfield code="2">rameau</subfield></datafield>
+<datafield tag="676" ind1=" " ind2=" "><subfield code="a">741.6</subfield></datafield>
+<datafield tag="305" ind1=" " ind2=" "><subfield code="a">Autre tirage 1999</subfield></datafield>
+<datafield tag="801" ind1=" " ind2="0"><subfield code="a">FR</subfield>
+<subfield code="b">SCD Le Mans</subfield>
+<subfield code="g">AFNOR</subfield></datafield>
+<datafield tag="330" ind1=" " ind2=" "><subfield code="a">Scénariste et dessinateur de bandes dessinées, Duc est un de ces esprits curieux qui ne s&apos;arrêtent jamais à ce qu&apos;ils ont trouvé. Ainsi, passant allégrement du feuilleton policier au gag, de &quot; France-soir &quot; à &quot; Spirou &quot; et quelques autres, n&apos;y a-t-il aucun genre, aucune technique, qu&apos;il n&apos;ait personnellement exploré et expérimenté, en professionnel, au cours d&apos;une carrière déjà longue. Aussi, n&apos;attendons pas de lui de longues théories. Ce qu&apos;il nous offre dans le présent ouvrage, à travers l&apos;analyse de plus de 300 documents, extraits de l&apos;oeuvre des grands Maîtres de la bande dessinée, ce sont des exemples précis, concrets, qui ne laissent dans l&apos;ombre aucun des problèmes que pose la création des bandes dessinées.</subfield></datafield>
+</record></srw:recordData><srw:recordPosition>3</srw:recordPosition>
+</srw:record>
+</srw:records>
+    <srw:echoedSearchRetrieveRequest>
+	<srw:version>1.1</srw:version>
+	<srw:query>mti%3Ddu+scenario+la+realisation+and+aut%3Dbernard+duc</srw:query>
+	<srw:xQuery><xcql:triple><xcql:boolean> <xcql:value>and</xcql:value></xcql:boolean><xcql:leftOperand><xcql:triple><xcql:boolean> <xcql:value>and</xcql:value></xcql:boolean><xcql:leftOperand><xcql:triple><xcql:boolean> <xcql:value>and</xcql:value></xcql:boolean><xcql:leftOperand><xcql:triple><xcql:boolean> <xcql:value>and</xcql:value></xcql:boolean><xcql:leftOperand><xcql:triple><xcql:boolean> <xcql:value>and</xcql:value></xcql:boolean><xcql:leftOperand><xcql:searchClause><xcql:index>mti</xcql:index><xcql:relation><xcql:value>=</xcql:value></xcql:relation><xcql:term>du</xcql:term></xcql:searchClause></xcql:leftOperand><xcql:rightOperand><xcql:searchClause><xcql:index>mti</xcql:index><xcql:relation><xcql:value>=</xcql:value></xcql:relation><xcql:term>scenario</xcql:term></xcql:searchClause></xcql:rightOperand></xcql:triple></xcql:leftOperand><xcql:rightOperand><xcql:searchClause><xcql:index>mti</xcql:index><xcql:relation><xcql:value>=</xcql:value></xcql:relation><xcql:term>la</xcql:term></xcql:searchClause></xcql:rightOperand></xcql:triple></xcql:leftOperand><xcql:rightOperand><xcql:searchClause><xcql:index>mti</xcql:index><xcql:relation><xcql:value>=</xcql:value></xcql:relation><xcql:term>realisation</xcql:term></xcql:searchClause></xcql:rightOperand></xcql:triple></xcql:leftOperand><xcql:rightOperand><xcql:searchClause><xcql:index>aut</xcql:index><xcql:relation><xcql:value>=</xcql:value></xcql:relation><xcql:term>bernard</xcql:term></xcql:searchClause></xcql:rightOperand></xcql:triple></xcql:leftOperand><xcql:rightOperand><xcql:searchClause><xcql:index>aut</xcql:index><xcql:relation><xcql:value>=</xcql:value></xcql:relation><xcql:term>duc</xcql:term></xcql:searchClause></xcql:rightOperand></xcql:triple></srw:xQuery>
+	<startRecord>1</startRecord>
+	<maximumRecords>20</maximumRecords>
+	<srw:recordPacking>xml</srw:recordPacking>
+	<srw:recordSchema>unimarc</srw:recordSchema>
+	
+	<srw:stylesheet>https://www.sudoc.abes.fr/cbs/sru/DB=2.1/?xsl=searchRetrieveResponse</srw:stylesheet>
+    </srw:echoedSearchRetrieveRequest>
+    <diag:diagnostics>
+        <diag:uri>info:srw/diagnostic/1/0</diag:uri>
+	
+	
+    </diag:diagnostics>
+    
+</srw:searchRetrieveResponse>

@@ -93,6 +93,12 @@ class Previews:
     def get(self, source: str, reference: str, size: str) -> bytes | None:
         return self.cache.get(self.key(source, reference, size))
 
+    def missing(self, source: str, reference: str) -> bool:
+        return self.cache.get(self.key(source, reference, "absente")) is not None
+
+    def mark_missing(self, source: str, reference: str) -> None:
+        self.cache.put(self.key(source, reference, "absente"), b"")
+
     def keep(self, source: str, reference: str, original: bytes) -> bytes:
         """Contrôle et réencode l'image d'origine ; garde l'original, la vignette et le grand format."""
         thumbnail = preview_webp(original, THUMBNAIL_SIDE)
@@ -127,16 +133,24 @@ def fetch_original(hub: SourceHub, source: str, reference: str, ean: str = "") -
 
 
 def preview(hub: SourceHub, previews: Previews, source: str, reference: str, ean: str, size: str) -> bytes | None:
-    """Une image de proposition, depuis la mémoire ou la source. Rien si elle n'existe pas ou n'est pas une image."""
+    """Une image de proposition, depuis la mémoire ou la source. Rien si elle n'existe pas ou n'est pas une image.
+
+    Une absence constatée (pas d'image, réponse qui n'est pas une image) est gardée en mémoire : la même image
+    n'est pas redemandée à chaque affichage. Une panne passagère, elle, n'est pas retenue."""
     cached = previews.get(source, reference, size)
     if cached is not None:
         return cached
+    if previews.missing(source, reference):
+        return None
     result = fetch_original(hub, source, reference, ean)
     if result.status != "found":
+        if result.status in ("none_found", "announced_not_served", "invalid_image"):
+            previews.mark_missing(source, reference)
         return None
     try:
         previews.keep(source, reference, result.data)
     except InvalidImage:
+        previews.mark_missing(source, reference)
         return None
     return previews.get(source, reference, size)
 

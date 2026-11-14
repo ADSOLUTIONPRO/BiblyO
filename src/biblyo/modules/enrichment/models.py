@@ -217,3 +217,61 @@ class FieldProvenance(Base):
     decision_id: Mapped[int] = mapped_column(
         Integer, ForeignKey("enrichment_decisions.id", ondelete="RESTRICT"), nullable=False
     )
+
+
+JOB_STATUSES = ("running", "paused", "interrupted", "finished", "cancelled")
+JOB_ITEM_STATUSES = ("pending", "done", "error")
+JOB_TIERS = ("reliable", "plausible", "insufficient")
+
+
+class EnrichmentJob(Base):
+    """Une recherche par lot sur des éditions (révision 0013) : elle prépare des propositions, n'applique rien."""
+
+    __tablename__ = "enrichment_jobs"
+    __table_args__ = (
+        UniqueConstraint("public_id"),
+        CheckConstraint(_values("status", JOB_STATUSES), name="status_values"),
+        CheckConstraint("total >= 0 AND processed >= 0 AND errors >= 0", name="counts"),
+        Index("ix_enrichment_jobs_status", "status"),
+        TABLE_OPTIONS,
+    )
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    public_id: Mapped[str] = mapped_column(Text, nullable=False)
+    status: Mapped[str] = mapped_column(Text, nullable=False)
+    scope: Mapped[str] = mapped_column(Text, nullable=False)
+    total: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    processed: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    errors: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    last_error: Mapped[str | None] = mapped_column(Text)
+    created_by: Mapped[int | None] = mapped_column(Integer, ForeignKey("users.id", ondelete="SET NULL"))
+    created_at: Mapped[str] = mapped_column(Text, nullable=False)
+    updated_at: Mapped[str] = mapped_column(Text, nullable=False)
+    finished_at: Mapped[str | None] = mapped_column(Text)
+
+
+class EnrichmentJobItem(Base):
+    """Une édition dans une tâche : une seule fois par tâche, jamais un exemplaire."""
+
+    __tablename__ = "enrichment_job_items"
+    __table_args__ = (
+        UniqueConstraint("job_id", "edition_id"),
+        CheckConstraint(_values("status", JOB_ITEM_STATUSES), name="status_values"),
+        CheckConstraint(f"tier IS NULL OR {_values('tier', JOB_TIERS)}", name="tier_values"),
+        CheckConstraint("cover_announced IN (0, 1)", name="cover_announced_bool"),
+        Index("ix_enrichment_job_items_job_id_status", "job_id", "status", "position"),
+        Index("ix_enrichment_job_items_edition_id", "edition_id"),
+        TABLE_OPTIONS,
+    )
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    job_id: Mapped[int] = mapped_column(Integer, ForeignKey("enrichment_jobs.id", ondelete="CASCADE"), nullable=False)
+    edition_id: Mapped[int] = mapped_column(Integer, ForeignKey("editions.id", ondelete="CASCADE"), nullable=False)
+    position: Mapped[int] = mapped_column(Integer, nullable=False)
+    status: Mapped[str] = mapped_column(Text, nullable=False, default="pending")
+    search_id: Mapped[int | None] = mapped_column(Integer, ForeignKey("enrichment_searches.id", ondelete="SET NULL"))
+    tier: Mapped[str | None] = mapped_column(Text)
+    cover_announced: Mapped[bool] = mapped_column(IntBool, nullable=False, default=False)
+    attempts: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    error: Mapped[str | None] = mapped_column(Text)
+    updated_at: Mapped[str] = mapped_column(Text, nullable=False)

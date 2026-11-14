@@ -1,0 +1,20 @@
+{% extends "admin/pages/settings_base.html" %}
+{% from "components/buttons.html" import link_button %}
+{% set heading = _("Prêts et lecteurs") %}{% set intro = _("Combien de livres, pour combien de temps, et quand rappeler.") %}{% set icon_name = "loans" %}
+{% block title %}{{ heading }} — {{ _("Paramètres") }} — biblyO{% endblock %}
+{% block rubric %}
+<section class="card" aria-labelledby="titre-regles">
+  <div class="card-h"><h2 id="titre-regles">{{ _("Règles de prêt") }}</h2></div>
+  <div class="card-b stack">
+    <p class="m0">{{ _("Durée du prêt, nombre de livres et de renouvellements, délai de rappel, réglés par catégorie de lecteurs (adulte, mineur, structure…).") }}</p>
+    {% if can("circulation.settings") %}<div>{{ link_button(_("Régler les prêts"), "/prets/regles", "p", "loans") }}</div>{% endif %}
+  </div>
+</section>
+<section class="card" aria-labelledby="titre-lecteurs">
+  <div class="card-h"><h2 id="titre-lecteurs">{{ _("Lecteurs") }}</h2></div>
+  <div class="card-b stack">
+    <p class="m0">{{ _("Les coordonnées des lecteurs ne sont visibles que des comptes qui en ont le droit (rubrique « Utilisateurs et permissions »). Un mineur a toujours un responsable légal.") }}</p>
+    {% if can("patrons.view") %}<div>{{ link_button(_("Voir les lecteurs"), "/lecteurs", "s", "users") }}</div>{% endif %}
+  </div>
+</section>
+{% endblock %}

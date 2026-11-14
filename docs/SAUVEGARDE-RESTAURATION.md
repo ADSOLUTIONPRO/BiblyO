@@ -57,7 +57,7 @@ restaurer dans un conteneur jetable, réseau coupé :
 docker volume create biblyo_essai_restauration
 docker run --rm --network none --read-only --tmpfs /tmp --cap-drop ALL \
   -v /volume1/docker/biblyo/sauvegardes:/backups:ro -v biblyo_essai_restauration:/data \
-  ghcr.io/adsolutionpro/biblyo:1.0.0 \
+  ghcr.io/adsolutionpro/biblyo:1.1.0 \
   sh -c 'biblyo backup restore <archive> --confirmer <archive> && biblyo db check'
 docker volume rm biblyo_essai_restauration
 ```

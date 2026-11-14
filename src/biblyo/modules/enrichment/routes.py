@@ -8,11 +8,13 @@ permission `enrichment.review`.
 
 from __future__ import annotations
 
+from collections import OrderedDict
 from dataclasses import replace
 from typing import Annotated, Any
 
 from fastapi import APIRouter, Depends, HTTPException, Query, Request
 from fastapi.responses import HTMLResponse, RedirectResponse, Response
+from sqlalchemy import select
 from starlette.datastructures import FormData
 
 from biblyo.core import flash
@@ -25,14 +27,14 @@ from biblyo.core.security.sessions import AuthContext
 from biblyo.modules.catalogue import repository as catalogue_repo
 from biblyo.modules.catalogue.rules import CONTRIBUTOR_ROLES
 from biblyo.modules.catalogue.service import ConflictError
-from biblyo.modules.enrichment import cover_search, covers, creation, service
+from biblyo.modules.enrichment import assistant, batch, cover_search, covers, creation, service
 from biblyo.modules.enrichment import repository as repo
 from biblyo.modules.enrichment import settings as settings_service
 from biblyo.modules.enrichment.connectors import registry
 from biblyo.modules.enrichment.connectors.transport import HttpTransport, RecordedTransport
 from biblyo.modules.enrichment.diffing import NEVER_PRECHECKED, FieldDiff
 from biblyo.modules.enrichment.matching import LEVELS
-from biblyo.modules.enrichment.models import EditionIsbnCandidate
+from biblyo.modules.enrichment.models import EditionIsbnCandidate, EnrichmentProposal
 from biblyo.modules.enrichment.service import Acceptance, Criteria
 from biblyo.modules.enrichment.sources import SourceHub, contact_of
 from biblyo.modules.enrichment.tab import FIELD_LABELS
@@ -183,7 +185,7 @@ def _search_context(request: Request, target: repo.Target | None, search_id: int
     return {"search": view, "groups": groups, "compare": groups[:3], "excluded": excluded}
 
 
-@router.get("/catalogue/notices/{work_id}/enrichir", include_in_schema=False)
+@router.get("/catalogue/notices/{work_id}/enrichir/avance", include_in_schema=False)
 def enrich_page(
     request: Request,
     work_id: int,
@@ -221,7 +223,7 @@ def run_search(request: Request, work_id: int, auth: CanSearch, form: Form) -> R
     target, _provenance = _load(request, work_id, edition_id)
     limiter = _limiter(request)
     key = f"enrichment:{auth.user_id}"
-    base = f"{_base(work_id)}?edition={target.edition.id}"
+    base = f"{_base(work_id)}/avance?edition={target.edition.id}"
     if limiter.blocked(key):
         return _go_with_flash(request, base, "enrichment_limited")
     limiter.record(key)
@@ -240,6 +242,143 @@ def run_search(request: Request, work_id: int, auth: CanSearch, form: Form) -> R
     except BusinessError:
         return _go_with_flash(request, base, "enrichment_failed")
     return _go(f"{base}&recherche={outcome.search_id}#resultats")
+
+
+# --- Assistant « Enrichir un livre » (L7) ----------------------------------------------------------------------------
+SUGGESTIONS_KEPT = 50
+
+
+def _suggestions_memory(request: Request) -> OrderedDict[int, assistant.Suggestions]:
+    """Cartes déjà construites, par recherche : un rechargement ne redemande ni notices ni images."""
+    state = request.app.state
+    memory = getattr(state, "enrichment_suggestions", None)
+    if memory is None:
+        memory = OrderedDict()
+        state.enrichment_suggestions = memory
+    return memory
+
+
+def _suggestions(request: Request, search_id: int, target: repo.Target) -> assistant.Suggestions:
+    memory = _suggestions_memory(request)
+    found = memory.get(search_id)
+    if found is None:
+        try:
+            found = assistant.suggestions(
+                request.app.state.database,
+                hub_of(request),
+                _cover_previews(request),
+                search_id=search_id,
+                fiche=target.fiche,
+            )
+        except LookupError:
+            raise HTTPException(status_code=404) from None
+        memory[search_id] = found
+        while len(memory) > SUGGESTIONS_KEPT:
+            memory.popitem(last=False)
+    return found
+
+
+MISSING_LABELS: dict[str, str] = {
+    "cover": _("couverture"),
+    "isbn": _("ISBN"),
+    "publisher": _("éditeur"),
+    "year": _("année"),
+    "contributors": _("auteur"),
+    "summary": _("résumé"),
+    "pages": _("nombre de pages"),
+    "series": _("série"),
+}
+
+
+def _missing(target: repo.Target) -> list[str]:
+    """Ce qui manque à la fiche, en mots simples (en-tête de l'assistant)."""
+    edition, notice = target.edition, target.notice
+    gaps = {
+        "cover": edition.cover is None,
+        "isbn": not any(kind == "isbn13" for kind, _value in edition.identifiers),
+        "publisher": edition.publisher is None,
+        "year": edition.year is None,
+        "contributors": not notice.contributors,
+        "summary": not notice.summary,
+        "pages": edition.pages is None,
+    }
+    return [MISSING_LABELS[key] for key, missing in gaps.items() if missing]
+
+
+@router.get("/catalogue/notices/{work_id}/enrichir", include_in_schema=False)
+def assistant_page(
+    request: Request,
+    work_id: int,
+    auth: CanSearch,
+    edition: Annotated[int | None, Query()] = None,
+    recherche: Annotated[int | None, Query()] = None,
+) -> HTMLResponse:
+    target, _provenance = _load(request, work_id, edition)
+    found = None
+    if recherche is not None:
+        with request.app.state.database.session() as session:
+            views = repo.history(session, target.edition.id, search_id=recherche)
+        if not views:
+            raise HTTPException(status_code=404)
+        found = _suggestions(request, recherche, target)
+    hub = hub_of(request)
+    open_library = next((c for c in hub.cover_configs() if c.code == "openlibrary"), None)
+    return _render(
+        request,
+        "enrichment/pages/assistant.html",
+        {
+            "target": target,
+            "notice": target.notice,
+            "edition": target.edition,
+            "missing": _missing(target),
+            "found": found,
+            "base": _base(work_id),
+            "image_path": COVER_IMAGE_PATH,
+            "source_labels": SOURCE_LABELS,
+            "reliability": assistant.RELIABILITY,
+            "other_edition_cover": assistant.OTHER_EDITION_COVER,
+            "cover_states": assistant.COVER_STATES,
+            "open_library_ready": bool(open_library and open_library.enabled and open_library.covers_enabled),
+            "levels": LEVELS,
+        },
+    )
+
+
+@router.post("/catalogue/notices/{work_id}/enrichir/assistant", include_in_schema=False)
+def assistant_search(request: Request, work_id: int, auth: CanSearch, form: Form) -> Response:
+    """Une seule recherche, notices et couvertures : tous les niveaux, sources dans l'ordre de priorité."""
+    edition_raw = form.get("edition")
+    edition_id = int(edition_raw) if isinstance(edition_raw, str) and edition_raw.isdigit() else None
+    target, _provenance = _load(request, work_id, edition_id)
+    page = f"{_base(work_id)}?edition={target.edition.id}"
+    limiter = _limiter(request)
+    key = f"enrichment:{auth.user_id}"
+    if limiter.blocked(key):
+        return _go_with_flash(request, page, "enrichment_limited")
+    limiter.record(key)
+    try:
+        outcome = service.search(
+            request.app.state.database, hub_of(request), edition_id=target.edition.id, user_id=auth.user_id
+        )
+    except BusinessError:
+        return _go_with_flash(request, page, "enrichment_failed")
+    return _go(f"{page}&recherche={outcome.search_id}#propositions")
+
+
+@router.post("/catalogue/notices/{work_id}/enrichir/propositions/{proposal_id}/pas-mon-livre", include_in_schema=False)
+def assistant_dismiss(request: Request, work_id: int, proposal_id: int, auth: CanSearch, form: Form) -> Response:
+    try:
+        edition_id = service.dismiss(request.app.state.database, proposal_id=proposal_id, user_id=auth.user_id)
+    except BusinessError:
+        return _go_with_flash(request, _base(work_id), "enrichment_done")
+    edition_id = _owned_edition(request, work_id, edition_id)
+    search_raw = form.get("recherche")
+    search = f"&recherche={search_raw}" if isinstance(search_raw, str) and search_raw.isdigit() else ""
+    if search:
+        _suggestions_memory(request).pop(int(search_raw), None)  # type: ignore[arg-type]
+    return _go_with_flash(
+        request, f"{_base(work_id)}?edition={edition_id}{search}#propositions", "enrichment_dismissed"
+    )
 
 
 def _acceptance_from(form: FormData) -> Acceptance:
@@ -267,6 +406,11 @@ def _proposal_context(
         raise HTTPException(status_code=409, detail=exc.message) from exc
     if target.notice.id != work_id:
         raise HTTPException(status_code=404)
+    offer, offer_state = assistant.cover_for(
+        hub_of(request), _cover_previews(request), candidate, assessment.explanation, assessment.match_class
+    )
+    with request.app.state.database.session() as session:
+        search_id = session.scalar(select(EnrichmentProposal.search_id).where(EnrichmentProposal.id == proposal_id))
     checked = acceptance.fields if acceptance else frozenset(d.field for d in diffs if d.prechecked)
     people = {name for name, _role in acceptance.contributors} if acceptance else set()
     roles = dict(acceptance.contributors) if acceptance else {}
@@ -293,6 +437,16 @@ def _proposal_context(
         "never_prechecked": NEVER_PRECHECKED,
         "cover_offered": covers.offered(candidate),
         "replace_cover": acceptance.replace_cover if acceptance else False,
+        "reliability_code": assistant.reliability(assessment.match_class, assessment.explanation),
+        "reliability": assistant.RELIABILITY,
+        "fillable": [d for d in diffs if d.action == "fill" and d.field not in NEVER_PRECHECKED],
+        "kept": [d for d in diffs if d.action == "replace"],
+        "same": [d for d in diffs if d.action == "identical"],
+        "offer": offer,
+        "offer_state": offer_state,
+        "back": f"{_base(work_id)}?edition={target.edition.id}&recherche={search_id}#propositions",
+        "image_path": COVER_IMAGE_PATH,
+        "cover_states": assistant.COVER_STATES,
     }
 
 
@@ -315,6 +469,8 @@ def _fillable(diffs: list[FieldDiff]) -> frozenset[str]:
 def proposal_action(request: Request, work_id: int, proposal_id: int, auth: CanReview, form: Form) -> Response:
     action = form.get("action")
     acceptance = _acceptance_from(form)
+    if action == "manquants":
+        return _apply_missing(request, work_id, proposal_id, auth, form)
     if action == "cocher_vides":
         context = _proposal_context(request, work_id, proposal_id, acceptance)
         checked = acceptance.fields | _fillable(context["diffs"])
@@ -355,6 +511,34 @@ def proposal_action(request: Request, work_id: int, proposal_id: int, auth: CanR
         )
         return _go_with_flash(request, f"/catalogue/notices/{work_id}?onglet=enrichissement", code)
     raise HTTPException(status_code=400, detail=_("Action inconnue."))
+
+
+def _apply_missing(request: Request, work_id: int, proposal_id: int, auth: AuthContext, form: FormData) -> Response:
+    """« Ajouter les informations manquantes » : seuls les champs vides de la fiche sont remplis, jamais l'ISBN, la
+    couverture, les contributeurs ni le résumé (`NEVER_PRECHECKED`, à choisir un par un). Hors « Même édition »
+    établie par l'ISBN, la personne doit avoir coché « J'ai vérifié : c'est bien mon livre »."""
+    context = _proposal_context(request, work_id, proposal_id, None)
+    page = f"{_base(work_id)}/propositions/{proposal_id}"
+    if context["reliability_code"] != "same_edition" and form.get("verifie") != "1":
+        return _go_with_flash(request, page, "enrichment_verify_first")
+    fields = frozenset(d.field for d in context["fillable"])
+    if not fields:
+        return _go_with_flash(request, page, "enrichment_nothing")
+    try:
+        result = service.apply(
+            request.app.state.database,
+            proposal_id=proposal_id,
+            acceptance=Acceptance(fields=fields, contributors=(), confirm_isbn=False, replace_cover=False),
+            user_id=auth.user_id,
+            hub=hub_of(request),
+            media_dir=request.app.state.settings.media_dir,
+        )
+    except ConflictError:
+        return _go_with_flash(request, _base(work_id), "enrichment_stale")
+    except BusinessError:
+        return _go_with_flash(request, _base(work_id), "enrichment_done")
+    code = "enrichment_applied" if result.applied else "enrichment_nothing"
+    return _go_with_flash(request, f"/catalogue/notices/{work_id}?onglet=enrichissement", code)
 
 
 COVER_PREVIEW_PATH = "/catalogue/notices/{work_id}/enrichir/propositions/{proposal_id}/couverture"
@@ -520,16 +704,30 @@ def _sources_page(
             "probe": probe,
             "errors": errors or {},
             "form": {k: v for k, v in form.items() if isinstance(v, str)} if form else {},
+            "rubric": "enrichissement",
+            "message": "",
+            "notice": "",
+            "action": SOURCES_SETTINGS_PATH,
         },
         status,
     )
 
 
+SOURCES_SETTINGS_PATH = "/parametres/enrichissement"
+
+
 @router.get("/admin/sources", include_in_schema=False)
+def sources_old_address(request: Request, auth: CanConfigure) -> Response:
+    """Ancienne adresse de l'écran des sources (avant L7) : renvoie à la rubrique des paramètres."""
+    return _go(SOURCES_SETTINGS_PATH)
+
+
+@router.get(SOURCES_SETTINGS_PATH, include_in_schema=False)
 def sources_page(request: Request, auth: CanConfigure) -> HTMLResponse:
     return _sources_page(request)
 
 
+@router.post(SOURCES_SETTINGS_PATH, include_in_schema=False)
 @router.post("/admin/sources", include_in_schema=False)
 def sources_save(request: Request, auth: CanConfigure, form: Form) -> Response:
     database = request.app.state.database
@@ -540,7 +738,7 @@ def sources_save(request: Request, auth: CanConfigure, form: Form) -> Response:
     emptied = form.get("vider")
     if isinstance(emptied, str) and emptied:
         settings_service.clear_cache(database, emptied, auth.user_id)
-        return _go_with_flash(request, "/admin/sources", "sources_cache_cleared")
+        return _go_with_flash(request, SOURCES_SETTINGS_PATH, "sources_cache_cleared")
     codes = [str(v) for v in form.getlist("source") if isinstance(v, str)]
 
     def text(name: str) -> str:
@@ -563,7 +761,7 @@ def sources_save(request: Request, auth: CanConfigure, form: Form) -> Response:
         settings_service.save(database, rows, order, auth.user_id, contact=text("contact"))
     except FormErrors as exc:
         return _sources_page(request, errors=exc.fields, form=form, status=400)
-    return _go_with_flash(request, "/admin/sources", "sources_saved")
+    return _go_with_flash(request, SOURCES_SETTINGS_PATH, "sources_saved")
 
 
 # --- Recherche libre et création d'une notice (E3, PA-2) -------------------------------------------------------------
@@ -743,3 +941,100 @@ def cover_choose(request: Request, work_id: int, auth: CanSearch, form: Form) ->
     except InvalidImage:
         return _go_with_flash(request, page, "enrichment_cover_failed")
     return _go(f"/catalogue/notices/{work_id}/couverture/apercu/{staged.token}")
+
+
+# --- Enrichir la bibliothèque (L7, T4) -------------------------------------------------------------------------------
+CanBatch = Annotated[AuthContext, require("enrichment.batch")]
+LIBRARY_PATH = "/enrichissement"
+
+
+def _runner(request: Request) -> batch.Runner:
+    state = request.app.state
+    runner = getattr(state, "enrichment_runner", None)
+    if runner is None:
+        runner = batch.Runner(state.database, lambda: hub_of(request))
+        state.enrichment_runner = runner
+    return runner
+
+
+def _library_context(request: Request, view: str, page: int) -> dict[str, Any]:
+    database = request.app.state.database
+    job = batch.active_job(database) or batch.latest_job(database)
+    if job is not None and job.status == "running":
+        _runner(request).ensure(job.id)  # après un redémarrage du fil, la tâche en cours repart d'elle-même
+    view = view if view in batch.FILTERS else "reliable"
+    return {
+        "job": job,
+        "counts": batch.counts(database, job.id if job else None),
+        "rows": batch.board(database, job.id, view=view, page=page) if job else [],
+        "view": view,
+        "page": page,
+        "filters": batch.FILTERS,
+        "scopes": batch.SCOPES,
+        "tier_labels": batch.TIER_LABELS,
+        "job_labels": batch.JOB_LABELS,
+        "history": batch.history(database),
+        "validate_max": batch.VALIDATE_MAX,
+    }
+
+
+@router.get(LIBRARY_PATH, include_in_schema=False)
+def library_page(
+    request: Request,
+    auth: CanSearch,
+    vue: Annotated[str, Query()] = "reliable",
+    page: Annotated[int, Query(ge=1, le=1000)] = 1,
+) -> HTMLResponse:
+    return _render(request, "enrichment/pages/library.html", _library_context(request, vue, page))
+
+
+@router.get(LIBRARY_PATH + "/progression", include_in_schema=False)
+def library_progress(request: Request, auth: CanSearch) -> HTMLResponse:
+    """Fragment rafraîchi pendant la recherche : progression et compteurs."""
+    return _render(request, "enrichment/fragments/library_progress.html", _library_context(request, "reliable", 1))
+
+
+@router.post(LIBRARY_PATH + "/lancer", include_in_schema=False)
+def library_start(request: Request, auth: CanBatch, form: Form) -> Response:
+    scope = str(form.get("livres") or "")
+    try:
+        job_id = batch.start(request.app.state.database, scope=scope, user_id=auth.user_id)
+    except BusinessError:
+        return _go_with_flash(request, LIBRARY_PATH, "library_busy")
+    _runner(request).ensure(job_id)
+    return _go_with_flash(request, LIBRARY_PATH, "library_started")
+
+
+@router.post(LIBRARY_PATH + "/{job_id}/{action}", include_in_schema=False)
+def library_control(request: Request, job_id: int, action: str, auth: CanBatch) -> Response:
+    database = request.app.state.database
+    actions = {"pause": batch.pause, "reprendre": batch.resume, "annuler": batch.cancel}
+    if action not in actions:
+        raise HTTPException(status_code=404)
+    try:
+        actions[action](database, job_id, user_id=auth.user_id)
+    except BusinessError:
+        return _go_with_flash(request, LIBRARY_PATH, "library_state")
+    if action == "reprendre":
+        _runner(request).ensure(job_id)
+    return _go_with_flash(request, LIBRARY_PATH, f"library_{action}")
+
+
+@router.post(LIBRARY_PATH + "/valider", include_in_schema=False)
+def library_validate(request: Request, auth: CanReview, form: Form) -> Response:
+    ids = [int(v) for v in form.getlist("element") if isinstance(v, str) and v.isdigit()]
+    back = LIBRARY_PATH + "?vue=" + (str(form.get("vue")) if form.get("vue") in batch.FILTERS else "reliable")
+    if not ids:
+        return _go_with_flash(request, back, "library_nothing_selected")
+    try:
+        result = batch.validate(
+            request.app.state.database,
+            hub_of(request),
+            request.app.state.settings.media_dir,
+            item_ids=ids,
+            with_cover=form.get("couverture") == "1",
+            user_id=auth.user_id,
+        )
+    except BusinessError:
+        return _go_with_flash(request, back, "library_too_many")
+    return _go_with_flash(request, f"{back}&valides={result.applied}&ignores={result.skipped}", "library_validated")

@@ -224,7 +224,7 @@ def test_a_proposed_isbn_never_reaches_the_search(client_as, settings, network):
 def test_sources_settings_need_their_permission(client_as, role, network):
     browser = client_as(role)
     expected = 200 if role in ("admin", "librarian") else 403
-    assert browser.get("/admin/sources").status_code == expected
+    assert browser.get("/parametres/enrichissement").status_code == expected
 
 
 def _settings_form(**overrides):
@@ -272,8 +272,8 @@ def test_sources_can_be_reordered_disabled_and_slowed(client_as, settings, netwo
 
 def test_open_library_stays_off_until_a_contact_address_is_given(client_as, settings, network):
     browser = client_as("admin")
-    page = browser.get("/admin/sources").text
-    assert "Adresse de contact à renseigner" in page
+    page = browser.get("/parametres/enrichissement").text
+    assert "Renseignez d’abord l’adresse de contact" in page
     refused = browser.post("/admin/sources", data=_settings_form(openlibrary_active="1"))
     assert refused.status_code == 400 and "Renseignez d’abord l’adresse de contact" in refused.text
     assert _rows(settings, "SELECT is_enabled FROM metadata_sources WHERE code = 'openlibrary'") == [(0,)]
@@ -321,7 +321,7 @@ def test_connection_test_and_cache_clearing(client_as, settings, network):
     assert any("catalogue.bnf.fr" in url for url in network.calls)
     network.down = True
     page = browser.post("/admin/sources", data={"tester": "sudoc"})
-    assert "ne répond pas correctement" in page.text
+    assert "ne répond pas" in page.text and "répond normalement" not in page.text
     assert _rows(settings, "SELECT COUNT(*) FROM source_cache WHERE source_code = 'bnf'")[0][0] >= 1
     response = browser.post("/admin/sources", data={"vider": "bnf"})
     assert response.status_code == 303

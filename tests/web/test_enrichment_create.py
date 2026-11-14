@@ -85,9 +85,11 @@ def test_empty_free_search_is_refused_without_calling_sources(client_as, network
     assert network.calls == []
 
 
-def test_the_navigation_leads_to_the_free_search(client_as, network):
-    html = client_as("librarian").get("/").text
-    assert 'href="/sources"' in html and "/a-venir/enrichissement" not in html
+def test_the_navigation_leads_to_the_library_board_which_leads_to_the_free_search(client_as, network):
+    browser = client_as("librarian")
+    html = browser.get("/").text
+    assert 'href="/enrichissement"' in html and "/a-venir/enrichissement" not in html
+    assert 'href="/sources"' in browser.get("/enrichissement").text
 
 
 # --- Création ---------------------------------------------------------------------------------------------------------

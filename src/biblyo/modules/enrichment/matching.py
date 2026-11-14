@@ -8,6 +8,7 @@ déclassements s'appliquent avant lui, et une correspondance forte ne devient ja
 
 from __future__ import annotations
 
+import re
 from collections import defaultdict
 from dataclasses import dataclass, field, replace
 from typing import Literal
@@ -148,6 +149,51 @@ def _same_book_by_series(x: Candidate, y: Candidate) -> bool:
     return any(similarity(t, s) >= TITLE_CLOSE for t in titles for s in (x.work.series.value, y.work.series.value))
 
 
+_SEGMENT = re.compile(r"\s*[,:;.]\s+|\s+[-–—]\s+|\s*:\s*")
+ABRIDGED_MIN_WORDS = 3
+ABRIDGED_MIN_SHARE = 0.6
+
+
+def _segments(text: str) -> list[str]:
+    """Les parties d'un titre de notice : « Les Idées d'Achille Talon, cerveau-choc » → deux parties."""
+    return [part for part in _SEGMENT.split(text) if title_key(part)]
+
+
+def _abridged_title(local: LocalFiche, candidate: Candidate) -> str:
+    """Titre de BD abrégé sur la fiche, reconnu sous deux formes seulement, à mots entiers :
+
+    - « série + titre » : la dernière partie du titre de la notice est le titre de la fiche, et la partie qui précède
+      contient le nom de la série de la fiche (« Les Idées d'Achille Talon, cerveau-choc » pour « Cerveau-choc »,
+      série Achille Talon) ;
+    - « début du titre » : le titre de la fiche est le début, mot pour mot, de la première partie du titre de la
+      notice, avec au moins trois mots et 60 % de cette partie (« Du scénario à la réalisation » pour « Du scénario à
+      la réalisation graphique, tout sur la création… »).
+
+    Rend la note à afficher, ou « ». Jamais plus que « très proche » : un titre abrégé ne suffit pas à confirmer.
+    """
+    theirs = candidate.work.title.value
+    if candidate.work.subtitle:
+        theirs = f"{theirs} : {candidate.work.subtitle.value}"
+    parts = _segments(theirs)
+    mine = title_key(local.title).split()
+    if not mine or len(parts) < 1:
+        return ""
+    series = title_key(local.series)
+    if len(parts) >= 2 and series and similarity(local.title, parts[-1]) >= TITLE_EXACT:
+        before = " ".join(title_key(p) for p in parts[:-1])
+        if f" {series} " in f" {before} ":
+            return _("Titre de la série suivi du titre de l'album : « {theirs} »").format(theirs=theirs)
+    first = title_key(parts[0]).split()
+    if (
+        len(mine) >= ABRIDGED_MIN_WORDS
+        and len(first) > len(mine)
+        and first[: len(mine)] == mine
+        and len(mine) / len(first) >= ABRIDGED_MIN_SHARE
+    ):
+        return _("Titre abrégé, début du titre de la notice : « {theirs} »").format(theirs=theirs)
+    return ""
+
+
 def _title_criterion(local: LocalFiche, candidate: Candidate) -> tuple[Criterion, float]:
     local_title = local.title
     theirs = candidate.work.title.value
@@ -161,6 +207,10 @@ def _title_criterion(local: LocalFiche, candidate: Candidate) -> tuple[Criterion
         # « One Piece », tome 72, contre « Les oubliés de Dressrosa » : le titre de la fiche est celui de la série.
         note = _("Titre de la série, même livre : « {series} »").format(series=candidate.work.series.value)
         return Criterion("title", _("Titre"), 30 if by_series >= TITLE_EXACT else 22, 30, note), by_series
+    if ratio < TITLE_CLOSE:
+        abridged = _abridged_title(local, candidate)
+        if abridged:
+            return Criterion("title", _("Titre"), 22, 30, abridged), TITLE_CLOSE
     if ratio >= TITLE_EXACT:
         points, note = 30, _("Titre identique")
     elif ratio >= TITLE_CLOSE:

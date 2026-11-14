@@ -39,6 +39,7 @@ COVER_ID = re.compile(r"^[1-9][0-9]{0,11}$")
 ISBN13 = re.compile(r"^97[89][0-9]{10}$")
 MAX_JSON_BYTES = 1024 * 1024
 SEARCH_LIMIT = 6
+MAX_ISBNS = 4  # une seule requête /api/books pour les ISBN des éditions proposées
 
 LICENCE = Licence(
     holder="Open Library (Internet Archive)",
@@ -116,7 +117,7 @@ class OpenLibraryConnector:
         « found », « not_found » ou la nature de la panne."""
         found: list[FoundCover] = []
         status = "not_found"
-        keys = [isbn for isbn in isbns if ISBN13.match(isbn)][:2]
+        keys = [isbn for isbn in isbns if ISBN13.match(isbn)][:MAX_ISBNS]
         if keys:
             data, status = self._json(
                 BOOKS_URL

@@ -171,6 +171,7 @@ def test_dockerignore_admits_no_other_exception(tmp_path, extra):
 
 # --- Fichier de Container Manager (deploy/synology/compose.yaml) ---------------------------------------------------
 SYNOLOGY = (ROOT / "deploy" / "synology" / "compose.yaml").read_text(encoding="utf-8")
+IMAGE_LINE = next(line.strip() for line in SYNOLOGY.splitlines() if line.strip().startswith("image: "))
 
 
 def test_the_synology_compose_passes():
@@ -180,7 +181,7 @@ def test_the_synology_compose_passes():
 @pytest.mark.parametrize(
     ("old", "new", "fragment"),
     [
-        ("biblyo:1.0.0", "biblyo:latest", "version fixe"),
+        (IMAGE_LINE, "image: ghcr.io/adsolutionpro/biblyo:latest", "version fixe"),
         ("platform: linux/amd64", "platform: linux/arm64", "linux/amd64"),
         ("BIBLYO_ENV: production", "BIBLYO_ENV: development", "production"),
         ("read_only: true", "read_only: false", "lecture seule"),

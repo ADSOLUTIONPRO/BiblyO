@@ -17,6 +17,8 @@ from biblyo.core.schema_state import SchemaStatus, read_state
 ROOT = Path(__file__).resolve().parents[2]
 EXPECTED_TABLES = {
     "alembic_version",
+    "enrichment_jobs",
+    "enrichment_job_items",
     "audit_log",
     "role_permissions",
     "roles",

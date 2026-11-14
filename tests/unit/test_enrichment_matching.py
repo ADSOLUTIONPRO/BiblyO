@@ -382,3 +382,82 @@ def test_the_recorded_volume_title_record_of_the_sudoc_is_exact():
     """Réponse réelle du Sudoc, relevée le 12 novembre 2026 : 200$a « One piece », $h « Tome [72] », $i le titre."""
     results = classify(ONE_PIECE, [assess(ONE_PIECE, c) for c in candidates("sudoc/sru-isbn-tome-titre-propre")])
     assert [(r.candidate.work.title.value, r.match_class) for r in results] == [("Les oubliés de Dressrosa", "exact")]
+
+
+# --- Titres abrégés de BD (L7, T1) : cas relevés à la BnF et au Sudoc le 14 novembre 2026 ---------------------------
+TALON = LocalFiche(
+    title="Cerveau-choc", contributors=("Greg",), publisher="Dargaud", series="Achille Talon", volume=1.0
+)
+DUC = LocalFiche(title="Du scénario à la réalisation", contributors=("Bernard Duc",), publisher="Glénat")
+
+
+def _talon(title: str, *, volume: float | None = 1.0, series: str = "Achille Talon") -> Candidate:
+    return make(
+        title,
+        isbn=("9782205026894",),
+        publisher="Dargaud",
+        year=1984,
+        pages=None,
+        series=series,
+        volume=volume,
+        people=(("Greg", ""),),
+    )
+
+
+def test_series_then_album_title_is_very_close():
+    found = assess(TALON, _talon("Les Idées d'Achille Talon, cerveau-choc"))
+    title = next(c for c in found.criteria if c.key == "title")
+    assert (title.points, title.possible) == (22, 30)
+    assert "série suivi du titre de l'album" in title.note
+    assert not found.excluded and "Titre seulement cohérent" not in found.demoted
+
+
+def test_abridged_title_is_the_start_of_the_record_title():
+    item = make(
+        "Du scénario à la réalisation graphique, tout sur la création de la bande dessinée",
+        isbn=(),
+        publisher="Glénat",
+        year=1981,
+        pages=None,
+        people=(("Duc", "Bernard"),),
+    )
+    title = next(c for c in assess(DUC, item).criteria if c.key == "title")
+    assert (title.points, title.note.startswith("Titre abrégé")) == (22, True)
+
+
+@pytest.mark.parametrize(
+    ("local", "theirs", "series"),
+    [
+        (TALON, "Achille Talon", "Achille Talon"),  # titre de la série seul, autre ouvrage (intégrale 2007)
+        (TALON, "Les Idées d'Achille Talon, mon oeuvre à moi", "Achille Talon"),  # autre album de la série
+        (replace(TALON, series=""), "Les Idées d'Achille Talon, cerveau-choc", "Achille Talon"),  # série inconnue
+        (replace(TALON, series="Gaston"), "Les Idées d'Achille Talon, cerveau-choc", ""),  # série différente
+        (replace(TALON, title="Achille Talon"), "Achille Talon et le mystère de l'homme à deux têtes", ""),  # 2 mots
+        (replace(DUC, title="Du scénario"), "Du scénario à la réalisation graphique", ""),  # moins de 3 mots utiles
+        (DUC, "Du scénario à la réalisation graphique d'un album complet de bande dessinée", ""),  # moins de 60 %
+    ],
+)
+def test_abridged_titles_are_never_stretched(local, theirs, series):
+    item = make(
+        theirs,
+        isbn=(),
+        publisher=local.publisher,
+        year=None,
+        pages=None,
+        series=series,
+        volume=None,
+        people=(("Greg", ""),),
+    )
+    title = next(c for c in assess(local, item).criteria if c.key == "title")
+    assert title.points < 22 or not title.note.startswith(("Titre abrégé", "Titre de la série suivi"))
+
+
+def test_abridged_title_never_confirms_an_edition_without_isbn():
+    local = replace(TALON, isbn13=())
+    ranked = classify(local, [assess(local, _talon("Les Idées d'Achille Talon, cerveau-choc"))])
+    assert ranked[0].match_class != "exact"
+
+
+def test_another_volume_stays_excluded_even_with_a_matching_album_title():
+    found = assess(TALON, _talon("Achille Talon, cerveau-choc", volume=8.0))
+    assert found.excluded == "Numéro de tome différent"

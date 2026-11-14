@@ -1,0 +1,56 @@
+{
+ "ISBN:9782723402521": {
+  "url": "http://openlibrary.org/books/OL21801154M/L'_art_de_la_BD.",
+  "key": "/books/OL21801154M",
+  "title": "L' art de la BD.",
+  "authors": [
+   {
+    "url": "http://openlibrary.org/authors/OL3969791A/B._Duc",
+    "name": "B. Duc"
+   }
+  ],
+  "number_of_pages": 192,
+  "identifiers": {
+   "goodreads": [
+    "2777506"
+   ],
+   "librarything": [
+    "326403"
+   ],
+   "isbn_10": [
+    "2723402525"
+   ],
+   "openlibrary": [
+    "OL21801154M"
+   ]
+  },
+  "publishers": [
+   {
+    "name": "Glénat"
+   },
+   {
+    "name": "GLENAT"
+   }
+  ],
+  "publish_places": [
+   {
+    "name": "Grenoble"
+   }
+  ],
+  "publish_date": "1982",
+  "ebooks": [
+   {
+    "preview_url": "https://archive.org/details/lartdelabd0000bduc",
+    "availability": "borrow",
+    "formats": {},
+    "borrow_url": "https://openlibrary.org/books/OL21801154M/L'_art_de_la_BD./borrow",
+    "checkedout": false
+   }
+  ],
+  "cover": {
+   "small": "https://covers.openlibrary.org/b/id/13657635-S.jpg",
+   "medium": "https://covers.openlibrary.org/b/id/13657635-M.jpg",
+   "large": "https://covers.openlibrary.org/b/id/13657635-L.jpg"
+  }
+ }
+}

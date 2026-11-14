@@ -79,7 +79,8 @@ jobs:
           output: trivy.txt
 
       - name: Recette du paquet distribué
-        run: bash scripts/recette_distribution.sh "$IMAGE:${{ steps.version.outputs.version }}"
+        shell: bash  # -eo pipefail : un échec de la recette n'est jamais masqué par l'enregistrement du journal
+        run: bash scripts/recette_distribution.sh "$IMAGE:${{ steps.version.outputs.version }}" 2>&1 | tee recette.txt
 
       # L'image redistribue des paquets Debian, dont certains sous GPL ou LGPL : la liste exacte de leurs paquets
       # source et versions accompagne chaque version, et leurs sources sont publiées au même endroit que l'image.
@@ -155,10 +156,16 @@ jobs:
             echo "- Référence immuable : \`$IMAGE@$DIGEST\`"
             echo "- Plateforme : linux/amd64 ; commit : \`$GITHUB_SHA\`"
             echo "- Installation : INSTALLATION-SYNOLOGY.md ; fichiers joints : compose.yaml, .env.example"
+            echo "- Mise à jour et retour arrière : MISE-A-JOUR.md ; sauvegarde et restauration : SAUVEGARDE-RESTAURATION.md"
+            echo "- Recette : RECETTE-$VERSION.md (tests, parcours navigateur, mise à jour éprouvée) ; journal de la recette"
+            echo "  de cette image : recette.txt ; vulnérabilités : trivy.txt"
+            echo "- Licence et provenance : LICENSE (EUPL-1.2), NOTICE, THIRD_PARTY_NOTICES.md"
             echo "- Composants : composants-image.txt (paquets Debian), composants-python.txt ; sources correspondantes des"
             echo "  paquets Debian : sources-debian-$VERSION.tar (ci-dessous) et \`$IMAGE:$VERSION-sources\`"
           } >> notes.md
           cp deploy/synology/compose.yaml compose.yaml
           cp .env.example env.example
           gh release create "$GITHUB_REF_NAME" --title "biblyO $VERSION" --notes-file notes.md \
-            compose.yaml "env.example#.env.example" trivy.txt composants-image.txt composants-python.txt "sources-debian-$VERSION.tar"
+            compose.yaml "env.example#.env.example" trivy.txt composants-image.txt composants-python.txt "sources-debian-$VERSION.tar" \
+            recette.txt INSTALLATION-SYNOLOGY.md docs/MISE-A-JOUR.md docs/SAUVEGARDE-RESTAURATION.md CHANGELOG.md \
+            NOTICE THIRD_PARTY_NOTICES.md LICENSE "docs/rapports/RECETTE-$VERSION.md"

@@ -20,7 +20,7 @@ MODULE = Module(
     nav=(
         NavEntry(
             _("Enrichissement"),
-            "/sources",
+            "/enrichissement",
             "enrich",
             "enr",
             "maintenance",

@@ -1,0 +1,29 @@
+{% extends "admin/pages/settings_base.html" %}
+{% from "components/buttons.html" import button %}
+{% set heading = _("Sauvegardes") %}{% set intro = _("Une copie vérifiée de la base et des couvertures, à garder aussi hors du serveur.") %}{% set icon_name = "archive" %}
+{% block title %}{{ heading }} — {{ _("Paramètres") }} — biblyO{% endblock %}
+{% block rubric %}
+<section class="card" aria-labelledby="titre-sauvegarder">
+  <div class="card-h"><h2 id="titre-sauvegarder">{{ _("Sauvegarder maintenant") }}</h2></div>
+  <div class="card-b stack">
+    <p class="m0">{{ _("La sauvegarde n’est gardée qu’après vérification : archive complète, empreintes, base saine.") }}</p>
+    {% if can("admin.backups") %}<form method="post" action="/parametres/sauvegardes"><input type="hidden" name="_csrf" value="{{ csrf_token }}">{{ button(_("Créer une sauvegarde maintenant"), "p", "download", type="submit") }}</form>{% endif %}
+  </div>
+</section>
+<section class="card" aria-labelledby="titre-historique">
+  <div class="card-h"><h2 id="titre-historique">{{ _("Sauvegardes existantes") }}</h2></div>
+  <div class="card-b">
+    {% if overview.backups %}
+    <ul class="plain set-list">
+      {% for item in overview.backups %}
+      <li><span class="grow min0"><b class="mono ellip block">{{ item.name }}</b><span class="small muted">{{ (item.bytes / 1048576) | round(1) }} Mio</span></span>
+        {% if can("admin.backups") %}<form method="post" action="/parametres/sauvegardes/verifier"><input type="hidden" name="_csrf" value="{{ csrf_token }}"><input type="hidden" name="archive" value="{{ item.name }}">{{ button(_("Vérifier"), "s", "check", size="sm", type="submit", aria_label=_("Vérifier") ~ " " ~ item.name) }}</form>{% endif %}</li>
+      {% endfor %}
+    </ul>
+    {% else %}<p class="muted m0">{{ _("Aucune sauvegarde pour l’instant.") }}</p>{% endif %}
+  </div>
+</section>
+<details class="card"><summary class="card-fold"><b>{{ _("Restaurer une sauvegarde") }}</b></summary>
+  <div class="card-b"><p class="m0 small">{{ _("La restauration se fait depuis le terminal du conteneur, service au calme : biblyo backup restore <archive> --confirmer <archive>, puis redémarrage. L’état remplacé est gardé à côté, jamais effacé.") }}</p></div>
+</details>
+{% endblock %}

@@ -69,6 +69,26 @@ MESSAGES: dict[str, tuple[str, str]] = {
     ),
     "enrichment_partial": ("ok", _("Les champs cochés ont été appliqués ; les autres sont restés tels quels.")),
     "enrichment_nothing": ("late", _("Aucun champ n’a été appliqué.")),
+    "enrichment_verify_first": (
+        "late",
+        _("Cochez d’abord « J’ai vérifié : c’est bien mon livre », après l’avoir comparé avec le livre en main."),
+    ),
+    "enrichment_dismissed": ("ok", _("C’est noté : cette proposition ne sera plus montrée pour ce livre.")),
+    "library_started": (
+        "ok",
+        _("La recherche a commencé. Elle avance seule, au rythme permis par les sources : rien n’est encore modifié."),
+    ),
+    "library_busy": ("late", _("Une recherche de la bibliothèque est déjà en cours : reprenez-la ou annulez-la.")),
+    "library_state": ("late", _("Cette recherche ne peut pas changer d’état maintenant.")),
+    "library_pause": ("ok", _("La recherche est en pause. Elle reprendra là où elle s’est arrêtée.")),
+    "library_reprendre": ("ok", _("La recherche reprend là où elle s’était arrêtée.")),
+    "library_annuler": ("ok", _("La recherche est annulée. Les propositions déjà trouvées restent consultables.")),
+    "library_nothing_selected": ("late", _("Cochez au moins un livre.")),
+    "library_too_many": ("late", _("Validez au plus 25 livres à la fois.")),
+    "library_validated": (
+        "ok",
+        _("Les informations manquantes ont été ajoutées aux livres choisis. Chaque ajout s’annule depuis sa fiche."),
+    ),
     "enrichment_stale": (
         "late",
         _("La fiche a changé depuis la recherche : la proposition est périmée. Relancez la recherche."),

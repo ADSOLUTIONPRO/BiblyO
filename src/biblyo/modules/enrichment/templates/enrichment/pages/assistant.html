@@ -1,0 +1,146 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header %}
+{% from "components/icons.html" import icon %}
+{% from "components/buttons.html" import button, link_button %}
+{% from "components/feedback.html" import alert, empty_state %}
+{% from "components/catalogue.html" import cover %}
+{% block title %}{{ _("Enrichir : {title}").format(title=notice.title) }} — biblyO{% endblock %}
+{% block content %}
+{% call page_header(_("Enrichir un livre"), _("Retrouvez votre livre, choisissez sa couverture et complétez sa fiche. Rien ne change sans votre accord."), "enr", "enrich") %}
+  {{ link_button(_("Retour à la fiche"), "/catalogue/notices/" ~ notice.id, "g", "undo") }}
+{% endcall %}
+
+{# --- Le livre ------------------------------------------------------------------------------------------------- #}
+<section class="card" aria-labelledby="asst-livre">
+  <div class="card-b asst-head asst-pad">
+    <div>{{ cover(notice.title, notice.series.title if notice.series else "", notice.series.volume_text if notice.series else "", notice.authors_text, notice.color, edition.cover.path if edition.cover else "", kicker=notice.document_type.label) }}</div>
+    <div class="min0">
+      <h2 id="asst-livre" class="asst-title">{{ notice.title }}</h2>
+      <p class="asst-sub">{{ notice.authors_text or _("Auteur non renseigné") }}{% if notice.series %} · {{ notice.series.title }}{% if notice.series.volume_text %}, {{ _("tome") }} {{ notice.series.volume_text }}{% endif %}{% endif %}</p>
+      <p class="asst-sub">{{ edition.publisher.label if edition.publisher else _("Éditeur non renseigné") }}{% if edition.year %} · {{ edition.year }}{% endif %}</p>
+      {% if missing %}
+        <p class="m0 mt-s"><b>{{ _("Il manque :") }}</b></p>
+        <ul class="asst-missing" aria-label="{{ _('Informations manquantes') }}">{% for item in missing %}<li>{{ item }}</li>{% endfor %}</ul>
+      {% else %}<p class="m0 mt-s">{{ _("La fiche est complète.") }}</p>{% endif %}
+      <form class="asst-go" method="post" action="{{ base }}/assistant">
+        <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+        <input type="hidden" name="edition" value="{{ edition.id }}">
+        {{ button(_("Rechercher la couverture et les informations") if not found else _("Relancer la recherche"), "p" if not found else "s", "search", type="submit") }}
+      </form>
+      {% if not open_library_ready %}<p class="small muted m0 mt-s">{{ _("Les couvertures viennent de la BnF, qui n’en a pas pour beaucoup de livres anciens.") }}{% if can("admin.sources") %} <a class="plain-link" href="/parametres/enrichissement">{{ _("Activer aussi Open Library") }}</a>{% endif %}</p>{% endif %}
+    </div>
+  </div>
+</section>
+
+{% if found %}
+<section class="mt-s" id="propositions" aria-labelledby="asst-props">
+  <h2 id="asst-props" class="mb-s">{{ _("Est-ce votre livre ?") }}</h2>
+  {% if not found.cards %}
+    {{ empty_state("search", _("Aucune proposition satisfaisante"), _("Les sources n’ont rien trouvé qui ressemble assez à ce livre. Vous pouvez ajouter votre propre photo de la couverture, ou essayer une recherche avancée avec d’autres mots.")) }}
+    <div class="row gap-xs mt-s">
+      {% if can("catalogue.edit") %}{{ link_button(_("Ajouter ma photo de la couverture"), "/catalogue/notices/" ~ notice.id ~ "/couverture?edition=" ~ edition.id, "p", "upload") }}{% endif %}
+      {{ link_button(_("Recherche avancée"), base ~ "/avance?edition=" ~ edition.id, "s", "filter") }}
+    </div>
+  {% else %}
+    {% macro card_view(c, best=False) %}
+    {% set label = reliability[c.reliability] %}
+    <li class="asst-card{% if best and c.reliability == 'same_edition' %} is-best{% endif %}">
+      <div class="asst-thumb{% if not c.cover %} is-empty{% endif %}">
+        {% if c.cover %}
+          <img src="{{ image_path }}?source={{ c.cover.source }}&amp;ref={{ c.cover.reference | urlencode }}&amp;ean={{ c.cover.ean }}" alt="{{ _('Couverture proposée : {title}').format(title=c.title) }}" loading="lazy">
+        {% else %}
+          <p class="asst-nothumb"><b>{{ _("Pas d’image") }}</b>{{ cover_states.get(c.cover_state, cover_states["none"]) }}</p>
+        {% endif %}
+      </div>
+      <div class="asst-body">
+        <span class="asst-tag t-{{ label[1] }}">{{ label[0] }}</span>
+        <h3>{{ c.title }}{% if c.subtitle %} <span class="muted">— {{ c.subtitle }}</span>{% endif %}</h3>
+        {% if c.authors %}<p class="asst-facts">{{ c.authors }}</p>{% endif %}
+        <p class="asst-facts">{{ c.publisher or _("Éditeur inconnu") }}{% if c.year %} · {{ c.year }}{% endif %}{% if c.series %} · {{ c.series }}{% endif %}</p>
+        <p class="asst-why">{% if c.several %}{{ _("Plusieurs éditions se ressemblent : comparez l’année et l’éditeur.") }}{% else %}{{ label[2] }}{% endif %}</p>
+        <p class="asst-why">{{ _("Source :") }} {% for s in c.sources %}{{ source_labels.get(s, s) }}{% if not loop.last %}, {% endif %}{% endfor %}</p>
+        {% if c.cover and c.cover.needs_check %}<p class="asst-why"><b>{{ other_edition_cover if c.reliability == "other_edition" else _("Couverture à vérifier sur le livre") }}</b></p>{% endif %}
+        <div class="asst-acts">
+          {{ link_button(_("Choisir cette proposition"), base ~ "/propositions/" ~ c.proposal_id, "p", "check") }}
+          {% if c.cover and can("catalogue.edit") %}
+          <form method="post" action="/catalogue/notices/{{ notice.id }}/couverture/proposition">
+            <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+            <input type="hidden" name="edition_id" value="{{ edition.id }}">
+            <input type="hidden" name="source" value="{{ c.cover.source }}">
+            <input type="hidden" name="ref" value="{{ c.cover.reference }}">
+            <input type="hidden" name="ean" value="{{ c.cover.ean }}">
+            <input type="hidden" name="match" value="{{ c.cover.match }}">
+            <input type="hidden" name="notice" value="{{ c.cover.notice_url }}">
+            <input type="hidden" name="edition_text" value="{{ c.cover.edition_text }}">
+            {{ button(_("Ajouter seulement la couverture"), "s", "upload", type="submit") }}
+          </form>
+          {% endif %}
+          <form method="post" action="{{ base }}/propositions/{{ c.proposal_id }}/pas-mon-livre">
+            <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+            <input type="hidden" name="recherche" value="{{ found.search_id }}">
+            {{ button(_("Ce n’est pas mon livre"), "g", "x", type="submit") }}
+          </form>
+        </div>
+        <details class="asst-tech"><summary>{{ _("Détails techniques") }}</summary>
+          <ul>
+            <li>{{ _("Score {score} sur 100, base de preuve {evidence}, niveau de recherche : {level}").format(score=c.score, evidence=c.evidence, level=levels.get(c.level, c.level)) }}</li>
+            {% for note in c.agreeing %}<li>{{ _("Concorde :") }} {{ note }}</li>{% endfor %}
+            {% for note in c.differing %}<li>{{ _("Diffère :") }} {{ note }}</li>{% endfor %}
+            {% if c.isbn %}<li>ISBN {{ c.isbn }}</li>{% endif %}
+            {% if c.pages %}<li>{{ c.pages }}</li>{% endif %}
+            {% for source, url in c.notice_urls %}<li><a class="plain-link" href="{{ url }}" rel="noopener">{{ _("Notice {source}").format(source=source_labels.get(source, source)) }}</a></li>{% endfor %}
+          </ul>
+        </details>
+      </div>
+    </li>
+    {% endmacro %}
+    <ul class="asst-cards">{% for c in found.main %}{{ card_view(c, loop.first) }}{% endfor %}</ul>
+    {% if found.others %}
+      <details class="card mt-s"><summary class="card-fold"><b>{{ _("Voir les autres résultats ({n})").format(n=found.others | length) }}</b></summary>
+        <div class="card-b"><ul class="asst-cards">{% for c in found.others %}{{ card_view(c) }}{% endfor %}</ul></div>
+      </details>
+    {% endif %}
+  {% endif %}
+
+  {% if found.extra_covers %}
+  <section class="card mt-s" aria-labelledby="asst-autres-couv">
+    <div class="card-h"><h2 id="asst-autres-couv">{{ _("Autres couvertures trouvées") }}</h2></div>
+    <div class="card-b">
+      <p class="muted m0 mb-s">{{ _("Ces images viennent d’autres éditions du même ouvrage : la couverture de votre livre peut être différente. Vérifiez sur le livre avant de la choisir.") }}</p>
+      <ul class="asst-cards">
+      {% for offer in found.extra_covers %}
+        <li class="asst-card">
+          <div class="asst-thumb"><img src="{{ image_path }}?source={{ offer.source }}&amp;ref={{ offer.reference | urlencode }}&amp;ean=" alt="{{ _('Couverture d’une autre édition : {title}').format(title=offer.title) }}" loading="lazy"></div>
+          <div class="asst-body">
+            <span class="asst-tag t-late">{{ other_edition_cover }}</span>
+            <h3>{{ offer.title }}</h3>
+            <p class="asst-facts">{{ offer.edition_text }}</p>
+            <p class="asst-why">{{ _("Source : Open Library, qui n’accorde aucun droit sur les couvertures.") }}</p>
+            {% if can("catalogue.edit") %}
+            <div class="asst-acts">
+              <form method="post" action="/catalogue/notices/{{ notice.id }}/couverture/proposition">
+                <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+                <input type="hidden" name="edition_id" value="{{ edition.id }}">
+                <input type="hidden" name="source" value="{{ offer.source }}">
+                <input type="hidden" name="ref" value="{{ offer.reference }}">
+                <input type="hidden" name="ean" value="">
+                <input type="hidden" name="match" value="{{ offer.match }}">
+                <input type="hidden" name="notice" value="{{ offer.notice_url }}">
+                <input type="hidden" name="edition_text" value="{{ offer.edition_text }}">
+                {{ button(_("Vérifier et utiliser cette couverture"), "s", "upload", type="submit") }}
+              </form>
+            </div>
+            {% endif %}
+          </div>
+        </li>
+      {% endfor %}
+      </ul>
+    </div>
+  </section>
+  {% endif %}
+
+  {% if found.open_library == "unavailable" %}{{ alert(_("Open Library ne répond pas en ce moment : seules les couvertures de la BnF sont proposées."), "info") }}{% endif %}
+  <p class="small muted mt-s">{{ _("Pas trouvé ?") }} <a class="plain-link" href="{{ base }}/avance?edition={{ edition.id }}">{{ _("Recherche avancée, avec d’autres mots") }}</a>{% if can("catalogue.edit") %} · <a class="plain-link" href="/catalogue/notices/{{ notice.id }}/couverture?edition={{ edition.id }}">{{ _("Ajouter ma propre photo") }}</a>{% endif %}</p>
+</section>
+{% endif %}
+{% endblock %}

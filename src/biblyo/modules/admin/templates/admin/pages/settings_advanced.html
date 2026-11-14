@@ -1,0 +1,33 @@
+{% extends "admin/pages/settings_base.html" %}
+{% from "components/buttons.html" import link_button %}
+{% from "components/feedback.html" import badge %}
+{% set heading = _("Paramètres avancés") %}{% set intro = _("Pour l’administrateur : l’état de chaque réglage et les informations techniques.") %}{% set icon_name = "gear" %}
+{% set kinds = {"ok": ("ok", _("prêt")), "todo": ("due", _("à faire")), "info": ("neutral", _("à savoir"))} %}
+{% block title %}{{ heading }} — {{ _("Paramètres") }} — biblyO{% endblock %}
+{% block rubric %}
+<section class="card" aria-labelledby="titre-controle">
+  <div class="card-h"><h2 id="titre-controle">{{ _("Contrôle des réglages") }}</h2></div>
+  <div class="card-b">
+    <ul class="plain set-list">
+      {% for check in overview.checks %}
+      <li><span class="grow min0"><b class="block">{{ check.label }}</b><span class="small">{{ check.detail }}</span></span>
+        {{ badge(kinds[check.state][1], kinds[check.state][0]) }}
+        {% if check.href %}<a class="small plain-link" href="{{ check.href }}">{{ _("Ouvrir") }}<span class="sr"> : {{ check.label }}</span></a>{% endif %}</li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+{% if can("admin.sources") %}
+<section class="card" aria-labelledby="titre-sources-tech">
+  <div class="card-h"><h2 id="titre-sources-tech">{{ _("Réglages techniques des sources") }}</h2></div>
+  <div class="card-b stack"><p class="m0">{{ _("Cadences, délais d’attente et réponses gardées en mémoire de chaque source.") }}</p>
+    <div>{{ link_button(_("Ouvrir les réglages techniques"), "/parametres/enrichissement#reglages-avances", "s", "gear") }}</div></div>
+</section>
+{% endif %}
+<section class="card" aria-labelledby="titre-technique">
+  <div class="card-h"><h2 id="titre-technique">{{ _("Informations techniques") }}</h2></div>
+  <div class="card-b"><dl class="dlist">
+    {% for label, value in overview.technical %}<div><dt>{{ label }}</dt><dd class="mono small">{{ value }}</dd></div>{% endfor %}
+  </dl></div>
+</section>
+{% endblock %}

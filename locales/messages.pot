@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: biblyO VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-13 19:28+0100\n"
+"POT-Creation-Date: 2026-11-14 16:55+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -131,13 +131,13 @@ msgstr ""
 msgid "4. Comparer les éditions"
 msgstr ""
 
-msgid "5. Différences : l’œuvre"
-msgstr ""
-
 msgid "6. Aperçu avant application"
 msgstr ""
 
 msgid "7. Confirmer l’application"
+msgstr ""
+
+msgid "A déjà une couverture"
 msgstr ""
 
 #, python-brace-format
@@ -204,6 +204,9 @@ msgstr ""
 msgid "Actions"
 msgstr ""
 
+msgid "Activer aussi Open Library"
+msgstr ""
+
 msgid "Activer ou désactiver des modules"
 msgstr ""
 
@@ -214,16 +217,8 @@ msgid "Actives et archivées"
 msgstr ""
 
 msgid ""
-"Activez les sources, choisissez leur ordre et leur cadence. La BnF est "
-"interrogée en premier par défaut ; le Sudoc complète."
-msgstr ""
-
-msgid ""
 "Activez un « + » pour le placer juste avant ce dos, ou à la fin d’un "
 "niveau."
-msgstr ""
-
-msgid "Activée"
 msgstr ""
 
 msgid "Actualiser"
@@ -267,12 +262,7 @@ msgstr ""
 msgid "Adresse"
 msgstr ""
 
-msgid "Adresse de contact de la bibliothèque"
-msgstr ""
-
-msgid ""
-"Adresse de contact à renseigner : tant qu’elle manque, cette source reste"
-" désactivée, quel que soit son réglage."
+msgid "Adresse de contact"
 msgstr ""
 
 msgid "Adresse de courriel invalide."
@@ -308,6 +298,11 @@ msgstr ""
 msgid "Afficher les coordonnées"
 msgstr ""
 
+msgid ""
+"Affiché aux lecteurs. L’adresse de contact pour les sources "
+"bibliographiques se règle dans « Enrichissement et couvertures »."
+msgstr ""
+
 msgid "Agrandir"
 msgstr ""
 
@@ -323,16 +318,35 @@ msgstr ""
 msgid "Ajouter : importer un fichier"
 msgstr ""
 
+msgid "Ajouter aussi la couverture de la BnF quand le livre n’en a pas"
+msgstr ""
+
 msgid "Ajouter des exemplaires"
 msgstr ""
 
 msgid "Ajouter d’autres enfants"
 msgstr ""
 
+#, python-brace-format
+msgid "Ajouter les informations manquantes ({n})"
+msgstr ""
+
+msgid "Ajouter les informations manquantes aux livres cochés"
+msgstr ""
+
 msgid "Ajouter l’exemplaire"
 msgstr ""
 
 msgid "Ajouter l’édition"
+msgstr ""
+
+msgid "Ajouter ma photo de la couverture"
+msgstr ""
+
+msgid "Ajouter ma propre photo"
+msgstr ""
+
+msgid "Ajouter seulement la couverture"
 msgstr ""
 
 msgid "Ajouter un exemplaire"
@@ -431,6 +445,9 @@ msgstr ""
 msgid "Annuler cet enrichissement"
 msgstr ""
 
+msgid "Annuler la recherche"
+msgstr ""
+
 #, python-format
 msgid "Annuler le rangement de %(title)s"
 msgstr ""
@@ -448,6 +465,9 @@ msgid "Annuler un enrichissement"
 msgstr ""
 
 msgid "Annulé"
+msgstr ""
+
+msgid "Annulée"
 msgstr ""
 
 msgid "Année"
@@ -665,6 +685,13 @@ msgstr ""
 
 #, python-brace-format
 msgid "Au moins {n} ms. Sert à l’enrichissement de toute la bibliothèque."
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"Au plus {n} livres à la fois. L’ISBN, les auteurs et le résumé ne sont "
+"jamais ajoutés d’office. Chaque ajout reste annulable depuis la fiche du "
+"livre."
 msgstr ""
 
 msgid "Aucun"
@@ -944,6 +971,11 @@ msgstr ""
 msgid "Aucune ligne ne correspond à ces filtres."
 msgstr ""
 
+msgid ""
+"Aucune limite de débit n’est publiée par la BnF et le Sudoc : les "
+"planchers sont une précaution du projet."
+msgstr ""
+
 msgid "Aucune notice active"
 msgstr ""
 
@@ -965,10 +997,19 @@ msgstr ""
 msgid "Aucune proposition"
 msgstr ""
 
+msgid "Aucune proposition satisfaisante"
+msgstr ""
+
 msgid "Aucune règle de prêt ne couvre ce cas : complétez les réglages."
 msgstr ""
 
+msgid "Aucune sauvegarde pour l’instant"
+msgstr ""
+
 msgid "Aucune sauvegarde pour l’instant."
+msgstr ""
+
+msgid "Aucune source active"
 msgstr ""
 
 msgid ""
@@ -984,6 +1025,9 @@ msgid "Aucune."
 msgstr ""
 
 msgid "Auteur"
+msgstr ""
+
+msgid "Auteur non renseigné"
 msgstr ""
 
 msgid "Auteur ou contributeur"
@@ -1033,6 +1077,15 @@ msgid "Autre type de document : {kind}"
 msgstr ""
 
 msgid "Autre valeur"
+msgstr ""
+
+msgid "Autre édition"
+msgstr ""
+
+msgid "Autre édition — couverture à vérifier"
+msgstr ""
+
+msgid "Autres couvertures trouvées"
 msgstr ""
 
 msgid "Autres options : carte déjà imprimée, adhésion"
@@ -1112,6 +1165,11 @@ msgstr ""
 msgid "Bénévole"
 msgstr ""
 
+msgid ""
+"Cadences, délais d’attente et réponses gardées en mémoire de chaque "
+"source."
+msgstr ""
+
 msgid "Cadre"
 msgstr ""
 
@@ -1159,6 +1217,9 @@ msgstr ""
 msgid ""
 "Catalogue complet, emplacements et traces d'import. Ni lecteurs, ni "
 "prêts, ni comptes."
+msgstr ""
+
+msgid "Catalogue et affichage"
 msgstr ""
 
 msgid "Catalogue existant"
@@ -1358,6 +1419,9 @@ msgid ""
 "autre."
 msgstr ""
 
+msgid "Ce n’est pas mon livre"
+msgstr ""
+
 msgid "Ce prix n’est pas plausible."
 msgstr ""
 
@@ -1404,6 +1468,9 @@ msgid "Ce public n’existe pas."
 msgstr ""
 
 msgid "Ce que cet adulte peut faire : chaque droit se coche"
+msgstr ""
+
+msgid "Ce que chaque rôle peut faire"
 msgstr ""
 
 msgid "Ce que la simulation garantit"
@@ -1509,6 +1576,17 @@ msgid ""
 msgstr ""
 
 msgid "Ces fichiers sont hors de biblyO."
+msgstr ""
+
+msgid ""
+"Ces images viennent d’autres éditions du même ouvrage : la couverture de "
+"votre livre peut être différente. Vérifiez sur le livre avant de la "
+"choisir."
+msgstr ""
+
+msgid ""
+"Ces livres ressemblent à votre fiche sans que l’édition soit certaine : "
+"vérifiez-les un par un."
 msgstr ""
 
 msgid ""
@@ -1798,6 +1876,9 @@ msgstr ""
 msgid "Cette proposition n’existe plus."
 msgstr ""
 
+msgid "Cette recherche ne peut pas changer d’état maintenant."
+msgstr ""
+
 msgid "Cette règle n’existe plus."
 msgstr ""
 
@@ -1913,11 +1994,6 @@ msgid ""
 "colonnes d'origine."
 msgstr ""
 
-msgid ""
-"Chaque compte reçoit un rôle dans « Utilisateurs ». Les rôles eux-mêmes "
-"sont fixés par l’application."
-msgstr ""
-
 msgid "Chaque exemplaire a une place sur une étagère."
 msgstr ""
 
@@ -1935,9 +2011,10 @@ msgid ""
 msgstr ""
 
 msgid ""
-"Chaque ligne montre la valeur de la fiche et celle proposée. Seuls les "
-"champs cochés seront appliqués ; un champ déjà rempli n’est remplacé que "
-"si vous le cochez vous-même."
+"Chaque livre n’est cherché qu’une fois, même s’il a plusieurs "
+"exemplaires. La recherche avance seule, au rythme permis par les sources "
+": vous pouvez fermer cette page et revenir plus tard. Pour toute la "
+"bibliothèque, comptez quelques heures."
 msgstr ""
 
 msgid ""
@@ -1966,6 +2043,9 @@ msgid "Chercher un lecteur"
 msgstr ""
 
 msgid "Chercher un livre"
+msgstr ""
+
+msgid "Chercher un livre dans les sources"
 msgstr ""
 
 msgid "Chercher un prêt"
@@ -2007,6 +2087,9 @@ msgstr ""
 msgid "Choisir ce meuble"
 msgstr ""
 
+msgid "Choisir cette proposition"
+msgstr ""
+
 msgid "Choisir la couverture"
 msgstr ""
 
@@ -2017,6 +2100,9 @@ msgid "Choisir l’exemplaire de"
 msgstr ""
 
 msgid "Choisir pour le déplacer :"
+msgstr ""
+
+msgid "Choisir précisément les changements"
 msgstr ""
 
 msgid "Choisir un autre lecteur"
@@ -2032,6 +2118,10 @@ msgid "Choisir une image"
 msgstr ""
 
 msgid "Choisir une personne…"
+msgstr ""
+
+#, python-brace-format
+msgid "Choisir {title}"
 msgstr ""
 
 msgid "Choisir…"
@@ -2159,10 +2249,16 @@ msgstr ""
 msgid "Choisissez une image (PNG, JPEG ou WebP)."
 msgstr ""
 
+msgid "Choisissez une rubrique. Chacune explique ses réglages en quelques mots."
+msgstr ""
+
 msgid "Choisissez à nouveau la personne : elle ne correspond plus au nom saisi."
 msgstr ""
 
 msgid "Choisissez…"
+msgstr ""
+
+msgid "Choix de livres inconnu."
 msgstr ""
 
 msgid "Circulation"
@@ -2178,6 +2274,14 @@ msgid "Cocher les champs vides admissibles"
 msgstr ""
 
 msgid "Cocher toute la page"
+msgstr ""
+
+msgid "Cochez au moins un livre."
+msgstr ""
+
+msgid ""
+"Cochez d’abord « J’ai vérifié : c’est bien mon livre », après l’avoir "
+"comparé avec le livre en main."
 msgstr ""
 
 msgid "Cochez la case de confirmation pour appliquer ce plan."
@@ -2324,6 +2428,9 @@ msgstr ""
 msgid "Coloriste"
 msgstr ""
 
+msgid "Combien de livres, pour combien de temps, et quand rappeler."
+msgstr ""
+
 msgid "Comment cet enfant emprunte-t-il ?"
 msgstr ""
 
@@ -2336,15 +2443,17 @@ msgstr ""
 msgid "Comparaison des éditions proposées"
 msgstr ""
 
+msgid "Comparer"
+msgstr ""
+
 #, python-brace-format
 msgid "Comparer : {title}"
 msgstr ""
 
-#, python-brace-format
-msgid "Comparer avec la notice {source}"
+msgid "Comparer et choisir"
 msgstr ""
 
-msgid "Comparer et choisir"
+msgid "Comparez le titre, l’éditeur et l’année avec le livre en main."
 msgstr ""
 
 msgid "Complète"
@@ -2399,6 +2508,9 @@ msgstr ""
 msgid "Compte introuvable."
 msgstr ""
 
+msgid "Comptes"
+msgstr ""
+
 msgid "Comptes actifs"
 msgstr ""
 
@@ -2408,10 +2520,16 @@ msgstr ""
 msgid "Comptes et rôles de l’installation."
 msgstr ""
 
+msgid "Comptes, rôles et ce que chaque rôle peut faire."
+msgstr ""
+
 msgid "Comptoir"
 msgstr ""
 
 msgid "Comptoir de prêt"
+msgstr ""
+
+msgid "Concorde :"
 msgstr ""
 
 #, python-brace-format
@@ -2573,6 +2691,11 @@ msgstr ""
 msgid "Contrôle"
 msgstr ""
 
+msgid ""
+"Contrôle de chaque réglage, informations techniques, réglages techniques "
+"des sources."
+msgstr ""
+
 msgid "Contrôle des réglages"
 msgstr ""
 
@@ -2624,6 +2747,9 @@ msgstr ""
 msgid "Correspondance exacte"
 msgstr ""
 
+msgid "Correspondance fiable"
+msgstr ""
+
 msgid "Correspondance forte"
 msgstr ""
 
@@ -2636,6 +2762,13 @@ msgid ""
 msgstr ""
 
 msgid "Correspondance probable avec une notice existante"
+msgstr ""
+
+msgid "Correspondances fiables"
+msgstr ""
+
+#, python-brace-format
+msgid "Correspondances fiables : {a} · À vérifier : {b} · Sans proposition : {c}"
 msgstr ""
 
 msgid "Corriger"
@@ -2709,6 +2842,9 @@ msgstr ""
 msgid "Couverture actuelle"
 msgstr ""
 
+msgid "Couverture annoncée par la BnF"
+msgstr ""
+
 msgid "Couverture de"
 msgstr ""
 
@@ -2725,10 +2861,15 @@ msgstr ""
 msgid "Couverture des colonnes"
 msgstr ""
 
+#, python-brace-format
+msgid "Couverture d’une autre édition : {title}"
+msgstr ""
+
 msgid "Couverture proposée"
 msgstr ""
 
-msgid "Couverture proposée par la BnF"
+#, python-brace-format
+msgid "Couverture proposée : {title}"
 msgstr ""
 
 msgid "Couverture précédente rétablie"
@@ -2740,21 +2881,22 @@ msgstr ""
 msgid "Couverture supprimée"
 msgstr ""
 
+msgid "Couverture trouvée"
+msgstr ""
+
 #, python-brace-format
 msgid ""
 "Couverture trouvée par Open Library (Internet Archive), récupérée le "
 "{date}. Droits de l’éditeur ; utilisation confirmée par le Club."
 msgstr ""
 
-msgid "Couvertures"
+msgid "Couverture à vérifier sur le livre"
+msgstr ""
+
+msgid "Couvertures :"
 msgstr ""
 
 msgid "Couvertures proposées"
-msgstr ""
-
-msgid ""
-"Couvertures seulement : cette source n’est jamais interrogée pour les "
-"notices."
 msgstr ""
 
 msgid "Critères"
@@ -2767,6 +2909,9 @@ msgid "Créer et modifier des exemplaires, cotes, codes-barres, et les ranger"
 msgstr ""
 
 msgid "Créer et modifier des notices, séries, contributeurs"
+msgstr ""
+
+msgid "Créer et vérifier une sauvegarde, voir les précédentes."
 msgstr ""
 
 msgid "Créer la notice"
@@ -2799,6 +2944,11 @@ msgid ""
 "ensuite."
 msgstr ""
 
+msgid ""
+"Créez un compte par personne, avec le rôle qui lui convient. Un compte "
+"peut être suspendu sans être supprimé."
+msgstr ""
+
 msgid "Créez une salle, puis ses meubles et ses étagères."
 msgstr ""
 
@@ -2809,6 +2959,9 @@ msgid ""
 msgstr ""
 
 msgid "C’est désormais l’édition principale."
+msgstr ""
+
+msgid "C’est noté : cette proposition ne sera plus montrée pour ce livre."
 msgstr ""
 
 #, python-brace-format
@@ -2881,6 +3034,10 @@ msgstr ""
 msgid "Depuis une adresse web"
 msgstr ""
 
+#, python-brace-format
+msgid "Dernier incident : {e}"
+msgstr ""
+
 msgid "Dernier rappel"
 msgstr ""
 
@@ -2894,6 +3051,10 @@ msgid "Derniers scans"
 msgstr ""
 
 msgid "Dernière :"
+msgstr ""
+
+#, python-brace-format
+msgid "Dernière : {name}"
 msgstr ""
 
 msgid "Dernière activité :"
@@ -2937,6 +3098,9 @@ msgstr ""
 msgid "Devient"
 msgstr ""
 
+msgid "Diffère :"
+msgstr ""
+
 msgid "Différences"
 msgstr ""
 
@@ -2951,6 +3115,9 @@ msgid "Différences entre fichiers : {d} ; cotes partagées : {s}."
 msgstr ""
 
 msgid "Différences entre le fichier principal et le fichier complémentaire"
+msgstr ""
+
+msgid "Différent : votre valeur est gardée"
 msgstr ""
 
 msgid "Dimanche"
@@ -3035,9 +3202,6 @@ msgstr ""
 msgid "Douchette ou clavier : carte, numéro de lecteur, code d’exemplaire, ISBN."
 msgstr ""
 
-msgid "Droit"
-msgstr ""
-
 msgid "Droit d’emprunter pour une structure modifié"
 msgstr ""
 
@@ -3050,7 +3214,7 @@ msgstr ""
 msgid "Droits d’un responsable modifiés"
 msgstr ""
 
-msgid "Droits par rôle"
+msgid "Droits et conditions de réutilisation"
 msgstr ""
 
 msgid "Dupliquer"
@@ -3062,6 +3226,11 @@ msgstr ""
 msgid "Durée de conservation dépassée"
 msgstr ""
 
+msgid ""
+"Durée du prêt, nombre de livres et de renouvellements, délai de rappel, "
+"réglés par catégorie de lecteurs (adulte, mineur, structure…)."
+msgstr ""
+
 msgid "Durée en jours"
 msgstr ""
 
@@ -3069,6 +3238,9 @@ msgid "Durée envisagée, en mois après le retour"
 msgstr ""
 
 msgid "Durée exceptionnelle"
+msgstr ""
+
+msgid "Durées de prêt, nombre de livres, rappels et catégories de lecteurs."
 msgstr ""
 
 msgid "Durées et plafonds"
@@ -3181,6 +3353,13 @@ msgstr ""
 msgid "Détail par tome"
 msgstr ""
 
+msgid "Détails techniques"
+msgstr ""
+
+#, python-brace-format
+msgid "Détails techniques : score {n} sur 100"
+msgstr ""
+
 msgid "D’après la naissance. La confirmation se fait sur la fiche."
 msgstr ""
 
@@ -3275,9 +3454,19 @@ msgstr ""
 msgid "En début d’étagère"
 msgstr ""
 
+msgid "En erreur"
+msgstr ""
+
+#, python-brace-format
+msgid "En erreur : {n}"
+msgstr ""
+
 msgid ""
 "En mode bloquant, seul un compte habilité peut dépasser le plafond, avec "
 "un motif journalisé. Un bénévole est arrêté."
+msgstr ""
+
+msgid "En pause"
 msgstr ""
 
 msgid "En personne"
@@ -3387,6 +3576,9 @@ msgstr ""
 msgid "Enrichir : {title}"
 msgstr ""
 
+msgid "Enrichir la bibliothèque"
+msgstr ""
+
 msgid "Enrichir toute la bibliothèque"
 msgstr ""
 
@@ -3394,6 +3586,9 @@ msgid ""
 "Enrichir toute la bibliothèque d’un coup : conçu, il sera développé après"
 " la reprise du catalogue (lot L6). Chaque fiche s’enrichit dès maintenant"
 " depuis son bouton « Enrichir »."
+msgstr ""
+
+msgid "Enrichir un livre"
 msgstr ""
 
 #, python-brace-format
@@ -3404,6 +3599,9 @@ msgid "Enrichissement"
 msgstr ""
 
 msgid "Enrichissement annulé"
+msgstr ""
+
+msgid "Enrichissement et couvertures"
 msgstr ""
 
 msgid "Enrichissement indisponible"
@@ -3436,6 +3634,12 @@ msgid "Espagnol"
 msgstr ""
 
 msgid "Essayez un titre, une cote ou un numéro d’inventaire."
+msgstr ""
+
+msgid "Est-ce bien votre livre ?"
+msgstr ""
+
+msgid "Est-ce votre livre ?"
 msgstr ""
 
 msgid "Exclu du prêt."
@@ -3608,6 +3812,9 @@ msgstr ""
 msgid "Fiche modifiée"
 msgstr ""
 
+msgid "Fiches incomplètes"
+msgstr ""
+
 msgid "Fichier"
 msgstr ""
 
@@ -3654,6 +3861,9 @@ msgid "Filtrer la liste"
 msgstr ""
 
 msgid "Filtrer la liste…"
+msgstr ""
+
+msgid "Filtrer les propositions"
 msgstr ""
 
 msgid "Fin"
@@ -3747,6 +3957,14 @@ msgstr ""
 msgid "Genres"
 msgstr ""
 
+msgid "Genres, catégories, types de document et sections du catalogue."
+msgstr ""
+
+msgid ""
+"Genres, catégories, types de document, sections, éditeurs et collections "
+": ajoutez, renommez ou regroupez les valeurs proposées dans les fiches."
+msgstr ""
+
 msgid "Gestion de la fiche"
 msgstr ""
 
@@ -3777,6 +3995,9 @@ msgid "Gérer les emplacements"
 msgstr ""
 
 msgid "Gérer les emplacements et le rangement"
+msgstr ""
+
+msgid "Gérer les listes"
 msgstr ""
 
 msgid "Gérer les rôles"
@@ -3926,21 +4147,10 @@ msgstr ""
 msgid "Identification"
 msgstr ""
 
-msgid "Identification auprès des sources"
-msgstr ""
-
 msgid "Identique"
 msgstr ""
 
 msgid "Identité"
-msgstr ""
-
-msgid "Identité de la bibliothèque"
-msgstr ""
-
-msgid ""
-"Identité de la bibliothèque, sauvegardes, et l’état réel de chaque "
-"réglage nécessaire à l’exploitation"
 msgstr ""
 
 msgid "Identité des exemplaires"
@@ -3958,6 +4168,9 @@ msgstr ""
 msgid "Il figure dans le journal du serveur. Commande : biblyo install token."
 msgstr ""
 
+msgid "Il manque :"
+msgstr ""
+
 msgid ""
 "Il manque peut-être le 0 initial : confirmez le numéro, ou écrivez-le "
 "avec son indicatif."
@@ -3969,9 +4182,6 @@ msgid ""
 msgstr ""
 
 msgid "Illustrateur"
-msgstr ""
-
-msgid "Image"
 msgstr ""
 
 msgid "Image de la BnF, récupérée à la confirmation"
@@ -4133,6 +4343,9 @@ msgstr ""
 msgid "Informations"
 msgstr ""
 
+msgid "Informations manquantes"
+msgstr ""
+
 msgid "Informations techniques"
 msgstr ""
 
@@ -4173,6 +4386,9 @@ msgid "Installation terminée. Bienvenue dans biblyO."
 msgstr ""
 
 msgid "Installer biblyO"
+msgstr ""
+
+msgid "Interrompue (redémarrage) : relancez-la"
 msgstr ""
 
 msgid "Intervalle en lot (ms)"
@@ -4251,12 +4467,6 @@ msgstr ""
 msgid "Joint"
 msgstr ""
 
-msgid ""
-"Jointe à chaque requête, dans l’en-tête d’identification, pour qu’une "
-"source puisse prévenir la bibliothèque. Open Library la demande : sans "
-"elle, cette source reste désactivée."
-msgstr ""
-
 msgid "Jour de fermeture hebdomadaire"
 msgstr ""
 
@@ -4271,6 +4481,9 @@ msgstr ""
 
 #, python-brace-format
 msgid "J’ai relu cette simulation et j’applique ce plan (empreinte {p})."
+msgstr ""
+
+msgid "J’ai vérifié : c’est bien mon livre"
 msgstr ""
 
 msgid "J’ai vérifié cet ISBN sur le livre"
@@ -4301,6 +4514,17 @@ msgid ""
 msgstr ""
 
 msgid "L'import ne peut pas être appliqué en l'état."
+msgstr ""
+
+msgid ""
+"La Bibliothèque nationale de France : la source la plus complète pour les"
+" livres publiés en France. Fournit aussi des couvertures, surtout pour "
+"les livres récents."
+msgstr ""
+
+msgid ""
+"La BnF annonce une couverture pour ces livres, qui n’en ont pas. Ouvrez "
+"chaque livre pour la voir et la choisir."
 msgstr ""
 
 msgid "La Réunion"
@@ -4392,6 +4616,9 @@ msgstr ""
 msgid "La fiche du lecteur a été mise à jour."
 msgstr ""
 
+msgid "La fiche est complète."
+msgstr ""
+
 msgid ""
 "La forme d’usage n’est qu’une proposition (D-L6-14, non approuvée) : le "
 "libellé d’origine est gardé."
@@ -4437,6 +4664,11 @@ msgstr ""
 msgid "La notice a été supprimée."
 msgstr ""
 
+msgid ""
+"La notice annonce une couverture, mais le service ne la fournit pas en ce"
+" moment."
+msgstr ""
+
 msgid "La notice annonce une couverture, mais le service ne la fournit pas."
 msgstr ""
 
@@ -4446,18 +4678,50 @@ msgstr ""
 msgid "La personne"
 msgstr ""
 
+msgid ""
+"La recherche a commencé. Elle avance seule, au rythme permis par les "
+"sources : rien n’est encore modifié."
+msgstr ""
+
+msgid ""
+"La recherche a échoué pour ces livres (source indisponible, délai "
+"dépassé). Relancez-la plus tard."
+msgstr ""
+
 msgid "La recherche a été enregistrée."
 msgstr ""
 
 msgid "La recherche a été retirée."
 msgstr ""
 
+msgid ""
+"La recherche est annulée. Les propositions déjà trouvées restent "
+"consultables."
+msgstr ""
+
+msgid "La recherche est en pause. Elle reprendra là où elle s’est arrêtée."
+msgstr ""
+
 msgid "La recherche n’a pas pu être lancée : cette édition n’existe plus."
+msgstr ""
+
+msgid "La recherche reprend là où elle s’était arrêtée."
+msgstr ""
+
+msgid ""
+"La restauration se fait depuis le terminal du conteneur, service au calme"
+" : biblyo backup restore <archive> --confirmer <archive>, puis "
+"redémarrage. L’état remplacé est gardé à côté, jamais effacé."
 msgstr ""
 
 msgid ""
 "La réponse du service n’est pas une image valide : rien n’a été "
 "enregistré."
+msgstr ""
+
+msgid ""
+"La sauvegarde n’est gardée qu’après vérification : archive complète, "
+"empreintes, base saine."
 msgstr ""
 
 msgid "La session a été fermée."
@@ -4478,6 +4742,11 @@ msgid ""
 "La source indique la série « {series} »{volume}. Elle n’est pas "
 "préremplie : la saisir rattache le livre à une série et lui attribue un "
 "numéro de cote."
+msgstr ""
+
+msgid ""
+"La source n'a pas d'image pour cette édition. Vous pourrez ajouter votre "
+"propre photo."
 msgstr ""
 
 msgid "La structure a été créée. Ajoutez-lui ses référents."
@@ -4518,6 +4787,9 @@ msgid ""
 "autrefois, est refusé."
 msgstr ""
 
+msgid "Lancer la recherche"
+msgstr ""
+
 msgid "Lancer la simulation"
 msgstr ""
 
@@ -4538,6 +4810,11 @@ msgid "Le bon lecteur"
 msgstr ""
 
 msgid "Le cache de cette source est vidé."
+msgstr ""
+
+msgid ""
+"Le catalogue des bibliothèques universitaires (Abes) : complète la BnF, "
+"notamment pour les éditions anciennes. Pas de couvertures."
 msgstr ""
 
 msgid ""
@@ -4731,6 +5008,11 @@ msgstr ""
 msgid "Le même ISBN figure sur :"
 msgstr ""
 
+msgid ""
+"Le même ouvrage, mais pas votre édition : autre éditeur, autre année ou "
+"autre ISBN."
+msgstr ""
+
 msgid "Le navigateur gère le focus, la touche Échap et le fond."
 msgstr ""
 
@@ -4741,6 +5023,9 @@ msgid "Le nom de la bibliothèque"
 msgstr ""
 
 msgid "Le nom de la bibliothèque compte de 2 à 120 caractères."
+msgstr ""
+
+msgid "Le nom, le logo et les coordonnées affichés dans biblyO."
 msgstr ""
 
 msgid "Le nouveau mot de passe doit différer de l’actuel."
@@ -4829,6 +5114,12 @@ msgstr ""
 msgid "Le statut de l’exemplaire a été mis à jour."
 msgstr ""
 
+msgid ""
+"Le thème clair ou sombre se choisit par chaque personne, depuis le menu "
+"de l’application. Les couvertures de remplacement reprennent le titre, la"
+" série et le tome, dans une couleur propre à chaque livre."
+msgstr ""
+
 msgid "Le titre de la série doit contenir des lettres ou des chiffres."
 msgstr ""
 
@@ -4904,6 +5195,12 @@ msgid ""
 " quand vous le déciderez."
 msgstr ""
 
+msgid ""
+"Les coordonnées des lecteurs ne sont visibles que des comptes qui en ont "
+"le droit (rubrique « Utilisateurs et permissions »). Un mineur a toujours"
+" un responsable légal."
+msgstr ""
+
 msgid "Les coordonnées ont été mises à jour."
 msgstr ""
 
@@ -4921,6 +5218,11 @@ msgid ""
 msgstr ""
 
 msgid "Les couvertures sont désactivées pour cette source."
+msgstr ""
+
+msgid ""
+"Les couvertures viennent de la BnF, qui n’en a pas pour beaucoup de "
+"livres anciens."
 msgstr ""
 
 msgid "Les deux saisies diffèrent."
@@ -4947,18 +5249,23 @@ msgid ""
 "{source}, notice {id}."
 msgstr ""
 
+msgid "Les fiches incomplètes"
+msgstr ""
+
 msgid ""
 "Les fichiers sont lus en mémoire, sans être exécutés ; ils restent 24 "
 "heures, visibles de vous seul, puis sont supprimés."
 msgstr ""
 
-msgid "Les notes sont trop longues."
+msgid ""
+"Les informations manquantes ont été ajoutées aux livres choisis. Chaque "
+"ajout s’annule depuis sa fiche."
 msgstr ""
 
-msgid ""
-"Les notices de la BnF et du Sudoc sont sous Licence Ouverte de l’État. "
-"Aucune limite de débit n’est publiée : les planchers ci-dessus sont une "
-"précaution du projet."
+msgid "Les listes qui servent à classer, décrire et retrouver les livres."
+msgstr ""
+
+msgid "Les notes sont trop longues."
 msgstr ""
 
 msgid "Les prêts de ce lecteur apparaîtront ici avec le module de prêt."
@@ -4981,6 +5288,9 @@ msgid ""
 "les."
 msgstr ""
 
+msgid "Les rôles sont fixés par l’application ; chaque compte reçoit l’un d’eux."
+msgstr ""
+
 msgid ""
 "Les rôles sont à valider un par un ; une personne déjà présente garde son"
 " rôle."
@@ -4998,6 +5308,12 @@ msgid ""
 msgstr ""
 
 msgid ""
+"Les sources n’ont rien trouvé qui ressemble assez à ce livre. Vous pouvez"
+" ajouter votre propre photo de la couverture, ou essayer une recherche "
+"avancée avec d’autres mots."
+msgstr ""
+
+msgid ""
 "Les sources sont interrogées, les éditions comparées, puis vous "
 "choisissez champ par champ ce que la fiche reprend. Rien n’est écrit sans"
 " votre accord."
@@ -5008,6 +5324,9 @@ msgstr ""
 
 #, python-brace-format
 msgid "Les {n} premières lignes, selon la correspondance enregistrée."
+msgstr ""
+
+msgid "Les éditions sans couverture"
 msgstr ""
 
 msgid "Lesquels"
@@ -5035,9 +5354,6 @@ msgid "Libellé d’origine"
 msgstr ""
 
 msgid "Licence EUPL-1.2"
-msgstr ""
-
-msgid "Lien"
 msgstr ""
 
 msgid "Lien-bouton"
@@ -5122,6 +5438,9 @@ msgstr ""
 msgid "Listes du catalogue"
 msgstr ""
 
+msgid "Listes utilisées pour classer et retrouver les livres"
+msgstr ""
+
 msgid "Livre"
 msgstr ""
 
@@ -5144,6 +5463,9 @@ msgid "Livres = exemplaires − exemplaires supplémentaires"
 msgstr ""
 
 msgid "Livres prévus"
+msgstr ""
+
+msgid "Livres sans couverture"
 msgstr ""
 
 msgid "Livres sortis"
@@ -5220,6 +5542,11 @@ msgid ""
 msgstr ""
 
 msgid "L’ISBN est rejeté : il ne sera plus proposé pour cette édition."
+msgstr ""
+
+msgid ""
+"L’ISBN, les auteurs, le résumé et la couverture ne sont jamais ajoutés "
+"d’office : choisissez-les ci-dessous ou séparément."
 msgstr ""
 
 msgid "L’adhésion a été renouvelée."
@@ -5357,6 +5684,12 @@ msgstr ""
 msgid "L’étagère a été triée."
 msgstr ""
 
+msgid "L’œuvre"
+msgstr ""
+
+msgid "Ma bibliothèque"
+msgstr ""
+
 msgid "Maintenance"
 msgstr ""
 
@@ -5372,6 +5705,9 @@ msgid ""
 msgstr ""
 
 msgid "Majorités à confirmer"
+msgstr ""
+
+msgid "Manquant : sera ajouté"
 msgstr ""
 
 msgid "Manquant confirmé"
@@ -5426,6 +5762,9 @@ msgid "Message laissé"
 msgstr ""
 
 msgid "Mettre en conservation"
+msgstr ""
+
+msgid "Mettre en pause"
 msgstr ""
 
 msgid "Meuble"
@@ -5584,6 +5923,15 @@ msgstr ""
 msgid "Métropole, outre-mer ou étranger, avec son indicatif (+44…)."
 msgstr ""
 
+msgid "Même ISBN que votre livre : c'est votre édition."
+msgstr ""
+
+msgid ""
+"Même ISBN que votre livre : vous pouvez ajouter les informations "
+"manquantes à plusieurs livres d’un coup. Rien de ce qui est renseigné "
+"n’est remplacé."
+msgstr ""
+
 msgid "Même collection"
 msgstr ""
 
@@ -5609,6 +5957,14 @@ msgid "Même éditeur"
 msgstr ""
 
 msgid "Même éditeur écrit de plusieurs façons"
+msgstr ""
+
+msgid "Même édition"
+msgstr ""
+
+msgid ""
+"Même édition (même ISBN), image fournie par la BnF selon ses conditions "
+"de réutilisation, avec mention de la source."
 msgstr ""
 
 msgid "Même édition établie : ISBN identique"
@@ -5681,6 +6037,12 @@ msgid "Nom du profil, pour le réutiliser"
 msgstr ""
 
 msgid "Nom inversé (« Nom, Prénom ») : forme à l'endroit proposée"
+msgstr ""
+
+msgid "Nom à renseigner"
+msgstr ""
+
+msgid "Nom, logo et coordonnées affichés dans biblyO."
 msgstr ""
 
 msgid "Nom, numéro de lecteur ou carte…"
@@ -5842,6 +6204,16 @@ msgstr ""
 msgid "Notices proches déjà présentes"
 msgstr ""
 
+msgid ""
+"Notices sous Licence Ouverte de l’État, avec mention de la source et de "
+"la date."
+msgstr ""
+
+msgid ""
+"Notices sous Licence Ouverte de l’État. Couvertures réutilisables selon "
+"les conditions de la BnF, avec mention de la source et de la date."
+msgstr ""
+
 msgid "Notification de réussite"
 msgstr ""
 
@@ -5976,11 +6348,15 @@ msgid "Open Library (Internet Archive)"
 msgstr ""
 
 msgid ""
-"Open Library ne revendique et n’accorde aucun droit sur ses couvertures :"
-" elles restent celles des éditeurs. Activée, elle propose des images ; "
-"chaque image retenue demande que vous confirmiez votre droit de "
-"l’utiliser. Son API sert à l’affichage, pas au téléchargement en masse : "
-"une requête toutes les 1,5 s au moins."
+"Open Library ne répond pas en ce moment : seules les couvertures de la "
+"BnF sont proposées."
+msgstr ""
+
+msgid ""
+"Open Library n’accorde aucun droit sur les couvertures : elles restent "
+"celles des éditeurs. Chaque image retenue demande que vous confirmiez "
+"votre droit de l’utiliser. Son service sert à afficher des couvertures, "
+"pas à les télécharger en masse."
 msgstr ""
 
 msgid ""
@@ -5998,6 +6374,9 @@ msgid "Ordre actuel"
 msgstr ""
 
 msgid "Ordre de contact"
+msgstr ""
+
+msgid "Ordre de recherche :"
 msgstr ""
 
 msgid "Ordre sur l’étagère"
@@ -6030,10 +6409,18 @@ msgstr ""
 msgid "Ouvrir"
 msgstr ""
 
+msgid "Ouvrir les réglages techniques"
+msgstr ""
+
 msgid "Ouvrir une fenêtre"
 msgstr ""
 
 msgid "Ouvrir une feuille"
+msgstr ""
+
+msgid ""
+"Où biblyO cherche les informations et les couvertures de vos livres, et "
+"dans quel ordre."
 msgstr ""
 
 msgid "Où il se trouve"
@@ -6042,9 +6429,7 @@ msgstr ""
 msgid "Où le trouver"
 msgstr ""
 
-msgid ""
-"PNG, JPEG ou WebP. Réencodée, sans métadonnées, gardée dans la base : "
-"elle part avec les sauvegardes."
+msgid "PNG, JPEG ou WebP. Gardée dans la base : elle part avec les sauvegardes."
 msgstr ""
 
 msgid "Page"
@@ -6091,6 +6476,9 @@ msgstr ""
 msgid "Paramètres"
 msgstr ""
 
+msgid "Paramètres avancés"
+msgstr ""
+
 msgid "Parent"
 msgstr ""
 
@@ -6098,6 +6486,9 @@ msgid "Parties de la fiche"
 msgstr ""
 
 msgid "Pas de code-barres : à attribuer à l'étiquetage (D-L6-7)"
+msgstr ""
+
+msgid "Pas de couverture annoncée"
 msgstr ""
 
 msgid "Pas de réponse"
@@ -6109,7 +6500,13 @@ msgstr ""
 msgid "Pas de titre d'album : titre construit, à remplacer"
 msgstr ""
 
+msgid "Pas d’image"
+msgstr ""
+
 msgid "Pas encore inscrit ? Inscrivez d’abord cet adulte, puis revenez ici."
+msgstr ""
+
+msgid "Pas trouvé ?"
 msgstr ""
 
 msgid "Pas à contacter"
@@ -6222,6 +6619,9 @@ msgstr ""
 msgid "Plusieurs résultats : choisissez explicitement avant de continuer."
 msgstr ""
 
+msgid "Plusieurs éditions se ressemblent : comparez l’année et l’éditeur."
+msgstr ""
+
 msgid "Point d’attention."
 msgstr ""
 
@@ -6262,12 +6662,12 @@ msgstr ""
 msgid "Pour la structure"
 msgstr ""
 
-msgid ""
-"Pour les lecteurs. L’adresse jointe aux requêtes d’Open Library se règle "
-"dans les sources."
+msgid "Pour lui-même"
 msgstr ""
 
-msgid "Pour lui-même"
+msgid ""
+"Pour l’administrateur : l’état de chaque réglage et les informations "
+"techniques."
 msgstr ""
 
 msgid "Pour qui ?"
@@ -6299,9 +6699,6 @@ msgstr ""
 msgid "Principal"
 msgstr ""
 
-msgid "Priorité"
-msgstr ""
-
 msgid "Prix (€)"
 msgstr ""
 
@@ -6326,13 +6723,24 @@ msgstr ""
 msgid "Profils d’import"
 msgstr ""
 
+#, python-brace-format
+msgid "Progression : {n} pour cent"
+msgstr ""
+
 msgid "Prolongation (jours)"
 msgstr ""
 
 msgid "Prolongation en jours"
 msgstr ""
 
+msgid "Proposer ses couvertures"
+msgstr ""
+
 msgid "Proposition"
+msgstr ""
+
+#, python-brace-format
+msgid "Proposition : {title}, {edition}"
 msgstr ""
 
 msgid ""
@@ -6359,13 +6767,25 @@ msgstr ""
 msgid "Propositions de cette ligne, jamais appliquées d’office"
 msgstr ""
 
+msgid "Propositions fiables prêtes"
+msgstr ""
+
 msgid "Propositions gardées, aucune appliquée"
+msgstr ""
+
+msgid "Propositions à traiter"
 msgstr ""
 
 msgid "Propositions à vérifier"
 msgstr ""
 
 msgid "Proposé"
+msgstr ""
+
+msgid "Proposé :"
+msgstr ""
+
+msgid "Proposé par la source"
 msgstr ""
 
 msgid "Proposés à l’archivage, jamais supprimés."
@@ -6499,6 +6919,9 @@ msgid ""
 "responsable."
 msgstr ""
 
+msgid "Prêts et lecteurs"
+msgstr ""
+
 msgid "Prêts et retours"
 msgstr ""
 
@@ -6541,6 +6964,12 @@ msgstr ""
 msgid "Quelques points sont à corriger ci-dessous. Rien n’a été enregistré."
 msgstr ""
 
+msgid "Quels livres chercher ?"
+msgstr ""
+
+msgid "Qui peut se connecter, et ce que chaque rôle peut faire."
+msgstr ""
+
 #, python-format
 msgid "Quitte %(path)s"
 msgstr ""
@@ -6552,6 +6981,9 @@ msgid "Raccourcis clavier"
 msgstr ""
 
 msgid "Raison"
+msgstr ""
+
+msgid "Rang dans l’ordre de recherche"
 msgstr ""
 
 msgid "Rang sur l’étagère"
@@ -6614,7 +7046,13 @@ msgstr ""
 msgid "Rattacher à un foyer ?"
 msgstr ""
 
+msgid "Recherche automatique"
+msgstr ""
+
 msgid "Recherche avancée"
+msgstr ""
+
+msgid "Recherche avancée, avec d’autres mots"
 msgstr ""
 
 msgid "Recherche bibliographique"
@@ -6635,6 +7073,9 @@ msgid "Rechercher"
 msgstr ""
 
 msgid "Rechercher dans le catalogue"
+msgstr ""
+
+msgid "Rechercher la couverture et les informations"
 msgstr ""
 
 msgid "Rechercher un lecteur ou un foyer"
@@ -6665,6 +7106,9 @@ msgid "Rechercher une page, une notice, un lecteur…"
 msgstr ""
 
 msgid "Recherches enregistrées"
+msgstr ""
+
+msgid "Recherches précédentes"
 msgstr ""
 
 #, python-brace-format
@@ -6700,6 +7144,9 @@ msgstr ""
 msgid ""
 "Rejoints sans être modifiés : {a} contributeurs, {p} éditeurs, {c} "
 "collections, {s} séries."
+msgstr ""
+
+msgid "Relancer la recherche"
 msgstr ""
 
 msgid "Relation"
@@ -6787,6 +7234,14 @@ msgid ""
 "puisse joindre la bibliothèque. Sans elle, la source reste désactivée."
 msgstr ""
 
+msgid ""
+"Renseignez d’abord l’adresse de contact ci-dessus : sans elle, Open "
+"Library reste éteinte."
+msgstr ""
+
+msgid "Reprendre"
+msgstr ""
+
 msgid "Reprendre ce lecteur"
 msgstr ""
 
@@ -6830,6 +7285,14 @@ msgid ""
 msgstr ""
 
 msgid "Responsables"
+msgstr ""
+
+msgid ""
+"Ressemble à votre livre, mais un élément manque ou plusieurs éditions "
+"sont possibles."
+msgstr ""
+
+msgid "Restaurer une sauvegarde"
 msgstr ""
 
 msgid ""
@@ -6896,7 +7359,7 @@ msgstr ""
 msgid "Retour au tableau de bord"
 msgstr ""
 
-msgid "Retour aux résultats"
+msgid "Retour aux propositions"
 msgstr ""
 
 msgid "Retour enregistré"
@@ -6930,6 +7393,11 @@ msgstr ""
 msgid "Retours et renouvellements au comptoir"
 msgstr ""
 
+msgid ""
+"Retrouvez votre livre, choisissez sa couverture et complétez sa fiche. "
+"Rien ne change sans votre accord."
+msgstr ""
+
 msgid "Revenir au catalogue"
 msgstr ""
 
@@ -6948,6 +7416,14 @@ msgid "Revenir à « %(title)s » sans prêter"
 msgstr ""
 
 msgid "Rien dans cette vue"
+msgstr ""
+
+msgid ""
+"Rien d’assez proche n’a été trouvé. Vous pouvez chercher autrement, ou "
+"ajouter votre propre photo de la couverture."
+msgstr ""
+
+msgid "Rien ici pour le moment"
 msgstr ""
 
 msgid "Rien n’a changé : ces exemplaires sont déjà à cette place."
@@ -6974,6 +7450,9 @@ msgstr ""
 msgid "Rien à afficher ici pour l’instant."
 msgstr ""
 
+msgid "Rien à ajouter : votre fiche contient déjà ces informations."
+msgstr ""
+
 msgid "Rien à comparer."
 msgstr ""
 
@@ -6989,6 +7468,9 @@ msgstr ""
 msgid "Rubrique"
 msgstr ""
 
+msgid "Rubriques des paramètres"
+msgstr ""
+
 msgid "Règle"
 msgstr ""
 
@@ -6996,6 +7478,9 @@ msgid "Règles appliquées"
 msgstr ""
 
 msgid "Règles de prêt"
+msgstr ""
+
+msgid "Règles de prêt par catégorie de lecteurs"
 msgstr ""
 
 msgid "Règles de prêt, renouvellement et retard"
@@ -7040,13 +7525,16 @@ msgstr ""
 msgid "Référents et membres"
 msgstr ""
 
-msgid "Réglage"
+msgid "Réglages avancés"
 msgstr ""
 
 #, python-brace-format
 msgid ""
 "Réglages provisoires ({d}) : recommandations non approuvées, à valider "
 "avant l'application."
+msgstr ""
+
+msgid "Réglages techniques des sources"
 msgstr ""
 
 msgid "Régler les durées, les plafonds et les seuils"
@@ -7235,6 +7723,9 @@ msgstr ""
 msgid "Sans place jusqu’ici"
 msgstr ""
 
+msgid "Sans proposition satisfaisante"
+msgstr ""
+
 msgid "Sans remarque"
 msgstr ""
 
@@ -7267,6 +7758,9 @@ msgstr ""
 msgid "Sauvegarder"
 msgstr ""
 
+msgid "Sauvegarder maintenant"
+msgstr ""
+
 msgid "Sauvegardes"
 msgstr ""
 
@@ -7274,6 +7768,9 @@ msgid "Sauvegardes antérieures."
 msgstr ""
 
 msgid "Sauvegardes et restauration"
+msgstr ""
+
+msgid "Sauvegardes existantes"
 msgstr ""
 
 msgid "Scanner"
@@ -7293,6 +7790,12 @@ msgstr ""
 
 #, python-brace-format
 msgid "Score {n} sur 100"
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"Score {score} sur 100, base de preuve {evidence}, niveau de recherche : "
+"{level}"
 msgstr ""
 
 #, python-brace-format
@@ -7324,11 +7827,6 @@ msgid "Section principale"
 msgstr ""
 
 msgid "Sections"
-msgstr ""
-
-msgid ""
-"Service Couvertures du catalogue général, selon les conditions de "
-"réutilisation des données de la BnF."
 msgstr ""
 
 msgid ""
@@ -7458,6 +7956,12 @@ msgstr ""
 msgid "Source"
 msgstr ""
 
+msgid "Source :"
+msgstr ""
+
+msgid "Source : Open Library, qui n’accorde aucun droit sur les couvertures."
+msgstr ""
+
 msgid "Source et empreintes"
 msgstr ""
 
@@ -7470,7 +7974,17 @@ msgstr ""
 msgid "Sources"
 msgstr ""
 
+#, python-brace-format
+msgid "Sources actives : {list}"
+msgstr ""
+
 msgid "Sources bibliographiques"
+msgstr ""
+
+msgid "Sources bibliographiques, ordre de recherche et couvertures."
+msgstr ""
+
+msgid "Sources indisponibles pour le moment."
 msgstr ""
 
 msgid "Sources interrogées"
@@ -7625,6 +8139,10 @@ msgid ""
 "fiches."
 msgstr ""
 
+#, python-brace-format
+msgid "Temps de réponse : {s} s."
+msgstr ""
+
 msgid "Terminer"
 msgstr ""
 
@@ -7640,7 +8158,7 @@ msgstr ""
 msgid "Territoire inconnu."
 msgstr ""
 
-msgid "Tester la connexion"
+msgid "Tester"
 msgstr ""
 
 msgid "Texte d’aide"
@@ -7650,6 +8168,10 @@ msgid "Titre"
 msgstr ""
 
 msgid "Titre A→Z"
+msgstr ""
+
+#, python-brace-format
+msgid "Titre abrégé, début du titre de la notice : « {theirs} »"
 msgstr ""
 
 #, python-brace-format
@@ -7670,6 +8192,10 @@ msgid "Titre de l'album"
 msgstr ""
 
 msgid "Titre de la série"
+msgstr ""
+
+#, python-brace-format
+msgid "Titre de la série suivi du titre de l'album : « {theirs} »"
 msgstr ""
 
 #, python-brace-format
@@ -7729,6 +8255,11 @@ msgid "Titre, auteur, ISBN, éditeur, série, cote, mot-clé…"
 msgstr ""
 
 msgid "Titre, auteur, série, tome, ISBN, cote ou code"
+msgstr ""
+
+msgid ""
+"Titre, auteur, éditeur et tome concordent, mais aucun ISBN ne le confirme"
+" : vérifiez sur le livre."
 msgstr ""
 
 msgid "Titre, code d’exemplaire ou nom du lecteur"
@@ -7817,6 +8348,9 @@ msgstr ""
 msgid "Tous les prêts"
 msgstr ""
 
+msgid "Tous les réglages nécessaires sont faits"
+msgstr ""
+
 msgid "Tous les signalements"
 msgstr ""
 
@@ -7858,6 +8392,12 @@ msgstr ""
 msgid "Toutes les pages"
 msgstr ""
 
+msgid "Toutes les rubriques"
+msgstr ""
+
+msgid "Toutes les éditions"
+msgstr ""
+
 msgid "Traducteur"
 msgstr ""
 
@@ -7867,6 +8407,12 @@ msgstr ""
 msgid ""
 "Transmettez-le à la personne concernée. Il ne sera plus affiché, et devra"
 " être changé à la première connexion."
+msgstr ""
+
+msgid ""
+"Transmise aux sources pour qu’elles puissent joindre la bibliothèque en "
+"cas de problème. Open Library l’exige : sans elle, cette source reste "
+"éteinte."
 msgstr ""
 
 msgid "Travail"
@@ -8115,8 +8661,19 @@ msgid ""
 msgstr ""
 
 msgid ""
+"Une base mondiale tenue par l’Internet Archive : utile pour les "
+"couvertures que la BnF n’a pas. Jamais utilisée pour toute la "
+"bibliothèque d’un coup."
+msgstr ""
+
+msgid ""
 "Une case cochée écrase la valeur actuelle par la valeur d’avant "
 "l’enrichissement. Sans case, la valeur actuelle reste."
+msgstr ""
+
+msgid ""
+"Une copie vérifiée de la base et des couvertures, à garder aussi hors du "
+"serveur."
 msgstr ""
 
 msgid "Une cote n'est jamais une clé : deux livres peuvent la partager."
@@ -8196,14 +8753,15 @@ msgid ""
 "livre en main, après l’import."
 msgstr ""
 
-msgid "Une règle existe déjà pour cette portée : modifiez-la dans le tableau."
+msgid ""
+"Une recherche de la bibliothèque est déjà en cours : reprenez-la ou "
+"annulez-la."
 msgstr ""
 
-msgid ""
-"Une sauvegarde n’est publiée qu’après vérification (archive, empreintes, "
-"intégrité de la base). La restauration se fait sur le serveur, service "
-"arrêté : biblyo backup restore <archive>. L’état remplacé est gardé à "
-"côté, jamais effacé."
+msgid "Une recherche de toute la bibliothèque est déjà en cours : reprenez-la."
+msgstr ""
+
+msgid "Une règle existe déjà pour cette portée : modifiez-la dans le tableau."
 msgstr ""
 
 msgid "Une section ne peut pas être fusionnée dans une de ses sous-sections."
@@ -8274,6 +8832,18 @@ msgstr ""
 msgid "Utilisateurs"
 msgstr ""
 
+msgid "Utilisateurs et permissions"
+msgstr ""
+
+msgid "Utiliser cette source"
+msgstr ""
+
+msgid "Utiliser pour les couvertures"
+msgstr ""
+
+msgid "Utiliser seulement cette couverture"
+msgstr ""
+
 msgid "Utilisé par"
 msgstr ""
 
@@ -8315,6 +8885,13 @@ msgstr ""
 msgid "Valeurs en double : chaque doublon sera refusé à la simulation."
 msgstr ""
 
+msgid "Validez au plus 25 livres à la fois."
+msgstr ""
+
+#, python-brace-format
+msgid "Validez au plus {n} livres à la fois."
+msgstr ""
+
 msgid "Validées le 13 novembre 2026"
 msgstr ""
 
@@ -8343,7 +8920,7 @@ msgstr ""
 msgid "Vide."
 msgstr ""
 
-msgid "Vider le cache"
+msgid "Vider la mémoire de cette source"
 msgstr ""
 
 msgid ""
@@ -8376,6 +8953,10 @@ msgstr ""
 msgid "Voir le prêt de"
 msgstr ""
 
+#, python-brace-format
+msgid "Voir les autres résultats ({n})"
+msgstr ""
+
 msgid "Voir les coordonnées des lecteurs"
 msgstr ""
 
@@ -8386,6 +8967,9 @@ msgid "Voir les exemplaires"
 msgstr ""
 
 msgid "Voir les exemplaires de"
+msgstr ""
+
+msgid "Voir les lecteurs"
 msgstr ""
 
 msgid "Voir les lecteurs : nom, numéros, foyers, sans coordonnées"
@@ -8410,6 +8994,20 @@ msgid "Votre compte ne donne pas accès aux prêts."
 msgstr ""
 
 msgid "Votre compte peut comparer, pas appliquer."
+msgstr ""
+
+msgid "Votre compte peut consulter les propositions, pas lancer de recherche."
+msgstr ""
+
+msgid "Votre fiche"
+msgstr ""
+
+msgid "Votre fiche :"
+msgstr ""
+
+msgid ""
+"Votre fiche et ce que propose la source, information par information. Ce "
+"qui est déjà renseigné n’est jamais remplacé sans votre accord."
 msgstr ""
 
 msgid "Votre mot de passe"
@@ -8446,6 +9044,9 @@ msgid "Vues des prêts"
 msgstr ""
 
 msgid "Vérifier"
+msgstr ""
+
+msgid "Vérifier et utiliser cette couverture"
 msgstr ""
 
 msgid ""
@@ -8503,6 +9104,9 @@ msgstr ""
 msgid "adresse"
 msgstr ""
 
+msgid "adresse de contact à renseigner pour Open Library"
+msgstr ""
+
 msgid "affichés"
 msgstr ""
 
@@ -8510,6 +9114,9 @@ msgid "annulé"
 msgstr ""
 
 msgid "annulée"
+msgstr ""
+
+msgid "année"
 msgstr ""
 
 #, python-brace-format
@@ -8540,6 +9147,9 @@ msgstr ""
 msgid "aucune"
 msgstr ""
 
+msgid "aucune source active"
+msgstr ""
+
 msgid "auteur"
 msgstr ""
 
@@ -8551,6 +9161,12 @@ msgstr ""
 
 #, python-format
 msgid "avant « %(title)s »"
+msgstr ""
+
+msgid ""
+"biblyO cherche vos livres à la BnF et au Sudoc et prépare des "
+"propositions. Rien ne change dans vos fiches tant que vous ne l’avez pas "
+"validé."
 msgstr ""
 
 msgid "biblyO est en maintenance"
@@ -8566,6 +9182,11 @@ msgid "biblyO, accueil"
 msgstr ""
 
 msgid "biblyO, tableau de bord"
+msgstr ""
+
+msgid ""
+"cadences, délais d’attente, mémoire des réponses : à ne changer qu’en cas"
+" de besoin"
 msgstr ""
 
 #, python-brace-format
@@ -8600,6 +9221,9 @@ msgid "cette session"
 msgstr ""
 
 msgid "champ non applicable"
+msgstr ""
+
+msgid "cherchée en premier"
 msgstr ""
 
 msgid "code de fonction 070"
@@ -8665,6 +9289,9 @@ msgstr ""
 msgid "courriel"
 msgstr ""
 
+msgid "couverture"
+msgstr ""
+
 msgid "couverture de la notice BnF liée"
 msgstr ""
 
@@ -8681,6 +9308,9 @@ msgid "dates inconnues"
 msgstr ""
 
 msgid "de complétude moyenne"
+msgstr ""
+
+msgid "demande de ralentir : biblyO attend avant de l’interroger de nouveau."
 msgstr ""
 
 msgid "depuis le"
@@ -8730,9 +9360,6 @@ msgstr ""
 msgid "désactivé ici"
 msgstr ""
 
-msgid "désactivée"
-msgstr ""
-
 msgid "désactivée (biblyo import application)"
 msgstr ""
 
@@ -8764,6 +9391,9 @@ msgid "en retard ou à échéance proche"
 msgstr ""
 
 msgid "enrichir cette notice plutôt"
+msgstr ""
+
+msgid "est désactivée."
 msgstr ""
 
 msgid "et"
@@ -8900,6 +9530,11 @@ msgstr ""
 msgid "mention « {text} »"
 msgstr ""
 
+msgid ""
+"met trop de temps à répondre. Réessayez plus tard ; si cela dure, "
+"augmentez le délai d’attente dans les réglages avancés."
+msgstr ""
+
 #, python-brace-format
 msgid "mise de côté encore {s} s"
 msgstr ""
@@ -8920,11 +9555,20 @@ msgstr ""
 msgid "naissance {year}"
 msgstr ""
 
+msgid "ne répond pas correctement."
+msgstr ""
+
+msgid "ne répond pas pour le moment. Réessayez plus tard."
+msgstr ""
+
 #, python-brace-format
 msgid "niveau : {level}"
 msgstr ""
 
 msgid "nom"
+msgstr ""
+
+msgid "nombre de pages"
 msgstr ""
 
 msgid "non"
@@ -9071,6 +9715,9 @@ msgstr ""
 msgid "rappels notés"
 msgstr ""
 
+msgid "refuse la requête de test."
+msgstr ""
+
 msgid "refusée"
 msgstr ""
 
@@ -9090,6 +9737,9 @@ msgid "remplacement de la couverture non confirmé"
 msgstr ""
 
 msgid "remplacement non confirmé : ignoré"
+msgstr ""
+
+msgid "remplacer une valeur, ajouter l’ISBN, les auteurs ou le résumé"
 msgstr ""
 
 msgid "rendu le"
@@ -9132,6 +9782,12 @@ msgstr ""
 msgid "réessayée"
 msgstr ""
 
+msgid "répond de façon illisible."
+msgstr ""
+
+msgid "répond normalement."
+msgstr ""
+
 #, python-brace-format
 msgid "réponse gardée du {date}"
 msgstr ""
@@ -9140,6 +9796,9 @@ msgid "résultat"
 msgstr ""
 
 msgid "résultats"
+msgstr ""
+
+msgid "résumé"
 msgstr ""
 
 msgid "rôle incertain"
@@ -9293,7 +9952,23 @@ msgid "vérifié sur le livre"
 msgstr ""
 
 #, python-brace-format
+msgid "{a} livre(s) complété(s), {s} laissé(s) tel(s) quel(s)."
+msgstr ""
+
+#, python-brace-format
 msgid "{count} numéros à vérifier"
+msgstr ""
+
+#, python-brace-format
+msgid "{done} livre(s) examiné(s)"
+msgstr ""
+
+#, python-brace-format
+msgid "{done} livre(s) sur {total}"
+msgstr ""
+
+#, python-brace-format
+msgid "{done} sur {total}"
 msgstr ""
 
 #, python-brace-format
@@ -9359,6 +10034,10 @@ msgid "{n} code(s) à attribuer"
 msgstr ""
 
 #, python-brace-format
+msgid "{n} compte(s) actif(s)"
+msgstr ""
+
+#, python-brace-format
 msgid "{n} ex."
 msgstr ""
 
@@ -9394,6 +10073,10 @@ msgstr ""
 
 #, python-brace-format
 msgid "{n} image(s) en double écartée(s)."
+msgstr ""
+
+#, python-brace-format
+msgid "{n} information(s) identique(s) des deux côtés."
 msgstr ""
 
 #, python-brace-format
@@ -9472,7 +10155,11 @@ msgid ""
 msgstr ""
 
 #, python-brace-format
-msgid "{n} réponse(s) en cache"
+msgid "{n} réglage(s) à faire"
+msgstr ""
+
+#, python-brace-format
+msgid "{n} réponse(s) en mémoire"
 msgstr ""
 
 #, python-brace-format
@@ -9525,14 +10212,6 @@ msgstr ""
 
 #, python-brace-format
 msgid "{r} salle(s), {f} meuble(s), {s} étagère(s) ou bac(s)"
-msgstr ""
-
-#, python-brace-format
-msgid "{source} ne répond pas correctement : {status}."
-msgstr ""
-
-#, python-brace-format
-msgid "{source} répond : {status}, {ms} ms."
 msgstr ""
 
 #, python-format
@@ -9752,6 +10431,9 @@ msgstr ""
 msgid "Éditeur existant"
 msgstr ""
 
+msgid "Éditeur inconnu"
+msgstr ""
+
 msgid "Éditeur modifié dans biblyO"
 msgstr ""
 
@@ -9811,6 +10493,9 @@ msgid "Édition indéterminée : titre, auteur et éditeur concordent"
 msgstr ""
 
 msgid "Édition principale"
+msgstr ""
+
+msgid "Édition probable"
 msgstr ""
 
 msgid "Édition représentée selon la source"
@@ -9908,6 +10593,9 @@ msgstr ""
 msgid "échéance"
 msgstr ""
 
+msgid "éditeur"
+msgstr ""
+
 msgid "édition différente : œuvre seulement"
 msgstr ""
 
@@ -9924,6 +10612,9 @@ msgid "élément"
 msgstr ""
 
 msgid "éléments"
+msgstr ""
+
+msgid "éteinte"
 msgstr ""
 
 msgid "Œuvre"

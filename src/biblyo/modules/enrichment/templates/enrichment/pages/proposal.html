@@ -1,34 +1,84 @@
 {% extends layout %}
-{% from "components/layout.html" import page_header, ring, data_table %}
+{% from "components/layout.html" import page_header, data_table %}
 {% from "components/icons.html" import icon %}
 {% from "components/buttons.html" import button, link_button %}
 {% from "components/feedback.html" import badge, alert %}
 {% block title %}{{ _("Comparer : {title}").format(title=notice.title) }} — biblyO{% endblock %}
 {% block content %}
 {% set label = class_labels.get(assessment.match_class, (assessment.match_class, "neutral")) %}
-{% call page_header(_("Comparer avec la notice {source}").format(source=source_labels.get(candidate.source, candidate.source)), _("Chaque ligne montre la valeur de la fiche et celle proposée. Seuls les champs cochés seront appliqués ; un champ déjà rempli n’est remplacé que si vous le cochez vous-même."), "enr", "enrich") %}
-  {{ link_button(_("Retour aux résultats"), base ~ "?edition=" ~ edition.id, "g", "undo") }}
+{% set rel = reliability[reliability_code] %}
+{% call page_header(_("Est-ce bien votre livre ?"), _("Votre fiche et ce que propose la source, information par information. Ce qui est déjà renseigné n’est jamais remplacé sans votre accord."), "enr", "enrich") %}
+  {{ link_button(_("Retour aux propositions"), back, "g", "undo") }}
 {% endcall %}
 
-<section class="card enr-head m-{{ label[1] }}">
-  <div class="card-b row gap-xs">
-    {{ ring(assessment.score, _("Score {n} sur 100").format(n=assessment.score), 56, "enr", 6, uncertain=(assessment.match_class in ("uncertain", "multiple"))) }}
-    {% if cover_offered %}<img class="enr-cover" src="{{ base }}/propositions/{{ proposal_id }}/couverture" alt="{{ _('Couverture proposée par la BnF') }}" width="103" height="150" loading="lazy">{% endif %}
-    <div class="grow min0">
-      <div class="row gap-xs">{{ badge(label[0], label[1]) }}{% if assessment.isbn_equal %}{{ badge(_("ISBN identique"), "ok") }}{% endif %}{% if not assessment.edition_usable %}{{ badge(_("édition différente : œuvre seulement"), "due") }}{% endif %}</div>
-      <h2 class="enr-title">{{ candidate.work.title.value }}</h2>
-      <p class="m0 muted">{% for person in candidate.work.contributors %}{{ person.name }}{% if not loop.last %}, {% endif %}{% endfor %}
-        {% if candidate.edition.publisher %} · {{ candidate.edition.publisher.value }}{% endif %}{% if candidate.edition.year %} · {{ candidate.edition.year.raw }}{% endif %}</p>
-      <p class="m0 small faint">{{ _("Notice {id}, {agency}, {date}. Récupérée pour cette recherche. Données : {holder}, licence ouverte.").format(id=candidate.external_id, agency=candidate.source_agency, date=candidate.source_date, holder=source_labels.get(candidate.source, candidate.source)) }} <a class="plain-link" href="{{ candidate.url }}" rel="noopener">{{ _("Voir la notice") }} {{ icon("open", 12) }}</a></p>
-      <details class="enr-why"><summary>{{ _("Pourquoi ce score") }}</summary>
-        <ul class="plain">{% for c in assessment.criteria %}<li>{{ c.note }} <span class="faint">({{ c.points }}/{{ c.possible }})</span></li>{% endfor %}
-        {% for d in assessment.demoted %}<li class="late-ink">{{ _("Déclassé : {reason}").format(reason=d) }}</li>{% endfor %}</ul></details>
+<section class="card" aria-labelledby="choix-titre">
+  <div class="card-b asst-head asst-pad">
+    <div>
+      {% if offer %}<img class="cover-img" src="{{ image_path }}?source={{ offer.source }}&amp;ref={{ offer.reference | urlencode }}&amp;ean={{ offer.ean }}&amp;taille=grande" alt="{{ _('Couverture proposée : {title}').format(title=candidate.work.title.value) }}">
+      {% else %}<p class="asst-nothumb"><b>{{ _("Pas d’image") }}</b>{{ cover_states.get(offer_state, cover_states["none"]) }}</p>{% endif %}
+    </div>
+    <div class="min0">
+      <span class="asst-tag t-{{ rel[1] }}">{{ rel[0] }}</span>
+      <h2 id="choix-titre" class="asst-title mt-s">{{ candidate.work.title.value }}</h2>
+      <p class="asst-sub">{% for person in candidate.work.contributors %}{{ person.name }}{% if not loop.last %}, {% endif %}{% endfor %}</p>
+      <p class="asst-sub">{{ candidate.edition.publisher.value if candidate.edition.publisher else _("Éditeur inconnu") }}{% if candidate.edition.year %} · {{ candidate.edition.year.raw }}{% endif %}</p>
+      <p class="m0 mt-s">{{ rel[2] }}</p>
+      {% if offer and can("catalogue.edit") %}
+      <form class="mt-s" method="post" action="/catalogue/notices/{{ notice.id }}/couverture/proposition">
+        <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+        <input type="hidden" name="edition_id" value="{{ edition.id }}">
+        <input type="hidden" name="source" value="{{ offer.source }}">
+        <input type="hidden" name="ref" value="{{ offer.reference }}">
+        <input type="hidden" name="ean" value="{{ offer.ean }}">
+        <input type="hidden" name="match" value="{{ offer.match }}">
+        <input type="hidden" name="notice" value="{{ offer.notice_url }}">
+        <input type="hidden" name="edition_text" value="{{ offer.edition_text }}">
+        {{ button(_("Utiliser seulement cette couverture"), "s", "upload", type="submit") }}
+      </form>
+      {% endif %}
     </div>
   </div>
 </section>
 
-{% if assessment.match_class in ("uncertain", "multiple") %}{{ alert(_("Correspondance incertaine : vérifiez chaque champ avant de le cocher. Rien n’est précoché."), "due") }}{% endif %}
+<section class="card mt-s" aria-labelledby="choix-comparer">
+  <div class="card-h"><h2 id="choix-comparer">{{ _("Comparer") }}</h2></div>
+  <div class="card-b">
+    {% if fillable or kept %}
+    <ul class="asst-diff">
+      <li class="asst-diff-h" aria-hidden="true"><span></span><span>{{ _("Votre fiche") }}</span><span>{{ _("Proposé par la source") }}</span></li>
+      {% for d in fillable + kept %}
+      <li>
+        <span class="k">{{ d.label }}</span>
+        <span class="v"><span class="sr">{{ _("Votre fiche :") }} </span>{% if d.local %}{{ d.local }}{% else %}<span class="asst-empty">{{ _("non renseigné") }}</span>{% endif %}</span>
+        <span class="v"><span class="sr">{{ _("Proposé :") }} </span>{{ d.proposed }}
+          {% if d in fillable %}<span class="add block">{{ _("Manquant : sera ajouté") }}</span>{% else %}<span class="keep block">{{ _("Différent : votre valeur est gardée") }}</span>{% endif %}</span>
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}<p class="m0">{{ _("Rien à ajouter : votre fiche contient déjà ces informations.") }}</p>{% endif %}
+    {% if same %}<p class="small muted m0 mt-s">{{ _("{n} information(s) identique(s) des deux côtés.").format(n=same | length) }}</p>{% endif %}
+    {% if fillable and can("enrichment.review") %}
+    <form class="mt-s" method="post" action="{{ base }}/propositions/{{ proposal_id }}">
+      <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+      {% if reliability_code != "same_edition" %}
+        <label class="check" for="verifie"><input type="checkbox" id="verifie" name="verifie" value="1"><span>{{ _("J’ai vérifié : c’est bien mon livre") }}<span class="h">{{ _("Comparez le titre, l’éditeur et l’année avec le livre en main.") }}</span></span></label>
+      {% endif %}
+      <div class="asst-go">{{ button(_("Ajouter les informations manquantes ({n})").format(n=fillable | length), "p", "check", type="submit", name="action", value="manquants") }}</div>
+      <p class="small muted m0 mt-s">{{ _("L’ISBN, les auteurs, le résumé et la couverture ne sont jamais ajoutés d’office : choisissez-les ci-dessous ou séparément.") }}</p>
+    </form>
+    {% endif %}
+  </div>
+</section>
 
+<details class="card mt-s">
+  <summary class="card-fold"><b>{{ _("Choisir précisément les changements") }}</b> <span class="muted small">{{ _("remplacer une valeur, ajouter l’ISBN, les auteurs ou le résumé") }}</span></summary>
+  <div class="card-b">
+  <div class="row gap-xs mb-s">{{ badge(label[0], label[1]) }}{% if assessment.isbn_equal %}{{ badge(_("ISBN identique"), "ok") }}{% endif %}{% if not assessment.edition_usable %}{{ badge(_("édition différente : œuvre seulement"), "due") }}{% endif %}</div>
+  <p class="m0 small faint">{{ _("Notice {id}, {agency}, {date}. Récupérée pour cette recherche. Données : {holder}, licence ouverte.").format(id=candidate.external_id, agency=candidate.source_agency, date=candidate.source_date, holder=source_labels.get(candidate.source, candidate.source)) }} <a class="plain-link" href="{{ candidate.url }}" rel="noopener">{{ _("Voir la notice") }} {{ icon("open", 12) }}</a></p>
+  <details class="enr-why"><summary>{{ _("Détails techniques : score {n} sur 100").format(n=assessment.score) }}</summary>
+    <ul class="plain">{% for c in assessment.criteria %}<li>{{ c.note }} <span class="faint">({{ c.points }}/{{ c.possible }})</span></li>{% endfor %}
+    {% for d in assessment.demoted %}<li class="late-ink">{{ _("Déclassé : {reason}").format(reason=d) }}</li>{% endfor %}</ul></details>
+  {% if assessment.match_class in ("uncertain", "multiple") %}{{ alert(_("Correspondance incertaine : vérifiez chaque champ avant de le cocher. Rien n’est précoché."), "due") }}{% endif %}
 <form method="post" action="{{ base }}/propositions/{{ proposal_id }}" class="form">
   <input type="hidden" name="_csrf" value="{{ csrf_token }}">
   {% macro diff_rows(items, caption) %}
@@ -86,7 +136,7 @@
   {% endmacro %}
 
   <section class="card" aria-labelledby="enr-oeuvre">
-    <div class="card-h"><h2 id="enr-oeuvre">{{ _("5. Différences : l’œuvre") }}</h2></div>
+    <div class="card-h"><h2 id="enr-oeuvre">{{ _("L’œuvre") }}</h2></div>
     <div class="card-b">{% if work_diffs %}{{ diff_rows(work_diffs, _("Champs de l’œuvre")) }}{% else %}<p class="muted m0">{{ _("Rien à comparer.") }}</p>{% endif %}</div>
   </section>
   <section class="card" aria-labelledby="enr-edition">
@@ -113,4 +163,6 @@
     {% else %}<span class="muted small">{{ _("Votre compte peut comparer, pas appliquer.") }}</span>{% endif %}
   </div>
 </form>
+  </div>
+</details>
 {% endblock %}

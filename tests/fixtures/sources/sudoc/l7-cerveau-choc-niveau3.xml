@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?xml-stylesheet type="text/xsl" href="https://www.sudoc.abes.fr/cbs/sru/DB=2.1/?xsl=searchRetrieveResponse" ?>
+<srw:searchRetrieveResponse xmlns:srw="http://www.loc.gov/zing/srw/"
+			    xmlns:dc="http://purl.org/dc/elements/1.1/"
+			    xmlns:diag="http://www.loc.gov/zing/srw/diagnostic/"
+			    xmlns:xcql="http://www.loc.gov/zing/cql/xcql/">
+    <srw:version>1.1</srw:version>
+    <srw:numberOfRecords>1</srw:numberOfRecords>
+    
+    <srw:records>
+    
+
+
+<srw:record>
+<srw:recordSchema>unimarc</srw:recordSchema>
+<srw:recordPacking>xml</srw:recordPacking>
+<srw:recordData>
+<record>
+<controlfield tag="005">20220708184032.000</controlfield>
+<leader>     cam0 22        450 </leader>
+<controlfield tag="001">158139755</controlfield>
+<controlfield tag="003">http://www.sudoc.fr/158139755</controlfield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">(OCoLC)800886647</subfield></datafield>
+<datafield tag="010" ind1=" " ind2=" "><subfield code="a">978-2-205-06069-0</subfield>
+<subfield code="b">rel</subfield>
+<subfield code="d">18 EUR</subfield></datafield>
+<datafield tag="073" ind1=" " ind2="0"><subfield code="a">9782205060690</subfield></datafield>
+<datafield tag="100" ind1=" " ind2=" "><subfield code="a">20120203h20112009m  y0frey50      ba</subfield></datafield>
+<datafield tag="101" ind1="0" ind2=" "><subfield code="a">fre</subfield>
+<subfield code="2">639-2</subfield></datafield>
+<datafield tag="105" ind1=" " ind2=" "><subfield code="a">a   t   000ay</subfield></datafield>
+<datafield tag="106" ind1=" " ind2=" "><subfield code="a">r</subfield></datafield>
+<datafield tag="181" ind1=" " ind2=" "><subfield code="6">z01</subfield>
+<subfield code="c">txt</subfield>
+<subfield code="2">rdacontent</subfield></datafield>
+<datafield tag="181" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="a">i#</subfield>
+<subfield code="b">xxxe##</subfield></datafield>
+<datafield tag="182" ind1=" " ind2=" "><subfield code="6">z01</subfield>
+<subfield code="c">n</subfield>
+<subfield code="2">rdamedia</subfield></datafield>
+<datafield tag="182" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="a">n</subfield></datafield>
+<datafield tag="183" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="a">nga</subfield>
+<subfield code="2">RDAfrCarrier</subfield></datafield>
+<datafield tag="102" ind1=" " ind2=" "><subfield code="a">FR</subfield></datafield>
+<datafield tag="200" ind1="1" ind2=" "><subfield code="a">Achille Talon</subfield>
+<subfield code="e">l&apos;intégrale</subfield>
+<subfield code="h">Tome 1</subfield>
+<subfield code="f">par Greg</subfield></datafield>
+<datafield tag="517" ind1="|" ind2=" "><subfield code="a">Les idées d&apos;Achille Talon, cerveau-choc !</subfield></datafield>
+<datafield tag="517" ind1="|" ind2=" "><subfield code="a">Achille Talon aggrave son cas !</subfield></datafield>
+<datafield tag="517" ind1="|" ind2=" "><subfield code="a">Achille Talon persiste et signe !</subfield></datafield>
+<datafield tag="700" ind1=" " ind2="1"><subfield code="3">02690201X</subfield>
+<subfield code="a">Greg</subfield>
+<subfield code="f">1931-1999</subfield>
+<subfield code="4">070</subfield></datafield>
+<datafield tag="801" ind1=" " ind2="3"><subfield code="a">FR</subfield>
+<subfield code="b">Abes</subfield>
+<subfield code="c">20220708</subfield>
+<subfield code="g">AFNOR</subfield></datafield>
+<datafield tag="210" ind1=" " ind2=" "><subfield code="a">Paris</subfield>
+<subfield code="a">Barcelone</subfield>
+<subfield code="a">Bruxelles [etc.]</subfield>
+<subfield code="c">Dargaud</subfield>
+<subfield code="d">DL 2009, cop. 2009</subfield>
+<subfield code="e">54-Maxéville</subfield>
+<subfield code="g">Impr. Jean-Lamour-Qualibris</subfield></datafield>
+<datafield tag="215" ind1=" " ind2=" "><subfield code="a">1 vol. (144 p.)</subfield>
+<subfield code="c">ill. en noir et en coul., couv. ill. en coul.</subfield>
+<subfield code="d">30 cm</subfield></datafield>
+<datafield tag="461" ind1=" " ind2="|"><subfield code="t">Achille Talon</subfield>
+<subfield code="v">1</subfield></datafield>
+<datafield tag="300" ind1=" " ind2=" "><subfield code="a">Cet album est une réédition de l&apos;intégrale Achille Talon &quot;Mon oeuvre à moi&quot; tome 1 parue en 1997</subfield></datafield>
+<datafield tag="606" ind1=" " ind2=" "><subfield code="3">027220796</subfield>
+<subfield code="a">Bandes dessinées</subfield>
+<subfield code="2">rameau</subfield></datafield>
+<datafield tag="686" ind1=" " ind2=" "><subfield code="a">805</subfield>
+<subfield code="2">Cadre de classement de la Bibliographie nationale française</subfield></datafield>
+<datafield tag="305" ind1=" " ind2=" "><subfield code="a">Autre tirage : 2011</subfield></datafield>
+<datafield tag="307" ind1=" " ind2=" "><subfield code="a">Réunit : &quot;Les idées d&apos;Achille Talon, cerveau-choc !&quot; ; &quot;Achille Talon aggrave son cas !&quot; ; &quot;Achille Talon persiste et signe !&quot;</subfield></datafield>
+</record></srw:recordData><srw:recordPosition>1</srw:recordPosition>
+</srw:record>
+</srw:records>
+    <srw:echoedSearchRetrieveRequest>
+	<srw:version>1.1</srw:version>
+	<srw:query>mti%3Dcerveau+choc+and+edi%3Ddargaud</srw:query>
+	<srw:xQuery><xcql:triple><xcql:boolean> <xcql:value>and</xcql:value></xcql:boolean><xcql:leftOperand><xcql:triple><xcql:boolean> <xcql:value>and</xcql:value></xcql:boolean><xcql:leftOperand><xcql:searchClause><xcql:index>mti</xcql:index><xcql:relation><xcql:value>=</xcql:value></xcql:relation><xcql:term>cerveau</xcql:term></xcql:searchClause></xcql:leftOperand><xcql:rightOperand><xcql:searchClause><xcql:index>mti</xcql:index><xcql:relation><xcql:value>=</xcql:value></xcql:relation><xcql:term>choc</xcql:term></xcql:searchClause></xcql:rightOperand></xcql:triple></xcql:leftOperand><xcql:rightOperand><xcql:searchClause><xcql:index>edi</xcql:index><xcql:relation><xcql:value>=</xcql:value></xcql:relation><xcql:term>dargaud</xcql:term></xcql:searchClause></xcql:rightOperand></xcql:triple></srw:xQuery>
+	<startRecord>1</startRecord>
+	<maximumRecords>20</maximumRecords>
+	<srw:recordPacking>xml</srw:recordPacking>
+	<srw:recordSchema>unimarc</srw:recordSchema>
+	
+	<srw:stylesheet>https://www.sudoc.abes.fr/cbs/sru/DB=2.1/?xsl=searchRetrieveResponse</srw:stylesheet>
+    </srw:echoedSearchRetrieveRequest>
+    <diag:diagnostics>
+        <diag:uri>info:srw/diagnostic/1/0</diag:uri>
+	
+	
+    </diag:diagnostics>
+    
+</srw:searchRetrieveResponse>

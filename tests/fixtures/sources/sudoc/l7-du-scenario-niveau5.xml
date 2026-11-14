@@ -1,0 +1,525 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?xml-stylesheet type="text/xsl" href="https://www.sudoc.abes.fr/cbs/sru/DB=2.1/?xsl=searchRetrieveResponse" ?>
+<srw:searchRetrieveResponse xmlns:srw="http://www.loc.gov/zing/srw/"
+			    xmlns:dc="http://purl.org/dc/elements/1.1/"
+			    xmlns:diag="http://www.loc.gov/zing/srw/diagnostic/"
+			    xmlns:xcql="http://www.loc.gov/zing/cql/xcql/">
+    <srw:version>1.1</srw:version>
+    <srw:numberOfRecords>3</srw:numberOfRecords>
+    
+    <srw:records>
+    
+
+
+<srw:record>
+<srw:recordSchema>unimarc</srw:recordSchema>
+<srw:recordPacking>xml</srw:recordPacking>
+<srw:recordData>
+<record>
+<controlfield tag="005">20260414090420.000</controlfield>
+<leader>     cam0 22        450 </leader>
+<controlfield tag="001">05147932X</controlfield>
+<controlfield tag="003">http://www.sudoc.fr/05147932X</controlfield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">(OCoLC)490499746</subfield></datafield>
+<datafield tag="010" ind1=" " ind2=" "><subfield code="a">2-7234-0252-5</subfield>
+<subfield code="b">rel.</subfield>
+<subfield code="d">119 FRF</subfield></datafield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">lm133126</subfield></datafield>
+<datafield tag="100" ind1=" " ind2=" "><subfield code="a">19990222d1990    m  y0frey50      ba</subfield></datafield>
+<datafield tag="101" ind1="0" ind2=" "><subfield code="a">fre</subfield>
+<subfield code="2">639-2</subfield></datafield>
+<datafield tag="105" ind1=" " ind2=" "><subfield code="a">a   f   000yy</subfield></datafield>
+<datafield tag="106" ind1=" " ind2=" "><subfield code="a">r</subfield></datafield>
+<datafield tag="181" ind1=" " ind2=" "><subfield code="6">z01</subfield>
+<subfield code="c">txt</subfield>
+<subfield code="2">rdacontent</subfield></datafield>
+<datafield tag="181" ind1=" " ind2=" "><subfield code="6">z02</subfield>
+<subfield code="c">sti</subfield>
+<subfield code="2">rdacontent</subfield></datafield>
+<datafield tag="181" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="a">i#</subfield>
+<subfield code="b">xxxe##</subfield></datafield>
+<datafield tag="181" ind1=" " ind2="1"><subfield code="6">z02</subfield>
+<subfield code="a">b#</subfield>
+<subfield code="b">xb2e##</subfield></datafield>
+<datafield tag="182" ind1=" " ind2=" "><subfield code="6">z01</subfield>
+<subfield code="c">n</subfield>
+<subfield code="2">rdamedia</subfield></datafield>
+<datafield tag="182" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="6">z02</subfield>
+<subfield code="a">n</subfield></datafield>
+<datafield tag="183" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="a">nga</subfield>
+<subfield code="2">RDAfrCarrier</subfield></datafield>
+<datafield tag="102" ind1=" " ind2=" "><subfield code="a">FR</subfield></datafield>
+<datafield tag="200" ind1="1" ind2=" "><subfield code="a">L&apos;Art de la BD</subfield>
+<subfield code="h">T. 1</subfield>
+<subfield code="i">du scénario à la réalisation graphique, tout sur la création des bandes dessinées</subfield>
+<subfield code="f">Duc</subfield></datafield>
+<datafield tag="700" ind1=" " ind2="1"><subfield code="3">02684043X</subfield>
+<subfield code="a">Duc</subfield>
+<subfield code="f">1932-1995</subfield>
+<subfield code="4">070</subfield></datafield>
+<datafield tag="712" ind1="0" ind2="2"><subfield code="3">079201369</subfield>
+<subfield code="a">Glénat</subfield>
+<subfield code="c">Grenoble, Isère, France</subfield>
+<subfield code="c">1969-....</subfield>
+<subfield code="4">650</subfield></datafield>
+<datafield tag="801" ind1=" " ind2="3"><subfield code="a">FR</subfield>
+<subfield code="b">Abes</subfield>
+<subfield code="c">20260414</subfield>
+<subfield code="g">AFNOR</subfield></datafield>
+<datafield tag="214" ind1=" " ind2="0"><subfield code="a">Paris</subfield>
+<subfield code="c">Glénat</subfield>
+<subfield code="d">1990</subfield></datafield>
+<datafield tag="215" ind1=" " ind2=" "><subfield code="a">1 volume (191 pages)</subfield>
+<subfield code="c">illustrations en noir et en couleurs, couverture illustrée en couleurs</subfield>
+<subfield code="d">32 cm</subfield></datafield>
+<datafield tag="225" ind1="2" ind2=" "><subfield code="a">Collection Bibliographies</subfield>
+<subfield code="x">0246-5647</subfield></datafield>
+<datafield tag="410" ind1=" " ind2="|"><subfield code="0">039391884</subfield>
+<subfield code="t">Collection Bibliographies</subfield>
+<subfield code="x">0246-5647</subfield>
+<subfield code="v">1</subfield></datafield>
+<datafield tag="606" ind1=" " ind2=" "><subfield code="3">027220796</subfield>
+<subfield code="a">Bandes dessinées</subfield>
+<subfield code="3">027796442</subfield>
+<subfield code="x">Manuels d&apos;amateurs</subfield>
+<subfield code="2">rameau</subfield></datafield>
+<datafield tag="606" ind1=" " ind2=" "><subfield code="3">027220796</subfield>
+<subfield code="a">Bandes dessinées</subfield>
+<subfield code="3">027253562</subfield>
+<subfield code="x">Technique</subfield>
+<subfield code="2">rameau</subfield></datafield>
+<datafield tag="676" ind1=" " ind2=" "><subfield code="a">741.6</subfield></datafield>
+<datafield tag="305" ind1=" " ind2=" "><subfield code="a">Autre tirage 1999</subfield></datafield>
+<datafield tag="801" ind1=" " ind2="0"><subfield code="a">FR</subfield>
+<subfield code="b">SCD Le Mans</subfield>
+<subfield code="g">AFNOR</subfield></datafield>
+<datafield tag="330" ind1=" " ind2=" "><subfield code="a">Scénariste et dessinateur de bandes dessinées, Duc est un de ces esprits curieux qui ne s&apos;arrêtent jamais à ce qu&apos;ils ont trouvé. Ainsi, passant allégrement du feuilleton policier au gag, de &quot; France-soir &quot; à &quot; Spirou &quot; et quelques autres, n&apos;y a-t-il aucun genre, aucune technique, qu&apos;il n&apos;ait personnellement exploré et expérimenté, en professionnel, au cours d&apos;une carrière déjà longue. Aussi, n&apos;attendons pas de lui de longues théories. Ce qu&apos;il nous offre dans le présent ouvrage, à travers l&apos;analyse de plus de 300 documents, extraits de l&apos;oeuvre des grands Maîtres de la bande dessinée, ce sont des exemples précis, concrets, qui ne laissent dans l&apos;ombre aucun des problèmes que pose la création des bandes dessinées.</subfield></datafield>
+</record></srw:recordData><srw:recordPosition>1</srw:recordPosition>
+</srw:record>
+
+<srw:record>
+<srw:recordSchema>unimarc</srw:recordSchema>
+<srw:recordPacking>xml</srw:recordPacking>
+<srw:recordData>
+<record>
+<controlfield tag="005">20240610150558.000</controlfield>
+<leader>     cam0 22        450 </leader>
+<controlfield tag="001">000667676</controlfield>
+<controlfield tag="003">http://www.sudoc.fr/000667676</controlfield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">053341694</subfield>
+<subfield code="9">sudoc</subfield></datafield>
+<datafield tag="801" ind1=" " ind2="3"><subfield code="a">FR</subfield>
+<subfield code="b">Abes</subfield>
+<subfield code="c">20240610</subfield>
+<subfield code="g">AFNOR</subfield>
+<subfield code="h">053341694</subfield></datafield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">00075420X</subfield>
+<subfield code="9">sudoc</subfield></datafield>
+<datafield tag="801" ind1=" " ind2="3"><subfield code="a">FR</subfield>
+<subfield code="b">Abes</subfield>
+<subfield code="c">20240610</subfield>
+<subfield code="g">AFNOR</subfield>
+<subfield code="h">00075420X</subfield></datafield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">(OCoLC)489581751</subfield></datafield>
+<datafield tag="010" ind1=" " ind2=" "><subfield code="a">2-7234-0252-5</subfield>
+<subfield code="b">rel.</subfield>
+<subfield code="d">100 FRF</subfield></datafield>
+<datafield tag="073" ind1=" " ind2="0"><subfield code="a">9782723402521</subfield></datafield>
+<datafield tag="020" ind1=" " ind2=" "><subfield code="a">FR</subfield>
+<subfield code="b">08403724</subfield></datafield>
+<datafield tag="021" ind1=" " ind2=" "><subfield code="a">FR</subfield>
+<subfield code="b">D.L. 82-13587</subfield></datafield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">CAEND010040634001</subfield></datafield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">frBN002018940</subfield></datafield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">FRBNF347258560000009</subfield>
+<subfield code="z">FRBNF34725856</subfield></datafield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">frBN002300683</subfield></datafield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">FRBNF343020300000007</subfield>
+<subfield code="z">FRBNF34302030</subfield></datafield>
+<datafield tag="033" ind1=" " ind2=" "><subfield code="a">http://catalogue.bnf.fr/ark:/12148/cb34725856k</subfield></datafield>
+<datafield tag="100" ind1=" " ind2=" "><subfield code="a">19840109d1981    m  y0frey50      ba</subfield></datafield>
+<datafield tag="101" ind1="0" ind2=" "><subfield code="a">fre</subfield>
+<subfield code="2">639-2</subfield></datafield>
+<datafield tag="105" ind1=" " ind2=" "><subfield code="a">a   az  000zy</subfield></datafield>
+<datafield tag="106" ind1=" " ind2=" "><subfield code="a">r</subfield></datafield>
+<datafield tag="181" ind1=" " ind2=" "><subfield code="6">z01</subfield>
+<subfield code="c">txt</subfield>
+<subfield code="2">rdacontent</subfield></datafield>
+<datafield tag="181" ind1=" " ind2=" "><subfield code="6">z02</subfield>
+<subfield code="c">sti</subfield>
+<subfield code="2">rdacontent</subfield></datafield>
+<datafield tag="181" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="a">i#</subfield>
+<subfield code="b">xxxe##</subfield></datafield>
+<datafield tag="181" ind1=" " ind2="1"><subfield code="6">z02</subfield>
+<subfield code="a">b#</subfield>
+<subfield code="b">xb2e##</subfield></datafield>
+<datafield tag="182" ind1=" " ind2=" "><subfield code="6">z01</subfield>
+<subfield code="c">n</subfield>
+<subfield code="2">rdamedia</subfield></datafield>
+<datafield tag="182" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="6">z02</subfield>
+<subfield code="a">n</subfield></datafield>
+<datafield tag="183" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="a">nga</subfield>
+<subfield code="2">RDAfrCarrier</subfield></datafield>
+<datafield tag="102" ind1=" " ind2=" "><subfield code="a">FR</subfield></datafield>
+<datafield tag="200" ind1="1" ind2=" "><subfield code="a">L&apos;art de la B.D.</subfield>
+<subfield code="h">[T.1]</subfield>
+<subfield code="i">Du scénario à la réalisation graphique, tout sur la création des bandes dessinées</subfield>
+<subfield code="f">B. Duc</subfield></datafield>
+<datafield tag="517" ind1="|" ind2=" "><subfield code="a">L&apos;art de la bande dessinée</subfield></datafield>
+<datafield tag="700" ind1=" " ind2="1"><subfield code="3">02684043X</subfield>
+<subfield code="a">Duc</subfield>
+<subfield code="f">1932-1995</subfield>
+<subfield code="4">070</subfield></datafield>
+<datafield tag="712" ind1="0" ind2="2"><subfield code="3">079201369</subfield>
+<subfield code="a">Glénat</subfield>
+<subfield code="c">Grenoble, Isère, France</subfield>
+<subfield code="c">1969-....</subfield>
+<subfield code="4">650</subfield></datafield>
+<datafield tag="214" ind1=" " ind2="0"><subfield code="a">Grenoble</subfield>
+<subfield code="c">Glénat</subfield>
+<subfield code="d">DL 1981</subfield></datafield>
+<datafield tag="215" ind1=" " ind2=" "><subfield code="a">1 vol. (191 p.)</subfield>
+<subfield code="c">ill. en noir et en coul., couv. ill. en coul.</subfield>
+<subfield code="d">32 cm</subfield></datafield>
+<datafield tag="225" ind1="2" ind2=" "><subfield code="a">Collection Bibliographies</subfield>
+<subfield code="x">0246-5647</subfield></datafield>
+<datafield tag="410" ind1=" " ind2="|"><subfield code="0">039391884</subfield>
+<subfield code="t">Collection Bibliographies</subfield>
+<subfield code="x">0246-5647</subfield>
+<subfield code="v">1</subfield></datafield>
+<datafield tag="606" ind1=" " ind2=" "><subfield code="3">027220796</subfield>
+<subfield code="a">Bandes dessinées</subfield>
+<subfield code="3">027796442</subfield>
+<subfield code="x">Manuels d&apos;amateurs</subfield>
+<subfield code="2">rameau</subfield></datafield>
+<datafield tag="606" ind1=" " ind2=" "><subfield code="3">027220796</subfield>
+<subfield code="a">Bandes dessinées</subfield>
+<subfield code="2">rameau</subfield></datafield>
+<datafield tag="606" ind1=" " ind2=" "><subfield code="3">027220796</subfield>
+<subfield code="a">Bandes dessinées</subfield>
+<subfield code="3">027253562</subfield>
+<subfield code="x">Technique</subfield>
+<subfield code="2">rameau</subfield></datafield>
+<datafield tag="676" ind1=" " ind2=" "><subfield code="a">700</subfield></datafield>
+<datafield tag="675" ind1=" " ind2=" "><subfield code="a">70</subfield>
+<subfield code="v">Éd. 1967</subfield></datafield>
+<datafield tag="305" ind1=" " ind2=" "><subfield code="a">Autres tirages : 1982, 1985, 1986, 1992, 2006</subfield></datafield>
+<datafield tag="801" ind1=" " ind2="3"><subfield code="a">FR</subfield>
+<subfield code="b">BN</subfield>
+<subfield code="c">19990126</subfield>
+<subfield code="g">AFNOR</subfield></datafield>
+<datafield tag="801" ind1=" " ind2="0"><subfield code="a">FR</subfield>
+<subfield code="b">141182101</subfield>
+<subfield code="c">19971124</subfield></datafield>
+</record></srw:recordData><srw:recordPosition>2</srw:recordPosition>
+</srw:record>
+
+<srw:record>
+<srw:recordSchema>unimarc</srw:recordSchema>
+<srw:recordPacking>xml</srw:recordPacking>
+<srw:recordData>
+<record>
+<controlfield tag="005">20211221061525.000</controlfield>
+<leader>     cgm0 22        450 </leader>
+<controlfield tag="001">203748670</controlfield>
+<controlfield tag="003">http://www.sudoc.fr/203748670</controlfield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">(OCoLC)1081036880</subfield></datafield>
+<datafield tag="071" ind1="4" ind2="1"><subfield code="a">730 420</subfield></datafield>
+<datafield tag="073" ind1=" " ind2="1"><subfield code="a">3348467304208</subfield></datafield>
+<datafield tag="021" ind1=" " ind2=" "><subfield code="a">FR</subfield>
+<subfield code="b">DLV-20170609-3830</subfield></datafield>
+<datafield tag="035" ind1=" " ind2=" "><subfield code="a">FRBNF452886520000003</subfield>
+<subfield code="z">FRBNF45288652</subfield></datafield>
+<datafield tag="033" ind1=" " ind2=" "><subfield code="a">http://catalogue.bnf.fr/ark:/12148/cb452886520</subfield></datafield>
+<datafield tag="100" ind1=" " ind2=" "><subfield code="a">20170830i20171960m  y0frey50      ba</subfield></datafield>
+<datafield tag="101" ind1="0" ind2=" "><subfield code="a">fre</subfield>
+<subfield code="2">639-2</subfield></datafield>
+<datafield tag="105" ind1=" " ind2=" "><subfield code="a">y   |||||||||</subfield></datafield>
+<datafield tag="115" ind1=" " ind2=" "><subfield code="a">c496aazzxbx||||zkxxc</subfield>
+<subfield code="b">|||||||||||||||</subfield></datafield>
+<datafield tag="181" ind1=" " ind2=" "><subfield code="6">z01</subfield>
+<subfield code="c">tdi</subfield>
+<subfield code="2">rdacontent</subfield></datafield>
+<datafield tag="181" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="a">b#</subfield>
+<subfield code="b">xa2e##</subfield></datafield>
+<datafield tag="182" ind1=" " ind2=" "><subfield code="6">z01</subfield>
+<subfield code="c">v</subfield>
+<subfield code="2">rdamedia</subfield></datafield>
+<datafield tag="182" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="a">g</subfield></datafield>
+<datafield tag="183" ind1=" " ind2="1"><subfield code="6">z01</subfield>
+<subfield code="a">vcc</subfield>
+<subfield code="2">RDAfrCarrier</subfield></datafield>
+<datafield tag="102" ind1=" " ind2=" "><subfield code="a">FR</subfield></datafield>
+<datafield tag="320" ind1=" " ind2=" "><subfield code="a">Suppléments : présentation de l&apos;émission (29 min) et des épisodes (12 min) par Franck Ferrand, bandes-annonces</subfield></datafield>
+<datafield tag="200" ind1="1" ind2=" "><subfield code="a">La caméra explore le temps</subfield>
+<subfield code="h">Volume 4</subfield>
+<subfield code="h">Épisodes 15 à 18</subfield>
+<subfield code="f">Stellio Lorenzi, idée originale, scénario, réalisation</subfield>
+<subfield code="g">Guy Lessertisseur, réal.</subfield>
+<subfield code="g">Alain Decaux, André Castelot, auteur, scénario, présentation</subfield>
+<subfield code="g">François Maistre, Bernard Fresson, Jacques Monod...[et al.], acteurs</subfield></datafield>
+<datafield tag="700" ind1=" " ind2="1"><subfield code="3">026994445</subfield>
+<subfield code="a">Lorenzi</subfield>
+<subfield code="b">Stellio</subfield>
+<subfield code="f">1921-1990</subfield>
+<subfield code="4">245</subfield>
+<subfield code="4">300</subfield>
+<subfield code="4">690</subfield>
+<subfield code="4">010</subfield></datafield>
+<datafield tag="701" ind1=" " ind2="1"><subfield code="3">169331113</subfield>
+<subfield code="a">Lessertisseur</subfield>
+<subfield code="b">Guy</subfield>
+<subfield code="f">1927-2013</subfield>
+<subfield code="c">cinéaste</subfield>
+<subfield code="4">300</subfield></datafield>
+<datafield tag="701" ind1=" " ind2="1"><subfield code="3">027370887</subfield>
+<subfield code="a">Decaux</subfield>
+<subfield code="b">Alain</subfield>
+<subfield code="f">1925-2016</subfield>
+<subfield code="4">070</subfield>
+<subfield code="4">605</subfield>
+<subfield code="4">090</subfield></datafield>
+<datafield tag="701" ind1=" " ind2="1"><subfield code="3">02677173X</subfield>
+<subfield code="a">Castelot</subfield>
+<subfield code="b">André</subfield>
+<subfield code="f">1911-2004</subfield>
+<subfield code="4">070</subfield>
+<subfield code="4">605</subfield>
+<subfield code="4">690</subfield>
+<subfield code="4">090</subfield>
+<subfield code="4">010</subfield></datafield>
+<datafield tag="701" ind1=" " ind2="1"><subfield code="3">169331113</subfield>
+<subfield code="a">Lessertisseur</subfield>
+<subfield code="b">Guy</subfield>
+<subfield code="f">1927-2013</subfield>
+<subfield code="c">cinéaste</subfield>
+<subfield code="4">300</subfield></datafield>
+<datafield tag="701" ind1=" " ind2="1"><subfield code="3">07820156X</subfield>
+<subfield code="a">Dormoy</subfield>
+<subfield code="b">Roger</subfield>
+<subfield code="f">1914-1984</subfield>
+<subfield code="4">600</subfield></datafield>
+<datafield tag="701" ind1=" " ind2="1"><subfield code="3">230519555</subfield>
+<subfield code="a">Manier</subfield>
+<subfield code="b">Jacques</subfield>
+<subfield code="f">1920-2009</subfield>
+<subfield code="4">600</subfield></datafield>
+<datafield tag="701" ind1=" " ind2="1"><subfield code="3">05940566X</subfield>
+<subfield code="a">Lemare</subfield>
+<subfield code="b">Jacques</subfield>
+<subfield code="f">1912-1988</subfield>
+<subfield code="4">600</subfield></datafield>
+<datafield tag="701" ind1=" " ind2="1"><subfield code="3">056547161</subfield>
+<subfield code="a">Ferrand</subfield>
+<subfield code="b">Franck</subfield>
+<subfield code="f">1967-....</subfield>
+<subfield code="4">605</subfield></datafield>
+<datafield tag="701" ind1=" " ind2="1"><subfield code="3">232946426</subfield>
+<subfield code="a">Lavialle</subfield>
+<subfield code="b">Charles</subfield>
+<subfield code="f">1894-1965</subfield>
+<subfield code="4">005</subfield></datafield>
+<datafield tag="701" ind1=" " ind2="1"><subfield code="3">069723370</subfield>
+<subfield code="a">Garrel</subfield>
+<subfield code="b">Maurice</subfield>
+<subfield code="f">1923-2011</subfield>
+<subfield code="4">005</subfield></datafield>
+<datafield tag="701" ind1=" " ind2="1"><subfield code="3">155959271</subfield>
+<subfield code="a">Crouzet</subfield>
+<subfield code="b">Roger</subfield>
+<subfield code="f">1927-2000</subfield>
+<subfield code="4">005</subfield></datafield>
+<datafield tag="701" ind1=" " ind2="1"><subfield code="3">052206785</subfield>
+<subfield code="a">Descrières</subfield>
+<subfield code="b">Georges</subfield>
+<subfield code="f">1930-2013</subfield>
+<subfield code="4">005</subfield></datafield>
+<datafield tag="701" ind1=" " ind2="1"><subfield code="3">15104144X</subfield>
+<subfield code="a">Monod</subfield>
+<subfield code="b">Jacques</subfield>
+<subfield code="f">1918-1985</subfield>
+<subfield code="c">acteur</subfield>
+<subfield code="4">005</subfield></datafield>
+<datafield tag="701" ind1=" " ind2="1"><subfield code="3">060101695</subfield>
+<subfield code="a">Castelot</subfield>
+<subfield code="b">Jacques</subfield>
+<subfield code="f">1914-1989</subfield>
+<subfield code="c">acteur</subfield>
+<subfield code="4">005</subfield></datafield>
+<datafield tag="701" ind1=" " ind2="1"><subfield code="3">067233287</subfield>
+<subfield code="a">Bierry</subfield>
+<subfield code="b">Etienne</subfield>
+<subfield code="f">1918-2015</subfield>
+<subfield code="4">005</subfield></datafield>
+<datafield tag="701" ind1=" " ind2="1"><subfield code="3">080628966</subfield>
+<subfield code="a">Leproux</subfield>
+<subfield code="b">Pierre</subfield>
+<subfield code="f">1908-1975</subfield>
+<subfield code="c">acteur</subfield>
+<subfield code="4">005</subfield></datafield>
+<datafield tag="701" ind1=" " ind2="1"><subfield code="3">027082598</subfield>
+<subfield code="a">Prévost</subfield>
+<subfield code="b">Françoise</subfield>
+<subfield code="f">1929-1997</subfield>
+<subfield code="4">005</subfield></datafield>
+<datafield tag="701" ind1=" " ind2="1"><subfield code="3">059192844</subfield>
+<subfield code="a">Marielle</subfield>
+<subfield code="b">Jean-Pierre</subfield>
+<subfield code="f">1932-2019</subfield>
+<subfield code="4">005</subfield></datafield>
+<datafield tag="701" ind1=" " ind2="1"><subfield code="3">185526233</subfield>
+<subfield code="a">Galland</subfield>
+<subfield code="b">Jean</subfield>
+<subfield code="f">1887-1967</subfield>
+<subfield code="c">acteur</subfield>
+<subfield code="4">005</subfield></datafield>
+<datafield tag="701" ind1=" " ind2="1"><subfield code="3">172451108</subfield>
+<subfield code="a">Arbessier</subfield>
+<subfield code="b">Louis</subfield>
+<subfield code="f">1907-1998</subfield>
+<subfield code="4">005</subfield></datafield>
+<datafield tag="701" ind1=" " ind2="1"><subfield code="3">079458580</subfield>
+<subfield code="a">Maistre</subfield>
+<subfield code="b">François</subfield>
+<subfield code="f">1925-2016</subfield>
+<subfield code="4">005</subfield></datafield>
+<datafield tag="701" ind1=" " ind2="1"><subfield code="3">06865569X</subfield>
+<subfield code="a">Fresson</subfield>
+<subfield code="b">Bernard</subfield>
+<subfield code="f">1931-2002</subfield>
+<subfield code="c">comédien</subfield>
+<subfield code="4">005</subfield></datafield>
+<datafield tag="701" ind1=" " ind2="1"><subfield code="3">15104144X</subfield>
+<subfield code="a">Monod</subfield>
+<subfield code="b">Jacques</subfield>
+<subfield code="f">1918-1985</subfield>
+<subfield code="c">acteur</subfield>
+<subfield code="4">005</subfield></datafield>
+<datafield tag="801" ind1=" " ind2="3"><subfield code="a">FR</subfield>
+<subfield code="b">Abes</subfield>
+<subfield code="c">20211221</subfield>
+<subfield code="g">AFNOR</subfield></datafield>
+<datafield tag="214" ind1=" " ind2="0"><subfield code="a">[Nanterre]</subfield>
+<subfield code="c">Elephant films</subfield></datafield>
+<datafield tag="214" ind1=" " ind2="2"><subfield code="a">[Suresnes]</subfield>
+<subfield code="c">Sony pictures home entertainment</subfield></datafield>
+<datafield tag="214" ind1=" " ind2="4"><subfield code="d">C 2016</subfield></datafield>
+<datafield tag="215" ind1=" " ind2=" "><subfield code="a">4 DVD vidéo monofaces double couche toutes zones (8 h 16 min)</subfield>
+<subfield code="c">n. et b. (PAL), sonore (Dolby Digital mono)</subfield></datafield>
+<datafield tag="461" ind1=" " ind2="|"><subfield code="0">255862334</subfield>
+<subfield code="t">La caméra explore le temps</subfield>
+<subfield code="h">Volume 1 à 9</subfield>
+<subfield code="h">Épisodes 1 à 39</subfield>
+<subfield code="f">Stellio Lorenzi,  réal., idée originale, producteur</subfield>
+<subfield code="p">38 DVD vidéo monofaces double couche toutes zones (74 h 24 min)</subfield></datafield>
+<datafield tag="464" ind1=" " ind2="|"><subfield code="t">La nuit de Varennes</subfield>
+<subfield code="o">épisode 15</subfield>
+<subfield code="f">Stellio Lorenzi, réal., scénario, adapt.</subfield>
+<subfield code="g">André Castelot, aut., prés., scénario, adapt., dial.</subfield>
+<subfield code="g">Alain Decaux, aut. prés.</subfield>
+<subfield code="g">Roger Dormoy, dir. photogr.</subfield>
+<subfield code="g">Charles Lavialle, Maurice Garrel, Roger Crouzet,... [et al.], act.</subfield>
+<subfield code="n">INA</subfield>
+<subfield code="p">n. et b., sonore, 1 h 57 min</subfield></datafield>
+<datafield tag="464" ind1=" " ind2="|"><subfield code="t">L&apos;assassinat du Duc de Guise</subfield>
+<subfield code="o">épisode 16</subfield>
+<subfield code="f">Stellio Lorenzi, scénario, adapt.</subfield>
+<subfield code="g">Guy Lessertisseur, réal.</subfield>
+<subfield code="g">André Castelot, aut., prés., scénario, adapt., dial.</subfield>
+<subfield code="g">Alain Decaux, aut. prés.</subfield>
+<subfield code="g">Roger Dormoy, dir. photogr.</subfield>
+<subfield code="g">Georges Descrières, Jacques Monod, Jacques Castelot,... [et al.], act.</subfield>
+<subfield code="n">INA</subfield>
+<subfield code="p">n. et b., sonore, 1 h 35 min</subfield></datafield>
+<datafield tag="464" ind1=" " ind2="|"><subfield code="t">L&apos;énigme de Saint-Leu</subfield>
+<subfield code="o">épisode 17</subfield>
+<subfield code="f">Stellio Lorenzi, réal., scénario, adapt.</subfield>
+<subfield code="g">André Castelot, aut., prés.</subfield>
+<subfield code="g">Alain Decaux, aut. prés., adapt., dial.</subfield>
+<subfield code="g">Jacques Manier, dir. photogr.</subfield>
+<subfield code="g">Etienne Bierry, Pierre Leproux, Françoise Prévost,... [et al.], act.</subfield>
+<subfield code="n">INA</subfield>
+<subfield code="p">n. et b., sonore, 2 h 01 min</subfield></datafield>
+<datafield tag="464" ind1=" " ind2="|"><subfield code="t">Les Templiers</subfield>
+<subfield code="o">épisode 18</subfield>
+<subfield code="f">Stellio Lorenzi, réal., scénario, adapt.</subfield>
+<subfield code="g">André Castelot, aut., prés., </subfield>
+<subfield code="g">Alain Decaux, aut. prés., scénario, adapt., dial.</subfield>
+<subfield code="g">Jacques Lamare, dir. photogr.</subfield>
+<subfield code="g">Jean-Pierre Marielle, Jean Galland, Louis Arbessier,... [et al.], act.</subfield>
+<subfield code="n">INA</subfield>
+<subfield code="p">n. et b., sonore, 2 h 02 min</subfield></datafield>
+<datafield tag="300" ind1=" " ind2=" "><subfield code="a">Contient 4 épisodes d&apos;1 à 2 heures</subfield></datafield>
+<datafield tag="300" ind1=" " ind2=" "><subfield code="a">Épisodes en version originale en français</subfield></datafield>
+<datafield tag="600" ind1=" " ind2="1"><subfield code="3">027693902</subfield>
+<subfield code="a">Guise</subfield>
+<subfield code="b">Henri de Lorraine</subfield>
+<subfield code="f">1550-1588</subfield>
+<subfield code="c">duc de</subfield>
+<subfield code="3">027281558</subfield>
+<subfield code="x">Biographie</subfield>
+<subfield code="3">035108444</subfield>
+<subfield code="x">DVD</subfield>
+<subfield code="2">rameau</subfield></datafield>
+<datafield tag="601" ind1="0" ind2="2"><subfield code="3">026551314</subfield>
+<subfield code="a">Ordre du Temple</subfield>
+<subfield code="c">1119-1312</subfield>
+<subfield code="3">02726470X</subfield>
+<subfield code="x">Histoire</subfield>
+<subfield code="3">035108444</subfield>
+<subfield code="x">DVD</subfield>
+<subfield code="2">rameau</subfield></datafield>
+<datafield tag="606" ind1=" " ind2=" "><subfield code="3">02903213X</subfield>
+<subfield code="a">Fuite à Varennes (1791)</subfield>
+<subfield code="3">035108444</subfield>
+<subfield code="x">DVD</subfield>
+<subfield code="2">rameau</subfield></datafield>
+<datafield tag="606" ind1=" " ind2=" "><subfield code="3">027553264</subfield>
+<subfield code="a">Séries télévisées</subfield>
+<subfield code="3">027226794</subfield>
+<subfield code="y">France</subfield>
+<subfield code="3">027794970</subfield>
+<subfield code="z">1960-1990</subfield>
+<subfield code="2">rameau</subfield></datafield>
+<datafield tag="608" ind1=" " ind2=" "><subfield code="3">027785327</subfield>
+<subfield code="a">Films historiques</subfield>
+<subfield code="2">rameau</subfield></datafield>
+<datafield tag="686" ind1=" " ind2=" "><subfield code="a">207</subfield>
+<subfield code="2">Cadre de classement de la Bibliographie nationale française</subfield></datafield>
+<datafield tag="306" ind1=" " ind2=" "><subfield code="a">Copyright : INA, cop. 1960-1961</subfield></datafield>
+<datafield tag="307" ind1=" " ind2=" "><subfield code="a">Format image : 4/3 - 1.33</subfield></datafield>
+<datafield tag="801" ind1=" " ind2="0"><subfield code="a">FR</subfield>
+<subfield code="b">FR-751131015</subfield>
+<subfield code="c">20170609</subfield>
+<subfield code="g">AFNOR</subfield>
+<subfield code="2">intermrc</subfield></datafield>
+<datafield tag="330" ind1=" " ind2=" "><subfield code="a">&quot;La nuit de Varennes, l&apos;arrestation des Templiers, les Etats Généraux, le dernier Condé... Revivez les moments clés de l&apos;histoire de France, grâce à cette série à la fois divertissante et enrichissante !&quot; [Source : jaquette]</subfield></datafield>
+</record></srw:recordData><srw:recordPosition>3</srw:recordPosition>
+</srw:record>
+</srw:records>
+    <srw:echoedSearchRetrieveRequest>
+	<srw:version>1.1</srw:version>
+	<srw:query>tou%3Ddu+scenario+la+realisation+bernard+duc</srw:query>
+	<srw:xQuery><xcql:triple><xcql:boolean> <xcql:value>and</xcql:value></xcql:boolean><xcql:leftOperand><xcql:triple><xcql:boolean> <xcql:value>and</xcql:value></xcql:boolean><xcql:leftOperand><xcql:triple><xcql:boolean> <xcql:value>and</xcql:value></xcql:boolean><xcql:leftOperand><xcql:triple><xcql:boolean> <xcql:value>and</xcql:value></xcql:boolean><xcql:leftOperand><xcql:triple><xcql:boolean> <xcql:value>and</xcql:value></xcql:boolean><xcql:leftOperand><xcql:searchClause><xcql:index>tou</xcql:index><xcql:relation><xcql:value>=</xcql:value></xcql:relation><xcql:term>du</xcql:term></xcql:searchClause></xcql:leftOperand><xcql:rightOperand><xcql:searchClause><xcql:index>tou</xcql:index><xcql:relation><xcql:value>=</xcql:value></xcql:relation><xcql:term>scenario</xcql:term></xcql:searchClause></xcql:rightOperand></xcql:triple></xcql:leftOperand><xcql:rightOperand><xcql:searchClause><xcql:index>tou</xcql:index><xcql:relation><xcql:value>=</xcql:value></xcql:relation><xcql:term>la</xcql:term></xcql:searchClause></xcql:rightOperand></xcql:triple></xcql:leftOperand><xcql:rightOperand><xcql:searchClause><xcql:index>tou</xcql:index><xcql:relation><xcql:value>=</xcql:value></xcql:relation><xcql:term>realisation</xcql:term></xcql:searchClause></xcql:rightOperand></xcql:triple></xcql:leftOperand><xcql:rightOperand><xcql:searchClause><xcql:index>tou</xcql:index><xcql:relation><xcql:value>=</xcql:value></xcql:relation><xcql:term>bernard</xcql:term></xcql:searchClause></xcql:rightOperand></xcql:triple></xcql:leftOperand><xcql:rightOperand><xcql:searchClause><xcql:index>tou</xcql:index><xcql:relation><xcql:value>=</xcql:value></xcql:relation><xcql:term>duc</xcql:term></xcql:searchClause></xcql:rightOperand></xcql:triple></srw:xQuery>
+	<startRecord>1</startRecord>
+	<maximumRecords>20</maximumRecords>
+	<srw:recordPacking>xml</srw:recordPacking>
+	<srw:recordSchema>unimarc</srw:recordSchema>
+	
+	<srw:stylesheet>https://www.sudoc.abes.fr/cbs/sru/DB=2.1/?xsl=searchRetrieveResponse</srw:stylesheet>
+    </srw:echoedSearchRetrieveRequest>
+    <diag:diagnostics>
+        <diag:uri>info:srw/diagnostic/1/0</diag:uri>
+	
+	
+    </diag:diagnostics>
+    
+</srw:searchRetrieveResponse>

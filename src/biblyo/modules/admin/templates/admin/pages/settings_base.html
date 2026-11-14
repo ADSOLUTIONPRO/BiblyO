@@ -1,0 +1,13 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header %}
+{% from "components/settings.html" import settings_nav %}
+{% from "components/feedback.html" import alert %}
+{% block content %}
+{% call page_header(heading, intro, "io", icon_name) %}{% endcall %}
+{% if message %}{{ alert(message, "late") }}{% endif %}
+{% if notice %}{{ alert(notice, "ok") }}{% endif %}
+<div class="set-layout">
+  <div class="set-side">{{ settings_nav(settings_rubrics, rubric) }}</div>
+  <div class="set-main stack">{% block rubric %}{% endblock %}</div>
+</div>
+{% endblock %}

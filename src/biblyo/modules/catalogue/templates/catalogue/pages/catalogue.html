@@ -13,6 +13,7 @@
 {% call page_header(_("Catalogue"), subtitle, "cat", "book") %}
   {% if planned_visible %}<span class="btn btn-s btn-soon hide-m" title="{{ _('À venir') }}">{{ icon("download", 16) }}<span>{{ _("Exporter") }}</span></span>{% endif %}
   {% if can("catalogue.edit") %}{{ link_button(_("Listes"), "/admin/catalogue", "g", "tag", extra="hide-m") }}{% endif %}
+  {% if can("enrichment.search") %}{{ link_button(_("Enrichir la bibliothèque"), "/enrichissement", "s", "enrich") }}{% endif %}
   {% if can("catalogue.edit") %}{{ link_button(_("Ajouter"), "/catalogue/notices/nouvelle", "p", "plus") }}{% endif %}
 {% endcall %}
 

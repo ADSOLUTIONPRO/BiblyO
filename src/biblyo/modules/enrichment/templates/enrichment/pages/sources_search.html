@@ -6,7 +6,7 @@
 {% block title %}{{ _("Recherche bibliographique") }} — biblyO{% endblock %}
 {% block content %}
 {% call page_header(_("Recherche bibliographique"), _("Cherchez un livre à la BnF et au Sudoc, par ISBN, titre, auteur ou série. Un résultat peut servir à créer une notice, que vous relisez avant de l’enregistrer."), "enr", "search") %}
-  {% if can("admin.sources") %}{{ link_button(_("Sources"), "/admin/sources", "g", "gear") }}{% endif %}
+  {% if can("admin.sources") %}{{ link_button(_("Sources"), "/parametres/enrichissement", "g", "gear") }}{% endif %}
 {% endcall %}
 
 <div class="enr-grid">

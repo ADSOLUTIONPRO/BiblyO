@@ -27,6 +27,7 @@ from biblyo.core.security.limits import BodyLimitMiddleware
 from biblyo.core.security.ratelimit import FailureLimiter
 from biblyo.core.templating import STATIC_DIR, Templates
 from biblyo.core.web import finish_page, page_context
+from biblyo.modules.enrichment import batch as enrichment_batch
 from biblyo.modules.registry import all_modules
 
 CORE_PUBLIC_PATHS = ("/sante",)
@@ -41,7 +42,12 @@ SEARCHES_PER_MINUTE = 90  # recherches de lecteurs par compte : large pour une s
 async def _lifespan(app: FastAPI) -> AsyncIterator[None]:
     if app.state.schema.current().ok:
         await run_in_threadpool(install.announce_token_if_needed, app.state.database)
+        # Une recherche de toute la bibliothèque coupée par l'arrêt du service devient « interrompue » (L7, T4)
+        await run_in_threadpool(enrichment_batch.recover_interrupted, app.state.database)
     yield
+    runner = getattr(app.state, "enrichment_runner", None)
+    if runner is not None:
+        await run_in_threadpool(runner.stop)
 
 
 def create_app(settings: Settings | None = None, modules: list[Module] | None = None) -> FastAPI:

@@ -10,5 +10,6 @@
   "0009_enrichissement.py": "394a8aaf8fa5b3b8f21af00b0df5cb36752376544180c39c9296fd9ba416b608",
   "0010_couvertures.py": "0e499a02e115214cd9fe669a3f019ea9aba1afbe24097ca6ff11f61411ef582c",
   "0011_import.py": "801c9ddf10218fc30dd85f9a4f347ec882c01740bbc39d8b7ab3a73afa95a18c",
-  "0012_application_import.py": "9e25846fa2fdb72b5b33cefaadad8ffa1ecceaae60557caf0c4cdb86eaf13c3d"
+  "0012_application_import.py": "9e25846fa2fdb72b5b33cefaadad8ffa1ecceaae60557caf0c4cdb86eaf13c3d",
+  "0013_enrichissement_global.py": "10ae1dcc3bf31ece311c83e525604031305ff71c6571138b253e2d276033bc13"
 }

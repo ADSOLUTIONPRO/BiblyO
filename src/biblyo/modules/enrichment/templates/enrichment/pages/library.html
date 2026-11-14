@@ -1,0 +1,112 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header, kpi_tile, tabs %}
+{% from "components/icons.html" import icon %}
+{% from "components/buttons.html" import button, link_button %}
+{% from "components/feedback.html" import alert, empty_state, badge %}
+{% block title %}{{ _("Enrichir la bibliothèque") }} — biblyO{% endblock %}
+{% block content %}
+{% call page_header(_("Enrichir la bibliothèque"), _("biblyO cherche vos livres à la BnF et au Sudoc et prépare des propositions. Rien ne change dans vos fiches tant que vous ne l’avez pas validé."), "enr", "enrich") %}
+  {{ link_button(_("Chercher un livre dans les sources"), "/sources", "g", "search") }}
+{% endcall %}
+
+<div class="grid g3 lib-kpis">
+  {{ kpi_tile(_("Livres sans couverture"), counts.without_cover, module="enr", icon_name="book") }}
+  {{ kpi_tile(_("Fiches incomplètes"), counts.incomplete, module="enr", icon_name="edit") }}
+  {{ kpi_tile(_("Propositions fiables prêtes"), counts.reliable, module="enr", icon_name="check", href="/enrichissement?vue=reliable") }}
+  {{ kpi_tile(_("À vérifier"), counts.plausible, module="enr", icon_name="eye", href="/enrichissement?vue=plausible") }}
+  {{ kpi_tile(_("Sans proposition satisfaisante"), counts.insufficient, module="enr", icon_name="info", href="/enrichissement?vue=insufficient") }}
+  {% if counts.errors %}{{ kpi_tile(_("En erreur"), counts.errors, module="enr", icon_name="alert", href="/enrichissement?vue=errors") }}{% endif %}
+</div>
+
+<section class="card mt-s" aria-labelledby="lib-recherche">
+  <div class="card-h"><h2 id="lib-recherche">{{ _("Recherche automatique") }}</h2></div>
+  <div class="card-b stack">
+    {% include "enrichment/fragments/library_progress.html" %}
+    {% if not job or job.status in ("finished", "cancelled") %}
+      {% if can("enrichment.batch") %}
+      <form method="post" action="/enrichissement/lancer" class="stack">
+        <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+        <fieldset class="fld">
+          <legend>{{ _("Quels livres chercher ?") }}</legend>
+          {% for value, text in scopes.items() %}
+          <label class="check" for="livres-{{ value }}"><input type="radio" id="livres-{{ value }}" name="livres" value="{{ value }}"{% if loop.first %} checked{% endif %}><span>{{ text }}</span></label>
+          {% endfor %}
+        </fieldset>
+        <p class="small muted m0">{{ _("Chaque livre n’est cherché qu’une fois, même s’il a plusieurs exemplaires. La recherche avance seule, au rythme permis par les sources : vous pouvez fermer cette page et revenir plus tard. Pour toute la bibliothèque, comptez quelques heures.") }}</p>
+        <div>{{ button(_("Lancer la recherche"), "p", "search", type="submit") }}</div>
+      </form>
+      {% else %}<p class="muted m0">{{ _("Votre compte peut consulter les propositions, pas lancer de recherche.") }}</p>{% endif %}
+    {% endif %}
+  </div>
+</section>
+
+{% if job %}
+<section class="mt-s" aria-labelledby="lib-propositions">
+  <h2 id="lib-propositions" class="mb-s">{{ _("Propositions à traiter") }}</h2>
+  {{ tabs([
+      {"label": filters["reliable"], "href": "/enrichissement?vue=reliable", "current": view == "reliable", "count": counts.reliable},
+      {"label": filters["covers"], "href": "/enrichissement?vue=covers", "current": view == "covers"},
+      {"label": filters["plausible"], "href": "/enrichissement?vue=plausible", "current": view == "plausible", "count": counts.plausible},
+      {"label": filters["insufficient"], "href": "/enrichissement?vue=insufficient", "current": view == "insufficient", "count": counts.insufficient},
+      {"label": filters["errors"], "href": "/enrichissement?vue=errors", "current": view == "errors", "count": counts.errors},
+    ], _("Filtrer les propositions"), "enr") }}
+
+  {% if view == "reliable" %}{% set intro = _("Même ISBN que votre livre : vous pouvez ajouter les informations manquantes à plusieurs livres d’un coup. Rien de ce qui est renseigné n’est remplacé.") %}
+  {% elif view == "covers" %}{% set intro = _("La BnF annonce une couverture pour ces livres, qui n’en ont pas. Ouvrez chaque livre pour la voir et la choisir.") %}
+  {% elif view == "plausible" %}{% set intro = _("Ces livres ressemblent à votre fiche sans que l’édition soit certaine : vérifiez-les un par un.") %}
+  {% elif view == "insufficient" %}{% set intro = _("Rien d’assez proche n’a été trouvé. Vous pouvez chercher autrement, ou ajouter votre propre photo de la couverture.") %}
+  {% else %}{% set intro = _("La recherche a échoué pour ces livres (source indisponible, délai dépassé). Relancez-la plus tard.") %}{% endif %}
+  <p class="muted mt-s">{{ intro }}</p>
+  {% if request.query_params.get("valides") %}{{ alert(_("{a} livre(s) complété(s), {s} laissé(s) tel(s) quel(s).").format(a=request.query_params.get("valides"), s=request.query_params.get("ignores", "0")), "ok") }}{% endif %}
+
+  {% if not rows %}
+    {{ empty_state("check", _("Rien ici pour le moment")) }}
+  {% else %}
+  <form method="post" action="/enrichissement/valider">
+    <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+    <input type="hidden" name="vue" value="{{ view }}">
+    <ul class="plain lib-rows">
+    {% for row in rows %}
+      <li class="lib-row">
+        {% if view == "reliable" and can("enrichment.review") %}
+          <label class="check lib-pick" for="element-{{ row.item_id }}"><input type="checkbox" id="element-{{ row.item_id }}" name="element" value="{{ row.item_id }}"><span class="sr">{{ _("Choisir {title}").format(title=row.title) }}</span></label>
+        {% endif %}
+        <div class="grow min0">
+          <p class="m0"><b>{{ row.title }}</b>{% if row.authors %} <span class="muted">· {{ row.authors }}</span>{% endif %}</p>
+          {% if row.lead_title %}<p class="m0 small">{{ _("Proposition : {title}, {edition}").format(title=row.lead_title, edition=row.lead_edition) }}</p>{% endif %}
+          <p class="m0 small muted">
+            {% if row.error %}{{ row.error }}
+            {% elif row.has_cover %}{{ _("A déjà une couverture") }}
+            {% elif row.cover_announced %}{{ _("Couverture annoncée par la BnF") }}
+            {% else %}{{ _("Pas de couverture annoncée") }}{% endif %}
+          </p>
+        </div>
+        <div class="lib-act">
+          {% if row.tier %}{{ badge(tier_labels[row.tier][0], tier_labels[row.tier][1]) }}{% endif %}
+          {{ link_button(_("Ouvrir"), "/catalogue/notices/" ~ row.work_id ~ "/enrichir?edition=" ~ row.edition_id ~ ("&recherche=" ~ row.search_id if row.search_id else "") ~ "#propositions", "s", "chev") }}
+        </div>
+      </li>
+    {% endfor %}
+    </ul>
+    {% if view == "reliable" and can("enrichment.review") %}
+    <div class="card mt-s"><div class="card-b stack lib-validate">
+      <label class="check" for="lib-couverture"><input type="checkbox" id="lib-couverture" name="couverture" value="1"><span>{{ _("Ajouter aussi la couverture de la BnF quand le livre n’en a pas") }}<span class="h">{{ _("Même édition (même ISBN), image fournie par la BnF selon ses conditions de réutilisation, avec mention de la source.") }}</span></span></label>
+      <div>{{ button(_("Ajouter les informations manquantes aux livres cochés"), "p", "check", type="submit") }}</div>
+      <p class="small muted m0">{{ _("Au plus {n} livres à la fois. L’ISBN, les auteurs et le résumé ne sont jamais ajoutés d’office. Chaque ajout reste annulable depuis la fiche du livre.").format(n=validate_max) }}</p>
+    </div></div>
+    {% endif %}
+  </form>
+  <div class="row gap-xs mt-s">
+    {% if page > 1 %}{{ link_button(_("Page précédente"), "/enrichissement?vue=" ~ view ~ "&page=" ~ (page - 1), "g", "undo") }}{% endif %}
+    {% if rows | length == validate_max %}{{ link_button(_("Page suivante"), "/enrichissement?vue=" ~ view ~ "&page=" ~ (page + 1), "g", "chev") }}{% endif %}
+  </div>
+  {% endif %}
+</section>
+{% endif %}
+
+{% if history | length > 1 %}
+<details class="card mt-s"><summary class="card-fold"><b>{{ _("Recherches précédentes") }}</b></summary>
+  <div class="card-b"><ul class="plain">{% for item in history %}<li>{{ item.created_at[:10] }} · {{ job_labels[item.status] }} · {{ _("{done} sur {total}").format(done=item.processed, total=item.total) }}</li>{% endfor %}</ul></div>
+</details>
+{% endif %}
+{% endblock %}
