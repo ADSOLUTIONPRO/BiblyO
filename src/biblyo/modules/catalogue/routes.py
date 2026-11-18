@@ -18,6 +18,7 @@ from biblyo.core import flash, remote
 from biblyo.core.clock import now_iso
 from biblyo.core.errors import BusinessError, FormErrors
 from biblyo.core.i18n import _
+from biblyo.core.isbn import parse_isbn
 from biblyo.core.media import MAX_UPLOAD_BYTES, STORED_MIME, resolve_media_path
 from biblyo.core.permissions import require
 from biblyo.core.security.sessions import AuthContext, get_auth
@@ -311,10 +312,14 @@ def new_notice(
     depuis: Annotated[int | None, Query()] = None,
     edition_verifiee: Annotated[str, Query()] = "",
     isbn_verifie: Annotated[str, Query()] = "",
+    isbn: Annotated[str, Query(max_length=20)] = "",
 ) -> Response:
     blank = forms._with_spare([], 2)
     if depuis is None:
-        return _new_page(request, {"langue": "fre"}, {"work": blank, "edition": forms._with_spare([], 1)}, {})
+        # Un ISBN scanné absent du catalogue (L8) : prérempli, rien d'autre ; la notice reste à décrire et à valider.
+        parsed = parse_isbn(isbn) if isbn else None
+        values = {"langue": "fre", **({"isbn": parsed.isbn13} if parsed else {})}
+        return _new_page(request, values, {"work": blank, "edition": forms._with_spare([], 1)}, {})
     provided = _from_source(request, depuis, edition_verifiee == "1", isbn_verifie == "1")
     if provided is None:
         raise HTTPException(status_code=404)

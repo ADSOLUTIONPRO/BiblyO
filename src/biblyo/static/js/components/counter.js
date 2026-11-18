@@ -4,9 +4,12 @@
 // Un scan part de `scanner`, pas du formulaire : sous WebKit et Firefox, un bouton cliqué ne prend pas le focus, et
 // htmx enverrait le scan suivant à l'adresse de ce bouton (« Valider », « Annuler »…).
 document.addEventListener("alpine:init", function () {
+  var DOUBLE_SCAN_MS = 1500;
   Alpine.data("counter", function () {
     return {
       queue: [],
+      lastValue: "",
+      lastAt: 0,
       busy: false,
       after: null,
       init: function () {
@@ -16,6 +19,11 @@ document.addEventListener("alpine:init", function () {
           try { sessionStorage.removeItem("biblyo.comptoir"); } catch (error) { /* stockage indisponible */ }
         }
         this.resume();
+        // Une action par bouton, n'importe où dans la page (« Annuler » un retour…), réarme la lecture d'un même code.
+        document.addEventListener("htmx:beforeRequest", function (event) {
+          var elt = event.detail.elt;
+          if (elt && elt.tagName === "BUTTON") self.lastValue = "";
+        });
         this.$refs.form.addEventListener("htmx:afterRequest", function (event) {
           if (event.detail.elt === self.$refs.scanner) self.done();
         });
@@ -26,6 +34,7 @@ document.addEventListener("alpine:init", function () {
         this.$refs.form.addEventListener("htmx:beforeRequest", function (event) {
           var elt = event.detail.elt;
           if (!elt || elt.tagName !== "BUTTON") return;
+          self.lastValue = "";
           self.after = elt.getAttribute("data-focus-after");
           if (!self.after) self.$refs.field.focus();
         });
@@ -45,7 +54,29 @@ document.addEventListener("alpine:init", function () {
       enter: function () {
         var value = this.$refs.field.value.trim();
         this.$refs.field.value = "";
-        if (value) { this.queue.push(value); this.pump(); }
+        if (!value) return;
+        // Retours (L8) : le même code lu deux fois de suite (douchette qui rebondit) est ignoré la seconde fois, au
+        // lieu d'afficher « rien à rendre ». Un clic sur un bouton (« Annuler »…) réarme la lecture. Au comptoir,
+        // le serveur répond déjà « déjà dans la liste ».
+        var now = Date.now();
+        var guarded = this.$el.querySelector("[data-double-scan]") !== null;
+        if (guarded && value === this.lastValue && now - this.lastAt < DOUBLE_SCAN_MS) { this.echo(); return; }
+        this.lastValue = value;
+        this.lastAt = now;
+        this.queue.push(value);
+        this.pump();
+      },
+      // Une douchette réglée pour finir par Tab : le code part comme avec Entrée, le focus reste dans le champ.
+      tab: function (event) {
+        if (!this.$refs.field.value.trim()) return;
+        event.preventDefault();
+        this.enter();
+      },
+      echo: function () {
+        var zone = this.$el.querySelector("[data-double-scan]");
+        if (!zone) return;
+        zone.textContent = "";
+        window.setTimeout(function () { zone.textContent = zone.getAttribute("data-double-scan"); }, 40);
       },
       pump: function () {
         if (this.busy || !this.queue.length) return;

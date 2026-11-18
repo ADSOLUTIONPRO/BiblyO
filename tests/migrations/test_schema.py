@@ -17,6 +17,8 @@ from biblyo.core.schema_state import SchemaStatus, read_state
 ROOT = Path(__file__).resolve().parents[2]
 EXPECTED_TABLES = {
     "alembic_version",
+    "label_batches",
+    "label_batch_items",
     "enrichment_jobs",
     "enrichment_job_items",
     "audit_log",
@@ -106,7 +108,7 @@ def test_fresh_upgrade_reaches_head_with_provided_roles(bare_settings):
     application_id = connection.execute("PRAGMA application_id").fetchone()[0]
     uuid = connection.execute("SELECT value FROM settings WHERE key = 'installation.uuid'").fetchone()
     connection.close()
-    assert roles == {"admin", "librarian", "volunteer", "viewer"}
+    assert roles == {"admin", "librarian", "volunteer", "viewer", "labels_printer"}  # rôle d'appoint de la 0014
     assert star == [("*",)]
     assert application_id == APPLICATION_ID
     assert uuid is not None

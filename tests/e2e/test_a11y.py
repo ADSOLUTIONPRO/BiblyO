@@ -21,6 +21,13 @@ CONNECTED = (
     "/emplacements",
     "/lecteurs",
     "/lecteurs?vue=foyers",
+    "/etiquettes",  # lot L8
+    "/etiquettes/selection",
+    "/etiquettes/imprimer?code=avec",
+    "/etiquettes/reglages",
+    "/scanner",
+    "/scanner/douchette",
+    "/scanner/inventaire",
 )
 BLOCKING = {"serious", "critical"}
 
@@ -47,7 +54,8 @@ def test_connected_screens(browser: Browser, server: Server, theme: str, width: 
     page = context.new_page()
     problems = {}
     for path in CONNECTED:
-        page.goto(f"{server.base_url}{path}")
+        response = page.goto(f"{server.base_url}{path}")
+        assert response is not None and response.status == 200, path  # axe ne juge pas une page d'erreur
         page.wait_for_load_state("networkidle")
         found = _violations(page)
         if found:

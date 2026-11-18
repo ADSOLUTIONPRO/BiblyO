@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: biblyO VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-14 16:55+0100\n"
+"POT-Creation-Date: 2026-11-18 19:13+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,6 +21,10 @@ msgid " ; adresse de contact non renseignée : Open Library reste inactive"
 msgstr ""
 
 msgid " ; foyers et structures"
+msgstr ""
+
+#, python-brace-format
+msgid " par {n}"
 msgstr ""
 
 #, python-format
@@ -87,7 +91,13 @@ msgstr ""
 msgid "1 numéro à vérifier"
 msgstr ""
 
+msgid "1 pour tout réimprimer. Les numéros suivent l’ordre du lot, ci-dessous."
+msgstr ""
+
 msgid "1. Critères"
+msgstr ""
+
+msgid "1. Donner un code-barres"
 msgstr ""
 
 msgid "1. Saisir"
@@ -102,6 +112,9 @@ msgid ""
 msgstr ""
 
 msgid "12, 12,5 ou un libellé : HS 2, Intégrale 1."
+msgstr ""
+
+msgid "2. Imprimer les étiquettes"
 msgstr ""
 
 msgid "2. Sources interrogées"
@@ -151,6 +164,9 @@ msgid "Abandonner"
 msgstr ""
 
 msgid "Abandonner ce dépôt"
+msgstr ""
+
+msgid "Abandonner ce lot"
 msgstr ""
 
 msgid "Abandonner cette préparation"
@@ -290,6 +306,9 @@ msgid "Adultes"
 msgstr ""
 
 msgid "Affichage"
+msgstr ""
+
+msgid "Afficher"
 msgstr ""
 
 msgid "Afficher cette aide"
@@ -556,6 +575,10 @@ msgid "Aperçu"
 msgstr ""
 
 #, python-brace-format
+msgid "Aperçu : {n} étiquette(s) sur {s} feuille(s)"
+msgstr ""
+
+#, python-brace-format
 msgid "Aperçu : {title}"
 msgstr ""
 
@@ -569,6 +592,9 @@ msgid "Aperçu de la couverture"
 msgstr ""
 
 msgid "Aperçu de la répartition"
+msgstr ""
+
+msgid "Aperçu et impression"
 msgstr ""
 
 msgid ""
@@ -673,10 +699,20 @@ msgstr ""
 msgid "Attribuer ces codes"
 msgstr ""
 
+#, python-brace-format
+msgid "Attribuer ces {n} codes"
+msgstr ""
+
 msgid "Attribuer des codes-barres"
 msgstr ""
 
 msgid "Attribuer des codes-barres…"
+msgstr ""
+
+msgid ""
+"Au comptoir, il se retrouve par son numéro d’inventaire. Un code le rend "
+"scannable : il suit la numérotation de biblyO, sans toucher à "
+"l’inventaire."
 msgstr ""
 
 #, python-brace-format
@@ -685,6 +721,12 @@ msgstr ""
 
 #, python-brace-format
 msgid "Au moins {n} ms. Sert à l’enrichissement de toute la bibliothèque."
+msgstr ""
+
+msgid "Au plus 2 000 étiquettes par lot : imprimez en plusieurs fois."
+msgstr ""
+
+msgid "Au plus 500 livres par liste : confirmez celle-ci, puis recommencez."
 msgstr ""
 
 #, python-brace-format
@@ -718,6 +760,11 @@ msgstr ""
 msgid "Aucun changement de statut n’est possible pour votre compte."
 msgstr ""
 
+msgid ""
+"Aucun de ces exemplaires n’a de code-barres : générez d’abord les codes, "
+"puis imprimez les étiquettes."
+msgstr ""
+
 msgid "Aucun de ceux-là"
 msgstr ""
 
@@ -739,10 +786,16 @@ msgstr ""
 msgid "Aucun exemplaire"
 msgstr ""
 
+msgid "Aucun exemplaire au catalogue pour cet ISBN."
+msgstr ""
+
 msgid "Aucun exemplaire de ce livre n’est sorti."
 msgstr ""
 
 msgid "Aucun exemplaire ici."
+msgstr ""
+
+msgid "Aucun exemplaire ne correspond"
 msgstr ""
 
 msgid "Aucun exemplaire ne correspond à ces critères."
@@ -757,6 +810,9 @@ msgstr ""
 msgid "Aucun exemplaire ne porte le code « {code} »."
 msgstr ""
 
+msgid "Aucun exemplaire n’attend de code : rien à attribuer."
+msgstr ""
+
 msgid "Aucun exemplaire physique : cette notice n’a pas encore d’exemplaire."
 msgstr ""
 
@@ -767,6 +823,11 @@ msgid "Aucun exemplaire trouvé"
 msgstr ""
 
 msgid "Aucun exemplaire à prêter."
+msgstr ""
+
+msgid ""
+"Aucun exemplaire, ISBN ou lecteur ne porte ce code. Vérifiez l’étiquette,"
+" ou cherchez le livre par son titre."
 msgstr ""
 
 msgid "Aucun fichier complémentaire."
@@ -825,6 +886,9 @@ msgid "Aucun logo : les initiales du nom sont affichées"
 msgstr ""
 
 msgid "Aucun logo : les initiales du nom sont affichées."
+msgstr ""
+
+msgid "Aucun lot pour l’instant"
 msgstr ""
 
 msgid "Aucun membre"
@@ -1021,6 +1085,12 @@ msgstr ""
 msgid "Aucune série"
 msgstr ""
 
+msgid "Aucune touche finale reçue après le code."
+msgstr ""
+
+msgid "Aucune étiquette préparée pour cet exemplaire."
+msgstr ""
+
 msgid "Aucune."
 msgstr ""
 
@@ -1100,6 +1170,12 @@ msgstr ""
 msgid "Avec aide"
 msgstr ""
 
+msgid "Avec ce préfixe, un code ne serait pas valide."
+msgstr ""
+
+msgid "Avec code-barres"
+msgstr ""
+
 msgid "Avec exemplaire"
 msgstr ""
 
@@ -1107,6 +1183,12 @@ msgid "Avec icône"
 msgstr ""
 
 msgid "Avec un adulte"
+msgstr ""
+
+msgid "Avec un code, étiquette jamais confirmée"
+msgstr ""
+
+msgid "Avec un code-barres"
 msgstr ""
 
 msgid "Avertir"
@@ -1159,6 +1241,9 @@ msgstr ""
 msgid "Boutons"
 msgstr ""
 
+msgid "Branchez la douchette"
+msgstr ""
+
 msgid "Brutes gardées"
 msgstr ""
 
@@ -1171,6 +1256,24 @@ msgid ""
 msgstr ""
 
 msgid "Cadre"
+msgstr ""
+
+#, python-brace-format
+msgid "Calibration appliquée : {x} mm horizontalement, {y} mm verticalement."
+msgstr ""
+
+msgid "Calibration de l’imprimante"
+msgstr ""
+
+msgid "Calibration nécessaire"
+msgstr ""
+
+msgid "Calibration nécessaire : cotes non vérifiées (une seule source)."
+msgstr ""
+
+msgid ""
+"Calibration nécessaire : cotes non vérifiées (une seule source, origine "
+"non centrée)."
 msgstr ""
 
 msgid "Canal"
@@ -1188,6 +1291,9 @@ msgstr ""
 msgid "Carte changée"
 msgstr ""
 
+msgid "Carte de lecteur"
+msgstr ""
+
 msgid "Carte hors service"
 msgstr ""
 
@@ -1195,6 +1301,10 @@ msgid "Cartes"
 msgstr ""
 
 msgid "Cartes détachées"
+msgstr ""
+
+#, python-brace-format
+msgid "Cases déjà utilisées sur la première feuille ({n} cases)"
 msgstr ""
 
 msgid "Cases à cocher"
@@ -1259,6 +1369,9 @@ msgstr ""
 
 #, python-brace-format
 msgid "Ce code est déjà attribué à {holder}."
+msgstr ""
+
+msgid "Ce code existe."
 msgstr ""
 
 msgid "Ce droit ne concerne que les structures."
@@ -1366,6 +1479,20 @@ msgstr ""
 msgid "Ce livre n’a encore aucun exemplaire physique : il n’y a rien à prêter."
 msgstr ""
 
+msgid "Ce livre n’est pas au catalogue."
+msgstr ""
+
+msgid "Ce lot d’étiquettes n’existe pas."
+msgstr ""
+
+msgid "Ce lot est déjà marqué : son état ne change plus."
+msgstr ""
+
+msgid ""
+"Ce lot ne peut plus être refait à l’identique : préparez une nouvelle "
+"impression."
+msgstr ""
+
 msgid "Ce module n’est pas encore disponible"
 msgstr ""
 
@@ -1422,7 +1549,19 @@ msgstr ""
 msgid "Ce n’est pas mon livre"
 msgstr ""
 
+msgid ""
+"Ce poste est un poste de prêt de la bibliothèque : lire un code partout "
+"dans biblyO, même sans cliquer dans un champ"
+msgstr ""
+
 msgid "Ce prix n’est pas plausible."
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"Ce préfixe contient « {signs} » : une douchette mal réglée (clavier "
+"américain) l’écrirait autrement. L’assistant « Configurer ma douchette » "
+"le détecte."
 msgstr ""
 
 msgid "Ce prêt"
@@ -1545,6 +1684,11 @@ msgid "Cellules modifiées dans biblyO"
 msgstr ""
 
 msgid ""
+"Certaines douchettes (laser) lisent mal un écran : utilisez alors la "
+"feuille test imprimée, qui porte les trois mêmes codes."
+msgstr ""
+
+msgid ""
 "Certaines valeurs ne sont pas acceptées : elles sont signalées ci-"
 "dessous. Rien n’a été enregistré."
 msgstr ""
@@ -1568,6 +1712,17 @@ msgid ""
 msgstr ""
 
 msgid "Certains réglages sont refusés : corrigez les champs signalés."
+msgstr ""
+
+msgid "Certifier cette planche"
+msgstr ""
+
+#, python-brace-format
+msgid "Certifier « {name} » sur ce poste et cette imprimante"
+msgstr ""
+
+#, python-brace-format
+msgid "Certifiée sur une planche le {d}"
 msgstr ""
 
 msgid ""
@@ -1867,6 +2022,13 @@ msgstr ""
 msgid "Cette plage est trop grande."
 msgstr ""
 
+#, python-format
+msgid ""
+"Cette planche n’est pas encore certifiée : imprimez d’abord la feuille "
+"test à 100 %%, sur du papier ordinaire, et posez-la sur une vraie planche"
+" (Réglages des étiquettes)."
+msgstr ""
+
 msgid "Cette proposition a déjà été traitée."
 msgstr ""
 
@@ -1915,6 +2077,9 @@ msgstr ""
 msgid "Cette édition est archivée : réactivez-la d’abord."
 msgstr ""
 
+msgid "Cette édition n’a encore aucun exemplaire."
+msgstr ""
+
 msgid "Cette édition n’a pas de couverture."
 msgstr ""
 
@@ -1924,7 +2089,15 @@ msgstr ""
 msgid "Cette étagère est déjà dans cet ordre."
 msgstr ""
 
+msgid ""
+"Cette étiquette est trop basse pour un code lisible (6 mm de barres au "
+"moins)."
+msgstr ""
+
 msgid "Champ"
+msgstr ""
+
+msgid "Champ d’essai"
 msgstr ""
 
 msgid "Champ en erreur"
@@ -1960,6 +2133,9 @@ msgstr ""
 msgid "Changer de lecteur"
 msgstr ""
 
+msgid "Changer de livres"
+msgstr ""
+
 msgid "Changer de thème"
 msgstr ""
 
@@ -1969,6 +2145,12 @@ msgstr ""
 msgid "Changer le mot de passe"
 msgstr ""
 
+msgid "Changer le préfixe"
+msgstr ""
+
+msgid "Changer le préfixe des prochains codes"
+msgstr ""
+
 msgid "Changer le rôle"
 msgstr ""
 
@@ -1976,6 +2158,11 @@ msgid "Changer le statut"
 msgstr ""
 
 msgid "Changer l’échéance"
+msgstr ""
+
+msgid ""
+"Chaque PDF préparé est gardé ici : vous pourrez le refaire, reprendre une"
+" impression interrompue ou confirmer que les étiquettes sont collées."
 msgstr ""
 
 msgid "Chaque affichage est journalisé."
@@ -2028,6 +2215,9 @@ msgstr ""
 msgid "Chaque scan rend le livre aussitôt, et dit où le ranger."
 msgstr ""
 
+msgid "Chaque trait mesure 100 mm s’il est imprimé à 100 %."
+msgstr ""
+
 msgid ""
 "Chaque valeur reste distincte, même entre noms proches ; rapprochement "
 "manuel avec une collection existante possible. Table à relire."
@@ -2066,6 +2256,10 @@ msgstr ""
 msgid "Chercher une série…"
 msgstr ""
 
+#, python-brace-format
+msgid "Chercher « {c} »"
+msgstr ""
+
 msgid ""
 "Cherchez un livre à la BnF et au Sudoc, par ISBN, titre, auteur ou série."
 " Un résultat peut servir à créer une notice, que vous relisez avant de "
@@ -2090,13 +2284,32 @@ msgstr ""
 msgid "Choisir cette proposition"
 msgstr ""
 
+msgid "Choisir des livres"
+msgstr ""
+
+msgid "Choisir d’autres livres"
+msgstr ""
+
 msgid "Choisir la couverture"
+msgstr ""
+
+msgid "Choisir la feuille"
+msgstr ""
+
+msgid "Choisir la planche"
+msgstr ""
+
+msgid "Choisir les livres"
 msgstr ""
 
 msgid "Choisir l’exemplaire"
 msgstr ""
 
 msgid "Choisir l’exemplaire de"
+msgstr ""
+
+#, python-brace-format
+msgid "Choisir l’exemplaire {code}"
 msgstr ""
 
 msgid "Choisir pour le déplacer :"
@@ -2177,6 +2390,9 @@ msgstr ""
 msgid "Choisissez l’adulte qui répond de ce prêt."
 msgstr ""
 
+msgid "Choisissez l’exemplaire que vous avez en main :"
+msgstr ""
+
 msgid "Choisissez l’élément dans lequel fusionner."
 msgstr ""
 
@@ -2219,6 +2435,9 @@ msgstr ""
 msgid "Choisissez un mode."
 msgstr ""
 
+msgid "Choisissez un modèle d’étiquette."
+msgstr ""
+
 msgid "Choisissez un motif"
 msgstr ""
 
@@ -2249,6 +2468,9 @@ msgstr ""
 msgid "Choisissez une image (PNG, JPEG ou WebP)."
 msgstr ""
 
+msgid "Choisissez une planche de la liste."
+msgstr ""
+
 msgid "Choisissez une rubrique. Chacune explique ses réglages en quelques mots."
 msgstr ""
 
@@ -2270,6 +2492,12 @@ msgid ""
 "format .xls sont refusés."
 msgstr ""
 
+msgid "Clavier : les chiffres et le tiret arrivent tels quels (AZERTY bien réglé)"
+msgstr ""
+
+msgid "Cliquez dans le champ d’essai"
+msgstr ""
+
 msgid "Cocher les champs vides admissibles"
 msgstr ""
 
@@ -2287,6 +2515,9 @@ msgstr ""
 msgid "Cochez la case de confirmation pour appliquer ce plan."
 msgstr ""
 
+msgid "Cochez la case pour confirmer le changement."
+msgstr ""
+
 msgid ""
 "Coché : un exemplaire « En préparation » passe « En place » et devient "
 "prêtable. Non coché : il reçoit sa place mais reste « En préparation », à"
@@ -2296,9 +2527,35 @@ msgstr ""
 msgid "Cochée"
 msgstr ""
 
+msgid "Code"
+msgstr ""
+
+msgid "Code 128"
+msgstr ""
+
+msgid "Code 128 : celui des étiquettes de biblyO"
+msgstr ""
+
+msgid "Code 128 d’essai"
+msgstr ""
+
+msgid "Code 128 d’essai (« BIBLYO-TEST ») lu sans erreur"
+msgstr ""
+
+msgid "Code 128, lisible à la douchette, même sur cet écran."
+msgstr ""
+
 msgid ""
 "Code artificiel de la reconstruction de l’ancienne application : jamais "
 "repris"
+msgstr ""
+
+#, python-brace-format
+msgid "Code attribué : {code}"
+msgstr ""
+
+#, python-brace-format
+msgid "Code changé : {old} → {new} (l’ancien est retiré pour toujours)"
 msgstr ""
 
 msgid "Code court"
@@ -2307,12 +2564,56 @@ msgstr ""
 msgid "Code de l’exemplaire"
 msgstr ""
 
+#, python-brace-format
+msgid "Code d’essai Code 128 : {c}"
+msgstr ""
+
+#, python-brace-format
+msgid "Code d’essai EAN-13 : {c}"
+msgstr ""
+
+msgid "Code inconnu"
+msgstr ""
+
+msgid "Code inconnu (« BIBLYO-INCONNU ») : biblyO le dit, sans rien ouvrir"
+msgstr ""
+
+msgid "Code inconnu : aucun livre ne le porte"
+msgstr ""
+
+#, python-brace-format
+msgid "Code inconnu : « {c} »."
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"Code inconnu : « {got} ». La douchette semble réglée en clavier américain"
+" : elle voulait sans doute écrire « {want} ». Réglez-la avec l’assistant "
+"« Configurer ma douchette », ou tapez le code au clavier."
+msgstr ""
+
+msgid "Code inconnu d’essai"
+msgstr ""
+
+#, python-brace-format
+msgid "Code inconnu d’essai : {c}"
+msgstr ""
+
 msgid ""
 "Code inconnu. Cherchez plutôt le lecteur par son nom, ou l’ouvrage au "
 "catalogue."
 msgstr ""
 
+msgid "Code non attribué"
+msgstr ""
+
+msgid "Code non reconnu"
+msgstr ""
+
 msgid "Code postal"
+msgstr ""
+
+msgid "Code reconnu"
 msgstr ""
 
 msgid "Code source"
@@ -2324,6 +2625,14 @@ msgstr ""
 msgid "Code-barres"
 msgstr ""
 
+msgid "Code-barres attribué. Vous pouvez maintenant imprimer son étiquette."
+msgstr ""
+
+msgid ""
+"Code-barres de l’étiquette, numéro d’inventaire, ISBN de la couverture ou"
+" carte de lecteur."
+msgstr ""
+
 msgid "Code-barres déjà attribué"
 msgstr ""
 
@@ -2333,13 +2642,23 @@ msgstr ""
 msgid "Code-barres en double dans le fichier"
 msgstr ""
 
+msgid "Code-barres et étiquette"
+msgstr ""
+
 msgid "Code-barres modifié dans biblyO"
 msgstr ""
 
 msgid "Code-barres ou numéro d’inventaire"
 msgstr ""
 
+#, python-brace-format
+msgid "Code-barres {code}"
+msgstr ""
+
 msgid "Codes"
+msgstr ""
+
+msgid "Codes d’essai"
 msgstr ""
 
 msgid "Codes générés (non retenu)"
@@ -2351,6 +2670,9 @@ msgstr ""
 msgid ""
 "Codes-barres attribués. Aucun inventaire n’a changé, aucune étiquette "
 "imprimée."
+msgstr ""
+
+msgid "Codes-barres et étiquettes"
 msgstr ""
 
 msgid "Collection"
@@ -2431,6 +2753,9 @@ msgstr ""
 msgid "Combien de livres, pour combien de temps, et quand rappeler."
 msgstr ""
 
+msgid "Commencer à la case n°"
+msgstr ""
+
 msgid "Comment cet enfant emprunte-t-il ?"
 msgstr ""
 
@@ -2438,6 +2763,9 @@ msgid "Commit de l’image"
 msgstr ""
 
 msgid "Commune"
+msgstr ""
+
+msgid "Compact"
 msgstr ""
 
 msgid "Comparaison des éditions proposées"
@@ -2508,6 +2836,9 @@ msgstr ""
 msgid "Compte introuvable."
 msgstr ""
 
+msgid "Compter"
+msgstr ""
+
 msgid "Comptes"
 msgstr ""
 
@@ -2529,6 +2860,10 @@ msgstr ""
 msgid "Comptoir de prêt"
 msgstr ""
 
+#, python-brace-format
+msgid "Compté : « {t} »."
+msgstr ""
+
 msgid "Concorde :"
 msgstr ""
 
@@ -2543,6 +2878,9 @@ msgid "Conditions et droit d’utilisation"
 msgstr ""
 
 msgid "Configurer les sources bibliographiques"
+msgstr ""
+
+msgid "Configurer ma douchette"
 msgstr ""
 
 msgid ""
@@ -2585,6 +2923,9 @@ msgid "Confirmer le retour"
 msgstr ""
 
 msgid "Confirmer le retour de"
+msgstr ""
+
+msgid "Confirmer leur présence"
 msgstr ""
 
 msgid "Confirmer sa présence sur l’étagère"
@@ -2630,6 +2971,12 @@ msgid "Consulter le journal"
 msgstr ""
 
 msgid "Contenu"
+msgstr ""
+
+msgid "Contenu du lot"
+msgstr ""
+
+msgid "Contenu par défaut"
 msgstr ""
 
 msgid "Continuer vers le formulaire"
@@ -2780,7 +3127,13 @@ msgstr ""
 msgid "Corriger ou annuler"
 msgstr ""
 
+msgid "Corrigez si besoin"
+msgstr ""
+
 msgid "Cote"
+msgstr ""
+
+msgid "Cote commençant par"
 msgstr ""
 
 msgid "Cote modifiée dans biblyO"
@@ -2920,6 +3273,9 @@ msgstr ""
 msgid "Créer la série"
 msgstr ""
 
+msgid "Créer sa notice"
+msgstr ""
+
 msgid "Créer un compte"
 msgstr ""
 
@@ -2958,7 +3314,15 @@ msgid ""
 "proposés."
 msgstr ""
 
+msgid "C’est déjà le préfixe en usage."
+msgstr ""
+
 msgid "C’est désormais l’édition principale."
+msgstr ""
+
+msgid ""
+"C’est l’ISBN du livre, pas son étiquette : choisissez l’exemplaire que "
+"vous avez en main."
 msgstr ""
 
 msgid "C’est noté : cette proposition ne sera plus montrée pour ce livre."
@@ -2968,6 +3332,20 @@ msgstr ""
 msgid ""
 "C’est un numéro de carte : retapez le numéro de lecteur permanent, "
 "{number}."
+msgstr ""
+
+msgid "C’est une carte de lecteur : rien n’est compté."
+msgstr ""
+
+msgid ""
+"C’est une étiquette de l’ancienne reconstruction du catalogue (« CSN-… »,"
+" avec un tiret) : ces numéros ne correspondent à aucun livre. Les codes "
+"de biblyO s’écrivent sans tiret, par exemple « CSN000123 ». Retirez cette"
+" étiquette et cherchez le livre par son titre."
+msgstr ""
+
+#, python-brace-format
+msgid "C’est « {t} »."
 msgstr ""
 
 msgid "Danger"
@@ -2985,7 +3363,39 @@ msgstr ""
 msgid "Dans l'ordre des colonnes ; nom gardé tel qu'écrit."
 msgstr ""
 
+#, python-format
+msgid ""
+"Dans la fenêtre d’impression, choisissez « Taille réelle » ou « 100 %% »,"
+" papier A4. Une première fois, imprimez sur une feuille ordinaire et "
+"posez-la sur la planche, par transparence."
+msgstr ""
+
 msgid "Dans la sélection"
+msgstr ""
+
+msgid ""
+"Dans le manuel de la douchette, scannez le code de configuration « "
+"Suffixe : Entrée » (parfois « Add CR » ou « Enter »). « Tabulation » "
+"convient aussi."
+msgstr ""
+
+msgid ""
+"Dans le manuel de la douchette, scannez le code « Clavier français » ou «"
+" AZERTY » (parfois « Keyboard language : French »). Une douchette "
+"Bluetooth peut aussi demander le même réglage côté ordinateur."
+msgstr ""
+
+msgid ""
+"Dans le manuel, activez « Transmettre le chiffre de contrôle » pour "
+"l’EAN-13."
+msgstr ""
+
+msgid ""
+"Dans le manuel, désactivez le préfixe et l’identifiant de symbologie (« "
+"AIM ID »)."
+msgstr ""
+
+msgid "Dans l’ordre des étagères"
 msgstr ""
 
 msgid "Date"
@@ -3031,6 +3441,11 @@ msgstr ""
 msgid "Demande de la personne"
 msgstr ""
 
+msgid ""
+"Depuis la fiche d’un exemplaire : son code, son étiquette et son "
+"historique. Pour l’ouvrir, scannez le livre ou cherchez-le."
+msgstr ""
+
 msgid "Depuis une adresse web"
 msgstr ""
 
@@ -3042,6 +3457,9 @@ msgid "Dernier rappel"
 msgstr ""
 
 msgid "Dernier tome (facultatif)"
+msgstr ""
+
+msgid "Derniers lots d’impression"
 msgstr ""
 
 msgid "Derniers prêts terminés"
@@ -3093,6 +3511,11 @@ msgstr ""
 
 #, python-brace-format
 msgid "Destination de la colonne {c}"
+msgstr ""
+
+msgid ""
+"Deux douchettes, même de la même marque, ne se règlent pas forcément "
+"pareil : gardez le manuel de la vôtre."
 msgstr ""
 
 msgid "Devient"
@@ -3153,6 +3576,11 @@ msgstr ""
 msgid "Don"
 msgstr ""
 
+msgid ""
+"Donnez un code-barres à chaque livre, imprimez ses étiquettes, puis "
+"scannez-les à la douchette."
+msgstr ""
+
 msgid "Donnez un nom au profil."
 msgstr ""
 
@@ -3199,7 +3627,20 @@ msgstr ""
 msgid "Doublons ou éditions"
 msgstr ""
 
+msgid ""
+"Douchette : lisez les trois codes ci-dessous dans « Configurer ma "
+"douchette »."
+msgstr ""
+
 msgid "Douchette ou clavier : carte, numéro de lecteur, code d’exemplaire, ISBN."
+msgstr ""
+
+msgid "Douchette prête"
+msgstr ""
+
+msgid ""
+"Douchette prête sur ce poste : tous les points sont vérifiés. Vous pouvez"
+" activer la lecture partout, ci-dessous."
 msgstr ""
 
 msgid "Droit d’emprunter pour une structure modifié"
@@ -3215,6 +3656,12 @@ msgid "Droits d’un responsable modifiés"
 msgstr ""
 
 msgid "Droits et conditions de réutilisation"
+msgstr ""
+
+msgid "Du bord de la feuille au haut de la première étiquette."
+msgstr ""
+
+msgid "Du tome"
 msgstr ""
 
 msgid "Dupliquer"
@@ -3251,6 +3698,12 @@ msgid ""
 "journalisé."
 msgstr ""
 
+msgid "Décalage horizontal (mm)"
+msgstr ""
+
+msgid "Décalage vertical (mm)"
+msgstr ""
+
 msgid "Décision du bibliothécaire"
 msgstr ""
 
@@ -3270,6 +3723,9 @@ msgstr ""
 msgid "Déclassé : {reason}"
 msgstr ""
 
+msgid "Décrivez la planche personnalisée."
+msgstr ""
+
 msgid "Défaire : revenir à aucune couverture"
 msgstr ""
 
@@ -3277,6 +3733,10 @@ msgid "Définir comme principale"
 msgstr ""
 
 msgid "Déjà choisi :"
+msgstr ""
+
+#, python-brace-format
+msgid "Déjà compté : « {t} »."
 msgstr ""
 
 msgid "Déjà ici : il change de rang."
@@ -3344,6 +3804,14 @@ msgstr ""
 msgid "Désactivé"
 msgstr ""
 
+msgid ""
+"Désactivé par défaut, à activer seulement sur les ordinateurs de la "
+"bibliothèque. Une lecture rapide terminée par Entrée ou Tab ouvre alors "
+"la fenêtre « Scanner » ; jamais pendant la saisie d’un formulaire ou d’un"
+" mot de passe. Les champs de scan (comptoir, retours, scanner) marchent "
+"toujours."
+msgstr ""
+
 msgid "Désactivée"
 msgstr ""
 
@@ -3351,6 +3819,9 @@ msgid "Détail"
 msgstr ""
 
 msgid "Détail par tome"
+msgstr ""
+
+msgid "Détaillé"
 msgstr ""
 
 msgid "Détails techniques"
@@ -3373,6 +3844,15 @@ msgid "D’autres fiches portent ce nom :"
 msgstr ""
 
 msgid "D’autres lecteurs correspondent : précisez le nom, ou tapez un numéro."
+msgstr ""
+
+msgid "D’où viennent ces cotes ?"
+msgstr ""
+
+msgid "EAN-13"
+msgstr ""
+
+msgid "EAN-13 : celui des ISBN au dos des livres"
 msgstr ""
 
 msgid "Effacer"
@@ -3569,6 +4049,9 @@ msgstr ""
 msgid "Enregistrer les règles"
 msgstr ""
 
+msgid "Enregistrer les réglages"
+msgstr ""
+
 msgid "Enrichir"
 msgstr ""
 
@@ -3577,6 +4060,9 @@ msgid "Enrichir : {title}"
 msgstr ""
 
 msgid "Enrichir la bibliothèque"
+msgstr ""
+
+msgid "Enrichir les informations"
 msgstr ""
 
 msgid "Enrichir toute la bibliothèque"
@@ -3610,9 +4096,22 @@ msgstr ""
 msgid "Enseignant"
 msgstr ""
 
+msgid "Entre 1 et 20."
+msgstr ""
+
+msgid "Entre 1 et 200 étiquettes par feuille."
+msgstr ""
+
 msgid ""
 "Entre parenthèses : places occupées et capacité. Une étagère pleine reste"
 " possible, le dépassement sera signalé."
+msgstr ""
+
+#, python-brace-format
+msgid "Entre {low} et {high} mm."
+msgstr ""
+
+msgid "Entrée"
 msgstr ""
 
 msgid "Environnement"
@@ -3627,10 +4126,21 @@ msgstr ""
 msgid "Erreur à corriger."
 msgstr ""
 
+msgid "Espace entre colonnes"
+msgstr ""
+
+msgid "Espace entre lignes"
+msgstr ""
+
 msgid "Espaces en trop : retirés pour comparer, valeur brute gardée"
 msgstr ""
 
 msgid "Espagnol"
+msgstr ""
+
+msgid ""
+"Essayez d’abord les deux codes d’essai de cette page ou de la feuille "
+"test."
 msgstr ""
 
 msgid "Essayez un titre, une cote ou un numéro d’inventaire."
@@ -3655,6 +4165,9 @@ msgid "Exemplaire rangé à la fin de l’étagère."
 msgstr ""
 
 msgid "Exemplaire rangé, mais cet emplacement dépasse maintenant sa capacité."
+msgstr ""
+
+msgid "Exemplaire supprimé"
 msgstr ""
 
 msgid "Exemplaire supprimé de biblyO : valeur d'origine gardée"
@@ -3760,6 +4273,12 @@ msgstr ""
 msgid "Famille"
 msgstr ""
 
+#, python-brace-format
+msgid ""
+"Faute de place sur ce format, certaines étiquettes n’affichent pas : "
+"{list}."
+msgstr ""
+
 msgid "Fenêtre modale"
 msgstr ""
 
@@ -3784,8 +4303,22 @@ msgstr ""
 msgid "Feuille masquée dans Excel."
 msgstr ""
 
+msgid "Feuille neuve ou entamée ?"
+msgstr ""
+
+msgid "Feuille test"
+msgstr ""
+
 #, python-brace-format
 msgid "Feuille {name}"
+msgstr ""
+
+#, python-brace-format
+msgid "Feuille {n}"
+msgstr ""
+
+#, python-brace-format
+msgid "Feuille {n} sur {total}"
 msgstr ""
 
 msgid "Feuille à importer"
@@ -3875,7 +4408,16 @@ msgstr ""
 msgid "Fonds existant"
 msgstr ""
 
+msgid "Format compact."
+msgstr ""
+
+msgid "Format confirmé ; placement à certifier par la feuille test"
+msgstr ""
+
 msgid "Format d’origine .xlsx"
+msgstr ""
+
+msgid "Format principal, par exemple pour les BD."
 msgstr ""
 
 msgid "Forme d'usage proposée"
@@ -3939,6 +4481,15 @@ msgstr ""
 msgid "Fusionner dans"
 msgstr ""
 
+msgid "Gabarit personnalisé"
+msgstr ""
+
+msgid "Gabarit personnalisé (en millimètres)"
+msgstr ""
+
+msgid "Gabarit personnalisé : calibration nécessaire"
+msgstr ""
+
 msgid "Garder les valeurs actuelles"
 msgstr ""
 
@@ -3988,6 +4539,24 @@ msgid ""
 "un éventuel verrouillage."
 msgstr ""
 
+msgid "Générer les codes manquants"
+msgstr ""
+
+msgid "Générer les codes-barres"
+msgstr ""
+
+msgid "Générer pour ce livre"
+msgstr ""
+
+msgid "Générer pour ma sélection"
+msgstr ""
+
+msgid "Générer son code-barres"
+msgstr ""
+
+msgid "Générer tous les codes manquants"
+msgstr ""
+
 msgid "Gérer les comptes"
 msgstr ""
 
@@ -4012,10 +4581,16 @@ msgstr ""
 msgid "Hauteur (cases)"
 msgstr ""
 
+msgid "Hauteur d’une étiquette"
+msgstr ""
+
 msgid "Historique"
 msgstr ""
 
 msgid "Historique des enrichissements"
+msgstr ""
+
+msgid "Historique du code et des étiquettes"
 msgstr ""
 
 msgid "Homonyme"
@@ -4039,6 +4614,9 @@ msgid "Hypothèse, sans effet"
 msgstr ""
 
 msgid "ISBN"
+msgstr ""
+
+msgid "ISBN d’une édition"
 msgstr ""
 
 msgid "ISBN identique"
@@ -4074,8 +4652,15 @@ msgstr ""
 msgid "ISBN sans mention « à vérifier » : à confirmer."
 msgstr ""
 
+msgid "ISBN valide, mais aucun livre du catalogue ne le porte."
+msgstr ""
+
 #, python-brace-format
 msgid "ISBN {isbn}"
+msgstr ""
+
+#, python-brace-format
+msgid "ISBN {isbn} : choisissez l’exemplaire en main."
 msgstr ""
 
 #, python-brace-format
@@ -4106,6 +4691,12 @@ msgid "ISBN-10"
 msgstr ""
 
 msgid "ISBN-13"
+msgstr ""
+
+msgid "ISBN-13 d’essai"
+msgstr ""
+
+msgid "ISBN-13 lu sans erreur (le code d’essai, ou le dos d’un livre)"
 msgstr ""
 
 msgid "Identifiant"
@@ -4176,6 +4767,9 @@ msgid ""
 "avec son indicatif."
 msgstr ""
 
+msgid "Il ne reste aucune étiquette à imprimer dans ce lot."
+msgstr ""
+
 msgid ""
 "Il sera livré dans un prochain lot. Rien n’est enregistré ni simulé sur "
 "cette page."
@@ -4214,7 +4808,61 @@ msgstr ""
 msgid "Impossible depuis le statut « {status} »."
 msgstr ""
 
+msgid "Impression des étiquettes"
+msgstr ""
+
+msgid "Impression interrompue ou ratée ?"
+msgstr ""
+
 msgid "Imprimer"
+msgstr ""
+
+msgid "Imprimer des étiquettes"
+msgstr ""
+
+msgid "Imprimer des étiquettes de codes-barres"
+msgstr ""
+
+msgid "Imprimer la feuille test"
+msgstr ""
+
+#, python-brace-format
+msgid "Imprimer la feuille test : {name}"
+msgstr ""
+
+msgid "Imprimer les étiquettes"
+msgstr ""
+
+#, python-brace-format
+msgid "Imprimer les étiquettes à faire ({n})"
+msgstr ""
+
+msgid "Imprimer leurs étiquettes"
+msgstr ""
+
+msgid "Imprimer son étiquette"
+msgstr ""
+
+msgid "Imprimer une feuille test"
+msgstr ""
+
+#, python-format
+msgid "Imprimez à 100 %%, sans « Ajuster à la page »."
+msgstr ""
+
+msgid "Imprimez-la sur du papier ordinaire"
+msgstr ""
+
+msgid "Imprimé et collé"
+msgstr ""
+
+#, python-format
+msgid ""
+"Imprimée à 100 %%, la feuille test tombe sur les étiquettes d’une vraie "
+"planche, et ses deux règles mesurent 100 mm."
+msgstr ""
+
+msgid "Imprimées et collées"
 msgstr ""
 
 msgid "Incomplètes"
@@ -4285,6 +4933,12 @@ msgid "Indiquez un nom, sans adresse (80 caractères au plus)."
 msgstr ""
 
 msgid "Indiquez un nom."
+msgstr ""
+
+msgid "Indiquez un nombre de millimètres, par exemple 0,5 ou -1."
+msgstr ""
+
+msgid "Indiquez un nombre de millimètres, par exemple 38,1."
 msgstr ""
 
 #, python-brace-format
@@ -4407,7 +5061,14 @@ msgstr ""
 msgid "Inv."
 msgstr ""
 
+#, python-brace-format
+msgid "Inv. {n}"
+msgstr ""
+
 msgid "Inventaire"
+msgstr ""
+
+msgid "Inventaire au scanner"
 msgstr ""
 
 msgid "Inventaire gardé, code-barres plus tard"
@@ -4438,6 +5099,11 @@ msgid "Jamais un fait : proposition."
 msgstr ""
 
 msgid "Japonais"
+msgstr ""
+
+msgid ""
+"Je comprends : les codes déjà attribués et leurs étiquettes ne changent "
+"pas, la numérotation continue sans revenir à zéro."
 msgstr ""
 
 msgid "Je confirme les avoir vus sur l’étagère"
@@ -4586,10 +5252,35 @@ msgstr ""
 msgid "La date de retour doit être postérieure à la date de prêt."
 msgstr ""
 
-msgid "La douchette se comporte comme un clavier : le code est validé tout seul."
+msgid ""
+"La douchette a lu le code « BIBLYO-TEST » de la feuille imprimée "
+"(assistant « Configurer ma douchette »)."
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"La douchette a écrit « {got} » au lieu de « {want} » : elle est réglée en"
+" clavier américain (QWERTY), alors que l’ordinateur est en français "
+"(AZERTY)."
+msgstr ""
+
+msgid ""
+"La douchette se comporte comme un clavier : le code est validé tout seul,"
+" par Entrée ou Tab."
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"La douchette semble réglée en clavier américain : « {got} » voulait sans "
+"doute dire « {want} »."
 msgstr ""
 
 msgid "La famille a été inscrite."
+msgstr ""
+
+msgid ""
+"La feuille test porte aussi deux codes (Code 128 et EAN-13) pour essayer "
+"la douchette dans l’assistant « Configurer ma douchette »."
 msgstr ""
 
 #, python-brace-format
@@ -4625,6 +5316,9 @@ msgid ""
 msgstr ""
 
 msgid "La fusion a été effectuée. Aucune association n’a été perdue."
+msgstr ""
+
+msgid "La génération pour une sélection est réservée à la gestion du catalogue."
 msgstr ""
 
 msgid "La hiérarchie est trop profonde."
@@ -4702,6 +5396,11 @@ msgstr ""
 msgid "La recherche est en pause. Elle reprendra là où elle s’est arrêtée."
 msgstr ""
 
+msgid ""
+"La recherche ne part qu’à votre demande ; ses résultats sont des "
+"propositions, rien n’est enregistré sans votre accord."
+msgstr ""
+
 msgid "La recherche n’a pas pu être lancée : cette édition n’existe plus."
 msgstr ""
 
@@ -4730,6 +5429,12 @@ msgstr ""
 msgid ""
 "La simulation n’écrit rien dans la base : ni notice, ni exemplaire, ni "
 "trace d’import."
+msgstr ""
+
+msgid ""
+"La situation a changé depuis la simulation (un code a été attribué, un "
+"exemplaire ajouté ou modifié). Rien n’a été enregistré : relancez la "
+"simulation."
 msgstr ""
 
 msgid ""
@@ -4787,6 +5492,10 @@ msgid ""
 "autrefois, est refusé."
 msgstr ""
 
+#, python-brace-format
+msgid "Laissés de côté : {list}. Leur fiche permet encore de leur donner un code."
+msgstr ""
+
 msgid "Lancer la recherche"
 msgstr ""
 
@@ -4803,7 +5512,18 @@ msgstr ""
 msgid "Largeur (cases)"
 msgstr ""
 
+msgid "Largeur d’une étiquette"
+msgstr ""
+
 msgid "Latin"
+msgstr ""
+
+msgid "Le PDF"
+msgstr ""
+
+msgid ""
+"Le PDF est gardé comme un lot « préparé » : vous confirmerez ensuite que "
+"les étiquettes sont imprimées et collées."
 msgstr ""
 
 msgid "Le bon lecteur"
@@ -4869,7 +5589,37 @@ msgid ""
 " au plus)."
 msgstr ""
 
+#, python-brace-format
+msgid ""
+"Le code de {n} exemplaire(s) a changé depuis ce lot : ce PDF ne peut plus"
+" être refait. Préparez une nouvelle impression."
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"Le code de {n} exemplaire(s) a changé depuis ce lot : préparez une "
+"nouvelle impression."
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"Le code est entouré d’autres caractères : « {got} ». La douchette ajoute "
+"un préfixe ou un identifiant de symbologie."
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"Le code « {code} » ne tient pas sur une étiquette de cette largeur à une "
+"taille lisible."
+msgstr ""
+
+msgid "Le code, son numéro et la cote : pour les petites étiquettes."
+msgstr ""
+
 msgid "Le code-barres compte de 3 à 32 caractères : lettres, chiffres et tirets."
+msgstr ""
+
+msgid "Le code-barres est toujours imprimé : c’est lui que lit la douchette."
 msgstr ""
 
 msgid "Le compte a été mis à jour."
@@ -4878,6 +5628,9 @@ msgstr ""
 msgid ""
 "Le comptoir s’ouvre avec ces livres : vous choisirez le lecteur dans la "
 "liste, puis vous confirmerez."
+msgstr ""
+
+msgid "Le dernier chiffre (la clé de contrôle) de l’EAN-13 n’a pas été transmis."
 msgstr ""
 
 msgid "Le dernier tome doit suivre le premier."
@@ -5025,6 +5778,14 @@ msgstr ""
 msgid "Le nom de la bibliothèque compte de 2 à 120 caractères."
 msgstr ""
 
+msgid "Le nom de la bibliothèque, le titre, le code et la cote."
+msgstr ""
+
+msgid ""
+"Le nom et le logo viennent de « Ma bibliothèque », dans les paramètres. "
+"Le code-barres est toujours imprimé."
+msgstr ""
+
 msgid "Le nom, le logo et les coordonnées affichés dans biblyO."
 msgstr ""
 
@@ -5063,6 +5824,11 @@ msgid "Le profil de correspondance a été enregistré."
 msgstr ""
 
 msgid "Le profil de correspondance a été supprimé."
+msgstr ""
+
+msgid ""
+"Le préfixe a été changé entre-temps par une autre personne : rechargez la"
+" page."
 msgstr ""
 
 msgid "Le prêt est annulé. Sa trace reste dans l’historique."
@@ -5168,10 +5934,13 @@ msgstr ""
 msgid "Lecteurs suivants"
 msgstr ""
 
-msgid "Lecture de codes-barres à la caméra ou à la douchette."
+msgid "Lecture des classeurs indisponible : composant de sécurité absent."
 msgstr ""
 
-msgid "Lecture des classeurs indisponible : composant de sécurité absent."
+msgid "Lecture partout : active sur ce poste."
+msgstr ""
+
+msgid "Lecture partout : désactivée sur ce poste."
 msgstr ""
 
 msgid ""
@@ -5180,6 +5949,19 @@ msgid ""
 msgstr ""
 
 msgid "Les autres éditions ne changent pas."
+msgstr ""
+
+msgid "Les caractères sont arrivés lentement : était-ce une saisie au clavier ?"
+msgstr ""
+
+msgid ""
+"Les cases avant celle-ci sont tenues pour utilisées. Vous pouvez aussi "
+"cocher ci-dessous les cases déjà décollées."
+msgstr ""
+
+msgid ""
+"Les cases sont numérotées ligne par ligne, de gauche à droite, en partant"
+" du haut. Si vous changez de planche, revenez vérifier les cases."
 msgstr ""
 
 msgid "Les champs cochés ont été appliqués ; les autres sont restés tels quels."
@@ -5193,6 +5975,23 @@ msgid ""
 "entre-temps, le suivant sera donné. Le numéro d’inventaire ne change pas "
 "; aucun code existant n’est remplacé ; les étiquettes s’impriment à part,"
 " quand vous le déciderez."
+msgstr ""
+
+msgid ""
+"Les codes prévus sont les prochains libres. Si quelqu’un attribue un code"
+" entre-temps, biblyO refusera et vous demandera de relancer la "
+"simulation."
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"Les codes suivent la numérotation de biblyO (préfixe « {p} »), dans "
+"l’ordre des numéros d’inventaire."
+msgstr ""
+
+msgid ""
+"Les codes-barres manquants ont été attribués. Vous pouvez maintenant "
+"imprimer les étiquettes."
 msgstr ""
 
 msgid ""
@@ -5262,10 +6061,23 @@ msgid ""
 "ajout s’annule depuis sa fiche."
 msgstr ""
 
+msgid ""
+"Les lettres arrivent en minuscules : le verrouillage des majuscules est "
+"peut-être actif. biblyO les accepte quand même."
+msgstr ""
+
 msgid "Les listes qui servent à classer, décrire et retrouver les livres."
 msgstr ""
 
+msgid "Les marges ne peuvent pas être négatives."
+msgstr ""
+
 msgid "Les notes sont trop longues."
+msgstr ""
+
+msgid ""
+"Les numéros d’inventaire, les ISBN, les cotes et les prêts en cours ne "
+"changent pas."
 msgstr ""
 
 msgid "Les prêts de ce lecteur apparaîtront ici avec le module de prêt."
@@ -5288,7 +6100,10 @@ msgid ""
 "les."
 msgstr ""
 
-msgid "Les rôles sont fixés par l’application ; chaque compte reçoit l’un d’eux."
+msgid ""
+"Les rôles sont fixés par l’application. Un compte peut en cumuler "
+"plusieurs : « Impression des étiquettes » se coche en plus du rôle d’un "
+"bénévole choisi, sans changer les droits des autres bénévoles."
 msgstr ""
 
 msgid ""
@@ -5322,11 +6137,20 @@ msgstr ""
 msgid "Les tomes ont été confirmés."
 msgstr ""
 
+msgid "Les trois étapes"
+msgstr ""
+
 #, python-brace-format
 msgid "Les {n} premières lignes, selon la correspondance enregistrée."
 msgstr ""
 
 msgid "Les éditions sans couverture"
+msgstr ""
+
+msgid "Les étiquettes dépassent de la feuille A4 (210 × 297 mm)."
+msgstr ""
+
+msgid "Les étiquettes se chevauchent : l’espacement ne peut pas être négatif."
 msgstr ""
 
 msgid "Lesquels"
@@ -5417,13 +6241,22 @@ msgstr ""
 msgid "Lire le fichier"
 msgstr ""
 
+msgid "Lire un code"
+msgstr ""
+
 msgid "Lire un fichier et simuler son import, sans rien écrire"
+msgstr ""
+
+msgid "Lisez le diagnostic"
 msgstr ""
 
 msgid "Lisez-moi"
 msgstr ""
 
 msgid "Liste"
+msgstr ""
+
+msgid "Liste de mise en service"
 msgstr ""
 
 msgid "Liste déroulante"
@@ -5448,6 +6281,10 @@ msgid "Livre (édition)"
 msgstr ""
 
 msgid "Livre en plusieurs exemplaires"
+msgstr ""
+
+#, python-brace-format
+msgid "Livre trouvé : {t}"
 msgstr ""
 
 msgid "Livres"
@@ -5513,6 +6350,12 @@ msgstr ""
 msgid "Lot"
 msgstr ""
 
+msgid "Lot abandonné. Ses exemplaires restent à étiqueter."
+msgstr ""
+
+msgid "Lot confirmé : ces étiquettes sont notées imprimées et collées."
+msgstr ""
+
 msgid "Lot d'import"
 msgstr ""
 
@@ -5524,10 +6367,20 @@ msgid "Lot d’import n° {n}"
 msgstr ""
 
 #, python-brace-format
+msgid "Lot d’étiquettes n° {n}"
+msgstr ""
+
+msgid "Lot inchangé"
+msgstr ""
+
+#, python-brace-format
 msgid "Lot n° {n}"
 msgstr ""
 
 msgid "Lots d’import"
+msgstr ""
+
+msgid "Lu correctement, mais aucun exemplaire, ISBN ou lecteur ne porte ce code."
 msgstr ""
 
 msgid "Lundi"
@@ -5638,12 +6491,20 @@ msgstr ""
 msgid "L’image retirée n’est plus conservée : elle ne peut pas être rétablie."
 msgstr ""
 
+msgid ""
+"L’impression des étiquettes est réservée aux comptes qui ont la "
+"permission « Imprimer des étiquettes »."
+msgstr ""
+
 msgid "L’opération est annulée. Sa trace reste dans l’historique du prêt."
 msgstr ""
 
 msgid ""
 "L’opération n’a pas abouti. Réessayez dans un instant ; si le problème "
 "persiste, prévenez votre administrateur."
+msgstr ""
+
+msgid "L’ordre dans lequel elles sortiront de l’imprimante."
 msgstr ""
 
 msgid "L’ordre de contact va de 1 à 9."
@@ -5719,6 +6580,18 @@ msgstr ""
 msgid "Mardi"
 msgstr ""
 
+msgid "Marge de gauche"
+msgstr ""
+
+msgid "Marge du haut"
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"Marges : haut {t} mm, gauche {l} mm ; espaces : {gx} mm entre colonnes, "
+"{gy} mm entre lignes"
+msgstr ""
+
 msgid "Martinique"
 msgstr ""
 
@@ -5759,6 +6632,9 @@ msgid "Message d’information."
 msgstr ""
 
 msgid "Message laissé"
+msgstr ""
+
+msgid "Mesurez votre planche avec une règle et décrivez-la ci-dessous."
 msgstr ""
 
 msgid "Mettre en conservation"
@@ -5805,6 +6681,11 @@ msgid "Mode d’acquisition"
 msgstr ""
 
 msgid ""
+"Mode enrichissement : un livre connu mène à ses informations à compléter "
+"; un ISBN absent du catalogue, à une recherche à la BnF et au Sudoc."
+msgstr ""
+
+msgid ""
 "Mode retenu (D-L6-7) : chaque exemplaire garde son numéro d’inventaire "
 "d’origine et reçoit son identifiant biblyO ; le code-barres reste vide, "
 "attribué plus tard sans toucher à l’inventaire. « Étiquettes existantes »"
@@ -5815,6 +6696,12 @@ msgstr ""
 msgid "Mode édition"
 msgstr ""
 
+msgid "Modes de travail"
+msgstr ""
+
+msgid "Modes de travail du scanner"
+msgstr ""
+
 msgid "Modifications"
 msgstr ""
 
@@ -5822,6 +6709,9 @@ msgid "Modifier"
 msgstr ""
 
 msgid "Modifier la fiche"
+msgstr ""
+
+msgid "Modifier la planche ou les cases"
 msgstr ""
 
 msgid "Modifier la série"
@@ -5854,6 +6744,9 @@ msgid "Modifier les notices"
 msgstr ""
 
 msgid "Modifier les réglages"
+msgstr ""
+
+msgid "Modifier l’exemplaire"
 msgstr ""
 
 msgid "Modifier l’identité de la bibliothèque"
@@ -5930,6 +6823,9 @@ msgid ""
 "Même ISBN que votre livre : vous pouvez ajouter les informations "
 "manquantes à plusieurs livres d’un coup. Rien de ce qui est renseigné "
 "n’est remplacé."
+msgstr ""
+
+msgid "Même code lu deux fois de suite : le second est ignoré."
 msgstr ""
 
 msgid "Même collection"
@@ -6104,6 +7000,9 @@ msgstr ""
 msgid "Non rangé : cet exemplaire attend une place."
 msgstr ""
 
+msgid "Non rangé : il attend une place."
+msgstr ""
+
 msgid "Non rangés"
 msgstr ""
 
@@ -6220,6 +7119,22 @@ msgstr ""
 msgid "Notification d’erreur"
 msgstr ""
 
+msgid "Noté : la feuille test tombe juste sur cette planche."
+msgstr ""
+
+msgid "Noté en prêt : son retour n’a pas été enregistré ?"
+msgstr ""
+
+msgid "Noté introuvable : déclarez-le retrouvé depuis sa fiche."
+msgstr ""
+
+msgid "Noté non rangé"
+msgstr ""
+
+#, python-brace-format
+msgid "Noté « {s} » : à vérifier."
+msgstr ""
+
 msgid "Nouveau lecteur"
 msgstr ""
 
@@ -6227,6 +7142,9 @@ msgid "Nouveau lieu"
 msgstr ""
 
 msgid "Nouveau mot de passe"
+msgstr ""
+
+msgid "Nouveau préfixe"
 msgstr ""
 
 msgid "Nouveau prêt"
@@ -6304,7 +7222,13 @@ msgstr ""
 msgid "Numéro d’inventaire"
 msgstr ""
 
+msgid "Numéro d’inventaire : la bonne fiche s’ouvre (lu ou tapé)"
+msgstr ""
+
 msgid "Numéro interne de cote"
+msgstr ""
+
+msgid "Numéro lisible sous le code"
 msgstr ""
 
 msgid ""
@@ -6322,6 +7246,14 @@ msgid "Numéros d'inventaire, à l'identique"
 msgstr ""
 
 msgid "Numéros de ligne"
+msgstr ""
+
+msgid "Numérotation des codes-barres"
+msgstr ""
+
+msgid ""
+"Numérotation des codes-barres, planches d’étiquettes A4, contenu des "
+"étiquettes, calibration de l’imprimante et douchette."
 msgstr ""
 
 msgid "Néerlandais"
@@ -6379,6 +7311,9 @@ msgstr ""
 msgid "Ordre de recherche :"
 msgstr ""
 
+msgid "Ordre des étiquettes"
+msgstr ""
+
 msgid "Ordre sur l’étagère"
 msgstr ""
 
@@ -6409,7 +7344,16 @@ msgstr ""
 msgid "Ouvrir"
 msgstr ""
 
+msgid "Ouvrir la fiche"
+msgstr ""
+
+msgid "Ouvrir le scanner"
+msgstr ""
+
 msgid "Ouvrir les réglages techniques"
+msgstr ""
+
+msgid "Ouvrir sa fiche"
 msgstr ""
 
 msgid "Ouvrir une fenêtre"
@@ -6427,6 +7371,9 @@ msgid "Où il se trouve"
 msgstr ""
 
 msgid "Où le trouver"
+msgstr ""
+
+msgid "PDF non refait"
 msgstr ""
 
 msgid "PNG, JPEG ou WebP. Gardée dans la base : elle part avec les sauvegardes."
@@ -6464,10 +7411,29 @@ msgstr ""
 msgid "Palette de commandes"
 msgstr ""
 
+msgid ""
+"Papier A4, « Taille réelle ». Vérifiez la première feuille avant "
+"d’imprimer les suivantes."
+msgstr ""
+
+msgid "Par cote, puis série et tome"
+msgstr ""
+
 msgid "Par exemple : 0–9 · A"
 msgstr ""
 
 msgid "Par exemple : Famille Martin."
+msgstr ""
+
+msgid ""
+"Par exemple CSN : les codes suivants seraient CSN000123. Lettres, "
+"chiffres et tirets ; une lettre d’abord."
+msgstr ""
+
+msgid "Par exemple « BD HER »."
+msgstr ""
+
+msgid "Par numéro d’inventaire"
 msgstr ""
 
 msgid "Par page"
@@ -6503,6 +7469,9 @@ msgstr ""
 msgid "Pas d’image"
 msgstr ""
 
+msgid "Pas encore de code-barres"
+msgstr ""
+
 msgid "Pas encore inscrit ? Inscrivez d’abord cet adulte, puis revenez ici."
 msgstr ""
 
@@ -6516,6 +7485,9 @@ msgid "Perdu"
 msgstr ""
 
 msgid "Perdue"
+msgstr ""
+
+msgid "Personnalisé"
 msgstr ""
 
 msgid "Personne à rappeler"
@@ -6596,7 +7568,23 @@ msgstr ""
 msgid "Plan modifiable de %(name)s"
 msgstr ""
 
+#, python-brace-format
+msgid "Planche par défaut : {name}. Le prochain code attribué sera {code}."
+msgstr ""
+
+msgid "Planche utilisée par défaut"
+msgstr ""
+
+msgid "Planche, contenu, calibration de l’imprimante et numérotation des codes"
+msgstr ""
+
 msgid "Plus"
+msgstr ""
+
+msgid "Plus de 20 000 exemplaires à la fois : choisissez une partie du catalogue."
+msgstr ""
+
+msgid "Plus sur les étagères."
 msgstr ""
 
 msgid "Plusieurs candidats"
@@ -6614,6 +7602,10 @@ msgstr ""
 msgid ""
 "Plusieurs personnes portent ce nom : indiquez laquelle, ou créez-en une "
 "nouvelle."
+msgstr ""
+
+#, python-brace-format
+msgid "Plusieurs réponses pour « {c} »"
 msgstr ""
 
 msgid "Plusieurs résultats : choisissez explicitement avant de continuer."
@@ -6652,11 +7644,20 @@ msgstr ""
 msgid "Poser à la ligne %(r)s, colonne %(c)s"
 msgstr ""
 
+msgid "Posez-la sur la planche, face à la lumière"
+msgstr ""
+
 msgid "Position"
 msgstr ""
 
 #, python-brace-format
 msgid "Position {n} : {text}"
+msgstr ""
+
+#, python-format
+msgid ""
+"Pour certifier une planche : la feuille test imprimée à 100 % doit tomber"
+" juste, et la douchette doit en avoir lu le code. Cochez les deux cases."
 msgstr ""
 
 msgid "Pour la structure"
@@ -6694,6 +7695,17 @@ msgid "Premier responsable"
 msgstr ""
 
 msgid "Premier tome"
+msgstr ""
+
+#, python-brace-format
+msgid "Première étiquette : case {p} de la feuille 1."
+msgstr ""
+
+msgid "Première étiquette, agrandie"
+msgstr ""
+
+#, python-brace-format
+msgid "Première étiquette, agrandie : {w} × {h} mm sur la planche"
 msgstr ""
 
 msgid "Principal"
@@ -6830,6 +7842,15 @@ msgstr ""
 msgid "Précédents"
 msgstr ""
 
+#, python-brace-format
+msgid ""
+"Préfixe actuel : « {p} ». Prochain code : {c} ({d} chiffres, sans trou ni"
+" réemploi)."
+msgstr ""
+
+msgid "Préfixe changé. Les codes déjà attribués restent les mêmes."
+msgstr ""
+
 msgid "Préfixe de 12 caractères au plus : lettres, chiffres et tirets."
 msgstr ""
 
@@ -6842,6 +7863,16 @@ msgstr ""
 msgid "Prénom"
 msgstr ""
 
+msgid "Préparer le PDF"
+msgstr ""
+
+#, python-brace-format
+msgid "Préparé le {d}{who}. Modèle : {m}. Première case : {p}."
+msgstr ""
+
+msgid "Préparé, à confirmer"
+msgstr ""
+
 #, python-brace-format
 msgid "Prérempli depuis la {source}"
 msgstr ""
@@ -6850,6 +7881,9 @@ msgid "Présence vérifiée : ces exemplaires sont « En place »."
 msgstr ""
 
 msgid "Présence vérifiée : en place"
+msgstr ""
+
+msgid "Présence à confirmer"
 msgstr ""
 
 msgid "Présent"
@@ -6887,6 +7921,9 @@ msgstr ""
 
 #, python-format
 msgid "Prêter ou rendre « %(title)s »"
+msgstr ""
+
+msgid "Prêter à ce lecteur"
 msgstr ""
 
 msgid "Prêter, rendre, annuler sa propre opération dans les 15 minutes"
@@ -6949,6 +7986,9 @@ msgstr ""
 msgid "Que cherchez-vous ?"
 msgstr ""
 
+msgid "Que mettre sur l’étiquette ?"
+msgstr ""
+
 msgid "Quel adulte répond de ce prêt ?"
 msgstr ""
 
@@ -6961,7 +8001,13 @@ msgstr ""
 msgid "Quelle personne ?"
 msgstr ""
 
+msgid "Quelle planche ?"
+msgstr ""
+
 msgid "Quelques points sont à corriger ci-dessous. Rien n’a été enregistré."
+msgstr ""
+
+msgid "Quels livres ?"
 msgstr ""
 
 msgid "Quels livres chercher ?"
@@ -7024,6 +8070,10 @@ msgstr ""
 msgid "Rangé : {s} ; la valeur d’origine reste en précision."
 msgstr ""
 
+#, python-brace-format
+msgid "Rangé ailleurs : {p}"
+msgstr ""
+
 msgid "Rappels notés"
 msgstr ""
 
@@ -7044,6 +8094,9 @@ msgid "Rattacher à un foyer"
 msgstr ""
 
 msgid "Rattacher à un foyer ?"
+msgstr ""
+
+msgid "Recherche"
 msgstr ""
 
 msgid "Recherche automatique"
@@ -7103,6 +8156,9 @@ msgid "Rechercher une page, une notice, un lecteur"
 msgstr ""
 
 msgid "Rechercher une page, une notice, un lecteur…"
+msgstr ""
+
+msgid "Rechercher à la BnF et au Sudoc"
 msgstr ""
 
 msgid "Recherches enregistrées"
@@ -7245,7 +8301,13 @@ msgstr ""
 msgid "Reprendre ce lecteur"
 msgstr ""
 
+msgid "Reprendre à partir de l’étiquette n°"
+msgstr ""
+
 msgid "Repris tel quel, jamais réattribué."
+msgstr ""
+
+msgid "Reprise impossible"
 msgstr ""
 
 msgid "Représentation"
@@ -7390,6 +8452,9 @@ msgstr ""
 msgid "Retour à l’accueil"
 msgstr ""
 
+msgid "Retours"
+msgstr ""
+
 msgid "Retours et renouvellements au comptoir"
 msgstr ""
 
@@ -7415,7 +8480,13 @@ msgstr ""
 msgid "Revenir à « %(title)s » sans prêter"
 msgstr ""
 
+msgid "Reçu :"
+msgstr ""
+
 msgid "Rien dans cette vue"
+msgstr ""
+
+msgid "Rien de compté pour l’instant."
 msgstr ""
 
 msgid ""
@@ -7435,6 +8506,9 @@ msgstr ""
 msgid "Rien n’a changé sur cette fiche."
 msgstr ""
 
+msgid "Rien n’a été reçu. Le champ avait-il le curseur au moment du scan ?"
+msgstr ""
+
 msgid ""
 "Rien n’est effacé : biblyO ne fournit aucune commande d’effacement à ce "
 "stade. Un effacement demandera une décision écrite. Les sauvegardes déjà "
@@ -7451,6 +8525,9 @@ msgid "Rien à afficher ici pour l’instant."
 msgstr ""
 
 msgid "Rien à ajouter : votre fiche contient déjà ces informations."
+msgstr ""
+
+msgid "Rien à attribuer : ces exemplaires ont tous un code"
 msgstr ""
 
 msgid "Rien à comparer."
@@ -7525,7 +8602,16 @@ msgstr ""
 msgid "Référents et membres"
 msgstr ""
 
+msgid "Réglages"
+msgstr ""
+
 msgid "Réglages avancés"
+msgstr ""
+
+msgid "Réglages des étiquettes"
+msgstr ""
+
+msgid "Réglages des étiquettes enregistrés."
 msgstr ""
 
 #, python-brace-format
@@ -7537,6 +8623,11 @@ msgstr ""
 msgid "Réglages techniques des sources"
 msgstr ""
 
+msgid ""
+"Réglages utiles : clavier français (AZERTY), suffixe Entrée, Code 128 et "
+"EAN-13 activés, clé de contrôle transmise, aucun préfixe."
+msgstr ""
+
 msgid "Régler les durées, les plafonds et les seuils"
 msgstr ""
 
@@ -7544,6 +8635,11 @@ msgid "Régler les prêts"
 msgstr ""
 
 msgid "Régler l’instance"
+msgstr ""
+
+msgid ""
+"Réimprimez sans changer aucun code : les mêmes livres, sur une feuille "
+"neuve ou entamée."
 msgstr ""
 
 msgid "Réinitialiser le mot de passe"
@@ -7563,6 +8659,11 @@ msgid "Répond du prêt : {name}"
 msgstr ""
 
 msgid "Réponse illisible"
+msgstr ""
+
+msgid ""
+"Réservé aux comptes qui gèrent le catalogue (bibliothécaire). Vous pouvez"
+" donner un code à un livre depuis sa fiche."
 msgstr ""
 
 msgid ""
@@ -7696,10 +8797,26 @@ msgid ""
 "vérifier."
 msgstr ""
 
+msgid "Sans code"
+msgstr ""
+
 msgid "Sans code : chercher le livre rendu"
 msgstr ""
 
+msgid "Sans code-barres"
+msgstr ""
+
 msgid "Sans couverture"
+msgstr ""
+
+msgid ""
+"Sans douchette, tapez un code au clavier puis Entrée : le diagnostic dira"
+" « saisie au clavier »."
+msgstr ""
+
+msgid ""
+"Sans douchette, tout se fait aussi au clavier : tapez le code ou le "
+"numéro d’inventaire, puis Entrée."
 msgstr ""
 
 msgid "Sans exemplaire"
@@ -7776,13 +8893,41 @@ msgstr ""
 msgid "Scanner"
 msgstr ""
 
+msgid "Scanner un livre ou une carte (douchette ou clavier)"
+msgstr ""
+
 msgid "Scanner une carte ou un livre"
+msgstr ""
+
+msgid "Scannez chaque livre"
+msgstr ""
+
+msgid "Scannez ici"
+msgstr ""
+
+msgid ""
+"Scannez les livres d’une étagère : biblyO vérifie leur présence et "
+"signale ce qui ne va pas. Aucun prêt, aucun changement."
 msgstr ""
 
 msgid "Scannez ou saisissez un code."
 msgstr ""
 
+msgid ""
+"Scannez un livre pour l’ouvrir tout de suite : sa fiche, sa place, et ce "
+"que vous pouvez en faire."
+msgstr ""
+
+msgid "Scannez un livre, ou tapez son code puis Entrée"
+msgstr ""
+
 msgid "Scannez une carte pour choisir le lecteur."
+msgstr ""
+
+msgid ""
+"Scannez, dans l’ordre que vous voulez : les codes d’essai, l’étiquette "
+"d’un livre, son numéro d’inventaire, puis trois codes de suite. Chaque "
+"point se coche quand il est vérifié."
 msgstr ""
 
 msgid "Score"
@@ -7843,6 +8988,9 @@ msgstr ""
 msgid "Seul"
 msgstr ""
 
+msgid "Seul un compte qui gère les paramètres peut changer le préfixe."
+msgstr ""
+
 msgid ""
 "Seul un exemplaire rangé et « En préparation » peut être confirmé en "
 "place."
@@ -7869,6 +9017,17 @@ msgstr ""
 msgid "Seuls les exemplaires d’une étagère ou d’un bac ont un ordre."
 msgstr ""
 
+msgid ""
+"Seuls les livres qui ont déjà un code-barres reçoivent une étiquette. "
+"Générer et imprimer sont deux étapes distinctes : imprimer ne crée jamais"
+" de code."
+msgstr ""
+
+msgid ""
+"Si tout est décalé du même écart sur la planche, corrigez-le ici. Positif"
+" : vers la droite ou vers le bas."
+msgstr ""
+
 msgid "Si « Autre motif » : sans nom, coordonnée ni numéro"
 msgstr ""
 
@@ -7890,6 +9049,9 @@ msgstr ""
 msgid "Simulation"
 msgstr ""
 
+msgid "Simulation : rien n’est enregistré tant que vous n’avez pas confirmé"
+msgstr ""
+
 msgid "Simulation de l’import"
 msgstr ""
 
@@ -7900,6 +9062,9 @@ msgid "Simuler un import, exporter"
 msgstr ""
 
 msgid "Simulé"
+msgstr ""
+
+msgid "Sinon : désactivez « Ajuster à la page » dans la fenêtre d’impression."
 msgstr ""
 
 msgid "Site"
@@ -7993,6 +9158,9 @@ msgstr ""
 msgid "Sous-titre"
 msgstr ""
 
+msgid "Standard"
+msgstr ""
+
 msgid "Statistiques"
 msgstr ""
 
@@ -8013,6 +9181,9 @@ msgid "Sudoc"
 msgstr ""
 
 msgid "Sudoc (Abes)"
+msgstr ""
+
+msgid "Suffixe non détecté"
 msgstr ""
 
 msgid "Suivante"
@@ -8052,6 +9223,20 @@ msgid "Supprimer la série"
 msgstr ""
 
 msgid "Supprimer le profil"
+msgstr ""
+
+msgid "Sur ce poste"
+msgstr ""
+
+msgid ""
+"Sur ce poste, la douchette écrit seulement dans un champ de scan. Poste "
+"de prêt de la bibliothèque : activez la lecture partout dans « Configurer"
+" ma douchette »."
+msgstr ""
+
+msgid ""
+"Sur ce poste, une lecture de douchette ouvre cette fenêtre depuis "
+"n’importe quelle page."
 msgstr ""
 
 msgid "Suspendre"
@@ -8128,7 +9313,14 @@ msgstr ""
 msgid "Séries prévues"
 msgstr ""
 
+#, python-brace-format
+msgid "T. {volume}"
+msgstr ""
+
 msgid "Tableau de bord"
+msgstr ""
+
+msgid "Tabulation"
 msgstr ""
 
 msgid "Taille de la base"
@@ -8254,6 +9446,9 @@ msgstr ""
 msgid "Titre, auteur, ISBN, éditeur, série, cote, mot-clé…"
 msgstr ""
 
+msgid "Titre, auteur, série, ISBN, code ou inventaire."
+msgstr ""
+
 msgid "Titre, auteur, série, tome, ISBN, cote ou code"
 msgstr ""
 
@@ -8333,6 +9528,16 @@ msgstr ""
 msgid "Tomes de"
 msgstr ""
 
+msgid "Touche finale Entrée ou Tab reçue après chaque code"
+msgstr ""
+
+msgid "Touche finale non mesurée (JavaScript désactivé)."
+msgstr ""
+
+#, python-brace-format
+msgid "Touche finale reçue : {key}. biblyO valide le code tout seul."
+msgstr ""
+
 msgid "Tous"
 msgstr ""
 
@@ -8340,6 +9545,12 @@ msgid "Tous les champs clés sont renseignés."
 msgstr ""
 
 msgid "Tous les dépôts"
+msgstr ""
+
+msgid "Tous les exemplaires"
+msgstr ""
+
+msgid "Tous les exemplaires ont un code"
 msgstr ""
 
 msgid "Tous les lecteurs"
@@ -8357,10 +9568,19 @@ msgstr ""
 msgid "Tous sortis, en retard"
 msgstr ""
 
+msgid "Tout : logo, titre, série et tome, cote, inventaire et emplacement."
+msgstr ""
+
 msgid "Tout décocher"
 msgstr ""
 
+msgid "Tout effacer"
+msgstr ""
+
 msgid "Tout est rangé"
+msgstr ""
+
+msgid "Tout le fonds"
 msgstr ""
 
 msgid "Tout le foyer en une saisie. Rien n’est écrit avant la dernière étape."
@@ -8376,6 +9596,11 @@ msgid "Tout voir"
 msgstr ""
 
 msgid "Toutes"
+msgstr ""
+
+msgid ""
+"Toutes les cases de cette feuille sont marquées utilisées : choisissez "
+"une feuille neuve."
 msgstr ""
 
 msgid ""
@@ -8425,6 +9650,9 @@ msgstr ""
 msgid "Trier %(name)s"
 msgstr ""
 
+msgid "Trois lectures réussies de suite, sans attendre entre elles"
+msgstr ""
+
 msgid "Trop de recherches de lecteurs en peu de temps. Patientez une minute."
 msgstr ""
 
@@ -8447,6 +9675,9 @@ msgid "Trop lente : délai dépassé"
 msgstr ""
 
 msgid "Trouver les exemplaires"
+msgstr ""
+
+msgid "Trouvé par son numéro d’inventaire."
 msgstr ""
 
 msgid "Tuteur légal"
@@ -8479,6 +9710,9 @@ msgid "Types mêlés ({kinds}) : le texte affiché est gardé."
 msgstr ""
 
 msgid "Télécharger et voir l’aperçu"
+msgstr ""
+
+msgid "Télécharger le PDF"
 msgstr ""
 
 msgid "Télécharger le fichier"
@@ -8516,9 +9750,17 @@ msgstr ""
 msgid "Un blocage empêche ce prêt : il est indiqué plus haut."
 msgstr ""
 
+msgid "Un code commençant ainsi ressemblerait à un numéro de lecteur (P-000001)."
+msgstr ""
+
 msgid ""
 "Un code de la séquence pour chaque exemplaire qui n’en a pas ; rien n’est"
 " imprimé"
+msgstr ""
+
+msgid ""
+"Un code déjà pris, retiré ou porté par une carte de lecteur est sauté : "
+"aucun code n’est jamais réemployé."
 msgstr ""
 
 msgid "Un code postal français compte cinq chiffres."
@@ -8530,6 +9772,11 @@ msgid ""
 msgstr ""
 
 msgid "Un compte désactivé ne peut plus se connecter ; ses sessions sont fermées."
+msgstr ""
+
+msgid ""
+"Un décalage de plus de 5 mm vient d’un mauvais gabarit, pas de "
+"l’imprimante."
 msgstr ""
 
 #, python-brace-format
@@ -8545,6 +9792,9 @@ msgid "Un emplacement porte déjà ce nom à cet endroit : renommez-le d’abord
 msgstr ""
 
 msgid "Un emplacement porte déjà ce nom à cet endroit."
+msgstr ""
+
+msgid "Un exemplaire choisi n’existe plus : rechargez la page."
 msgstr ""
 
 msgid "Un exemplaire figure deux fois dans la sélection."
@@ -8568,6 +9818,12 @@ msgid "Un lecteur anonymisé ne peut pas être responsable."
 msgstr ""
 
 msgid "Un lieu virtuel n’a pas de rang : rangez sans position."
+msgstr ""
+
+msgid "Un livre rangé ailleurs sera signalé."
+msgstr ""
+
+msgid "Un livre scanné deux fois n’est compté qu’une fois."
 msgstr ""
 
 msgid ""
@@ -8622,6 +9878,11 @@ msgstr ""
 msgid "Un numéro sera attribué à l’enregistrement"
 msgstr ""
 
+msgid ""
+"Un préfixe compte 1 à 8 caractères : une lettre d’abord, puis lettres, "
+"chiffres ou tirets."
+msgstr ""
+
 #, python-format
 msgid "Un prêt était en préparation pour %(name)s"
 msgstr ""
@@ -8652,6 +9913,11 @@ msgid ""
 msgstr ""
 
 msgid "Une adresse demande au moins la rue et la commune."
+msgstr ""
+
+msgid ""
+"Une autre planche ? Décrivez-la dans les réglages des étiquettes (gabarit"
+" personnalisé)."
 msgstr ""
 
 msgid ""
@@ -8695,6 +9961,11 @@ msgstr ""
 msgid "Une date floue reste ici, telle quelle."
 msgstr ""
 
+msgid ""
+"Une douchette n’identifie personne : prêts, retours et modifications "
+"restent faits au nom du compte connecté, avec ses droits."
+msgstr ""
+
 msgid "Une erreur est survenue"
 msgstr ""
 
@@ -8704,6 +9975,9 @@ msgstr ""
 msgid ""
 "Une fiche archivée porte aussi ce nom. Votre compte ne peut pas l’ouvrir "
 ": demandez à un bibliothécaire de vérifier."
+msgstr ""
+
+msgid "Une fois imprimées"
 msgstr ""
 
 msgid ""
@@ -8727,6 +10001,9 @@ msgstr ""
 msgid ""
 "Une opération ultérieure dépend de celle-ci : elle ne s’annule plus. "
 "Demandez une correction tracée."
+msgstr ""
+
+msgid "Une partie du nom suffit."
 msgstr ""
 
 msgid "Une personne apparaît ici dès qu’elle est rattachée à une notice."
@@ -8800,6 +10077,11 @@ msgid ""
 msgstr ""
 
 msgid ""
+"Une série, des tomes, une cote, une étagère : choisissez, puis générez. "
+"Un livre qui a déjà un code le garde."
+msgstr ""
+
+msgid ""
 "Une valeur rangée en mention ou en note garde son texte d’origine, "
 "restitué à l’export."
 msgstr ""
@@ -8813,6 +10095,11 @@ msgid ""
 msgstr ""
 
 msgid "Une édition archivée ne peut pas être l’édition principale."
+msgstr ""
+
+msgid ""
+"Une étiquette mesure au moins 25 × 12 mm : en dessous, le code ne se lit "
+"plus."
 msgstr ""
 
 msgid "Unique, jamais réattribué."
@@ -8947,6 +10234,9 @@ msgstr ""
 msgid "Voir la notice de la source"
 msgstr ""
 
+msgid "Voir la simulation"
+msgstr ""
+
 msgid "Voir le prêt"
 msgstr ""
 
@@ -8973,6 +10263,9 @@ msgid "Voir les lecteurs"
 msgstr ""
 
 msgid "Voir les lecteurs : nom, numéros, foyers, sans coordonnées"
+msgstr ""
+
+msgid "Voir les premiers livres concernés"
 msgstr ""
 
 msgid "Voir l’aperçu"
@@ -9031,7 +10324,20 @@ msgstr ""
 msgid "Vous avez atteint le nombre maximum de recherches enregistrées."
 msgstr ""
 
+msgid "Vous choisissez chaque élément."
+msgstr ""
+
 msgid "Vous ne pouvez pas désactiver votre propre compte."
+msgstr ""
+
+msgid ""
+"Vous pouvez les passer « En place » : ils deviendront empruntables. Rien "
+"ne change sans ce clic."
+msgstr ""
+
+msgid ""
+"Vous verrez d’abord une simulation : rien n’est enregistré avant votre "
+"confirmation."
 msgstr ""
 
 msgid "Vues de la simulation"
@@ -9049,12 +10355,23 @@ msgstr ""
 msgid "Vérifier et utiliser cette couverture"
 msgstr ""
 
+msgid "Vérifier l’aperçu et imprimer"
+msgstr ""
+
+msgid "Vérifier sa présence"
+msgstr ""
+
 msgid ""
 "Vérifiez ce que devient chaque colonne, puis lancez la simulation. Rien "
 "n’est écrit dans le catalogue."
 msgstr ""
 
 msgid "Vérifiez ces informations"
+msgstr ""
+
+msgid ""
+"Vérifiez en une minute que la douchette lit bien les codes et les "
+"transmet comme il faut."
 msgstr ""
 
 msgid "Vérifiez les notices ci-dessous avant de créer une notice."
@@ -9087,6 +10404,9 @@ msgid "Wallis-et-Futuna"
 msgstr ""
 
 msgid "Zone de texte"
+msgstr ""
+
+msgid "abandonné"
 msgstr ""
 
 msgid "activable par l’administrateur dans les réglages des sources"
@@ -9135,6 +10455,9 @@ msgstr ""
 msgid "archivé"
 msgstr ""
 
+msgid "au tome"
+msgstr ""
+
 msgid "aucun"
 msgstr ""
 
@@ -9173,12 +10496,21 @@ msgid "biblyO est en maintenance"
 msgstr ""
 
 msgid ""
+"biblyO ne sait pas si l’imprimante a bien tout imprimé : dites-le, quand "
+"les étiquettes sont collées."
+msgstr ""
+
+msgid ""
 "biblyO n’envoie aucun message. Appelez, parlez à la personne, écrivez "
 "depuis votre propre messagerie ou par courrier, puis notez ici ce qui a "
 "été fait."
 msgstr ""
 
 msgid "biblyO, accueil"
+msgstr ""
+
+#, python-brace-format
+msgid "biblyO, feuille test : {name}"
 msgstr ""
 
 msgid "biblyO, tableau de bord"
@@ -9223,7 +10555,19 @@ msgstr ""
 msgid "champ non applicable"
 msgstr ""
 
+msgid "chaque cadre pointillé doit tomber sur une étiquette"
+msgstr ""
+
 msgid "cherchée en premier"
+msgstr ""
+
+msgid "choisissez explicitement :"
+msgstr ""
+
+msgid "code attribué, étiquette pas encore confirmée"
+msgstr ""
+
+msgid "code changé depuis"
 msgstr ""
 
 msgid "code de fonction 070"
@@ -9240,6 +10584,9 @@ msgid "codes en attente."
 msgstr ""
 
 msgid "col."
+msgstr ""
+
+msgid "collée"
 msgstr ""
 
 #, python-brace-format
@@ -9299,6 +10646,11 @@ msgid "couverture signalée par la source"
 msgstr ""
 
 msgid "créée"
+msgstr ""
+
+msgid ""
+"c’est le numéro du livre imprimé sur la couverture, pas l’étiquette d’un "
+"exemplaire."
 msgstr ""
 
 msgid "dans les 3 jours"
@@ -9381,6 +10733,11 @@ msgstr ""
 msgid "empruntés"
 msgstr ""
 
+msgid ""
+"en USB, ou appairez-la en Bluetooth en mode clavier (HID) : aucun pilote "
+"à installer"
+msgstr ""
+
 msgid "en attente"
 msgstr ""
 
@@ -9397,6 +10754,12 @@ msgid "est désactivée."
 msgstr ""
 
 msgid "et"
+msgstr ""
+
+msgid "et la case où commencer, si la feuille est entamée"
+msgstr ""
+
+msgid "et, si besoin, le réglage à faire avec le manuel de votre modèle"
 msgstr ""
 
 msgid "ex."
@@ -9418,6 +10781,9 @@ msgid "export d’après le journal :"
 msgstr ""
 
 msgid "exports d’après le journal :"
+msgstr ""
+
+msgid "fait"
 msgstr ""
 
 #, python-brace-format
@@ -9598,6 +10964,10 @@ msgstr ""
 msgid "notices bibliographiques"
 msgstr ""
 
+#, python-brace-format
+msgid "n° {r}, case {p}"
+msgstr ""
+
 msgid "observations"
 msgstr ""
 
@@ -9630,6 +11000,9 @@ msgid "par {name}"
 msgstr ""
 
 msgid "partagée par"
+msgstr ""
+
+msgid "personnalisé"
 msgstr ""
 
 msgid "personne"
@@ -9679,6 +11052,9 @@ msgstr ""
 msgid "prénom"
 msgstr ""
 
+msgid "préparée"
+msgstr ""
+
 msgid "présente"
 msgstr ""
 
@@ -9707,6 +11083,9 @@ msgid "prêté le"
 msgstr ""
 
 msgid "puis"
+msgstr ""
+
+msgid "puis scannez les codes ci-dessous, à l’écran ou sur la feuille test"
 msgstr ""
 
 msgid "périmée"
@@ -9897,6 +11276,9 @@ msgstr ""
 msgid "tomes présents"
 msgstr ""
 
+msgid "tous ceux à étiqueter, ou une sélection"
+msgstr ""
+
 msgid "toutes catégories"
 msgstr ""
 
@@ -9910,6 +11292,11 @@ msgid "trouvé par une carte qui n’est plus en service"
 msgstr ""
 
 msgid "téléphone"
+msgstr ""
+
+msgid ""
+"un décalage régulier se règle dans la calibration ; des cadres trop "
+"grands ou trop petits demandent un autre gabarit"
 msgstr ""
 
 msgid "un exemplaire supprimé (un code n’est jamais réattribué)"
@@ -9946,6 +11333,9 @@ msgid "vide"
 msgstr ""
 
 msgid "voir la série"
+msgstr ""
+
+msgid "vérifiez l’identité, puis retrouvez la fiche par le nom."
 msgstr ""
 
 msgid "vérifié sur le livre"
@@ -9990,6 +11380,10 @@ msgid "{images} image(s) pour {notices} notice(s) qui en annoncent"
 msgstr ""
 
 #, python-brace-format
+msgid "{kind} lu sans erreur : « {text} »."
+msgstr ""
+
+#, python-brace-format
 msgid "{label} est obligatoire."
 msgstr ""
 
@@ -10011,6 +11405,10 @@ msgstr ""
 
 #, python-brace-format
 msgid "{n} Mio"
+msgstr ""
+
+#, python-brace-format
+msgid "{n} case(s) déjà utilisée(s), hachurées."
 msgstr ""
 
 #, python-brace-format
@@ -10043,6 +11441,14 @@ msgstr ""
 
 #, python-brace-format
 msgid "{n} exemplaire(s)"
+msgstr ""
+
+#, python-brace-format
+msgid "{n} exemplaire(s) de la sélection ont déjà un code : ils le gardent."
+msgstr ""
+
+#, python-brace-format
+msgid "{n} exemplaire(s) n’ont pas encore de code, rangés ou non."
 msgstr ""
 
 #, python-brace-format
@@ -10117,6 +11523,24 @@ msgid "{n} lignes du même livre, {k} éditions distinctes."
 msgstr ""
 
 #, python-brace-format
+msgid "{n} livre(s) choisi(s)"
+msgstr ""
+
+#, python-brace-format
+msgid "{n} livre(s) compté(s)"
+msgstr ""
+
+#, python-brace-format
+msgid "{n} livre(s) rangé(s) et vu(s) sur l’étagère, encore « En préparation »"
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"{n} livre(s) sans code-barres n’ont pas d’étiquette : générez d’abord "
+"leur code."
+msgstr ""
+
+#, python-brace-format
 msgid "{n} livre(s) à {k} exemplaire(s)"
 msgstr ""
 
@@ -10187,11 +11611,37 @@ msgid "{n} valeurs distinctes"
 msgstr ""
 
 #, python-brace-format
+msgid "{n} « {status} »"
+msgstr ""
+
+#, python-brace-format
+msgid "{n} à confirmer"
+msgstr ""
+
+#, python-brace-format
 msgid "{n} à confirmer sur {t}"
 msgstr ""
 
 #, python-brace-format
 msgid "{n} édition(s) proposée(s)"
+msgstr ""
+
+#, python-brace-format
+msgid "{n} étiquette(s) sur {s} feuille(s) · {sheet}"
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"{n} étiquette(s) à imprimer. Aucune n’est considérée comme imprimée tant "
+"que vous ne l’avez pas confirmé."
+msgstr ""
+
+#, python-brace-format
+msgid "{n} étiquette(s), {s} feuille(s)"
+msgstr ""
+
+#, python-brace-format
+msgid "{n} étiquettes de {w} × {h} mm ({c} × {r})"
 msgstr ""
 
 #, python-brace-format
@@ -10214,8 +11664,17 @@ msgstr ""
 msgid "{r} salle(s), {f} meuble(s), {s} étagère(s) ou bac(s)"
 msgstr ""
 
+#, python-brace-format
+msgid "{series} · T. {volume}"
+msgstr ""
+
 #, python-format
 msgid "« %(title)s » est choisi."
+msgstr ""
+
+msgid ""
+"« CSN- » est réservé : c’était le préfixe de l’ancienne reconstruction, "
+"refusée à l’import."
 msgstr ""
 
 #, python-brace-format
@@ -10253,6 +11712,29 @@ msgid ""
 "« {file} » ressemble à la reconstruction de l’ancienne application "
 "({signs}). Elle ne peut servir ni de source, ni de fichier complémentaire"
 " : déposez le classeur original du Club (décision D-L6-1)."
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"« {got} » est une étiquette de l’ancienne reconstruction (avec un tiret) "
+": elle ne désigne aucun livre. La douchette l’a bien lue."
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"« {got} » est une étiquette de l’ancienne reconstruction : elle ne "
+"désigne aucun livre. Les codes de biblyO s’écrivent sans tiret (« "
+"CSN000123 »). Cherchez le livre par son titre ou son inventaire."
+msgstr ""
+
+#, python-brace-format
+msgid "« {got} » ne ressemble à aucun code de biblyO ni à un ISBN."
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"« {got} » ressemble à « {want} », un code connu : la douchette écrit en "
+"clavier américain."
 msgstr ""
 
 #, python-brace-format
@@ -10340,6 +11822,9 @@ msgid "À rappeler"
 msgstr ""
 
 msgid "À renseigner"
+msgstr ""
+
+msgid "À régler"
 msgstr ""
 
 msgid "À traiter"
@@ -10513,13 +11998,25 @@ msgstr ""
 msgid "Éditions ou exemplaires multiples"
 msgstr ""
 
+msgid "Élargissez la recherche ou retirez un filtre."
+msgstr ""
+
+msgid "Éléments du modèle personnalisé"
+msgstr ""
+
 msgid "Étagère"
+msgstr ""
+
+msgid "Étagère ou meuble contrôlé (facultatif)"
 msgstr ""
 
 msgid "Étagère à remplir"
 msgstr ""
 
 msgid "Étagères"
+msgstr ""
+
+msgid "Étapes de l’impression"
 msgstr ""
 
 msgid "Étapes de l’inscription"
@@ -10536,6 +12033,9 @@ msgstr ""
 
 #, python-brace-format
 msgid "État du catalogue : {f}"
+msgstr ""
+
+msgid "État inconnu."
 msgstr ""
 
 msgid "État modifié dans biblyO"
@@ -10563,10 +12063,38 @@ msgstr ""
 msgid "États"
 msgstr ""
 
+msgid "Étiquette d’un livre (code interne) : la bonne fiche s’ouvre"
+msgstr ""
+
+#, python-brace-format
+msgid "Étiquettes biblyO, lot {n}"
+msgstr ""
+
+msgid ""
+"Étiquettes et codes-barres : filtrez comme dans le catalogue, puis "
+"générez ou imprimez"
+msgstr ""
+
 msgid "Étiquettes existantes"
 msgstr ""
 
+msgid "Étiquettes à imprimer"
+msgstr ""
+
 msgid "Étranger"
+msgstr ""
+
+msgid "à"
+msgstr ""
+
+#, python-format
+msgid "à 100 %%, sans ajustement à la page"
+msgstr ""
+
+#, python-format
+msgid ""
+"à 100 %%, sans ajustement à la page : les deux règles doivent mesurer 100"
+" mm"
 msgstr ""
 
 msgid "à attribuer plus tard"
@@ -10624,5 +12152,13 @@ msgid "Œuvres"
 msgstr ""
 
 msgid "Œuvres créées"
+msgstr ""
+
+#, python-brace-format
+msgid "… et {n} autre(s) feuille(s), pleines."
+msgstr ""
+
+#, python-brace-format
+msgid "… et {n} autre(s), compris dans l’impression."
 msgstr ""
 

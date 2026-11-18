@@ -53,7 +53,7 @@ def test_backup_contains_manifest_with_counts_and_digests(settings):
     assert info.path.name.endswith("-manual.tar.gz")
     manifest = verify_backup(info.path)
     assert manifest["schema_revision"] == script_directory().get_current_head()
-    assert manifest["counts"]["roles"] == 4
+    assert manifest["counts"]["roles"] == 5  # dont « Impression des étiquettes », rôle d’appoint de la 0014
     assert manifest["motif"] == "manual"
     assert len(manifest["files"]["biblyo.sqlite"]["sha256"]) == 64
 

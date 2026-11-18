@@ -1,0 +1,2 @@
+{# Les livres déjà comptés : ils voyagent dans le formulaire du scan ; mis à jour hors de la liste à chaque réponse. #}
+<div id="inventaire-vus" hidden{% if oob is defined and oob %} hx-swap-oob="true"{% endif %}>{% for copy_id in seen %}<input type="hidden" name="vu" value="{{ copy_id }}">{% endfor %}</div>

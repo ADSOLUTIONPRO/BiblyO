@@ -12,6 +12,7 @@ Un déplacement ne touche ni l'œuvre ni l'édition : ni leur version, ni leur d
 
 from __future__ import annotations
 
+import hashlib
 from collections.abc import Iterator, Mapping, Sequence
 from contextlib import contextmanager
 from dataclasses import dataclass, field
@@ -1423,3 +1424,191 @@ def assign_barcodes(
             )
             search.index_works(session, sorted(set(work_ids)))
         return given
+
+
+# --- Lot L8 : tous les codes manquants en une opération, préfixe réglé explicitement ---------------------------------
+#: « Retiré » et « Perdu » ne reçoivent pas de code par l'attribution globale (D-L8-4) ; leur fiche le permet encore.
+GLOBAL_EXCLUDED = ("withdrawn", "lost")
+MAX_COPIES_PER_GENERATION = 20_000
+PLAN_CHANGED = _(
+    "La situation a changé depuis la simulation (un code a été attribué, un exemplaire ajouté ou modifié). "
+    "Rien n’a été enregistré : relancez la simulation."
+)
+
+
+@dataclass(frozen=True)
+class BarcodeTotals:
+    copies: int
+    with_code: int
+    without_code: int
+    excluded: dict[str, int]  # statut → exemplaires sans code que l'attribution globale laisse de côté
+
+
+@dataclass(frozen=True)
+class GenerationPlan:
+    """Ce qu'une attribution ferait, calculé sans rien écrire : à confirmer par son empreinte."""
+
+    copy_ids: tuple[int, ...]  # dans l'ordre d'attribution
+    codes: tuple[str, ...]  # codes prévus, dans le même ordre
+    kept: tuple[int, ...]  # exemplaires choisis qui ont déjà un code : inchangés
+    fingerprint: str
+    prefix: str
+
+    @property
+    def first(self) -> str | None:
+        return self.codes[0] if self.codes else None
+
+    @property
+    def last(self) -> str | None:
+        return self.codes[-1] if self.codes else None
+
+
+def barcode_totals(session: Session) -> BarcodeTotals:
+    rows = session.execute(
+        select(Copy.status, Copy.barcode.is_(None), func.count()).group_by(Copy.status, Copy.barcode.is_(None))
+    ).all()
+    copies = sum(count for _status, _missing, count in rows)
+    without = sum(count for _status, missing, count in rows if missing)
+    excluded = {status: count for status, missing, count in rows if missing and status in GLOBAL_EXCLUDED}
+    return BarcodeTotals(copies, copies - without, without, excluded)
+
+
+def _inventory_order(inventory: str, copy_id: int) -> tuple[int, int, str, int]:
+    """Ordre des numéros d'inventaire du Club (D-L6-7) : « 9 » avant « 10 », puis les autres formes, à la suite."""
+    text = inventory.strip()
+    return (0, int(text), "", copy_id) if text.isdigit() and len(text) < 12 else (1, 0, text, copy_id)
+
+
+def _generation_targets(session: Session, copy_ids: Sequence[int] | None) -> tuple[list[Copy], list[int]]:
+    """Exemplaires à doter d'un code, dans l'ordre des inventaires, et exemplaires choisis qui en ont déjà un."""
+    if copy_ids is None:
+        statement = select(Copy).where(Copy.barcode.is_(None), Copy.status.not_in(GLOBAL_EXCLUDED))
+        copies = list(session.scalars(statement))
+        kept: list[int] = []
+    else:
+        ids = list(dict.fromkeys(copy_ids))
+        if not ids:
+            raise BusinessError(_("Choisissez au moins un exemplaire."))
+        copies = list(session.scalars(select(Copy).where(Copy.id.in_(ids))))
+        if len(copies) != len(ids):
+            raise BusinessError(_("Un exemplaire choisi n’existe plus : rechargez la page."))
+        kept = sorted(copy.id for copy in copies if copy.barcode is not None)
+        copies = [copy for copy in copies if copy.barcode is None]
+    if len(copies) > MAX_COPIES_PER_GENERATION:
+        raise BusinessError(_("Plus de 20 000 exemplaires à la fois : choisissez une partie du catalogue."))
+    copies.sort(key=lambda copy: _inventory_order(copy.inventory_number, copy.id))
+    return copies, kept
+
+
+def _fingerprint(session: Session, copies: Sequence[Copy], kept: Sequence[int]) -> str:
+    from biblyo.modules.catalogue.models import NumberSequence
+    from biblyo.modules.catalogue.service import BARCODE_SEQUENCE
+
+    sequence = session.get(NumberSequence, BARCODE_SEQUENCE)
+    assert sequence is not None
+    digest = hashlib.sha256()
+    digest.update(f"{sequence.prefix}|{sequence.padding}|{sequence.last_value}|".encode())
+    digest.update(",".join(f"{copy.id}:{copy.version}" for copy in copies).encode())
+    digest.update(("|" + ",".join(map(str, kept))).encode())
+    return digest.hexdigest()[:32]
+
+
+def generation_plan(database: Database, copy_ids: Sequence[int] | None = None) -> GenerationPlan:
+    """Simulation : quels exemplaires recevront quels codes. **N'écrit rien et ne fait pas avancer la séquence.**
+
+    `copy_ids` à `None` : tous les exemplaires sans code, rangés ou non, sauf « Retiré » et « Perdu » (D-L8-4)."""
+    from biblyo.modules.catalogue.models import NumberSequence
+    from biblyo.modules.catalogue.service import BARCODE_SEQUENCE
+
+    with database.session() as session:
+        copies, kept = _generation_targets(session, copy_ids)
+        codes = _free_codes(session, len(copies))
+        sequence = session.get(NumberSequence, BARCODE_SEQUENCE)
+        assert sequence is not None
+        return GenerationPlan(
+            tuple(copy.id for copy in copies), tuple(codes), tuple(kept), _fingerprint(session, copies, kept),
+            sequence.prefix,
+        )  # fmt: skip
+
+
+def assign_planned(
+    database: Database, copy_ids: Sequence[int] | None, fingerprint: str, user_id: int | None, *, motive: str
+) -> dict[int, str]:
+    """Attribue les codes simulés, tout ou rien, en une transaction. Refuse si quoi que ce soit a changé depuis la
+    simulation (empreinte). Mêmes règles que `assign_barcodes` : `_next_barcode`, codes pris et retirés sautés, aucun
+    code existant remplacé, inventaire inchangé, une ligne de journal par exemplaire et une pour l'opération."""
+    from biblyo.modules.catalogue.service import _next_barcode
+
+    with database.session(write=True) as session:
+        copies, kept = _generation_targets(session, copy_ids)
+        if not copies:
+            raise BusinessError(_("Aucun exemplaire n’attend de code : rien à attribuer."))
+        if _fingerprint(session, copies, kept) != fingerprint:
+            raise ConflictError(PLAN_CHANGED)
+        moment = now_iso()
+        given: dict[int, str] = {}
+        for copy in copies:
+            copy.barcode = _next_barcode(session)
+            given[copy.id] = copy.barcode
+            _touch_copy(copy, user_id, moment)
+            session.flush()
+            audit.record(
+                session, "copy.update", "copy", copy.id, user_id=user_id,
+                details={"champs": ["barcode"], "code_barres": [None, copy.barcode], "motif": motive},
+            )  # fmt: skip
+        codes = list(given.values())
+        audit.record(
+            session, "barcodes.assigned", "copy", None, user_id=user_id,
+            details={"motif": motive, "nombre": len(codes), "premier": codes[0], "dernier": codes[-1],
+                     "inchanges": len(kept)},
+        )  # fmt: skip
+        work_ids = session.scalars(
+            select(Edition.work_id).join(Copy, Copy.edition_id == Edition.id).where(Copy.id.in_(list(given)))
+        )
+        search.index_works(session, sorted(set(work_ids)))
+        return given
+
+
+@dataclass(frozen=True)
+class SequenceState:
+    prefix: str
+    padding: int
+    last_value: int
+    next_code: str
+
+
+def sequence_state(session: Session) -> SequenceState:
+    from biblyo.modules.catalogue.models import NumberSequence
+    from biblyo.modules.catalogue.service import BARCODE_SEQUENCE
+
+    sequence = session.get(NumberSequence, BARCODE_SEQUENCE)
+    assert sequence is not None
+    return SequenceState(sequence.prefix, sequence.padding, sequence.last_value, _free_codes(session, 1)[0])
+
+
+def change_barcode_prefix(database: Database, prefix: str, expected_current: str, user_id: int | None) -> str:
+    """Change le préfixe des **prochains** codes. Les codes attribués ne changent pas ; la numérotation continue, sans
+    retour à zéro, si bien qu'aucun numéro n'est réemployé, même sous un autre préfixe (D-L8-2). Journalisé."""
+    from biblyo.modules.catalogue.models import NumberSequence
+    from biblyo.modules.catalogue.service import BARCODE_SEQUENCE
+
+    wanted = "".join(prefix.split()).upper()
+    with database.session(write=True) as session:
+        sequence = session.get(NumberSequence, BARCODE_SEQUENCE)
+        assert sequence is not None
+        if sequence.prefix != expected_current:
+            raise ConflictError(_("Le préfixe a été changé entre-temps par une autre personne : rechargez la page."))
+        if wanted == sequence.prefix:
+            raise FormErrors({"prefixe": _("C’est déjà le préfixe en usage.")})
+        refusals, _warnings = rules.prefix_problems(wanted, sequence.padding)
+        if refusals:
+            raise FormErrors({"prefixe": " ".join(refusals)})
+        old = sequence.prefix
+        sequence.prefix = wanted
+        session.flush()
+        audit.record(
+            session, "sequence.prefix", "sequence", None, user_id=user_id,
+            details={"sequence": BARCODE_SEQUENCE, "avant": old, "apres": wanted,
+                     "dernier_numero": sequence.last_value},
+        )  # fmt: skip
+        return _free_codes(session, 1)[0]

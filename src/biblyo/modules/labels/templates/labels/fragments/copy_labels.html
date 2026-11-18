@@ -1,0 +1,40 @@
+{# Fiche d'un exemplaire, lot L8 : son code scannable, son étiquette, ses lots d'impression et l'histoire de son code. #}
+{% from "components/buttons.html" import button, link_button %}
+{% from "components/feedback.html" import badge %}
+<section class="card" aria-labelledby="titre-code">
+  <div class="card-h"><h2 id="titre-code">{{ _("Code-barres et étiquette") }}</h2></div>
+  <div class="card-b grid g2">
+    <div class="copy-code">
+      {% if labels.code %}
+        {% if labels.svg %}{{ labels.svg }}{% else %}<p class="mono m0">{{ labels.code }}</p>{% endif %}
+        <p class="small muted m0">{{ _("Code 128, lisible à la douchette, même sur cet écran.") }}</p>
+        {% if can("labels.print") %}{{ link_button(_("Imprimer son étiquette"), "/etiquettes/imprimer?exemplaire=" ~ labels.copy_id ~ "&origine=copy", "p", "print") }}{% endif %}
+      {% else %}
+        <p class="m0">{{ badge(_("Pas encore de code-barres"), "due") }}</p>
+        <p class="small muted m0">{{ _("Au comptoir, il se retrouve par son numéro d’inventaire. Un code le rend scannable : il suit la numérotation de biblyO, sans toucher à l’inventaire.") }}</p>
+        {% if can("holdings.edit") %}
+        <form method="post" action="/etiquettes/exemplaire/{{ labels.copy_id }}/code">
+          <input type="hidden" name="_csrf" value="{{ csrf_token }}"><input type="hidden" name="version" value="{{ labels.version }}">
+          {{ button(_("Générer son code-barres"), "p", "tag", type="submit") }}
+        </form>
+        {% endif %}
+      {% endif %}
+    </div>
+    <div>
+      <h3 class="small m0">{{ _("Historique du code et des étiquettes") }}</h3>
+      {% if labels.code_events or labels.batches %}
+      <ul class="plain-list mt-xs small">
+        {% for at, text in labels.code_events %}<li><span class="faint">{{ at | datetime_short }}</span> {{ text }}</li>{% endfor %}
+        {% for item in labels.batches %}
+        <li><span class="faint">{{ item.at | datetime_short }}</span>
+          {% if can("labels.print") %}<a href="/etiquettes/lots/{{ item.batch_id }}">{{ _("Lot d’étiquettes n° {n}").format(n=item.batch_id) }}</a>{% else %}{{ _("Lot d’étiquettes n° {n}").format(n=item.batch_id) }}{% endif %}
+          · <span class="mono">{{ item.code }}</span>
+          {% if item.status == "confirmed" %}{{ badge(_("collée"), "ok") }}{% elif item.status == "abandoned" %}{{ badge(_("abandonné"), "neutral") }}{% else %}{{ badge(_("préparée"), "due") }}{% endif %}</li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p class="muted small mt-xs m0">{{ _("Aucune étiquette préparée pour cet exemplaire.") }}</p>
+      {% endif %}
+    </div>
+  </div>
+</section>

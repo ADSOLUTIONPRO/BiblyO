@@ -1,0 +1,19 @@
+{# Fenêtre « Scanner », ouverte par le bouton permanent de la barre du haut ou par une lecture hors de tout champ. #}
+{% from "components/icons.html" import icon %}
+<dialog class="modal scan-dialog" id="scanner" aria-labelledby="scanner-titre">
+  <div class="modal-h">
+    <h2 id="scanner-titre" class="grow">{{ _("Scanner") }}</h2>
+    <button type="button" class="icon-btn" data-close-dialog aria-label="{{ _('Fermer') }}">{{ icon("x") }}</button>
+  </div>
+  <div class="modal-b">
+    <form class="scan-form" method="post" action="/scanner/identifier" hx-post="/scanner/identifier" hx-target="#scan-resultat" hx-swap="innerHTML" hx-sync="this:replace" data-scan-form>
+      <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+      <label class="scan-label" for="scan-code">{{ _("Scannez un livre, ou tapez son code puis Entrée") }}</label>
+      <input class="in scan-in" id="scan-code" name="code" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" enterkeyhint="search" autofocus aria-describedby="scan-code-aide" data-scan-field>
+      <span class="h small muted" id="scan-code-aide">{{ _("Code-barres de l’étiquette, numéro d’inventaire, ISBN de la couverture ou carte de lecteur.") }}</span>
+    </form>
+    <div id="scan-resultat" class="scan-result" aria-live="polite"></div>
+    <p class="small muted m0" data-scan-global-state data-on="{{ _('Sur ce poste, une lecture de douchette ouvre cette fenêtre depuis n’importe quelle page.') }}" data-off="{{ _('Sur ce poste, la douchette écrit seulement dans un champ de scan. Poste de prêt de la bibliothèque : activez la lecture partout dans « Configurer ma douchette ».') }}"></p>
+    <p class="small muted m0 row gap-s"><a href="/scanner">{{ _("Modes de travail") }}</a><span aria-hidden="true">·</span><a href="/scanner/douchette">{{ _("Configurer ma douchette") }}</a></p>
+  </div>
+</dialog>

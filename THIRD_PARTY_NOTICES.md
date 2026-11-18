@@ -37,6 +37,29 @@ Portions of this software are copyright © The FreeType Project (www.freetype.or
 | openpyxl | 3.1.5 | MIT | PyPI `openpyxl` | Lecture seule des .xlsx ; son XML passe par defusedxml (déjà dépendance), sans entités externes |
 | et-xmlfile | 2.0.0 | MIT | PyPI `et-xmlfile` | Dépendance d'openpyxl |
 
+## Métriques de police (étiquettes, lot L8)
+
+| Composant | Version | Licence | Origine | Fichiers |
+|---|---|---|---|---|
+| Chasses de Helvetica et Helvetica-Bold | Adobe Core 14 AFM, 1997 (UniqueID 43054 et 43052) | Licence d'Adobe ci-dessous | Fichiers AFM d'Adobe, tels que redistribués par le projet PDFKit (`lib/font/data/`) | `src/biblyo/core/pdf_metrics.py` |
+
+Seules les chasses (largeur de chaque caractère du codage WinAnsi) sont reprises, sans modification, pour mesurer un
+texte avant de l'écrire dans un PDF ; les polices elles-mêmes ne sont ni livrées ni incorporées : tout lecteur PDF
+fournit Helvetica. Mention et licence d'Adobe, reproduites telles quelles :
+
+```
+Copyright (c) 1985, 1987, 1989, 1990, 1997 Adobe Systems Incorporated. All Rights Reserved.
+
+This file and the 14 PostScript(R) AFM files it accompanies may be used, copied, and distributed for any purpose and
+without charge, with or without modification, provided that all copyright notices are retained; that the AFM files
+are not distributed without this file; that all modifications to this file or any of the AFM files are prominently
+noted in the modified file(s); and that this paragraph is not modified. Adobe Systems has no responsibility or
+obligation to support the use of the AFM files.
+```
+
+Les codes-barres (Code 128, EAN-13) sont dessinés par du code écrit pour biblyO d'après les normes publiques
+ISO/IEC 15417 et 15420 ; aucune bibliothèque de codes-barres ni de PDF n'est reprise.
+
 ## Icônes
 
 | Composant | Version | Licence | Origine | Fichiers | Texte de licence |

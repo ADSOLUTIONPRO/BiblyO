@@ -111,6 +111,8 @@
   </section>
   {% endif %}
 
+  {% if labels %}{% include "labels/fragments/copy_labels.html" %}{% endif %}
+
   {% if origin %}{% include "holdings/fragments/copy_origin.html" %}{% endif %}
 
   <section class="card" aria-labelledby="titre-histoire">

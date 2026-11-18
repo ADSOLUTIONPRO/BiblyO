@@ -1,0 +1,53 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header %}
+{% from "components/buttons.html" import button, link_button %}
+{% from "components/icons.html" import icon %}
+{% block title %}{{ _("Configurer ma douchette") }} — biblyO{% endblock %}
+{% block content %}
+{% call page_header(_("Configurer ma douchette"), _("Vérifiez en une minute que la douchette lit bien les codes et les transmet comme il faut."), "cat", "scan") %}
+  {{ link_button(_("Scanner"), "/scanner", "g", "undo") }}
+{% endcall %}
+<ol class="lsteps">
+  <li><b>{{ _("Branchez la douchette") }}</b><span>{{ _("en USB, ou appairez-la en Bluetooth en mode clavier (HID) : aucun pilote à installer") }}</span></li>
+  <li><b>{{ _("Cliquez dans le champ d’essai") }}</b><span>{{ _("puis scannez les codes ci-dessous, à l’écran ou sur la feuille test") }}</span></li>
+  <li><b>{{ _("Lisez le diagnostic") }}</b><span>{{ _("et, si besoin, le réglage à faire avec le manuel de votre modèle") }}</span></li>
+</ol>
+<div class="grid g2 mt-s">
+  <section class="card" aria-labelledby="essai-codes"><div class="card-b stack">
+    <h2 id="essai-codes" class="m0">{{ _("Codes d’essai") }}</h2>
+    <div class="grid g2 setup-codes">
+      {% for svg, caption in test_svgs %}<figure class="m0">{{ svg }}<figcaption class="small muted">{{ caption }}</figcaption></figure>{% endfor %}
+    </div>
+    <p class="small muted m0">{{ _("Certaines douchettes (laser) lisent mal un écran : utilisez alors la feuille test imprimée, qui porte les trois mêmes codes.") }}</p>
+    {% if can_print %}<div>{{ link_button(_("Imprimer la feuille test"), "/etiquettes/feuille-test.pdf", "s", "download") }}</div>{% endif %}
+  </div></section>
+  <section class="card" aria-labelledby="essai-champ"><div class="card-b stack">
+    <h2 id="essai-champ" class="m0">{{ _("Champ d’essai") }}</h2>
+    <form id="douchette-essai" class="stack" method="post" action="/scanner/douchette/essai" hx-post="/scanner/douchette/essai" hx-target="#douchette-resultat" hx-swap="innerHTML" data-scan-test>
+      <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+      <input type="hidden" name="suffixe" value=""><input type="hidden" name="intervalle" value="0">
+      {% include "scan/fragments/setup_state.html" %}
+      <label for="essai" class="scan-label">{{ _("Scannez ici") }}</label>
+      <input class="in scan-in" id="essai" name="essai" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" autofocus aria-describedby="essai-aide">
+      <span class="h small muted" id="essai-aide">{{ _("Sans douchette, tapez un code au clavier puis Entrée : le diagnostic dira « saisie au clavier ».") }}</span>
+    </form>
+    <div id="douchette-resultat" aria-live="polite">{% if result %}{% include "scan/fragments/test_result.html" %}{% endif %}</div>
+  </div></section>
+</div>
+<section class="card mt-s" aria-labelledby="essai-liste-titre"><div class="card-b stack">
+  <h2 id="essai-liste-titre" class="m0">{{ _("Liste de mise en service") }}</h2>
+  <p class="small muted m0">{{ _("Scannez, dans l’ordre que vous voulez : les codes d’essai, l’étiquette d’un livre, son numéro d’inventaire, puis trois codes de suite. Chaque point se coche quand il est vérifié.") }}</p>
+  {% include "scan/fragments/setup_progress.html" %}
+</div></section>
+<section class="card mt-s" aria-labelledby="essai-poste"><div class="card-b stack">
+  <h2 id="essai-poste" class="m0">{{ _("Sur ce poste") }}</h2>
+  <label class="check" for="lecture-partout"><input type="checkbox" id="lecture-partout" data-scan-global-toggle><span>{{ _("Ce poste est un poste de prêt de la bibliothèque : lire un code partout dans biblyO, même sans cliquer dans un champ") }}<span class="h">{{ _("Désactivé par défaut, à activer seulement sur les ordinateurs de la bibliothèque. Une lecture rapide terminée par Entrée ou Tab ouvre alors la fenêtre « Scanner » ; jamais pendant la saisie d’un formulaire ou d’un mot de passe. Les champs de scan (comptoir, retours, scanner) marchent toujours.") }}</span></span></label>
+  <p class="small m0" data-scan-global-state data-on="{{ _('Lecture partout : active sur ce poste.') }}" data-off="{{ _('Lecture partout : désactivée sur ce poste.') }}"></p>
+  <ul class="plain-list small">
+    <li>{{ icon("info", 14) }} {{ _("Deux douchettes, même de la même marque, ne se règlent pas forcément pareil : gardez le manuel de la vôtre.") }}</li>
+    <li>{{ icon("info", 14) }} {{ _("Réglages utiles : clavier français (AZERTY), suffixe Entrée, Code 128 et EAN-13 activés, clé de contrôle transmise, aucun préfixe.") }}</li>
+    <li>{{ icon("info", 14) }} {{ _("Sans douchette, tout se fait aussi au clavier : tapez le code ou le numéro d’inventaire, puis Entrée.") }}</li>
+    <li>{{ icon("info", 14) }} {{ _("Une douchette n’identifie personne : prêts, retours et modifications restent faits au nom du compte connecté, avec ses droits.") }}</li>
+  </ul>
+</div></section>
+{% endblock %}

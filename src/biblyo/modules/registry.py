@@ -15,6 +15,8 @@ def all_modules() -> list[Module]:
     from biblyo.modules.enrichment.module import MODULE as enrichment
     from biblyo.modules.holdings.module import MODULE as holdings
     from biblyo.modules.imports.module import MODULE as imports
+    from biblyo.modules.labels.module import MODULE as labels
     from biblyo.modules.patrons.module import MODULE as patrons
+    from biblyo.modules.scan.module import MODULE as scan
 
-    return [dashboard, admin, catalogue, holdings, patrons, circulation, enrichment, imports, devtools]
+    return [dashboard, admin, catalogue, holdings, patrons, circulation, enrichment, imports, labels, scan, devtools]

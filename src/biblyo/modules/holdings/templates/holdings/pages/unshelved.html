@@ -41,7 +41,7 @@
       <div class="card-b row gap-xs wrap">
         {{ button(_("Ranger la sélection…"), "p", "shelf", type="submit") }}
         <button type="submit" class="btn btn-s" formaction="/emplacements/verifier">{{ icon("check", 16) }}<span class="lbl">{{ _("Confirmer la présence…") }}</span></button>
-        <button type="submit" class="btn btn-g" formaction="/emplacements/codes-barres">{{ icon("scan", 16) }}<span class="lbl">{{ _("Attribuer des codes-barres…") }}</span></button>
+        {% if can("catalogue.edit") %}<button type="submit" class="btn btn-g" formaction="/emplacements/codes-barres">{{ icon("scan", 16) }}<span class="lbl">{{ _("Attribuer des codes-barres…") }}</span></button>{% endif %}
         <a class="btn btn-g btn-sm" href="/emplacements/non-ranges?{{ query_base }}{% if query_base %}&amp;{% endif %}page={{ chosen.page }}&amp;tout={{ '0' if all_checked else '1' }}">{{ _("Tout décocher") if all_checked else _("Cocher toute la page") }}</a>
       </div>
       {% endif %}

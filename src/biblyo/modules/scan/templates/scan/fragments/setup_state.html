@@ -1,0 +1,2 @@
+{# Où en est la liste de mise en service : voyage dans le formulaire d'essai, jamais gardé au serveur. #}
+<div id="essai-etat" hidden{% if oob is defined and oob %} hx-swap-oob="true"{% endif %}>{% for name in progress.done | sort %}<input type="hidden" name="fait" value="{{ name }}">{% endfor %}<input type="hidden" name="serie" value="{{ progress.series }}"><input type="hidden" name="serie_t" value="{{ progress.last }}"></div>

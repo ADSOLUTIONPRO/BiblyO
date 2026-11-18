@@ -1,0 +1,22 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header %}
+{% from "components/buttons.html" import link_button %}
+{% block title %}{{ _("Scanner") }} — biblyO{% endblock %}
+{% block content %}
+{% call page_header(_("Scanner"), _("Scannez un livre pour l’ouvrir tout de suite : sa fiche, sa place, et ce que vous pouvez en faire."), "cat", "scan") %}
+  {{ link_button(_("Configurer ma douchette"), "/scanner/douchette", "g", "gear") }}
+{% endcall %}
+{% include "scan/fragments/modes.html" %}
+{% if mode == "enrichissement" %}<p class="muted">{{ _("Mode enrichissement : un livre connu mène à ses informations à compléter ; un ISBN absent du catalogue, à une recherche à la BnF et au Sudoc.") }}</p>{% endif %}
+<section class="card mt-s" aria-labelledby="scan-page-titre">
+  <div class="card-b stack">
+    <h2 id="scan-page-titre" class="sr">{{ _("Lire un code") }}</h2>
+    <form class="scan-form" method="post" action="/scanner/identifier" hx-post="/scanner/identifier" hx-target="#scan-page-resultat" hx-swap="innerHTML" hx-sync="this:replace" data-scan-form>
+      <input type="hidden" name="_csrf" value="{{ csrf_token }}"><input type="hidden" name="mode" value="{{ mode }}">
+      <label class="scan-label" for="scan-page-code">{{ _("Scannez un livre, ou tapez son code puis Entrée") }}</label>
+      <input class="in scan-in" id="scan-page-code" name="code" type="text" value="{{ code }}" autocomplete="off" autocapitalize="characters" spellcheck="false" enterkeyhint="search" autofocus data-scan-field>
+    </form>
+    <div id="scan-page-resultat" class="scan-result" aria-live="polite">{% include "scan/fragments/result.html" %}</div>
+  </div>
+</section>
+{% endblock %}

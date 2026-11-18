@@ -96,6 +96,11 @@ RULES: dict[str, Rule] = {
     ),
     "R27": Rule(Nature.FORBIDDEN, _("L’emprunteur d’un exemplaire n’est visible qu’avec le droit sur l’historique.")),
     "R28": Rule(Nature.FORBIDDEN, _("Les prêts en cours se consultent au comptoir, avec le droit de prêter.")),
+    # Lot L8 : un ISBN désigne une édition, jamais un livre physique ; même seul, son exemplaire se confirme
+    "R29": Rule(
+        Nature.FORBIDDEN,
+        _("C’est l’ISBN du livre, pas son étiquette : choisissez l’exemplaire que vous avez en main."),
+    ),
     # D9 : hors de la fenêtre, ou opération d'un autre compte. Pas une ligne du § 3, mais un contrôle dérogeable
     "D9": Rule(
         Nature.OVERRIDABLE, _("Annulation hors délai ou d’un autre compte : un bibliothécaire habilité."), OVERRIDE
@@ -461,7 +466,8 @@ class Resolution:
 
 
 def resolve(found: Sequence[Candidate]) -> Resolution:
-    """Un seul résultat dans un seul type : il est pris. Toute autre situation demande une sélection explicite.
+    """Un seul résultat dans un seul type : il est pris, sauf un ISBN (L8). Toute autre situation demande une sélection
+    explicite.
 
     Deux types qui mènent à la même fiche restent une ambiguïté : rien n'est résolu en silence entre types (D5).
     """
@@ -472,7 +478,33 @@ def resolve(found: Sequence[Candidate]) -> Resolution:
     if len(candidates) > 1:
         return Resolution(None, candidates, verdict("R10"))
     only = candidates[0]
+    if only.kind == KIND_ISBN:  # lot L8 : un ISBN n'identifie jamais seul un exemplaire
+        return Resolution(None, candidates, verdict("R29"))
     return Resolution(None, (), verdict("R11")) if only.kind == KIND_ENDED_CARD else Resolution(only)
+
+
+def reconstruction_hint(code: str) -> Verdict:
+    """Une ancienne étiquette « CSN-… » de la reconstruction (L8) : elle ne désigne aucun livre de biblyO."""
+    return Verdict(
+        "R4",
+        Nature.FORBIDDEN,
+        _(
+            "« {got} » est une étiquette de l’ancienne reconstruction : elle ne désigne aucun livre. Les codes de "
+            "biblyO s’écrivent sans tiret (« CSN000123 »). Cherchez le livre par son titre ou son inventaire."
+        ).format(got=code),
+    )
+
+
+def keyboard_hint(code: str, repaired: str) -> Verdict:
+    """Code inconnu qu'une douchette réglée en QWERTY a déformé (L8) : on le dit, sans rien choisir à sa place."""
+    return Verdict(
+        "R4",
+        Nature.FORBIDDEN,
+        _(
+            "Code inconnu : « {got} ». La douchette semble réglée en clavier américain : elle voulait sans doute "
+            "écrire « {want} ». Réglez-la avec l’assistant « Configurer ma douchette », ou tapez le code au clavier."
+        ).format(got=code, want=repaired),
+    )
 
 
 # --- Renouvellement et retour (D7, R25) -------------------------------------------------------------------------------

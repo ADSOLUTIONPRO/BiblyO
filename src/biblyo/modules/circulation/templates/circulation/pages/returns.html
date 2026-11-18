@@ -16,9 +16,10 @@
       <div class="in-icon grow">
         {{ icon("search", 17) }}
         <input id="cp-saisie" class="in" type="text" name="saisie" x-ref="field" autofocus spellcheck="false"
-               autocapitalize="off" x-on:keydown.enter.prevent="enter">
+               autocapitalize="off" x-on:keydown.enter.prevent="enter" x-on:keydown.tab="tab" data-scan-field data-scan-enter>
       </div>
     </div>
+    <p class="small muted m0 scan-echo" aria-live="polite" data-double-scan="{{ _('Même code lu deux fois de suite : le second est ignoré.') }}"></p>
     <div class="card return-search">
       <label class="counter-label" for="cp-retour-q">{{ _("Sans code : chercher le livre rendu") }}</label>
       <div class="in-icon">

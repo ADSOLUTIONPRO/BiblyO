@@ -13,9 +13,8 @@ La reconnaissance repose sur la forme du fichier (en-têtes, feuilles, codes), j
 
 from __future__ import annotations
 
-import re
-
 from biblyo.core.i18n import _
+from biblyo.core.identifiers import RECONSTRUCTION_CODE
 from biblyo.core.text import normalize
 from biblyo.modules.imports.reader import Workbook
 
@@ -24,7 +23,7 @@ HEADERS = frozenset({"ligne excel", "code barres futur", "etagere virtuelle", "p
 #: Feuilles propres à la reconstruction.
 SHEETS = frozenset({"etageres virtuelles"})
 #: Codes artificiels de la reconstruction : jamais des codes-barres officiels (D-L6-7, règle 4).
-ARTIFICIAL_CODE = re.compile(r"^\s*CSN-\d+\s*$", re.IGNORECASE)
+ARTIFICIAL_CODE = RECONSTRUCTION_CODE
 
 
 def is_artificial_code(value: object) -> bool:

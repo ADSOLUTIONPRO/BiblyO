@@ -1,4 +1,12 @@
 {
-  "explication": "Suites communes avec la référence, examinées une à une et jugées non significatives. Chaque entrée : fichier, empreinte donnée par check_provenance.py, motif. Vide au 13 novembre 2026 : aucune suite n'atteint les seuils.",
-  "examinees": []
+  "explication": "Suites communes avec la référence, examinées une à une et jugées non significatives. Chaque entrée : fichier, empreinte donnée par check_provenance.py, motif. Aucune entrée jusqu'au 13 novembre 2026 ; la première, le 18 novembre 2026 (lot L8), est une table imposée par une norme, à valider par le titulaire.",
+  "examinees": [
+    {
+      "fichier": "src/biblyo/core/barcodes.py",
+      "empreinte": "cb154643aecb5cf0",
+      "motif": "Table des 107 motifs du Code 128 (largeurs des barres et des espaces, symboles 0 à 105 puis l'arrêt), fixée par la norme ISO/IEC 15417 : toute implémentation conforme la reproduit, valeurs et ordre compris. Donnée normative, sans choix d'écriture. Le code qui l'emploie (encodeur, clé, dessin) est écrit pour biblyO et n'a aucune suite commune signalée. Table vérifiée par ses propriétés (somme de 11 modules, parité des barres, unicité) et motif par motif : 110 codes d'essai, couvrant les 107 valeurs, relus par un décodeur indépendant (Vision, macOS) ; docs/rapports/preuves-l8/code128-107-motifs.txt.",
+      "examinee_le": "2026-11-18",
+      "validation": "Principe admis par le titulaire le 18 novembre 2026 : une table normalisée identique à celle d'une autre implémentation est attendue ; l'origine du code doit rester indépendante."
+    }
+  ]
 }

@@ -144,6 +144,7 @@ KEY_RIGHTS: tuple[tuple[str, str], ...] = (
     ("patrons.view_personal", _("Voir les coordonnées des lecteurs")),
     ("imports.simulate", _("Simuler un import, exporter")),
     ("imports.apply", _("Appliquer un import")),
+    ("labels.print", _("Imprimer des étiquettes")),
     ("admin.users", _("Gérer les comptes")),
     ("admin.settings", _("Régler l’instance")),
     ("admin.backups", _("Sauvegarder")),
@@ -153,6 +154,7 @@ ROLE_LABELS = {
     "librarian": _("Bibliothécaire"),
     "volunteer": _("Bénévole"),
     "viewer": _("Consultation"),
+    "labels_printer": _("Impression des étiquettes"),
 }
 
 
@@ -289,7 +291,7 @@ def overview(session: Session, settings: Settings) -> Overview:
     ):
         granted.setdefault(code, set()).add(permission)
     result.rights = list(KEY_RIGHTS)
-    for code in ("admin", "librarian", "volunteer", "viewer"):
+    for code in ("admin", "librarian", "volunteer", "viewer", "labels_printer"):
         perms = granted.get(code, set())
         result.roles.append(
             (str(ROLE_LABELS[code]), ["*" in perms or permission in perms for permission, _label in KEY_RIGHTS])

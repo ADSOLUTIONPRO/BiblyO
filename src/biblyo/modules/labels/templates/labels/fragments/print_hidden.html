@@ -1,0 +1,4 @@
+<input type="hidden" name="planche" value="{{ chosen_sheet.code }}"><input type="hidden" name="modele" value="{{ model }}">
+{% for name in elements %}<input type="hidden" name="element" value="{{ name }}">{% endfor %}
+{% for position in occupied | sort %}<input type="hidden" name="occupee" value="{{ position }}">{% endfor %}
+{% if origin %}<input type="hidden" name="origine" value="{{ origin }}">{% endif %}{% if parent %}<input type="hidden" name="parent" value="{{ parent }}">{% endif %}

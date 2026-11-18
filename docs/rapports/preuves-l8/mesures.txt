@@ -1,0 +1,42 @@
+== etiquettes-avery-l7160-standard.pdf : Avery L7160 · J8160, modèle standard, 21 étiquettes. Format principal du Club (BD), feuille neuve.
+   gabarit : 21 étiquettes de 63,5 × 38,1 mm (3 × 7) ; marges 15.15 / 7.21 mm ; pas 66.04 / 38.1 mm
+   page 1 : 210.000 × 297.000 mm, 21 codes relus
+   premier code CSN000001 : case 1, barres à x = 15.26 mm, y = 28.06 mm, module 0.4233 mm, hauteur 15.93 mm
+   dernier code CSN000021 : feuille 1, case 21
+   écart de centrage horizontal le plus grand : 0.0000 mm ; tous les codes = ceux attendus
+   feuille test : 210.000 × 297.000 mm, codes ['BIBLYO-TEST', 'EAN-13 (relu par Vision : vision.txt)', 'BIBLYO-INCONNU']
+== etiquettes-avery-l7160-detaille-entamee.pdf : Avery L7160 · J8160, modèle detaille, 18 étiquettes. Format principal, feuille entamée (cases 1 à 7).
+   gabarit : 21 étiquettes de 63,5 × 38,1 mm (3 × 7) ; marges 15.15 / 7.21 mm ; pas 66.04 / 38.1 mm
+   page 1 : 210.000 × 297.000 mm, 14 codes relus
+   page 2 : 210.000 × 297.000 mm, 4 codes relus
+   premier code CSN000001 : case 8, barres à x = 81.30 mm, y = 107.35 mm, module 0.4233 mm, hauteur 12.84 mm
+   dernier code CSN000018 : feuille 2, case 4
+   écart de centrage horizontal le plus grand : 0.0000 mm ; tous les codes = ceux attendus
+== etiquettes-avery-l7651-compact.pdf : Avery L7651 · J8651, modèle compact, 65 étiquettes. Format compact du Club, feuille neuve.
+   gabarit : 65 étiquettes de 38,1 × 21,2 mm (5 × 13) ; marges 10.7 / 4.75 mm ; pas 40.6 / 21.2 mm
+   page 1 : 210.000 × 297.000 mm, 65 codes relus
+   premier code CSN000001 : case 1, barres à x = 9.58 mm, y = 11.97 mm, module 0.2540 mm, hauteur 13.14 mm
+   dernier code CSN000065 : feuille 1, case 65
+   écart de centrage horizontal le plus grand : 0.0000 mm ; tous les codes = ceux attendus
+   feuille test : 210.000 × 297.000 mm, codes ['BIBLYO-TEST', 'EAN-13 (relu par Vision : vision.txt)', 'BIBLYO-INCONNU']
+== etiquettes-avery-l7651-standard-entamee.pdf : Avery L7651 · J8651, modèle standard, 80 étiquettes. Format compact, deux feuilles, la première entamée.
+   gabarit : 65 étiquettes de 38,1 × 21,2 mm (5 × 13) ; marges 10.7 / 4.75 mm ; pas 40.6 / 21.2 mm
+   page 1 : 210.000 × 297.000 mm, 61 codes relus
+   page 2 : 210.000 × 297.000 mm, 19 codes relus
+   premier code CSN000001 : case 4, barres à x = 131.38 mm, y = 17.63 mm, module 0.2540 mm, hauteur 7.47 mm
+   dernier code CSN000080 : feuille 2, case 19
+   écart de centrage horizontal le plus grand : 0.0000 mm ; tous les codes = ceux attendus
+== etiquettes-avery-l7159-standard.pdf : Avery L7159 · J8159, modèle standard, 24 étiquettes. Autre référence (calibration nécessaire).
+   gabarit : 24 étiquettes de 63,5 × 33,9 mm (3 × 8) ; marges 12.9 / 6.5 mm ; pas 66.0 / 33.9 mm
+   page 1 : 210.000 × 297.000 mm, 24 codes relus
+   premier code CSN000001 : case 1, barres à x = 14.55 mm, y = 24.52 mm, module 0.4233 mm, hauteur 13.90 mm
+   dernier code CSN000024 : feuille 1, case 24
+   écart de centrage horizontal le plus grand : 0.0000 mm ; tous les codes = ceux attendus
+   feuille test : 210.000 × 297.000 mm, codes ['BIBLYO-TEST', 'EAN-13 (relu par Vision : vision.txt)', 'BIBLYO-INCONNU']
+== etiquettes-avery-l7654-compact.pdf : Avery L7654 · J8654, modèle compact, 40 étiquettes. Autre référence (calibration nécessaire).
+   gabarit : 40 étiquettes de 45,7 × 25,4 mm (4 × 10) ; marges 21.5 / 9.4 mm ; pas 48.5 / 25.4 mm
+   page 1 : 210.000 × 297.000 mm, 40 codes relus
+   premier code CSN000001 : case 1, barres à x = 18.03 mm, y = 23.02 mm, module 0.2540 mm, hauteur 16.00 mm
+   dernier code CSN000040 : feuille 1, case 40
+   écart de centrage horizontal le plus grand : 0.0000 mm ; tous les codes = ceux attendus
+   feuille test : 210.000 × 297.000 mm, codes ['BIBLYO-TEST', 'EAN-13 (relu par Vision : vision.txt)', 'BIBLYO-INCONNU']

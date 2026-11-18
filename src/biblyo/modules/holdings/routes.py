@@ -30,6 +30,8 @@ router = APIRouter()
 
 CanView = Annotated[AuthContext, require("catalogue.view")]
 CanHold = Annotated[AuthContext, require("holdings.edit")]
+#: Attribuer des codes-barres en lot : réservé à la gestion du catalogue (arbitrage L8 du 18 novembre 2026).
+CanBatchCodes = Annotated[AuthContext, require("catalogue.edit")]
 
 
 async def _read_form(request: Request) -> FormData:
@@ -62,6 +64,15 @@ def _render(request: Request, template: str, context: dict[str, Any], status: in
 
 def _options(mapping: dict[str, str], empty: str) -> list[tuple[str, str]]:
     return [("", empty), *mapping.items()]
+
+
+def _provided(request: Request, name: str, *arguments: Any) -> Any:
+    """Ce qu'un autre module ajoute à la fiche d'un exemplaire (les étiquettes, en L8). Rien s'il n'est pas installé."""
+    for module in request.app.state.modules:
+        provider = module.extras.get(name)
+        if callable(provider):
+            return provider(*arguments)
+    return None
 
 
 def _copy_values(sheet: repo.CopySheet) -> dict[str, str]:
@@ -97,6 +108,7 @@ def _copy_page(
         loan = repo.on_loan(session, [copy_id]).get(copy_id)
         state = availability.for_copies(session, [copy_id]).get(copy_id)
         origin = copy_origin(session, copy_id) if sheet is not None else None
+        labels = _provided(request, "copy_labels", session, copy_id) if sheet is not None else None
     if sheet is None:
         raise HTTPException(status_code=404)
     values = _copy_values(sheet)
@@ -126,6 +138,7 @@ def _copy_page(
         "acquisition_label": rules.ACQUISITION_MODES.get(sheet.copy.acquisition_mode or "", ""),
         "price_text": rules.format_price(sheet.copy.price_cents),
         "origin": origin,  # lot L6 : ligne du classeur importé et valeurs d'origine
+        "labels": labels,  # lot L8 : code scannable, étiquette, lots d'impression (module des étiquettes)
     }
     return _render(request, "holdings/pages/copy.html", context, status)
 
@@ -361,7 +374,9 @@ def presence_confirm(request: Request, auth: CanHold, form: Form) -> Response:
 
 
 @router.get("/emplacements/codes-barres", include_in_schema=False)
-def barcodes_page(request: Request, _auth: CanHold) -> HTMLResponse:
+def barcodes_page(request: Request, auth: CanBatchCodes) -> HTMLResponse:
+    if not auth.can("holdings.edit"):
+        raise PermissionDenied("holdings.edit")
     copy_ids = _ids(request.query_params.getlist("exemplaire"))
     if not copy_ids:
         raise HTTPException(status_code=400)
@@ -379,7 +394,9 @@ def _barcodes_page(request: Request, copy_ids: list[int], *, message: str = "", 
 
 
 @router.post("/emplacements/codes-barres", include_in_schema=False)
-def barcodes_assign(request: Request, auth: CanHold, form: Form) -> Response:
+def barcodes_assign(request: Request, auth: CanBatchCodes, form: Form) -> Response:
+    if not auth.can("holdings.edit"):
+        raise PermissionDenied("holdings.edit")
     copy_ids = _ids(form.getlist("exemplaire"))
     expected = {item: value for item in copy_ids if (value := _int(_first(form, f"v_{item}"))) is not None}
     if not copy_ids or len(expected) != len(copy_ids):

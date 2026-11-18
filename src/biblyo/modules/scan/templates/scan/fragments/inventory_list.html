@@ -1,0 +1,40 @@
+{# La liste de l'inventaire en cours : elle voyage dans le formulaire (champs « vu »), rien n'est gardé au serveur. #}
+{% from "components/buttons.html" import button %}
+{% from "components/feedback.html" import alert, badge %}
+{% if request.headers.get("HX-Request") %}{% set oob = True %}{% include "scan/fragments/inventory_seen.html" %}{% endif %}
+{% if notice %}<div class="scan-hit scan-{{ notice_kind }}" data-annonce><p class="m0">{{ notice }}</p></div>{% endif %}
+{% if found and found.kind == "isbn" %}
+<div class="scan-hit scan-info">
+  <p class="m0">{{ _("ISBN {isbn} : choisissez l’exemplaire en main.").format(isbn=found.isbn13) }}</p>
+  <ul class="plain-list">
+  {% for edition in found.editions %}{% for copy in edition.copies %}
+    <li class="row"><button type="button" class="btn btn-s btn-sm" name="ajouter" value="{{ copy.id }}" hx-post="/scanner/inventaire" hx-include="#inventaire" hx-target="#inventaire-liste" hx-swap="innerHTML">{{ _("Compter") }}</button> <span class="mono small">{{ copy.barcode or copy.inventory }}</span> {{ copy.title }} <span class="small muted">{{ copy.path }}</span></li>
+  {% endfor %}{% else %}<li>{{ _("Aucun exemplaire au catalogue pour cet ISBN.") }}</li>{% endfor %}
+  </ul>
+</div>
+{% endif %}
+<section class="card mt-s" aria-labelledby="inventaire-compte">
+  <div class="card-h"><h2 id="inventaire-compte">{{ _("{n} livre(s) compté(s)").format(n=seen | length) }}{% if place_name %} · {{ place_name }}{% endif %}</h2></div>
+  <div class="card-b stack">
+    {% if lines %}
+    <ul class="plain-list inv-lines">
+      {% for copy, remark, tone in lines %}
+      <li class="row"><a class="b grow min0" href="/exemplaires/{{ copy.id }}">{{ copy.title }}</a><span class="mono small">{{ copy.barcode or copy.inventory }}</span>{{ badge(remark, tone) }}</li>
+      {% endfor %}
+    </ul>
+    {% else %}<p class="muted m0">{{ _("Rien de compté pour l’instant.") }}</p>{% endif %}
+  </div>
+</section>
+{% if confirmable and can_confirm %}
+<section class="card mt-s" aria-labelledby="inventaire-confirmer">
+  <div class="card-h"><h2 id="inventaire-confirmer">{{ _("{n} livre(s) rangé(s) et vu(s) sur l’étagère, encore « En préparation »").format(n=confirmable | length) }}</h2></div>
+  <div class="card-b stack">
+    <p class="m0">{{ _("Vous pouvez les passer « En place » : ils deviendront empruntables. Rien ne change sans ce clic.") }}</p>
+    <form method="post" action="/emplacements/verifier" id="inventaire-presence">
+      <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+      {% for copy in confirmable %}<input type="hidden" name="exemplaire" value="{{ copy.id }}"><input type="hidden" name="v_{{ copy.id }}" value="{{ copy.version }}">{% endfor %}
+      {{ button(_("Confirmer leur présence"), "p", "check", type="submit") }}
+    </form>
+  </div>
+</section>
+{% endif %}

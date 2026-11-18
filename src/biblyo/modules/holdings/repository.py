@@ -107,14 +107,15 @@ def find_copy_by_code(session: Session, value: str) -> Copy | None:
     """Exemplaire désigné par un scan ou une saisie : code-barres, sinon numéro d'inventaire (D3).
 
     Une saisie sans ses tirets (« EX 000001 », « ex000001 ») est reconnue si un seul exemplaire lui correspond : en cas
-    de doute, rien n'est choisi à la place de la personne.
+    de doute, rien n'est choisi à la place de la personne. Une saisie **avec** des tirets n'est jamais rapprochée d'un
+    code qui n'en a pas (L8) : une ancienne étiquette « CSN-000001 » de la reconstruction ne désigne pas « CSN000001 ».
     """
     code = rules.normalize_code(value) or value.strip().upper()
     found = session.scalar(select(Copy).where(Copy.barcode == code))
     found = found or session.scalar(select(Copy).where(Copy.inventory_number == code))
-    if found is not None:
+    if found is not None or "-" in code:
         return found
-    compact = code.replace("-", "")
+    compact = code
     candidates = list(
         session.scalars(
             select(Copy)

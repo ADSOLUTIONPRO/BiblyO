@@ -1,0 +1,22 @@
+{# Un exemplaire identifié : couverture, titre, auteurs, série et tome, édition, codes, disponibilité, emplacement. #}
+{% from "components/catalogue.html" import cover %}
+{% from "components/availability.html" import copy_badge %}
+{% from "components/feedback.html" import badge %}
+{% from "components/icons.html" import icon %}
+{% set card = copy.card %}
+<article class="scan-card" aria-labelledby="scan-titre-{{ copy.id }}">
+  <div class="scan-cover">{% if card %}{{ cover(card.title, card.series_title, card.volume_text, card.authors_text, card.color, card.thumbnail) }}{% endif %}</div>
+  <div class="scan-body">
+    <h3 id="scan-titre-{{ copy.id }}" class="m0">{{ copy.title }}</h3>
+    {% if card and card.authors_text %}<p class="m0">{{ card.authors_text }}</p>{% endif %}
+    {% if card and card.series_title %}<p class="m0 muted">{{ card.series_title }}{% if card.volume_text %} · {{ _("tome") }} {{ card.volume_text }}{% endif %}</p>{% endif %}
+    {% if copy.edition %}<p class="m0 small muted">{{ copy.edition }}</p>{% endif %}
+    <dl class="scan-facts">
+      <div><dt>{{ _("Code") }}</dt><dd class="mono">{{ copy.barcode or _("aucun") }}</dd></div>
+      <div><dt>{{ _("Inventaire") }}</dt><dd class="mono">{{ copy.inventory }}</dd></div>
+      {% if copy.call_number %}<div><dt>{{ _("Cote") }}</dt><dd class="mono">{{ copy.call_number }}</dd></div>{% endif %}
+    </dl>
+    <p class="m0 row gap-xs">{{ copy_badge(copy.state) }}{% if copy.status not in ("available",) %}{{ badge(copy.status_label, "neutral", dot=False) }}{% endif %}</p>
+    <p class="m0 small">{% if copy.path %}{{ icon("pin", 14) }} {{ copy.path }}{% if copy.position %} · {{ _("position") }} {{ copy.position }}{% endif %}{% elif copy.withdrawn %}{{ _("Plus sur les étagères.") }}{% else %}{{ _("Non rangé : il attend une place.") }}{% endif %}</p>
+  </div>
+</article>

@@ -13,6 +13,7 @@ from biblyo.config import Settings
 
 if TYPE_CHECKING:
     from biblyo.core.db import Database
+    from biblyo.modules.holdings.service import SequenceState
 
 cli = typer.Typer(help="biblyO : gestion de bibliothèque.", no_args_is_help=True, add_completion=False)
 db_cli = typer.Typer(help="Base de données : état, mise à niveau, contrôle.", no_args_is_help=True)
@@ -22,6 +23,7 @@ install_cli = typer.Typer(help="Première installation.", no_args_is_help=True)
 search_cli = typer.Typer(help="Recherche plein texte du catalogue.", no_args_is_help=True)
 media_cli = typer.Typer(help="Images : nettoyage des fichiers devenus inutiles.", no_args_is_help=True)
 import_cli = typer.Typer(help="Import : simulation, recette aller-retour, application.", no_args_is_help=True)
+codes_cli = typer.Typer(help="Codes-barres : numérotation et préfixe des prochains codes.", no_args_is_help=True)
 cli.add_typer(db_cli, name="db")
 cli.add_typer(backup_cli, name="backup")
 cli.add_typer(user_cli, name="user")
@@ -29,6 +31,7 @@ cli.add_typer(install_cli, name="install")
 cli.add_typer(search_cli, name="search")
 cli.add_typer(media_cli, name="medias")
 cli.add_typer(import_cli, name="import")
+cli.add_typer(codes_cli, name="codes")
 
 
 def _settings() -> Settings:
@@ -472,6 +475,95 @@ def user_reset_password(username: str) -> None:
         raise _fail(exc.message) from exc
     typer.echo(f"Mot de passe provisoire de {username} : {temporary}")
     typer.echo("Il devra être changé à la prochaine connexion.")
+
+
+# --- Codes-barres (lot L8) ------------------------------------------------------------------------------------------
+def _code_state(database: Database) -> tuple[SequenceState, dict[str, int], int, int]:
+    """Séquence, codes attribués par préfixe (lettres et tirets avant les chiffres), codes retirés, exemplaires."""
+    import re
+
+    from sqlalchemy import func, select
+
+    from biblyo.modules.catalogue.models import Copy
+    from biblyo.modules.holdings import service as holdings
+    from biblyo.modules.holdings.models import RetiredCode
+
+    with database.session() as session:
+        sequence = holdings.sequence_state(session)
+        prefixes: dict[str, int] = {}
+        for (code,) in session.execute(select(Copy.barcode).where(Copy.barcode.is_not(None))):
+            text = str(code)
+            match = re.match(r"^(.*?)\d*$", text)
+            key = str(match.group(1)) if match else text
+            prefixes[key] = prefixes.get(key, 0) + 1
+        retired = session.scalar(select(func.count()).select_from(RetiredCode).where(RetiredCode.kind == "barcode"))
+        copies = session.scalar(select(func.count()).select_from(Copy))
+    return sequence, prefixes, int(retired or 0), int(copies or 0)
+
+
+@codes_cli.command("etat")
+def codes_state() -> None:
+    """Lecture seule : préfixe et dernier numéro de la séquence, codes déjà attribués et par quel préfixe."""
+    settings = _settings()
+    database = _ready_database(settings)
+    try:
+        sequence, prefixes, retired, copies = _code_state(database)
+    finally:
+        database.dispose()
+    attributed = sum(prefixes.values())
+    typer.echo(f"Préfixe actuel : « {sequence.prefix} » ; dernier numéro : {sequence.last_value} ; "
+               f"prochain code : {sequence.next_code}")  # fmt: skip
+    typer.echo(f"Exemplaires : {copies} ; avec code-barres : {attributed} ; sans : {copies - attributed}")
+    for prefix, count in sorted(prefixes.items()):
+        typer.echo(f"  codes « {prefix}… » : {count}")
+    typer.echo(f"Codes-barres retirés (jamais réemployés) : {retired}")
+    if attributed == 0:
+        typer.echo("Aucun code-barres attribué : le préfixe peut être changé sans aucune conséquence.")
+    else:
+        typer.echo("Des codes existent : un changement de préfixe les garderait tels quels.")
+
+
+@codes_cli.command("prefixe")
+def codes_prefix(
+    prefixe: str = typer.Argument(..., help="Nouveau préfixe des prochains codes, par exemple CSN."),
+    appliquer: bool = typer.Option(False, "--appliquer", help="Change vraiment ; sans cette option, rien ne change."),
+) -> None:
+    """Préfixe des **prochains** codes. Les codes déjà attribués ne changent jamais ; la numérotation continue, sans
+    retour à zéro. Sans --appliquer, dit seulement ce qui se passerait."""
+    from biblyo.core.errors import BusinessError, FormErrors
+    from biblyo.modules.holdings import rules as holdings_rules
+    from biblyo.modules.holdings import service as holdings
+
+    settings = _settings()
+    database = _ready_database(settings)
+    try:
+        sequence, prefixes, _retired, _copies = _code_state(database)
+        wanted = "".join(prefixe.split()).upper()
+        current = sequence.prefix
+        refusals, warnings = holdings_rules.prefix_problems(wanted, sequence.padding)
+        if wanted == current:
+            typer.echo(f"« {wanted} » est déjà le préfixe en usage ; prochain code : {sequence.next_code}.")
+            return
+        if refusals:
+            raise _fail(" ".join(refusals))
+        attributed = sum(prefixes.values())
+        following = f"{wanted}{sequence.last_value + 1:0{sequence.padding}d}"
+        typer.echo(f"Préfixe : « {current} » → « {wanted} ». Codes déjà attribués : {attributed}, inchangés.")
+        for warning in warnings:
+            typer.echo(f"Attention : {warning}")
+        if not appliquer:
+            typer.echo(f"Simulation : le prochain code serait {following} (ou le suivant libre). "
+                       "Relancez avec --appliquer pour changer le préfixe.")  # fmt: skip
+            return
+        try:
+            next_code = holdings.change_barcode_prefix(database, wanted, current, None)
+        except FormErrors as exc:
+            raise _fail(" ".join(exc.fields.values())) from exc
+        except BusinessError as exc:
+            raise _fail(exc.message) from exc
+        typer.echo(f"Préfixe changé, journalisé. Prochain code : {next_code}.")
+    finally:
+        database.dispose()
 
 
 def main() -> None:

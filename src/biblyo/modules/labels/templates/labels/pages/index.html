@@ -1,0 +1,109 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header, kpi_tile %}
+{% from "components/buttons.html" import button, link_button %}
+{% from "components/feedback.html" import alert, badge, empty_state %}
+{% from "components/icons.html" import icon %}
+{% block title %}{{ _("Codes-barres et étiquettes") }} — biblyO{% endblock %}
+{% block content %}
+{% set totals = overview.totals %}
+{% call page_header(_("Codes-barres et étiquettes"), _("Donnez un code-barres à chaque livre, imprimez ses étiquettes, puis scannez-les à la douchette."), "she", "tag") %}
+  {{ link_button(_("Configurer ma douchette"), "/scanner/douchette", "g", "scan") }}
+  {% if can_print %}{{ link_button(_("Réglages des étiquettes"), "/etiquettes/reglages", "g", "gear") }}{% endif %}
+{% endcall %}
+
+<div class="grid g4">
+  {{ kpi_tile(_("Exemplaires"), totals.copies, module="she", icon_name="book") }}
+  {{ kpi_tile(_("Avec code-barres"), totals.with_code, module="ok", icon_name="check") }}
+  {{ kpi_tile(_("Sans code-barres"), totals.without_code, module="due" if totals.without_code else "ok", icon_name="tag") }}
+  {{ kpi_tile(_("Étiquettes à imprimer"), overview.never_confirmed, _("code attribué, étiquette pas encore confirmée"), module="she", icon_name="print", href="/etiquettes/selection?code=a-etiqueter") }}
+</div>
+
+{% if request.query_params.get("genere") and overview.never_confirmed %}
+<section class="card mt-s lbl-next" aria-labelledby="lbl-suite">
+  <div class="card-b row">
+    <span class="lbl-next-i" aria-hidden="true">{{ icon("print", 26) }}</span>
+    <div class="grow">
+      <h2 id="lbl-suite" class="m0">{{ _("Les codes-barres manquants ont été attribués. Vous pouvez maintenant imprimer les étiquettes.") }}</h2>
+      <p class="muted m0">{{ _("{n} étiquette(s) à imprimer. Aucune n’est considérée comme imprimée tant que vous ne l’avez pas confirmé.").format(n=overview.never_confirmed) }}</p>
+    </div>
+    {% if can_print %}{{ link_button(_("Imprimer les étiquettes"), "/etiquettes/imprimer?code=a-etiqueter", "p", "print") }}{% endif %}
+  </div>
+</section>
+{% endif %}
+
+{% if can_hold %}
+<h2 class="mt-s">{{ _("1. Donner un code-barres") }}</h2>
+<div class="grid g3 lbl-actions">
+  <section class="card" aria-labelledby="lbl-tous">
+    <div class="card-b stack">
+      <h3 id="lbl-tous" class="m0">{{ _("Générer tous les codes manquants") }}</h3>
+      {% if totals.without_code %}
+      <p class="m0">{{ _("{n} exemplaire(s) n’ont pas encore de code, rangés ou non.").format(n=totals.without_code) }}</p>
+      <p class="small muted m0">{{ _("Vous verrez d’abord une simulation : rien n’est enregistré avant votre confirmation.") }}</p>
+      {% if can_generate %}<div>{{ link_button(_("Voir la simulation"), "/etiquettes/generer", "p", "tag") }}</div>
+      {% else %}<p class="small muted m0">{{ _("Réservé aux comptes qui gèrent le catalogue (bibliothécaire). Vous pouvez donner un code à un livre depuis sa fiche.") }}</p>{% endif %}
+      {% else %}
+      <p class="m0">{{ badge(_("Tous les exemplaires ont un code"), "ok") }}</p>
+      {% endif %}
+    </div>
+  </section>
+  <section class="card" aria-labelledby="lbl-selection">
+    <div class="card-b stack">
+      <h3 id="lbl-selection" class="m0">{{ _("Générer pour ma sélection") }}</h3>
+      <p class="m0">{{ _("Une série, des tomes, une cote, une étagère : choisissez, puis générez. Un livre qui a déjà un code le garde.") }}</p>
+      <div>{{ link_button(_("Choisir des livres"), "/etiquettes/selection", "s", "filter") }}</div>
+      {% if not can_generate %}<p class="small muted m0">{{ _("La génération pour une sélection est réservée à la gestion du catalogue.") }}</p>{% endif %}
+    </div>
+  </section>
+  <section class="card" aria-labelledby="lbl-livre">
+    <div class="card-b stack">
+      <h3 id="lbl-livre" class="m0">{{ _("Générer pour ce livre") }}</h3>
+      <p class="m0">{{ _("Depuis la fiche d’un exemplaire : son code, son étiquette et son historique. Pour l’ouvrir, scannez le livre ou cherchez-le.") }}</p>
+      <div>{{ link_button(_("Ouvrir le scanner"), "/scanner", "s", "scan") }}</div>
+    </div>
+  </section>
+</div>
+
+{% endif %}
+{% if can_print %}
+<h2 class="mt-s">{{ _("2. Imprimer les étiquettes") }}</h2>
+<section class="card" aria-labelledby="lbl-imprimer">
+  <div class="card-b stack">
+    <ol class="lsteps" aria-label="{{ _('Les trois étapes') }}">
+      <li><b>{{ _("Choisir les livres") }}</b><span>{{ _("tous ceux à étiqueter, ou une sélection") }}</span></li>
+      <li><b>{{ _("Choisir la planche") }}</b><span>{{ _("et la case où commencer, si la feuille est entamée") }}</span></li>
+      <li><b>{{ _("Vérifier l’aperçu et imprimer") }}</b><span>{{ _("à 100 %%, sans ajustement à la page") }}</span></li>
+    </ol>
+    <div class="row">
+      {{ link_button(_("Imprimer les étiquettes à faire ({n})").format(n=overview.never_confirmed), "/etiquettes/selection?code=a-etiqueter", "p", "print") }}
+      {{ link_button(_("Choisir d’autres livres"), "/etiquettes/selection?code=avec", "s", "filter") }}
+      {{ link_button(_("Imprimer une feuille test"), "/etiquettes/feuille-test.pdf", "g", "download") }}
+    </div>
+    <p class="small muted m0">{{ _("Planche par défaut : {name}. Le prochain code attribué sera {code}.").format(name=prefs.current_sheet().name, code=overview.sequence.next_code) }}</p>
+  </div>
+</section>
+
+{% else %}
+<p class="muted mt-s">{{ _("L’impression des étiquettes est réservée aux comptes qui ont la permission « Imprimer des étiquettes ».") }}</p>
+{% endif %}
+{% if can_print %}
+<section class="card mt-s" aria-labelledby="lbl-lots">
+  <div class="card-h"><h2 id="lbl-lots">{{ _("Derniers lots d’impression") }}</h2>{% if overview.pending_batches %}{{ badge(_("{n} à confirmer").format(n=overview.pending_batches), "due") }}{% endif %}</div>
+  <div class="card-b">
+    {% if batches %}
+    <ul class="plain-list lbl-batches">
+      {% for batch in batches %}
+      <li class="row">
+        <a class="b" href="/etiquettes/lots/{{ batch.id }}">{{ _("Lot n° {n}").format(n=batch.id) }}</a>
+        <span class="muted">{{ batch.created_at | datetime_short }} · {{ _("{n} étiquette(s), {s} feuille(s)").format(n=batch.total, s=batch.sheets) }}</span>
+        {% if batch.status == "confirmed" %}{{ badge(_("Imprimé et collé"), "ok") }}{% elif batch.status == "abandoned" %}{{ badge(_("Abandonné"), "neutral") }}{% else %}{{ badge(_("Préparé, à confirmer"), "due") }}{% endif %}
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    {{ empty_state("print", _("Aucun lot pour l’instant"), _("Chaque PDF préparé est gardé ici : vous pourrez le refaire, reprendre une impression interrompue ou confirmer que les étiquettes sont collées.")) }}
+    {% endif %}
+  </div>
+</section>
+{% endif %}
+{% endblock %}

@@ -138,7 +138,8 @@ def test_barcodes_are_assigned_in_a_batch_only_where_missing(client_as, settings
         ("5", "EX-000001"),
         ("6", "LAB-0006"),
     ]
-    assert client_as("volunteer").get(f"/emplacements/codes-barres?exemplaire={ids[0]}").status_code == 200
+    # Arbitrage L8 : l'attribution en lot est réservée à la gestion du catalogue ; un bénévole garde la fiche d'un livre
+    assert client_as("volunteer").get(f"/emplacements/codes-barres?exemplaire={ids[0]}").status_code == 403
     assert client_as("viewer").get(f"/emplacements/codes-barres?exemplaire={ids[0]}").status_code == 403
 
 

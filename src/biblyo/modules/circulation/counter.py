@@ -16,6 +16,7 @@ from starlette.datastructures import FormData
 
 from biblyo.core.errors import BusinessError
 from biblyo.core.i18n import _
+from biblyo.core.identifiers import RECONSTRUCTION_CODE, from_qwerty
 from biblyo.modules.catalogue.models import Copy, Work
 from biblyo.modules.catalogue.repository import CardView
 from biblyo.modules.circulation import repository as repo
@@ -233,11 +234,22 @@ class Scanner:
         outcome = rules.resolve(repo.candidates(self.session, code, self.visibility))
         if outcome.picked is not None:
             self.apply(outcome.picked)
-        elif outcome.verdict is not None and outcome.verdict.code == "R10":
+        elif outcome.verdict is not None and outcome.verdict.code in ("R10", "R29"):
             self.state.doubt = code
             self.notice = outcome.verdict
         else:
-            self.notice = outcome.verdict
+            self.notice = self._keyboard(code, outcome.verdict)
+
+    def _keyboard(self, code: str, found: Verdict | None) -> Verdict | None:
+        """Un code inconnu relu comme une douchette en QWERTY l'aurait déformé : s'il existe, on le signale (L8)."""
+        if found is not None and found.code == "R4" and RECONSTRUCTION_CODE.match(code):
+            return rules.reconstruction_hint(code)
+        repaired = from_qwerty(code)
+        if found is None or found.code != "R4" or not repaired:
+            return found
+        if not repo.candidates(self.session, repaired, self.visibility):
+            return found
+        return rules.keyboard_hint(code, repaired)
 
     def choose(self, value: str) -> None:
         """Le choix doit être l'un de ceux que ce code permet : le formulaire ne désigne jamais autre chose."""

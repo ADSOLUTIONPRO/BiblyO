@@ -23,7 +23,7 @@
       <div class="in-icon grow">
         {{ icon("search", 17) }}
         <input id="cp-saisie" class="in in-sm" type="text" name="saisie" x-ref="field" autofocus spellcheck="false"
-               autocapitalize="off" x-on:keydown.enter.prevent="enter" aria-describedby="cp-saisie-aide">
+               autocapitalize="off" x-on:keydown.enter.prevent="enter" x-on:keydown.tab="tab" data-scan-field data-scan-enter aria-describedby="cp-saisie-aide">
       </div>
       <span class="faint small hide-m" id="cp-saisie-aide">{{ _("Douchette ou clavier : carte, numéro de lecteur, code d’exemplaire, ISBN.") }}</span>
     </div>

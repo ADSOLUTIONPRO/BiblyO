@@ -60,12 +60,13 @@ def test_upgrade_adds_two_tables_and_changes_nothing_else(at_0012):
     before_rows = _counts(at_0012)
     before_objects = set(_all(at_0012, "SELECT type, name, sql FROM sqlite_master WHERE name NOT LIKE 'sqlite_%'"))
     command.upgrade(alembic_config(at_0012), "0013")
-    assert schema_differences(at_0012) == [] and verify_schema(at_0012) == []
     assert _counts(at_0012) == before_rows
     after_objects = set(_all(at_0012, "SELECT type, name, sql FROM sqlite_master WHERE name NOT LIKE 'sqlite_%'"))
     assert before_objects - after_objects == {o for o in before_objects if o[1] == "alembic_version"} - after_objects
     added = {o[1] for o in after_objects - before_objects if o[0] == "table"}
     assert added == {"enrichment_jobs", "enrichment_job_items"}
+    command.upgrade(alembic_config(at_0012), "head")  # 0014 n'ajoute que les deux tables des lots d'étiquettes
+    assert schema_differences(at_0012) == [] and verify_schema(at_0012) == []
 
 
 def test_an_edition_appears_once_per_job(at_0012):

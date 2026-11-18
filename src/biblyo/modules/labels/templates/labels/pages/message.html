@@ -1,0 +1,9 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header %}
+{% from "components/buttons.html" import link_button %}
+{% from "components/feedback.html" import alert %}
+{% block title %}{{ title }} — biblyO{% endblock %}
+{% block content %}
+{% call page_header(title, "", "she", "tag") %}{{ link_button(_("Retour"), back, "g", "undo") }}{% endcall %}
+{{ alert(message, "late") }}
+{% endblock %}

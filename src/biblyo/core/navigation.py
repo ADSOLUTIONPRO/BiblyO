@@ -70,17 +70,6 @@ PLANNED: tuple[PlannedModule, ...] = (
         _("Récolement du fonds, rayon par rayon."),
         "i",
     ),
-    PlannedModule(
-        "scanner",
-        _("Scanner"),
-        "scan",
-        "cat",
-        "",
-        0,
-        "catalogue.view",
-        _("Lecture de codes-barres à la caméra ou à la douchette."),
-        in_nav=False,
-    ),
 )
 PLANNED_BY_CODE = {module.code: module for module in PLANNED}
 
@@ -211,7 +200,7 @@ def build_navigation(
         groups=groups,
         foot=tuple(item for item in items if item.group == FOOT_GROUP),
         quick_actions=tuple(action for action in _quick_actions(auth) if show_planned or not action.planned),
-        scanner=_scanner_path(auth) if show_planned else "",
+        scanner=_scanner_path(auth),
         phone=tuple(by_code[code] for code in phone_codes if code in by_code),
         all_items=tuple(items),
     )
@@ -227,9 +216,12 @@ def _quick_actions(auth: AuthContext) -> tuple[QuickAction, ...]:
     return tuple(actions)
 
 
+#: Le scanner universel (lot L8) : bouton permanent pour tout compte qui consulte le catalogue.
+SCANNER_PATH = "/scanner"
+
+
 def _scanner_path(auth: AuthContext) -> str:
-    module = PLANNED_BY_CODE["scanner"]
-    return module.path if auth.can(module.permission) else ""
+    return SCANNER_PATH if auth.can("catalogue.view") else ""
 
 
 def navigation_for(request: Request, auth: AuthContext | None) -> Navigation:

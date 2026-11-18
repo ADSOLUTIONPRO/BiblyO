@@ -1,0 +1,11 @@
+{# La liste de mise en service d'une douchette sur ce poste. #}
+{% from "components/icons.html" import icon %}
+<div id="essai-liste"{% if oob is defined and oob %} hx-swap-oob="true"{% endif %}>
+  <ul class="plain-list setup-checks" aria-label="{{ _('Liste de mise en service') }}">
+    {% for code, label in checks.items() %}
+    {% set ok = code in progress.done %}
+    <li class="setup-check{% if ok %} is-ok{% endif %}"><span class="setup-mark" aria-hidden="true">{{ icon("check", 14) if ok else "" }}</span><span>{{ label }}</span><span class="sr">{{ _("fait") if ok else _("à faire") }}</span>{% if code == "serie" and not ok and progress.series %}<span class="small muted">({{ progress.series }}/3)</span>{% endif %}</li>
+    {% endfor %}
+  </ul>
+  {% if progress.complete %}<p class="m0 setup-done" data-annonce>{{ icon("check", 16) }} {{ _("Douchette prête sur ce poste : tous les points sont vérifiés. Vous pouvez activer la lecture partout, ci-dessous.") }}</p>{% endif %}
+</div>

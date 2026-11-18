@@ -1,0 +1,6 @@
+{# Où en est l'assistant d'impression : trois étapes, l'étape courante annoncée. #}
+<ol class="lsteps lsteps-bar" aria-label="{{ _('Étapes de l’impression') }}">
+  {% for label in [_("Choisir les livres"), _("Choisir la planche"), _("Aperçu et impression")] %}
+  <li class="{% if loop.index == step %}on{% elif loop.index < step %}done{% endif %}"{% if loop.index == step %} aria-current="step"{% endif %}><b>{{ loop.index }}</b><span>{{ label }}</span></li>
+  {% endfor %}
+</ol>

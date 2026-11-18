@@ -3,18 +3,19 @@
 Gestion de bibliothèque auto-hébergée, en français, pensée pour les petites bibliothèques associatives : catalogue à
 trois niveaux (œuvre, édition, exemplaire), séries et cotes, rangement sur des étagères réelles, lecteurs et familles,
 prêts et retours au comptoir, enrichissement depuis la BnF et le Sudoc, import d'un catalogue Excel avec simulation,
-exports complets.
+exports complets, codes-barres et étiquettes A4, scanner universel à la douchette.
 
 - **Installation sur un Synology** (Container Manager, sans ligne de commande) : [`INSTALLATION-SYNOLOGY.md`](INSTALLATION-SYNOLOGY.md)
 - **Mise à jour** : [`docs/MISE-A-JOUR.md`](docs/MISE-A-JOUR.md)
 - **Sauvegarde et restauration** : [`docs/SAUVEGARDE-RESTAURATION.md`](docs/SAUVEGARDE-RESTAURATION.md)
+- **Douchette et étiquettes** (mise en service) : [`docs/DOUCHETTE-ET-ETIQUETTES.md`](docs/DOUCHETTE-ET-ETIQUETTES.md)
 - **Notes de version** : [`CHANGELOG.md`](CHANGELOG.md)
 - **Sécurité** : [`SECURITY.md`](SECURITY.md)
 
 ## Image Docker
 
 ```sh
-docker pull ghcr.io/adsolutionpro/biblyo:1.1.0
+docker pull ghcr.io/adsolutionpro/biblyo:1.2.0
 ```
 
 Image `linux/amd64`, construite par GitHub Actions depuis l'étiquette de version, après les tests et une recette

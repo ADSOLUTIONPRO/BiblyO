@@ -1,0 +1,112 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header %}
+{% from "components/buttons.html" import button, link_button %}
+{% from "components/forms.html" import field, checkbox %}
+{% from "components/feedback.html" import alert, badge %}
+{% from "components/icons.html" import icon %}
+{% block title %}{{ _("Imprimer des étiquettes") }} — biblyO{% endblock %}
+{% block content %}
+{% call page_header(_("Imprimer des étiquettes"), _("{n} livre(s) choisi(s)").format(n=total), "she", "print") %}
+  {{ link_button(_("Changer de livres"), "/etiquettes/selection", "g", "undo") }}
+{% endcall %}
+{% include "labels/fragments/steps.html" %}
+{% if message %}{{ alert(message, "late") }}{% endif %}
+
+{% if step == 2 %}
+<form method="post" action="/etiquettes/imprimer" class="stack mt-s">
+  <input type="hidden" name="_csrf" value="{{ csrf_token }}"><input type="hidden" name="etape" value="3">
+  {% include "labels/fragments/selection_hidden.html" %}
+  {% if origin %}<input type="hidden" name="origine" value="{{ origin }}">{% endif %}{% if parent %}<input type="hidden" name="parent" value="{{ parent }}">{% endif %}
+
+  <fieldset class="card"><legend class="card-h"><span class="h2">{{ _("Quelle planche ?") }}</span></legend>
+    <div class="card-b opt-grid">
+      {% for item in sheet_list %}
+      <label class="opt-card" for="planche-{{ item.code }}">
+        <input type="radio" id="planche-{{ item.code }}" name="planche" value="{{ item.code }}"{% if item.code == chosen_sheet.code %} checked{% endif %}>
+        <span class="opt-b"><b>{{ item.name }}</b><span>{{ item.summary }}</span>{% if item.note %}<span>{{ item.note }}</span>{% endif %}
+          {% if item.code in prefs.verified %}{{ badge(_("Certifiée sur une planche le {d}").format(d=prefs.verified[item.code]), "ok") }}{% else %}{{ badge(verification[item.verification], "due" if item.needs_calibration else "neutral") }}{% endif %}</span>
+      </label>
+      {% endfor %}
+      {% if custom_ready %}
+      <label class="opt-card" for="planche-perso">
+        <input type="radio" id="planche-perso" name="planche" value="personnalise"{% if chosen_sheet.code == "personnalise" %} checked{% endif %}>
+        <span class="opt-b"><b>{{ _("Gabarit personnalisé") }}</b><span>{{ prefs.current_sheet().summary }}</span></span>
+      </label>
+      {% endif %}
+      <p class="small muted m0">{{ _("Une autre planche ? Décrivez-la dans les réglages des étiquettes (gabarit personnalisé).") }} <a href="/etiquettes/reglages">{{ _("Réglages") }}</a></p>
+    </div>
+  </fieldset>
+
+  <fieldset class="card"><legend class="card-h"><span class="h2">{{ _("Que mettre sur l’étiquette ?") }}</span></legend>
+    <div class="card-b stack">
+      <div class="opt-grid">
+        {% for code, item in models.items() %}
+        <label class="opt-card" for="modele-{{ code }}"><input type="radio" id="modele-{{ code }}" name="modele" value="{{ code }}"{% if code == model %} checked{% endif %}><span class="opt-b"><b>{{ item[0] }}</b><span>{{ model_help[code] }}</span></span></label>
+        {% endfor %}
+        <label class="opt-card" for="modele-personnalise"><input type="radio" id="modele-personnalise" name="modele" value="personnalise"{% if model == "personnalise" %} checked{% endif %}><span class="opt-b"><b>{{ _("Personnalisé") }}</b><span>{{ model_help["personnalise"] }}</span></span></label>
+      </div>
+      <fieldset class="fld"><legend>{{ _("Éléments du modèle personnalisé") }}</legend>
+        <div class="grid g4">
+          {% for code, label in element_labels.items() %}{{ checkbox("element", label, code, code in elements) }}{% endfor %}
+        </div>
+        <span class="h">{{ _("Le code-barres est toujours imprimé : c’est lui que lit la douchette.") }}</span>
+      </fieldset>
+    </div>
+  </fieldset>
+
+  <fieldset class="card"><legend class="card-h"><span class="h2">{{ _("Feuille neuve ou entamée ?") }}</span></legend>
+    <div class="card-b stack">
+      {{ field("depart", _("Commencer à la case n°"), "", inputmode="numeric", help=_("Les cases avant celle-ci sont tenues pour utilisées. Vous pouvez aussi cocher ci-dessous les cases déjà décollées.")) }}
+      <fieldset class="fld"><legend>{{ _("Cases déjà utilisées sur la première feuille ({n} cases)").format(n=chosen_sheet.count) }}</legend>
+        <div class="cells cells-{{ chosen_sheet.columns }}">
+          {% for position in range(1, chosen_sheet.count + 1) %}
+          <label class="cell" for="case-{{ position }}"><input type="checkbox" id="case-{{ position }}" name="occupee" value="{{ position }}"{% if position in occupied %} checked{% endif %}><span>{{ position }}</span></label>
+          {% endfor %}
+        </div>
+        <span class="h">{{ _("Les cases sont numérotées ligne par ligne, de gauche à droite, en partant du haut. Si vous changez de planche, revenez vérifier les cases.") }}</span>
+      </fieldset>
+    </div>
+  </fieldset>
+  <div class="form-actions">{{ button(_("Voir l’aperçu"), "p", "eye", type="submit") }}</div>
+</form>
+{% else %}
+<form method="post" action="/etiquettes/imprimer" class="mt-s">
+  <input type="hidden" name="_csrf" value="{{ csrf_token }}"><input type="hidden" name="etape" value="2">
+  {% include "labels/fragments/selection_hidden.html" %}
+  {% include "labels/fragments/print_hidden.html" %}
+  {{ button(_("Modifier la planche ou les cases"), "g", "undo", type="submit") }}
+</form>
+{% if plan %}
+<section class="card mt-s" aria-labelledby="apercu-titre">
+  <div class="card-h"><h2 id="apercu-titre">{{ _("Aperçu : {n} étiquette(s) sur {s} feuille(s)").format(n=plan.count, s=plan.pages | length) }}</h2></div>
+  <div class="card-b stack">
+    <ul class="plain-list small">
+      <li>{{ icon("info", 14) }} {{ chosen_sheet.name }} — {{ chosen_sheet.summary }}</li>
+      <li>{{ icon("info", 14) }} {{ _("Première étiquette : case {p} de la feuille 1.").format(p=plan.pages[0][0].position) }}{% if occupied %} {{ _("{n} case(s) déjà utilisée(s), hachurées.").format(n=occupied | length) }}{% endif %}</li>
+      {% if chosen_sheet.code not in prefs.verified %}<li>{{ icon("alert", 14) }} {{ _("Cette planche n’est pas encore certifiée : imprimez d’abord la feuille test à 100 %%, sur du papier ordinaire, et posez-la sur une vraie planche (Réglages des étiquettes).") }}</li>{% endif %}
+      {% if missing %}<li>{{ icon("alert", 14) }} {{ _("{n} livre(s) sans code-barres n’ont pas d’étiquette : générez d’abord leur code.").format(n=missing) }}</li>{% endif %}
+      {% if dropped %}<li>{{ icon("alert", 14) }} {{ _("Faute de place sur ce format, certaines étiquettes n’affichent pas : {list}.").format(list=dropped | join(", ")) }}</li>{% endif %}
+      {% if prefs.offset != (0.0, 0.0) %}<li>{{ icon("info", 14) }} {{ _("Calibration appliquée : {x} mm horizontalement, {y} mm verticalement.").format(x=prefs.offset[0], y=prefs.offset[1]) }}</li>{% endif %}
+    </ul>
+    <div class="lbl-sheets">
+      <figure class="lbl-sheet lbl-zoom">{{ zoom }}<figcaption class="small muted">{{ _("Première étiquette, agrandie : {w} × {h} mm sur la planche").format(w=chosen_sheet.width | string | replace(".", ","), h=chosen_sheet.height | string | replace(".", ",")) }}</figcaption></figure>
+      {% for svg in previews %}<figure class="lbl-sheet">{{ svg }}<figcaption class="small muted">{{ _("Feuille {n}").format(n=loop.index) }}</figcaption></figure>{% endfor %}
+    </div>
+    {% if plan.pages | length > previews | length %}<p class="muted m0">{{ _("… et {n} autre(s) feuille(s), pleines.").format(n=plan.pages | length - previews | length) }}</p>{% endif %}
+    <div class="lbl-printtip" role="note">
+      {{ icon("print", 22) }}
+      <div><b>{{ _("Imprimez à 100 %%, sans « Ajuster à la page ».") }}</b>
+        <p class="m0 small">{{ _("Dans la fenêtre d’impression, choisissez « Taille réelle » ou « 100 %% », papier A4. Une première fois, imprimez sur une feuille ordinaire et posez-la sur la planche, par transparence.") }}</p></div>
+    </div>
+    <form method="post" action="/etiquettes/lots" class="form-actions">
+      <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+      {% include "labels/fragments/selection_hidden.html" %}
+      {% include "labels/fragments/print_hidden.html" %}
+      {{ button(_("Préparer le PDF"), "p", "download", type="submit") }}
+    </form>
+    <p class="small muted m0">{{ _("Le PDF est gardé comme un lot « préparé » : vous confirmerez ensuite que les étiquettes sont imprimées et collées.") }}</p>
+  </div>
+</section>
+{% endif %}
+{% endif %}
+{% endblock %}

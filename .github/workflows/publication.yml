@@ -157,6 +157,7 @@ jobs:
             echo "- Plateforme : linux/amd64 ; commit : \`$GITHUB_SHA\`"
             echo "- Installation : INSTALLATION-SYNOLOGY.md ; fichiers joints : compose.yaml, .env.example"
             echo "- Mise à jour et retour arrière : MISE-A-JOUR.md ; sauvegarde et restauration : SAUVEGARDE-RESTAURATION.md"
+            echo "- Douchette et étiquettes : DOUCHETTE-ET-ETIQUETTES.md (mise en service, feuille test, calibration)"
             echo "- Recette : RECETTE-$VERSION.md (tests, parcours navigateur, mise à jour éprouvée) ; journal de la recette"
             echo "  de cette image : recette.txt ; vulnérabilités : trivy.txt"
             echo "- Licence et provenance : LICENSE (EUPL-1.2), NOTICE, THIRD_PARTY_NOTICES.md"
@@ -168,4 +169,5 @@ jobs:
           gh release create "$GITHUB_REF_NAME" --title "biblyO $VERSION" --notes-file notes.md \
             compose.yaml "env.example#.env.example" trivy.txt composants-image.txt composants-python.txt "sources-debian-$VERSION.tar" \
             recette.txt INSTALLATION-SYNOLOGY.md docs/MISE-A-JOUR.md docs/SAUVEGARDE-RESTAURATION.md CHANGELOG.md \
+            docs/DOUCHETTE-ET-ETIQUETTES.md \
             NOTICE THIRD_PARTY_NOTICES.md LICENSE "docs/rapports/RECETTE-$VERSION.md"

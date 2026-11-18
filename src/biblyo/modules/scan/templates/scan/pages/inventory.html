@@ -1,0 +1,24 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header %}
+{% from "components/buttons.html" import button, link_button %}
+{% from "components/forms.html" import select %}
+{% block title %}{{ _("Inventaire au scanner") }} — biblyO{% endblock %}
+{% block content %}
+{% call page_header(_("Inventaire au scanner"), _("Scannez les livres d’une étagère : biblyO vérifie leur présence et signale ce qui ne va pas. Aucun prêt, aucun changement."), "inv", "inventory") %}
+  {{ link_button(_("Scanner"), "/scanner", "g", "scan") }}
+{% endcall %}
+{% set mode = "inventaire" %}{% include "scan/fragments/modes.html" %}
+<form id="inventaire" class="stack mt-s" method="post" action="/scanner/inventaire" hx-post="/scanner/inventaire" hx-target="#inventaire-liste" hx-swap="innerHTML" hx-sync="this:queue all" data-scan-form>
+  <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+  {% include "scan/fragments/inventory_seen.html" %}
+  <section class="card"><div class="card-b grid g2">
+    {{ select("lieu", _("Étagère ou meuble contrôlé (facultatif)"), [("", _("Tout le fonds"))] + places, place | string if place else "", help=_("Un livre rangé ailleurs sera signalé.")) }}
+    <div class="fld">
+      <label for="inventaire-code">{{ _("Scannez chaque livre") }}</label>
+      <input class="in scan-in" id="inventaire-code" name="code" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" autofocus data-scan-field data-scan-clear>
+      <span class="h">{{ _("Un livre scanné deux fois n’est compté qu’une fois.") }}</span>
+    </div>
+  </div></section>
+</form>
+<div id="inventaire-liste" aria-live="polite">{% include "scan/fragments/inventory_list.html" %}</div>
+{% endblock %}

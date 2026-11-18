@@ -1,0 +1,91 @@
+{# Réponse à un scan. Lecture seule : chaque bouton ouvre l'écran qui accomplit l'action, avec ses contrôles. #}
+{% from "components/buttons.html" import button, link_button %}
+{% from "components/feedback.html" import alert, badge %}
+{% from "components/icons.html" import icon %}
+{% if found is none %}
+{% elif found.kind == "copy" %}
+<div class="scan-hit scan-ok" data-annonce>
+  <p class="sr">{{ _("Livre trouvé : {t}").format(t=found.copy.title) }}</p>
+  {% set copy = found.copy %}{% include "scan/fragments/copy_card.html" %}
+  {% if found.copy.found_by == "inventory" %}<p class="small muted m0">{{ _("Trouvé par son numéro d’inventaire.") }}</p>{% endif %}
+  <div class="scan-actions">
+    {% for action in actions_list %}{{ link_button(action.label, action.href, "p" if action.primary else "s", action.icon, "sm" if not action.primary else "") }}{% endfor %}
+  </div>
+</div>
+{% elif found.kind == "isbn" %}
+<div class="scan-hit scan-info" data-annonce>
+  <p class="m0"><b>{{ _("ISBN {isbn}").format(isbn=found.isbn13) }}</b> — {{ _("c’est le numéro du livre imprimé sur la couverture, pas l’étiquette d’un exemplaire.") }}</p>
+  {% if found.editions %}
+  <p class="m0">{{ _("Choisissez l’exemplaire que vous avez en main :") }}</p>
+  {% for edition in found.editions %}
+  <section class="scan-edition" aria-label="{{ edition.card.title if edition.card else '' }}">
+    <p class="m0"><a class="b" href="/catalogue/notices/{{ edition.work_id }}">{{ edition.card.title if edition.card else _("Notice") }}</a>{% if edition.edition %} <span class="small muted">· {{ edition.edition }}</span>{% endif %}</p>
+    {% if edition.copies %}
+    <ul class="plain-list scan-choices">
+      {% for copy in edition.copies %}
+      <li class="row">
+        <form hx-post="/scanner/identifier" hx-target="closest .scan-result" hx-swap="innerHTML" method="post" action="/scanner/identifier">
+          <input type="hidden" name="_csrf" value="{{ csrf_token }}"><input type="hidden" name="mode" value="{{ mode }}"><input type="hidden" name="exemplaire" value="{{ copy.id }}">
+          {{ button(_("Choisir"), "s", "check", size="sm", type="submit", aria_label=_("Choisir l’exemplaire {code}").format(code=copy.barcode or copy.inventory)) }}
+        </form>
+        <span class="mono small">{{ copy.barcode or copy.inventory }}</span>
+        {% if copy.state %}{{ badge(copy.state.short, copy.state.badge) }}{% endif %}
+        <span class="small muted">{{ copy.path or _("non rangé") }}</span>
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}<p class="small muted m0">{{ _("Cette édition n’a encore aucun exemplaire.") }}</p>{% endif %}
+  </section>
+  {% endfor %}
+  {% else %}
+  <p class="m0">{{ _("Ce livre n’est pas au catalogue.") }}</p>
+  <div class="scan-actions">
+    {% if can_search_sources %}
+    <form method="post" action="/sources"><input type="hidden" name="_csrf" value="{{ csrf_token }}"><input type="hidden" name="isbn" value="{{ found.isbn13 }}">{{ button(_("Rechercher à la BnF et au Sudoc"), "p", "search", type="submit") }}</form>
+    {% endif %}
+    {% if can_create %}{{ link_button(_("Créer sa notice"), "/catalogue/notices/nouvelle?isbn=" ~ found.isbn13, "s", "plus") }}{% endif %}
+  </div>
+  <p class="small muted m0">{{ _("La recherche ne part qu’à votre demande ; ses résultats sont des propositions, rien n’est enregistré sans votre accord.") }}</p>
+  {% endif %}
+</div>
+{% elif found.kind == "reader" %}
+<div class="scan-hit scan-info" data-annonce>
+  {% for reader in found.readers %}
+  {% if reader.ended %}
+  <p class="m0"><b>{{ _("Carte hors service") }}</b> — {{ _("vérifiez l’identité, puis retrouvez la fiche par le nom.") }}</p>
+  {% else %}
+  <p class="m0"><b>{{ _("Carte de lecteur") }}</b> — {{ reader.name }} <span class="mono small">{{ reader.detail }}</span></p>
+  <div class="scan-actions">
+    {% if can_lend %}{{ link_button(_("Prêter à ce lecteur"), "/comptoir?lecteur=" ~ reader.patron_id, "p", "out") }}{% endif %}
+    {{ link_button(_("Ouvrir sa fiche"), "/lecteurs/" ~ reader.patron_id, "s", "users") }}
+  </div>
+  {% endif %}
+  {% endfor %}
+</div>
+{% elif found.kind == "ambiguous" %}
+<div class="scan-hit scan-due" data-annonce>
+  <p class="m0"><b>{{ _("Plusieurs réponses pour « {c} »").format(c=found.text) }}</b> — {{ _("choisissez explicitement :") }}</p>
+  <ul class="plain-list">
+    {% if found.copy %}<li>{{ _("Exemplaire") }} : <a href="/exemplaires/{{ found.copy.id }}">{{ found.copy.title }}</a> <span class="mono small">{{ found.copy.barcode or found.copy.inventory }}</span></li>{% endif %}
+    {% for edition in found.editions %}<li>{{ _("ISBN d’une édition") }} : <a href="/catalogue/notices/{{ edition.work_id }}">{{ edition.card.title if edition.card else "" }}</a></li>{% endfor %}
+    {% for reader in found.readers if not reader.ended %}<li>{{ _("Lecteur") }} : <a href="/lecteurs/{{ reader.patron_id }}">{{ reader.name }}</a></li>{% endfor %}
+  </ul>
+</div>
+{% else %}
+<div class="scan-hit scan-late" data-annonce>
+  <p class="m0"><b>{{ _("Code inconnu") }}</b> — « <span class="mono">{{ found.text or found.raw }}</span> »</p>
+  {% if found.shape.reconstruction %}
+  <p class="m0">{{ _("C’est une étiquette de l’ancienne reconstruction du catalogue (« CSN-… », avec un tiret) : ces numéros ne correspondent à aucun livre. Les codes de biblyO s’écrivent sans tiret, par exemple « CSN000123 ». Retirez cette étiquette et cherchez le livre par son titre.") }}</p>
+  {% elif found.keyboard %}
+  <p class="m0">{{ _("La douchette semble réglée en clavier américain : « {got} » voulait sans doute dire « {want} ».").format(got=found.raw, want=found.keyboard) }}{% if found.keyboard_found %} {{ _("Ce code existe.") }}{% endif %}</p>
+  <div class="scan-actions">
+    {% if found.keyboard_found %}
+    <form hx-post="/scanner/identifier" hx-target="closest .scan-result" hx-swap="innerHTML" method="post" action="/scanner/identifier"><input type="hidden" name="_csrf" value="{{ csrf_token }}"><input type="hidden" name="mode" value="{{ mode }}"><input type="hidden" name="code" value="{{ found.keyboard }}">{{ button(_("Chercher « {c} »").format(c=found.keyboard), "s", "search", size="sm", type="submit") }}</form>
+    {% endif %}
+    {{ link_button(_("Configurer ma douchette"), "/scanner/douchette", "s", "scan", "sm") }}
+  </div>
+  {% else %}
+  <p class="small muted m0">{{ _("Aucun exemplaire, ISBN ou lecteur ne porte ce code. Vérifiez l’étiquette, ou cherchez le livre par son titre.") }}</p>
+  {% endif %}
+</div>
+{% endif %}

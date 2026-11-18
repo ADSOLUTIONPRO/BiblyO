@@ -670,3 +670,39 @@ def spine_width(pages: int | None, type_code: str) -> int:
 def spine_height(type_code: str) -> str:
     return _TYPE_HEIGHT.get(type_code, "mid")
 
+
+
+# --- Préfixe des codes-barres (lot L8, D-L8-2) ------------------------------------------------------------------------
+PREFIX_MAX = 8
+_PREFIX = re.compile(r"[A-Z][A-Z0-9-]{0,7}")
+#: Ancienne reconstruction du catalogue du Club : ses codes `CSN-…` ne correspondent à aucun inventaire (D-L6-7).
+RECONSTRUCTION_PREFIX = "CSN-"
+#: Lettres et signes qu'une douchette réglée en QWERTY écrit autrement sur un poste AZERTY.
+LAYOUT_SENSITIVE = frozenset("AQWZM-")
+
+
+def prefix_problems(prefix: str, padding: int) -> tuple[list[str], list[str]]:
+    """Refus et mises en garde pour un nouveau préfixe. Un refus empêche le changement ; une mise en garde non."""
+    from biblyo.modules.patrons.rules import PATRON_NUMBER
+
+    refusals: list[str] = []
+    warnings: list[str] = []
+    sample = f"{prefix}{1:0{padding}d}"
+    if not _PREFIX.fullmatch(prefix):
+        refusals.append(_("Un préfixe compte 1 à 8 caractères : une lettre d’abord, puis lettres, chiffres ou tirets."))
+    elif normalize_code(sample) != sample:
+        refusals.append(_("Avec ce préfixe, un code ne serait pas valide."))
+    if prefix.startswith(RECONSTRUCTION_PREFIX):
+        refusals.append(
+            _("« CSN- » est réservé : c’était le préfixe de l’ancienne reconstruction, refusée à l’import.")
+        )
+    if PATRON_NUMBER.fullmatch(sample):
+        refusals.append(_("Un code commençant ainsi ressemblerait à un numéro de lecteur (P-000001)."))
+    if set(prefix) & LAYOUT_SENSITIVE:
+        warnings.append(
+            _(
+                "Ce préfixe contient « {signs} » : une douchette mal réglée (clavier américain) l’écrirait autrement. "
+                "L’assistant « Configurer ma douchette » le détecte."
+            ).format(signs=" ".join(sorted(set(prefix) & LAYOUT_SENSITIVE)))
+        )
+    return refusals, warnings

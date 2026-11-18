@@ -1,0 +1,49 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header %}
+{% from "components/buttons.html" import button, link_button %}
+{% from "components/feedback.html" import alert, badge %}
+{% from "components/icons.html" import icon %}
+{% block title %}{{ _("Générer les codes-barres") }} — biblyO{% endblock %}
+{% block content %}
+{% set scope = "selection" if selection is not none else "tous" %}
+{% call page_header(_("Générer les codes-barres") if scope == "tous" else _("Générer pour ma sélection"), _("Simulation : rien n’est enregistré tant que vous n’avez pas confirmé"), "she", "tag") %}
+  {{ link_button(_("Retour"), "/etiquettes" if scope == "tous" else "/etiquettes/selection", "g", "undo") }}
+{% endcall %}
+{% if message %}{{ alert(message, "late") }}{% endif %}
+{% if plan %}
+<section class="card" aria-labelledby="gen-titre">
+  <div class="card-h"><h2 id="gen-titre">{{ _("{n} code(s) à attribuer").format(n=plan.copy_ids | length) }}</h2></div>
+  <div class="card-b stack">
+    {% if plan.copy_ids %}
+    <p class="lbl-range m0"><span class="mono">{{ plan.first }}</span> <span aria-hidden="true">→</span><span class="sr">{{ _("à") }}</span> <span class="mono">{{ plan.last }}</span></p>
+    <ul class="plain-list small">
+      <li>{{ icon("check", 14) }} {{ _("Les codes suivent la numérotation de biblyO (préfixe « {p} »), dans l’ordre des numéros d’inventaire.").format(p=plan.prefix) }}</li>
+      <li>{{ icon("check", 14) }} {{ _("Un code déjà pris, retiré ou porté par une carte de lecteur est sauté : aucun code n’est jamais réemployé.") }}</li>
+      <li>{{ icon("check", 14) }} {{ _("Les numéros d’inventaire, les ISBN, les cotes et les prêts en cours ne changent pas.") }}</li>
+      {% if plan.kept %}<li>{{ icon("check", 14) }} {{ _("{n} exemplaire(s) de la sélection ont déjà un code : ils le gardent.").format(n=plan.kept | length) }}</li>{% endif %}
+      {% if scope == "tous" and totals.excluded %}<li>{{ icon("info", 14) }} {{ _("Laissés de côté : {list}. Leur fiche permet encore de leur donner un code.").format(list=excluded | join(", ")) }}</li>{% endif %}
+    </ul>
+    {% if sample %}
+    <details>
+      <summary>{{ _("Voir les premiers livres concernés") }}</summary>
+      <ol class="plain-list mt-xs">
+        {% for item in sample %}<li><span class="mono">{{ plan.codes[loop.index0] }}</span> · {{ item.title }} <span class="faint small">{{ _("inventaire") }} {{ item.inventory_number }}</span></li>{% endfor %}
+      </ol>
+    </details>
+    {% endif %}
+    <p class="small muted m0">{{ _("Les codes prévus sont les prochains libres. Si quelqu’un attribue un code entre-temps, biblyO refusera et vous demandera de relancer la simulation.") }}</p>
+    <form method="post" action="/etiquettes/generer" class="form-actions">
+      <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+      <input type="hidden" name="empreinte" value="{{ plan.fingerprint }}">
+      <input type="hidden" name="portee" value="{{ scope }}">
+      {% if selection is not none %}{% for name, value in selection.hidden() %}<input type="hidden" name="{{ name }}" value="{{ value }}">{% endfor %}{% endif %}
+      {{ button(_("Attribuer ces {n} codes").format(n=plan.copy_ids | length), "p", "check", type="submit") }}
+    </form>
+    {% else %}
+    <p class="m0">{{ badge(_("Rien à attribuer : ces exemplaires ont tous un code"), "ok") }}</p>
+    <div>{{ link_button(_("Imprimer leurs étiquettes"), "/etiquettes/selection?code=a-etiqueter", "p", "print") }}</div>
+    {% endif %}
+  </div>
+</section>
+{% endif %}
+{% endblock %}

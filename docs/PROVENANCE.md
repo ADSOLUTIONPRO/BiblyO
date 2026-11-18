@@ -32,9 +32,21 @@ chaque contrôle ([audit d'indépendance](rapports/AUDIT-INDEPENDANCE-BIBLYO-V1.
 | Dépendances Python | PyPI, verrouillées (`uv.lock`) | Permissives, et MPL-2.0 pour `certifi` | Image Docker |
 | Pillow et ses bibliothèques embarquées | PyPI `pillow` | MIT-CMU, voir [`provenance/pillow.md`](provenance/pillow.md) | Image Docker |
 | CLI Tailwind CSS v4.3.3 | Versions GitHub de Tailwind Labs, empreinte vérifiée | MIT | Construction seulement |
+| Chasses de Helvetica et Helvetica-Bold | Adobe Core 14 AFM (1997), chasses seules, non modifiées | Licence d'Adobe, voir [`THIRD_PARTY_NOTICES.md`](../THIRD_PARTY_NOTICES.md) | `src/biblyo/core/pdf_metrics.py` |
 | Réponses BnF et Sudoc | Services publics, relevées le 11 novembre 2026 | Licence Ouverte de l'État | `tests/fixtures/sources/` |
 
 Les empreintes des fichiers repris sont vérifiées par `scripts/check_vendor.py`.
+
+## Normes mises en œuvre (lot L8)
+
+Aucune bibliothèque de codes-barres ni de PDF n'est reprise : biblyO met en œuvre ces normes publiques avec du code
+écrit pour lui.
+
+| Norme | Ce que biblyO en écrit | Où | Vérification |
+|---|---|---|---|
+| Code 128, ISO/IEC 15417 | Encodeur (jeux B et C par plus court chemin, clé modulo 103, dessin en modules). La table des 107 motifs est **normative** : toute implémentation conforme a les mêmes valeurs, dans le même ordre ; c'est la seule suite commune signalée par le contrôle de reprise, examinée (`scripts/provenance/examines.json`) | `src/biblyo/core/barcodes.py` | Propriétés de la table (11 modules, parité, unicité) ; **107 motifs sur 107** relus par un décodeur indépendant (Vision, macOS) : `scripts/verifier_code128.py`, `docs/rapports/preuves-l8/` |
+| EAN-13, ISO/IEC 15420 | Codes L, G et R, parités, gardes (feuille test, assistant de la douchette) | `src/biblyo/core/barcodes.py` | Relus par le même décodeur |
+| PDF, ISO 32000 | Écriture d'un PDF A4 (pages, rectangles, textes, images), police standard Helvetica non incorporée | `src/biblyo/core/pdf.py` | Format des pages, positions et codes relus dans les PDF produits (`tests/pdf_reader.py`) |
 
 ## Ce que le dépôt ne contient pas
 

@@ -10,6 +10,17 @@
     {% if can("catalogue.edit") %}<div>{{ link_button(_("Gérer les listes"), "/admin/catalogue", "p", "tag") }}</div>{% endif %}
   </div>
 </section>
+<section class="card" aria-labelledby="titre-etiquettes">
+  <div class="card-h"><h2 id="titre-etiquettes">{{ _("Codes-barres et étiquettes") }}</h2></div>
+  <div class="card-b stack">
+    <p class="m0">{{ _("Numérotation des codes-barres, planches d’étiquettes A4, contenu des étiquettes, calibration de l’imprimante et douchette.") }}</p>
+    <div class="row">
+      {% if can("holdings.edit") %}{{ link_button(_("Codes-barres et étiquettes"), "/etiquettes", "p", "tag") }}{% endif %}
+      {% if can("labels.print") %}{{ link_button(_("Réglages des étiquettes"), "/etiquettes/reglages", "s", "gear") }}{% endif %}
+      {{ link_button(_("Configurer ma douchette"), "/scanner/douchette", "s", "scan") }}
+    </div>
+  </div>
+</section>
 <section class="card" aria-labelledby="titre-affichage">
   <div class="card-h"><h2 id="titre-affichage">{{ _("Affichage") }}</h2></div>
   <div class="card-b stack">

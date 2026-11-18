@@ -1,5 +1,81 @@
 # Notes de version
 
+## 1.2.0
+
+**Codes-barres, étiquettes A4 et scanner universel.** Pour un bénévole : générer en une fois les codes-barres des
+livres qui n'en ont pas, imprimer leurs étiquettes sur des planches A4 prédécoupées (même entamées), les coller, puis
+scanner n'importe quel livre avec la douchette pour l'ouvrir, le prêter, le rendre, le ranger ou l'enrichir.
+
+Révision du schéma : **0014** (deux tables nouvelles pour les lots d'impression et un rôle d'appoint « Impression des
+étiquettes », attribué à personne ; aucune table existante modifiée).
+La mise à jour se fait à la main (`biblyo db upgrade`), après une sauvegarde vérifiée prise automatiquement.
+
+### Codes-barres
+
+- Page « Codes-barres et étiquettes », depuis le Catalogue et la rubrique « Catalogue et affichage » des paramètres :
+  exemplaires avec et sans code, étiquettes restant à imprimer.
+- « Générer tous les codes manquants » : une simulation d'abord (rien n'est enregistré, la numérotation n'avance pas),
+  puis une seule opération confirmée, même pour des milliers de livres, dans l'ordre des numéros d'inventaire.
+  « Retiré » et « Perdu » sont laissés de côté.
+- « Générer pour ma sélection » (recherche, série, tomes, cote, emplacement) et « Générer pour ce livre », depuis la
+  fiche de l'exemplaire.
+- Toujours la même numérotation : un code existant n'est jamais remplacé, un code retiré ou porté par une carte n'est
+  jamais réemployé, l'inventaire, la cote et l'ISBN ne changent jamais ; chaque attribution est journalisée.
+- Préfixe des prochains codes réglable explicitement, sans retour à zéro : à l'écran ou par `biblyo codes etat` puis
+  `biblyo codes prefixe CSN [--appliquer]` (`CSN000001`…) ; `CSN-` est refusé, et une ancienne étiquette `CSN-…` de la
+  reconstruction n'est jamais prise pour un code `CSN…`.
+- La génération en masse (tous les codes manquants, une sélection, un lot depuis « Non rangés ») est réservée à la
+  gestion du catalogue ; un livre seul reçoit son code depuis sa fiche.
+
+### Étiquettes A4
+
+- PDF produit par biblyO, sans service extérieur, au format A4 réel, qui demande une impression à 100 %.
+- Planches Avery **L7160** (21, format principal des BD) et **L7651** (65, format compact), puis L7159 et L7654 et un
+  gabarit personnalisé marqués « calibration nécessaire » ; une planche est certifiée après la feuille test imprimée à
+  100 % et la lecture de ses codes à la douchette ; modèles compact, standard, détaillé ou personnalisé (logo, nom,
+  titre, série et tome, cote, inventaire, emplacement ; seul le code est obligatoire). Code 128 lisible : module de
+  0,25 mm au moins, zones blanches de 10 modules, 6 mm de barres au moins.
+- Assistant en trois étapes : choisir les livres, choisir la planche (et les cases déjà utilisées d'une feuille
+  entamée), vérifier l'aperçu A4 et une étiquette agrandie, puis préparer le PDF.
+- Feuille test (règles de 100 mm, codes d'essai) et calibration pour un décalage de l'imprimante.
+- Lots d'impression gardés : refaire un PDF à l'identique, reprendre une impression interrompue, réimprimer sans
+  régénérer aucun code ; une étiquette n'est tenue pour collée que si la personne le confirme.
+- Imprimer demande la permission « Imprimer des étiquettes » : rôle bibliothécaire, et nouveau rôle d'appoint
+  « Impression des étiquettes », à cocher en plus du rôle d'un bénévole choisi (le rôle « Bénévole » n'est pas élargi).
+
+### Scanner universel
+
+- Bouton « Scanner » permanent : une fenêtre de scan sans quitter la page. Sur un poste déclaré « poste de prêt de la
+  bibliothèque » (désactivé par défaut), une lecture de douchette hors de tout champ l'ouvre aussi, jamais pendant la
+  saisie d'un formulaire ou d'un mot de passe. Une douchette n'identifie personne : tout reste fait au nom du compte
+  connecté.
+- Fiche immédiate : couverture, titre, auteurs, série et tome, édition, codes, disponibilité réelle, emplacement, et
+  seulement les actions permises et utiles : prêter, enregistrer le retour, ouvrir ou modifier la fiche, enrichir,
+  vérifier la présence ou changer le statut, ranger, imprimer l'étiquette.
+- Un ISBN scanné mène aux éditions du catalogue et à leurs exemplaires, à choisir ; absent du catalogue, une recherche
+  à la BnF et au Sudoc est proposée (jamais lancée seule) et la notice peut être créée avec l'ISBN prérempli.
+- Modes de travail : recherche, comptoir, retours, inventaire (vérifie la présence sans rien écrire), rangement,
+  enrichissement.
+- « Configurer ma douchette » : codes d'essai (Code 128, ISBN-13, code inconnu), touche finale et vitesse mesurées,
+  diagnostic « Douchette prête », « Code non reconnu », « Suffixe non détecté » ou « Code inconnu » (y compris une
+  douchette en clavier américain sur un poste français), et une liste de mise en service en huit points.
+
+### Comptoir et retours
+
+- Un ISBN ne désigne plus jamais seul un exemplaire : même s'il n'y en a qu'un, il se confirme d'un clic.
+- Une douchette réglée en Tab fonctionne comme en Entrée ; le même code lu deux fois de suite n'est compté qu'une fois.
+- Un code déformé par une douchette en clavier américain est signalé, avec le code probable, sans être appliqué.
+- Les raccourcis d'une lettre (P, R, N, G…) attendent un instant et se taisent pendant une lecture de douchette.
+
+### Points d'attention
+
+- Après la mise à jour, lancer `biblyo db upgrade` : le service reste « non sain » tant que la base n'est pas migrée.
+- Retour à la 1.1.0 possible en restaurant la sauvegarde « pré-migration » prise par `biblyo db upgrade`.
+- Avant la première impression sur une planche, imprimer la feuille test sur papier ordinaire à 100 % et la poser sur
+  la planche : les marges et espacements viennent de bases publiques, pas encore d'une mesure sur les planches du Club.
+- Avant la première génération : `biblyo codes etat`, puis le préfixe retenu (`biblyo codes prefixe CSN`).
+- Mise en service de la douchette et des étiquettes : guide `DOUCHETTE-ET-ETIQUETTES.md`, joint à la version.
+
 ## 1.1.0
 
 **Enrichissement assisté, couvertures visibles, paramètres repensés.** Pour un bénévole : ouvrir un livre, cliquer sur

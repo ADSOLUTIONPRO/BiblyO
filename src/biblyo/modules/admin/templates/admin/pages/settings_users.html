@@ -19,7 +19,7 @@
         <span class="set-roles">{% for role, granted in overview.roles %}<span class="set-role{% if granted[row] %} is-yes{% endif %}">{{ role }} : {% if granted[row] %}{{ _("oui") }}{% else %}{{ _("non") }}{% endif %}</span>{% endfor %}</span></li>
       {% endfor %}
     </ul>
-    <p class="small muted m0 mt-s">{{ _("Les rôles sont fixés par l’application ; chaque compte reçoit l’un d’eux.") }}</p>
+    <p class="small muted m0 mt-s">{{ _("Les rôles sont fixés par l’application. Un compte peut en cumuler plusieurs : « Impression des étiquettes » se coche en plus du rôle d’un bénévole choisi, sans changer les droits des autres bénévoles.") }}</p>
   </div>
 </section>
 {% endblock %}

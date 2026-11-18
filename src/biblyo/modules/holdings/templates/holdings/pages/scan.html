@@ -16,7 +16,11 @@
         <input type="hidden" name="_csrf" value="{{ csrf_token }}">
         <div class="grid g2">
           {{ select("lieu", _("Étagère à remplir"), place_options, selected, required=True) }}
-          {{ field("code", _("Code-barres ou numéro d’inventaire"), autocomplete="off", autofocus=True, help=_("La douchette se comporte comme un clavier : le code est validé tout seul.")) }}
+          <div class="fld">
+            <label for="code">{{ _("Code-barres ou numéro d’inventaire") }}</label>
+            <input class="in" id="code" name="code" type="text" autocomplete="off" autofocus spellcheck="false" autocapitalize="off" aria-describedby="code-aide" data-scan-field>
+            <span class="h" id="code-aide">{{ _("La douchette se comporte comme un clavier : le code est validé tout seul, par Entrée ou Tab.") }}</span>
+          </div>
         </div>
         <div class="form-actions">{{ button(_("Ranger"), "p", "scan", type="submit") }}</div>
       </form>

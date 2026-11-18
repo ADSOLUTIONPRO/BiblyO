@@ -1,0 +1,11 @@
+{# Diagnostic d'un essai de douchette. #}
+{% from "components/feedback.html" import badge %}
+{% from "components/icons.html" import icon %}
+<div class="scan-hit scan-{{ 'ok' if result.badge == 'ok' else ('due' if result.badge == 'due' else 'late') }}" data-annonce>
+  <p class="m0 setup-verdict">{{ badge(result.title, result.badge) }}</p>
+  {% if result.received %}<p class="m0 small">{{ _("Reçu :") }} « <span class="mono">{{ result.received }}</span> »</p>{% endif %}
+  <ul class="plain-list small">{% for line in result.details %}<li>{{ line }}</li>{% endfor %}</ul>
+  {% if result.fixes %}<div class="small"><b>{{ _("À régler") }}</b><ul class="plain-list">{% for fix in result.fixes %}<li>{{ icon("gear", 14) }} {{ fix }}</li>{% endfor %}</ul></div>{% endif %}
+  {% if result.identification and result.identification.copy %}<p class="m0">{{ _("C’est « {t} ».").format(t=result.identification.copy.title) }} <a href="/exemplaires/{{ result.identification.copy.id }}">{{ _("Ouvrir sa fiche") }}</a></p>{% endif %}
+</div>
+{% if request.headers.get("HX-Request") %}{% set oob = True %}{% include "scan/fragments/setup_state.html" %}{% include "scan/fragments/setup_progress.html" %}{% endif %}

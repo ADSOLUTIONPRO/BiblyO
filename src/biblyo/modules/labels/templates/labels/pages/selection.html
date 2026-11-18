@@ -1,0 +1,64 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header %}
+{% from "components/buttons.html" import button, link_button %}
+{% from "components/forms.html" import field, select %}
+{% from "components/feedback.html" import alert, badge, empty_state %}
+{% block title %}{{ _("Choisir les livres") }} — biblyO{% endblock %}
+{% block content %}
+{% call page_header(_("Choisir les livres"), _("Étiquettes et codes-barres : filtrez comme dans le catalogue, puis générez ou imprimez"), "she", "filter") %}
+  {{ link_button(_("Retour"), "/etiquettes", "g", "undo") }}
+{% endcall %}
+{% set step = 1 %}{% include "labels/fragments/steps.html" %}
+
+<form class="card mt-s" method="get" action="/etiquettes/selection" aria-labelledby="sel-filtres">
+  <div class="card-h"><h2 id="sel-filtres">{{ _("Quels livres ?") }}</h2></div>
+  <div class="card-b stack">
+    <div class="grid g3">
+      {{ field("q", _("Recherche"), selection.q, help=_("Titre, auteur, série, ISBN, code ou inventaire."), inputmode="search") }}
+      {{ field("serie", _("Série"), series_label or selection.serie, help=_("Une partie du nom suffit.")) }}
+      <div class="row gap-s lbl-tomes">
+        {{ field("tome_min", _("Du tome"), selection.tome_min, inputmode="numeric") }}
+        {{ field("tome_max", _("au tome"), selection.tome_max, inputmode="numeric") }}
+      </div>
+      {{ field("cote", _("Cote commençant par"), selection.cote, help=_("Par exemple « BD HER ».")) }}
+      {{ select("emplacement", _("Emplacement"), places, selection.emplacement) }}
+      {{ select("code", _("Code-barres"), code_filters.items() | list, selection.code) }}
+      {{ select("ordre", _("Ordre des étiquettes"), orders.items() | list, selection.ordre, help=_("L’ordre dans lequel elles sortiront de l’imprimante.")) }}
+    </div>
+    <div class="row">{{ button(_("Afficher"), "s", "search", type="submit") }}{% if selection.has_filters or selection.code %}{{ link_button(_("Tout effacer"), "/etiquettes/selection", "g", "x") }}{% endif %}</div>
+  </div>
+</form>
+
+<section class="card mt-s" aria-labelledby="sel-resultat">
+  <div class="card-h"><h2 id="sel-resultat">{{ _("{n} exemplaire(s)").format(n=total) }}</h2></div>
+  <div class="card-b stack">
+    {% if total %}
+    <div class="row lbl-sel-actions">
+      {% if can("labels.print") %}<form method="post" action="/etiquettes/imprimer">
+        <input type="hidden" name="_csrf" value="{{ csrf_token }}"><input type="hidden" name="etape" value="2">
+        {% include "labels/fragments/selection_hidden.html" %}
+        {{ button(_("Imprimer leurs étiquettes"), "p", "print", type="submit") }}
+      </form>{% endif %}
+      {% if can("catalogue.edit") %}<form method="post" action="/etiquettes/selection/generer">
+        <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+        {% include "labels/fragments/selection_hidden.html" %}
+        {{ button(_("Générer les codes manquants"), "s", "tag", type="submit") }}
+      </form>{% endif %}
+    </div>
+    <p class="small muted m0">{{ _("Seuls les livres qui ont déjà un code-barres reçoivent une étiquette. Générer et imprimer sont deux étapes distinctes : imprimer ne crée jamais de code.") }}</p>
+    <ul class="plain-list lbl-sel-list">
+      {% for row in rows %}
+      <li class="row">
+        <a class="b grow min0" href="/exemplaires/{{ row.id }}">{{ row.title }}</a>
+        {% if row.call_number %}<span class="mono small">{{ row.call_number }}</span>{% endif %}
+        {% if row.barcode and row.barcode != row.inventory_number %}<span class="mono small">{{ row.barcode }}</span>{% else %}{{ badge(_("Sans code"), "due") }}{% endif %}
+      </li>
+      {% endfor %}
+    </ul>
+    {% if more %}<p class="muted m0">{{ _("… et {n} autre(s), compris dans l’impression.").format(n=more) }}</p>{% endif %}
+    {% else %}
+    {{ empty_state("search", _("Aucun exemplaire ne correspond"), _("Élargissez la recherche ou retirez un filtre.")) }}
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

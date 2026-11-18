@@ -1,6 +1,6 @@
 [project]
 name = "biblyo"
-version = "1.1.0"
+version = "1.2.0"
 description = "biblyO : gestion de bibliothèque auto-hébergée, en français"
 readme = "README.md"
 requires-python = ">=3.12,<3.13"
@@ -80,7 +80,7 @@ extend-immutable-calls = ["fastapi.Depends", "fastapi.Form", "fastapi.Query", "t
 
 [tool.mypy]
 python_version = "3.12"
-files = ["src/biblyo/core", "src/biblyo/config.py", "src/biblyo/modules/catalogue", "src/biblyo/modules/holdings", "src/biblyo/modules/patrons", "src/biblyo/modules/circulation", "src/biblyo/modules/enrichment"]
+files = ["src/biblyo/core", "src/biblyo/config.py", "src/biblyo/modules/catalogue", "src/biblyo/modules/holdings", "src/biblyo/modules/patrons", "src/biblyo/modules/circulation", "src/biblyo/modules/enrichment", "src/biblyo/modules/labels", "src/biblyo/modules/scan"]
 strict = true
 ignore_missing_imports = true
 plugins = ["pydantic.mypy"]

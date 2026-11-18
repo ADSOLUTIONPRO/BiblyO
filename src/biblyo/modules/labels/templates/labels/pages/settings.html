@@ -1,0 +1,127 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header %}
+{% from "components/buttons.html" import button, link_button %}
+{% from "components/forms.html" import field, checkbox %}
+{% from "components/feedback.html" import alert, badge %}
+{% from "components/icons.html" import icon %}
+{% block title %}{{ _("Réglages des étiquettes") }} — biblyO{% endblock %}
+{% block content %}
+{% call page_header(_("Réglages des étiquettes"), _("Planche, contenu, calibration de l’imprimante et numérotation des codes"), "she", "gear") %}
+  {{ link_button(_("Codes-barres et étiquettes"), "/etiquettes", "g", "undo") }}
+{% endcall %}
+{% if errors.get("gabarit") %}{{ alert(errors.gabarit, "late") }}{% endif %}
+
+<form method="post" action="/etiquettes/reglages" class="stack">
+  <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+  <fieldset class="card"><legend class="card-h"><span class="h2">{{ _("Planche utilisée par défaut") }}</span></legend>
+    <div class="card-b stack">
+      <div class="opt-grid">
+        {% for item in sheet_list %}
+        <div class="opt-wrap">
+          <label class="opt-card" for="planche-{{ item.code }}">
+            <input type="radio" id="planche-{{ item.code }}" name="planche" value="{{ item.code }}"{% if item.code == prefs.sheet %} checked{% endif %}>
+            <span class="opt-b"><b>{{ item.name }}</b><span>{{ item.summary }}</span>
+              <span class="small muted">{{ _("Marges : haut {t} mm, gauche {l} mm ; espaces : {gx} mm entre colonnes, {gy} mm entre lignes").format(t=item.top, l=item.left, gx=item.gap_x, gy=item.gap_y) }}</span>
+              {% if item.note %}<span class="small">{{ item.note }}</span>{% endif %}
+              {% if item.code in prefs.verified %}{{ badge(_("Certifiée sur une planche le {d}").format(d=prefs.verified[item.code]), "ok") }}{% else %}{{ badge(verification[item.verification], "due" if item.needs_calibration else "neutral") }}{% endif %}
+            </span>
+          </label>
+          <details class="small"><summary>{{ _("D’où viennent ces cotes ?") }}</summary>
+            <ul class="plain-list mt-xs">{% for source in item.sources %}<li>{{ source }}</li>{% endfor %}</ul>
+          </details>
+        </div>
+        {% endfor %}
+        <div class="opt-wrap">
+          <label class="opt-card" for="planche-perso">
+            <input type="radio" id="planche-perso" name="planche" value="personnalise"{% if prefs.sheet == "personnalise" %} checked{% endif %}>
+            <span class="opt-b"><b>{{ _("Gabarit personnalisé") }}</b><span>{{ _("Mesurez votre planche avec une règle et décrivez-la ci-dessous.") }}</span></span>
+          </label>
+        </div>
+      </div>
+      <fieldset class="fld"><legend>{{ _("Gabarit personnalisé (en millimètres)") }}</legend>
+        <div class="grid g4">
+          {{ field("colonnes", _("Colonnes"), custom.get("colonnes", ""), inputmode="numeric", error=errors.get("colonnes")) }}
+          {{ field("lignes", _("Lignes"), custom.get("lignes", ""), inputmode="numeric", error=errors.get("lignes")) }}
+          {{ field("largeur", _("Largeur d’une étiquette"), custom.get("largeur", ""), inputmode="decimal", error=errors.get("largeur")) }}
+          {{ field("hauteur", _("Hauteur d’une étiquette"), custom.get("hauteur", ""), inputmode="decimal", error=errors.get("hauteur")) }}
+          {{ field("marge_haut", _("Marge du haut"), custom.get("marge_haut", ""), inputmode="decimal", error=errors.get("marge_haut"), help=_("Du bord de la feuille au haut de la première étiquette.")) }}
+          {{ field("marge_gauche", _("Marge de gauche"), custom.get("marge_gauche", ""), inputmode="decimal", error=errors.get("marge_gauche")) }}
+          {{ field("espace_horizontal", _("Espace entre colonnes"), custom.get("espace_horizontal", "0"), inputmode="decimal", error=errors.get("espace_horizontal")) }}
+          {{ field("espace_vertical", _("Espace entre lignes"), custom.get("espace_vertical", "0"), inputmode="decimal", error=errors.get("espace_vertical")) }}
+        </div>
+      </fieldset>
+    </div>
+  </fieldset>
+
+  <fieldset class="card"><legend class="card-h"><span class="h2">{{ _("Contenu par défaut") }}</span></legend>
+    <div class="card-b stack">
+      <div class="opt-grid">
+        {% for code, item in models.items() %}
+        <label class="opt-card" for="modele-{{ code }}"><input type="radio" id="modele-{{ code }}" name="modele" value="{{ code }}"{% if code == prefs.model %} checked{% endif %}><span class="opt-b"><b>{{ item[0] }}</b><span>{{ model_help[code] }}</span></span></label>
+        {% endfor %}
+        <label class="opt-card" for="modele-personnalise"><input type="radio" id="modele-personnalise" name="modele" value="personnalise"{% if prefs.model == "personnalise" %} checked{% endif %}><span class="opt-b"><b>{{ _("Personnalisé") }}</b><span>{{ model_help["personnalise"] }}</span></span></label>
+      </div>
+      <fieldset class="fld"><legend>{{ _("Éléments du modèle personnalisé") }}</legend>
+        <div class="grid g4">{% for code, label in element_labels.items() %}{{ checkbox("element", label, code, code in prefs.elements) }}{% endfor %}</div>
+        <span class="h">{{ _("Le nom et le logo viennent de « Ma bibliothèque », dans les paramètres. Le code-barres est toujours imprimé.") }}</span>
+      </fieldset>
+    </div>
+  </fieldset>
+
+  <fieldset class="card"><legend class="card-h"><span class="h2">{{ _("Calibration de l’imprimante") }}</span></legend>
+    <div class="card-b stack">
+      <p class="m0">{{ _("Si tout est décalé du même écart sur la planche, corrigez-le ici. Positif : vers la droite ou vers le bas.") }}</p>
+      <div class="grid g4">
+        {{ field("decalage_horizontal", _("Décalage horizontal (mm)"), prefs.offset[0] | string | replace(".", ","), inputmode="decimal", error=errors.get("decalage_horizontal")) }}
+        {{ field("decalage_vertical", _("Décalage vertical (mm)"), prefs.offset[1] | string | replace(".", ","), inputmode="decimal", error=errors.get("decalage_vertical")) }}
+      </div>
+    </div>
+  </fieldset>
+  <div class="form-actions">{{ button(_("Enregistrer les réglages"), "p", "check", type="submit") }}</div>
+</form>
+
+<section class="card mt-s" aria-labelledby="reg-test">
+  <div class="card-h"><h2 id="reg-test">{{ _("Feuille test") }}</h2></div>
+  <div class="card-b stack">
+    <ol class="lsteps">
+      <li><b>{{ _("Imprimez-la sur du papier ordinaire") }}</b><span>{{ _("à 100 %%, sans ajustement à la page : les deux règles doivent mesurer 100 mm") }}</span></li>
+      <li><b>{{ _("Posez-la sur la planche, face à la lumière") }}</b><span>{{ _("chaque cadre pointillé doit tomber sur une étiquette") }}</span></li>
+      <li><b>{{ _("Corrigez si besoin") }}</b><span>{{ _("un décalage régulier se règle dans la calibration ; des cadres trop grands ou trop petits demandent un autre gabarit") }}</span></li>
+    </ol>
+    <div class="row">
+      {{ link_button(_("Imprimer la feuille test : {name}").format(name=current_sheet.name), "/etiquettes/feuille-test.pdf", "p", "download") }}
+
+    </div>
+    <p class="small muted m0">{{ _("La feuille test porte aussi deux codes (Code 128 et EAN-13) pour essayer la douchette dans l’assistant « Configurer ma douchette ».") }}</p>
+    <form method="post" action="/etiquettes/reglages/verifiee" class="stack lbl-certify">
+      <input type="hidden" name="_csrf" value="{{ csrf_token }}"><input type="hidden" name="planche" value="{{ current_sheet.code }}">
+      <p class="m0 b">{{ _("Certifier « {name} » sur ce poste et cette imprimante").format(name=current_sheet.name) }}</p>
+      {% if errors.get("certifier") %}{{ alert(errors.certifier, "late") }}{% endif %}
+      {{ checkbox("calibration", _("Imprimée à 100 %%, la feuille test tombe sur les étiquettes d’une vraie planche, et ses deux règles mesurent 100 mm."), "1") }}
+      {{ checkbox("douchette", _("La douchette a lu le code « BIBLYO-TEST » de la feuille imprimée (assistant « Configurer ma douchette »)."), "1") }}
+      <div>{{ button(_("Certifier cette planche"), "s", "check", type="submit") }}</div>
+    </form>
+  </div>
+</section>
+
+<section class="card mt-s" aria-labelledby="reg-prefixe">
+  <div class="card-h"><h2 id="reg-prefixe">{{ _("Numérotation des codes-barres") }}</h2></div>
+  <div class="card-b stack">
+    <p class="m0">{{ _("Préfixe actuel : « {p} ». Prochain code : {c} ({d} chiffres, sans trou ni réemploi).").format(p=sequence.prefix, c=sequence.next_code, d=sequence.padding) }}</p>
+    {% for warning in prefix_warnings %}<p class="small muted m0">{{ icon("info", 14) }} {{ warning }}</p>{% endfor %}
+    {% if can_prefix %}
+    <details{% if errors.get("prefixe") %} open{% endif %}>
+      <summary>{{ _("Changer le préfixe des prochains codes") }}</summary>
+      <form method="post" action="/etiquettes/prefixe" class="stack mt-xs">
+        <input type="hidden" name="_csrf" value="{{ csrf_token }}"><input type="hidden" name="actuel" value="{{ sequence.prefix }}">
+        {{ field("prefixe", _("Nouveau préfixe"), "", error=errors.get("prefixe"), help=_("Par exemple CSN : les codes suivants seraient CSN000123. Lettres, chiffres et tirets ; une lettre d’abord.")) }}
+        {{ checkbox("confirmer", _("Je comprends : les codes déjà attribués et leurs étiquettes ne changent pas, la numérotation continue sans revenir à zéro."), "1") }}
+        <div>{{ button(_("Changer le préfixe"), "d", "edit", type="submit") }}</div>
+      </form>
+    </details>
+    {% else %}
+    <p class="small muted m0">{{ _("Seul un compte qui gère les paramètres peut changer le préfixe.") }}</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

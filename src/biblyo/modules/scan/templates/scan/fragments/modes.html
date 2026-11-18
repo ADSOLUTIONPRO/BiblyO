@@ -1,0 +1,6 @@
+{# Les modes de travail du scanner, selon les droits du compte. #}
+<nav class="scan-modes" aria-label="{{ _('Modes de travail du scanner') }}">
+  {% for code, label, href in modes %}
+  <a class="chip{% if code == mode %} on{% endif %}" href="{{ href }}"{% if code == mode %} aria-current="page"{% endif %}>{{ label }}</a>
+  {% endfor %}
+</nav>

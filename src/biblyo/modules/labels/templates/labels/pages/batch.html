@@ -1,0 +1,71 @@
+{% extends layout %}
+{% from "components/layout.html" import page_header %}
+{% from "components/buttons.html" import button, link_button %}
+{% from "components/forms.html" import field %}
+{% from "components/feedback.html" import alert, badge %}
+{% from "components/icons.html" import icon %}
+{% set batch = view.batch %}
+{% block title %}{{ _("Lot d’étiquettes n° {n}").format(n=batch.id) }} — biblyO{% endblock %}
+{% block content %}
+{% call page_header(_("Lot d’étiquettes n° {n}").format(n=batch.id), _("{n} étiquette(s) sur {s} feuille(s) · {sheet}").format(n=batch.total, s=batch.sheets, sheet=view.sheet.name), "she", "print") %}
+  {{ link_button(_("Codes-barres et étiquettes"), "/etiquettes", "g", "undo") }}
+{% endcall %}
+{% if fresh %}{% set step = 3 %}{% include "labels/fragments/steps.html" %}{% endif %}
+{% if view.changed %}{{ alert(_("Le code de {n} exemplaire(s) a changé depuis ce lot : ce PDF ne peut plus être refait. Préparez une nouvelle impression.").format(n=view.changed | length), "late") }}{% endif %}
+
+<section class="card mt-s" aria-labelledby="lot-pdf">
+  <div class="card-h"><h2 id="lot-pdf">{{ _("Le PDF") }}</h2>
+    {% if batch.status == "confirmed" %}{{ badge(_("Imprimé et collé"), "ok") }}{% elif batch.status == "abandoned" %}{{ badge(_("Abandonné"), "neutral") }}{% else %}{{ badge(_("Préparé, à confirmer"), "due") }}{% endif %}
+  </div>
+  <div class="card-b stack">
+    <div class="row">
+      {% if not view.changed %}{{ link_button(_("Télécharger le PDF"), "/etiquettes/lots/" ~ batch.id ~ "/etiquettes.pdf", "p", "download") }}{% endif %}
+    </div>
+    <div class="lbl-printtip" role="note">{{ icon("print", 22) }}<div><b>{{ _("Imprimez à 100 %%, sans « Ajuster à la page ».") }}</b><p class="m0 small">{{ _("Papier A4, « Taille réelle ». Vérifiez la première feuille avant d’imprimer les suivantes.") }}</p></div></div>
+    <p class="small muted m0">{{ _("Préparé le {d}{who}. Modèle : {m}. Première case : {p}.").format(d=batch.created_at | datetime_short, who=(_(" par {n}").format(n=view.author) if view.author else ""), m=model_labels.get(view.model, _("personnalisé")), p=batch.start_position) }}</p>
+  </div>
+</section>
+
+{% if batch.status == "prepared" %}
+<section class="card mt-s" aria-labelledby="lot-etat">
+  <div class="card-h"><h2 id="lot-etat">{{ _("Une fois imprimées") }}</h2></div>
+  <div class="card-b stack">
+    <p class="m0">{{ _("biblyO ne sait pas si l’imprimante a bien tout imprimé : dites-le, quand les étiquettes sont collées.") }}</p>
+    <div class="row">
+      <form method="post" action="/etiquettes/lots/{{ batch.id }}/etat"><input type="hidden" name="_csrf" value="{{ csrf_token }}"><input type="hidden" name="etat" value="confirmed">{{ button(_("Imprimées et collées"), "p", "check", type="submit") }}</form>
+      <form method="post" action="/etiquettes/lots/{{ batch.id }}/etat"><input type="hidden" name="_csrf" value="{{ csrf_token }}"><input type="hidden" name="etat" value="abandoned">{{ button(_("Abandonner ce lot"), "g", "x", type="submit") }}</form>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% if not view.changed %}
+<section class="card mt-s" aria-labelledby="lot-reprise">
+  <div class="card-h"><h2 id="lot-reprise">{{ _("Impression interrompue ou ratée ?") }}</h2></div>
+  <div class="card-b stack">
+    <p class="m0">{{ _("Réimprimez sans changer aucun code : les mêmes livres, sur une feuille neuve ou entamée.") }}</p>
+    <form method="post" action="/etiquettes/lots/{{ batch.id }}/reprendre" class="row lbl-resume">
+      <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+      {{ field("a_partir", _("Reprendre à partir de l’étiquette n°"), "1", inputmode="numeric", help=_("1 pour tout réimprimer. Les numéros suivent l’ordre du lot, ci-dessous.")) }}
+      {{ button(_("Choisir la feuille"), "s", "print", type="submit") }}
+    </form>
+  </div>
+</section>
+{% endif %}
+
+<section class="card mt-s" aria-labelledby="lot-contenu">
+  <div class="card-h"><h2 id="lot-contenu">{{ _("Contenu du lot") }}</h2></div>
+  <div class="card-b">
+    {% for number in sheets_used %}
+    <details{% if loop.first %} open{% endif %}>
+      <summary>{{ _("Feuille {n}").format(n=number) }}</summary>
+      <ol class="plain-list mt-xs lbl-items">
+        {% for item in view.items if item.sheet_number == number %}
+        <li value="{{ item.rank }}"><span class="faint small">{{ _("n° {r}, case {p}").format(r=item.rank, p=item.position) }}</span> <span class="mono">{{ item.printed }}</span> · {% if item.copy_id %}<a href="/exemplaires/{{ item.copy_id }}">{{ item.title }}</a>{% else %}{{ item.title }}{% endif %}{% if item.copy_id and item.current != item.printed %} {{ badge(_("code changé depuis"), "late") }}{% endif %}</li>
+        {% endfor %}
+      </ol>
+    </details>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

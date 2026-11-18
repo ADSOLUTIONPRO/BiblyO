@@ -52,7 +52,7 @@
       </div>
       {% endif %}
       <div class="top-end">
-        {% if nav.scanner %}<a class="icon-btn" href="{{ nav.scanner }}" aria-label="{{ _('Scanner') }}, {{ nav.soon_label | lower }}" title="{{ _('Scanner') }} ({{ nav.soon_label }})">{{ icon("scan") }}</a>{% endif %}
+        {% if nav.scanner %}<a class="btn btn-s scan-btn" href="{{ nav.scanner }}" data-scan-open aria-haspopup="dialog" title="{{ _('Scanner un livre ou une carte (douchette ou clavier)') }}">{{ icon("scan", 16) }}<span class="hide-t">{{ _("Scanner") }}</span></a>{% endif %}
         <div class="menu-wrap" x-data="dropdown" @click.outside="close" @keydown.escape.window="closeAndRefocus">
           <button type="button" class="av" x-ref="button" aria-haspopup="true" :aria-expanded="expanded" aria-label="{{ _('Compte :') }} {{ user.display_name }}" @click="toggle">{{ user_initials }}</button>
           <div class="menu" x-ref="panel" hidden :hidden="closed" @keydown.down.prevent="next" @keydown.up.prevent="previous">
@@ -86,13 +86,15 @@
     {% for item in nav.phone[:2] %}
     <a href="{{ item.path }}"{% if item.current %} aria-current="page"{% endif %}>{{ icon(item.icon, 22) }}{{ short_labels[item.code] }}</a>
     {% endfor %}
-    {% if nav.scanner %}<a href="{{ nav.scanner }}" aria-label="{{ _('Scanner') }}, {{ nav.soon_label | lower }}"><span class="fab">{{ icon("scan", 26) }}</span></a>{% endif %}
+    {% if nav.scanner %}<a href="{{ nav.scanner }}" data-scan-open aria-haspopup="dialog" aria-label="{{ _('Scanner') }}"><span class="fab">{{ icon("scan", 26) }}</span></a>{% endif %}
     {% for item in nav.phone[2:] %}
     <a href="{{ item.path }}"{% if item.current %} aria-current="page"{% endif %}>{{ icon(item.icon, 22) }}{{ short_labels[item.code] }}</a>
     {% endfor %}
     <button type="button" data-open-dialog="plus">{{ icon("menu", 22) }}{{ _("Plus") }}</button>
   </nav>
 </div>
+
+{% if nav.scanner %}{% include "scan/fragments/dialog.html" ignore missing %}{% endif %}
 
 <div id="toasts" role="status" aria-live="polite">{% if flash %}{{ toast(flash[1], flash[0]) }}{% endif %}</div>
 

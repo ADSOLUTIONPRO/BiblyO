@@ -16,6 +16,7 @@ from starlette.datastructures import FormData
 from biblyo.core import flash
 from biblyo.core.errors import BusinessError, FormErrors, PermissionDenied
 from biblyo.core.i18n import _
+from biblyo.core.identifiers import RECONSTRUCTION_CODE, from_qwerty
 from biblyo.core.permissions import require
 from biblyo.core.security.sessions import AuthContext
 from biblyo.modules.catalogue.models import Copy
@@ -493,14 +494,23 @@ def returns_scan(request: Request, auth: CanLend, form: Form) -> HTMLResponse:
     code = str(form.get("choix_code") or form.get("code") or form.get("saisie") or "").strip()[:64]
     database = request.app.state.database
     with database.session() as session:
-        found = list(dict.fromkeys(item.target_id for item in repo.copy_candidates(session, code))) if code else []
-        out = repo.on_loan_among(session, found) if len(found) > 1 else found
-        if len(out) > 1:
+        candidates = repo.copy_candidates(session, code) if code else []
+        found = list(dict.fromkeys(item.target_id for item in candidates))
+        by_isbn = bool(candidates) and all(item.kind == rules.KIND_ISBN for item in candidates)
+        out = repo.on_loan_among(session, found) if len(found) > 1 or by_isbn else found
+        if len(out) > 1 or (by_isbn and out):
+            # Lot L8 : un ISBN ne rend jamais seul un exemplaire ; le bon est confirmé par son code (R29)
             briefs = holdings.briefs(session, out)
             choices = tuple((briefs[item].barcode, briefs[item].title) for item in out if item in briefs)
-            return _reply_return(request, ReturnLine(None, message=rules.verdict("R10"), choices=choices))
+            message = rules.verdict("R29" if by_isbn else "R10")
+            return _reply_return(request, ReturnLine(None, message=message, choices=choices))
         if not out:
             verdict = rules.nothing_to_return() if found else rules.verdict("R4")
+            repaired = from_qwerty(code) if not found else None
+            if not found and RECONSTRUCTION_CODE.match(code):
+                verdict = rules.reconstruction_hint(code)
+            elif repaired and repo.copy_candidates(session, repaired):
+                verdict = rules.keyboard_hint(code, repaired)  # L8 : signalé, jamais appliqué à la place
             return _reply_return(request, ReturnLine(None, message=verdict))
     try:
         result = service.return_copy(database, out[0], actor_of(auth))

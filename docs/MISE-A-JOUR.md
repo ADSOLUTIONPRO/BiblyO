@@ -17,7 +17,7 @@ biblyO → **Paramètres** → **Créer une sauvegarde maintenant** (ou `biblyo 
 
 1. Container Manager → **Projet** → `biblyo` → **Action** → **Arrêter**.
 2. **Projet** → `biblyo` → onglet **YAML** (ou **Action** → **Modifier**) : remplacez seulement le numéro de version de
-   la ligne `image:`, par exemple `ghcr.io/adsolutionpro/biblyo:1.0.0` → `ghcr.io/adsolutionpro/biblyo:1.1.0`.
+   la ligne `image:`, par exemple `ghcr.io/adsolutionpro/biblyo:1.1.0` → `ghcr.io/adsolutionpro/biblyo:1.2.0`.
    Le `compose.yaml` publié avec la nouvelle version peut aussi être collé tel quel s'il change davantage : ses notes le
    disent. **Enregistrer**.
 3. **Action** → **Construire** : Container Manager télécharge la nouvelle image et recrée le conteneur, avec les mêmes
@@ -51,6 +51,41 @@ intégrité et schéma. Sur un échec, la base n'est pas modifiée.
   données de biblyO, et celles des autres applications du NAS.
 - Supprimer les dossiers `data` ou `sauvegardes`.
 - Utiliser l'étiquette `latest` : chaque installation désigne une version précise.
+
+## De la version 1.1.0 à la version 1.2.0
+
+Ce qui change pour la base : la révision **0014** ajoute deux tables (lots d'impression d'étiquettes) et un rôle
+d'appoint « Impression des étiquettes », attribué à personne ; aucune table existante n'est modifiée, aucune donnée
+n'est réécrite, aucun code-barres n'est attribué par la migration.
+
+1. **Sauvegarder** (étape 2) et vérifier la sauvegarde : « révision 0013 ». Noter le nombre de livres et de prêts en
+   cours.
+2. **Changer de version** (étape 3) : `ghcr.io/adsolutionpro/biblyo:1.1.0` → `ghcr.io/adsolutionpro/biblyo:1.2.0`.
+   Le conteneur 1.2.0 démarre « non sain » : il ne migre jamais la base de lui-même.
+3. **Migrer** (étape 4) : `biblyo db upgrade` crée d'abord une sauvegarde **pré-migration** vérifiée (à noter), puis
+   applique 0014 ; `biblyo db status` affiche « Révision courante : 0014 ».
+4. **Vérifier** : état sain ; même nombre de livres et de prêts ; une fiche garde son numéro d'inventaire, sa cote et
+   son ISBN ; bouton **Scanner** en haut ; **Catalogue** → **Codes-barres et étiquettes** s'ouvre.
+5. **Avant toute génération de codes-barres** : `biblyo codes etat` dit combien de codes existent et avec quel préfixe.
+   Pour un autre préfixe que `EX-` (par exemple `CSN`, sans tiret) : `biblyo codes prefixe CSN` (simulation), puis
+   `biblyo codes prefixe CSN --appliquer`. Les codes déjà attribués ne changent jamais ; la numérotation continue.
+6. **Douchette et étiquettes** : [`DOUCHETTE-ET-ETIQUETTES.md`](DOUCHETTE-ET-ETIQUETTES.md).
+
+### Retour à la version 1.1.0
+
+1. YAML : remettre `ghcr.io/adsolutionpro/biblyo:1.1.0`, **Construire**. Le conteneur 1.1.0 refuse la base 0014
+   (« non sain ») sans rien y écrire : c'est attendu.
+2. Terminal du conteneur :
+
+   ```sh
+   biblyo backup restore <archive pré-migration> --confirmer <archive pré-migration>
+   ```
+
+3. **Redémarrer** le conteneur ; vérifier : sain, `biblyo db status` en révision 0013, mêmes chiffres qu'avant.
+
+Une restauration efface les codes-barres attribués depuis la mise à jour : ne pas revenir en arrière après avoir collé
+des étiquettes sans le savoir. Cette suite complète (1.1.0 publiée → 1.2.0 → migration → redémarrage → retour arrière)
+a été éprouvée avant la publication : voir [`rapports/RECETTE-1.2.0.md`](rapports/RECETTE-1.2.0.md).
 
 ## De la version 1.0.0 à la version 1.1.0
 
