@@ -29,6 +29,17 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     BIBLYO_BACKUP_DIR=/backups \
     UV_PYTHON_DOWNLOADS=never \
     UV_NO_CACHE=1
+# Correctif de sécurité Debian sur l'image de base épinglée : zlib1g à sa version exacte de trixie-security
+# (CVE-2026-85091), rien d'autre. Paquet signé de l'archive Debian, version contrôlée après l'installation ; index,
+# caches et journaux d'apt retirés, pour qu'une même version donne la même image. Si Debian retire cette version de
+# l'archive, la construction échoue au lieu d'installer autre chose.
+ARG ZLIB1G_VERSION=1:1.3.dfsg+really1.3.1-1+deb13u1
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends --only-upgrade "zlib1g=${ZLIB1G_VERSION}" \
+ && [ "$(dpkg-query -W -f '${Version}' zlib1g)" = "$ZLIB1G_VERSION" ] \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/* /var/cache/apt/*.bin /var/cache/ldconfig/aux-cache \
+ && rm -f /var/log/apt/* /var/log/dpkg.log /var/log/alternatives.log
 RUN useradd --system --uid 10001 --home /nonexistent --shell /usr/sbin/nologin biblyo \
  && mkdir -p /data /backups \
  && chown biblyo:biblyo /data /backups

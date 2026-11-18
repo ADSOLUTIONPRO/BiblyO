@@ -67,12 +67,18 @@ La mise à jour se fait à la main (`biblyo db upgrade`), après une sauvegarde 
 - Un code déformé par une douchette en clavier américain est signalé, avec le code probable, sans être appliqué.
 - Les raccourcis d'une lettre (P, R, N, G…) attendent un instant et se taisent pendant une lecture de douchette.
 
+### Image
+
+- Correctif de sécurité Debian appliqué à l'image de base épinglée : `zlib1g` en version
+  `1:1.3.dfsg+really1.3.1-1+deb13u1` (trixie-security, CVE-2026-85091), exactement, et aucun autre paquet changé. Une
+  règle des contrôles refuse désormais tout paquet Debian installé sans version exacte ou sans retrait des index d'apt.
+
 ### Points d'attention
 
 - Après la mise à jour, lancer `biblyo db upgrade` : le service reste « non sain » tant que la base n'est pas migrée.
 - Retour à la 1.1.0 possible en restaurant la sauvegarde « pré-migration » prise par `biblyo db upgrade`.
 - Avant la première impression sur une planche, imprimer la feuille test sur papier ordinaire à 100 % et la poser sur
-  la planche : les marges et espacements viennent de bases publiques, pas encore d'une mesure sur les planches du Club.
+  la planche : les marges et espacements viennent de bases publiques, pas encore d'une mesure sur de vraies planches.
 - Avant la première génération : `biblyo codes etat`, puis le préfixe retenu (`biblyo codes prefixe CSN`).
 - Mise en service de la douchette et des étiquettes : guide `DOUCHETTE-ET-ETIQUETTES.md`, joint à la version.
 

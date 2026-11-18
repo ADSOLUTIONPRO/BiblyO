@@ -112,6 +112,10 @@ def test_invalid_compose_is_reported(text):
             "téléchargement",
         ),
         ("LABEL org.opencontainers.image.revision=$BIBLYO_COMMIT\n", "", "commit"),
+        ('"zlib1g=${ZLIB1G_VERSION}"', "zlib1g", "version exacte"),
+        ('"zlib1g=${ZLIB1G_VERSION}"', '"zlib1g=${ZLIB1G_VERSION}" curl', "version exacte"),
+        ("--only-upgrade ", "", "--only-upgrade"),
+        ("/var/lib/apt/lists/* ", "", "index d'apt"),
     ],
 )
 def test_trapped_dockerfile_is_refused(old, new, fragment):

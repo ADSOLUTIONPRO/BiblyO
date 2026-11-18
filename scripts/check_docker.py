@@ -135,6 +135,33 @@ def check_dockerfile(text: str) -> list[str]:
         problems.append("Dockerfile : aucun téléchargement explicite pendant la construction")
     if not re.search(r"^LABEL org\.opencontainers\.image\.revision=\$BIBLYO_COMMIT$", final_stage, re.M):
         problems.append("Dockerfile : l'image doit porter le commit dont elle est construite")
+    return problems + _apt_problems(text)
+
+
+#: Une instruction RUN, lignes de continuation comprises.
+RUN_INSTRUCTION = re.compile(r"^RUN\s+((?:[^\n]*\\\n)*[^\n]*)", re.M)
+APT_INSTALL = re.compile(r"apt-get install\s+(.*?)(?=&&|;|$)", re.S)
+
+
+def _apt_problems(text: str) -> list[str]:
+    """apt ne sert qu'à appliquer un correctif de sécurité à l'image de base épinglée : mise à jour seulement, version
+    exacte de chaque paquet, index retirés dans la même instruction. Une même version donne ainsi la même image."""
+    problems: list[str] = []
+    for match in RUN_INSTRUCTION.finditer(text):
+        command = match.group(1).replace("\\\n", " ")
+        if "apt-get" not in command:
+            continue
+        if "rm -rf /var/lib/apt/lists/*" not in command:
+            problems.append("Dockerfile : les index d'apt se retirent dans la même instruction")
+        for install in APT_INSTALL.finditer(command):
+            words = install.group(1).split()
+            packages = [word.strip("\"'") for word in words if not word.startswith("-")]
+            if not packages or any("=" not in package for package in packages):
+                problems.append("Dockerfile : un paquet Debian s'installe à sa version exacte (paquet=version)")
+            if "--only-upgrade" not in words:
+                problems.append(
+                    "Dockerfile : apt ne fait que mettre à jour un paquet de l'image de base (--only-upgrade)"
+                )
     return problems
 
 
